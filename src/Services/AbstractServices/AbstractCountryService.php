@@ -18,14 +18,14 @@ use NextDeveloper\Commons\Events\Countries\CountriesCreatingEvent;
 * @package NextDeveloper\Commons\Database\Models
 */
 class AbstractCountryService {
-    public static function get(CountryFilter $filter = null, bool $enablePaginate = true, $page = 0) : ?Collection {
+    public static function get(CountryQueryFilter $filter = null, bool $enablePaginate = true, $page = 0) : ?Collection {
         if($filter)
             return Country::filter($filter)->get();
         else
             return Country::get();
     }
 
-    public static function getPaginated(CountryFilter $filter = null, bool $enablePaginate = true, $page = 0) : ?LengthAwarePaginator {
+    public static function getPaginated(CountryQueryFilter $filter = null, bool $enablePaginate = true, $page = 0) : ?LengthAwarePaginator {
         if($filter)
             return Country::filter($filter)->paginate();
         else

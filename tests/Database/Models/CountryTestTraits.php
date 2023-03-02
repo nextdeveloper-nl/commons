@@ -404,7 +404,7 @@ trait CountryTestTraits
     {
         try {
             $request = new Request([
-            'rate'  =>  '1'
+                'rate'  =>  '1'
             ]);
 
             $filter = new CountryQueryFilter($request);
@@ -421,7 +421,7 @@ trait CountryTestTraits
     {
         try {
             $request = new Request([
-            'percentage'  =>  '1'
+                'percentage'  =>  '1'
             ]);
 
             $filter = new CountryQueryFilter($request);
