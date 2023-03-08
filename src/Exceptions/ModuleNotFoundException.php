@@ -14,7 +14,7 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class AccessDeniedException
  * @package  NextDeveloper\Commons\Exceptions
  */
-class ModuleNotFoundException extends AbstractCoreException
+class ModuleNotFoundException extends AbstractCommonsException
 {
 
     /**

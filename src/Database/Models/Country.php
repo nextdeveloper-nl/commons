@@ -2,10 +2,11 @@
 
 namespace NextDeveloper\Commons\Database\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\CountryObserver;
+use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Class Country.
@@ -14,6 +15,7 @@ use NextDeveloper\Commons\Database\Observers\CountryObserver;
  */
 class Country extends Model
 {
+    use Filterable, UuidId;
     
     /**
      * @var array
@@ -50,7 +52,7 @@ class Country extends Model
 		'percentage'     => 'double',
 		'continent_name' => 'string',
 		'continent_code' => 'string',
-		'geo_name_id'    => 'integer',
+		'geo_name_code'  => 'integer',
 		'is_active'      => 'boolean',
     ];
 

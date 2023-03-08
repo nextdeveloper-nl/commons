@@ -13,6 +13,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Traits\Macroable;
+use NextDeveloper\Commons\Helpers\ColumnNameSanitizer;
 
 /**
  * Class AbstractQueryFilter.
@@ -100,15 +101,11 @@ abstract class AbstractQueryFilter {
     }
 
     /**
-     * TODO : will be deprecated.
-     *
      * @param string $value
      *
      * @return Builder
      */
-    protected function position($value) {
-        $this->builder->getQuery()->orders = [];
-
+    public function order($value) {
         $value = explode(',', $value);
 
         foreach ($value as $item) {
@@ -119,20 +116,10 @@ abstract class AbstractQueryFilter {
                 $direction = 'ASC';
             }
 
-//            $this->builder->withoutGlobalScope(OrderScope::class)
-//                ->orderBy(ColumnNameSanitizer::sanitize($column), $direction);
+            $this->builder->orderBy(ColumnNameSanitizer::sanitize($column), $direction);
         }
 
         return $this->builder;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return Builder
-     */
-    protected function orderBy($value) {
-        return $this->position($value);
     }
 
     /**

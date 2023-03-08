@@ -15,7 +15,7 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class InvalidState
  * @package  NextDeveloper\Commons\Exceptions
  */
-class InvalidState extends AbstractException
+class InvalidState extends AbstractCommonsException
 {
     /**
      * @param $name

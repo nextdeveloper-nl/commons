@@ -3,6 +3,8 @@
 namespace NextDeveloper\Commons\Tests\Database\Models;
 
 use Tests\TestCase;
+use GuzzleHttp\Client;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCountryService;
@@ -11,6 +13,34 @@ use League\Fractal\Resource\Collection;
 
 trait CountryTestTraits
 {
+    public $http;
+
+    /**
+    *   Creating the Guzzle object
+    */
+    public function setupGuzzle()
+    {
+        $this->http = new Client([
+            'base_uri'  =>  '127.0.0.1:8000'
+        ]);
+    }
+
+    /**
+    *   Destroying the Guzzle object
+    */
+    public function destroyGuzzle()
+    {
+        $this->http = null;
+    }
+
+    public function test_http_country_get()
+    {
+        $this->setupGuzzle();
+        $response = $this->http->request('GET', '/commons/country');
+
+        $this->assertEquals($response->getStatusCode(), Response::HTTP_OK);
+    }
+
     /**
     * Get test
     *
@@ -32,7 +62,9 @@ trait CountryTestTraits
 
     public function test_country_get_paginated()
     {
-        $result = AbstractCountryService::getPaginated();
+        $result = AbstractCountryService::get(null, [
+            'paginated' =>  'true'
+        ]);
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -422,6 +454,23 @@ trait CountryTestTraits
         try {
             $request = new Request([
                 'percentage'  =>  '1'
+            ]);
+
+            $filter = new CountryQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\Country::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_country_event_geo_name_code_filter()
+    {
+        try {
+            $request = new Request([
+                'geo_name_code'  =>  '1'
             ]);
 
             $filter = new CountryQueryFilter($request);

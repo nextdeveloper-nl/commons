@@ -17,7 +17,7 @@ use Exception;
  *
  * @package  NextDeveloper\Commons\Exceptions
  */
-abstract class AbstractException extends Exception
+abstract class AbstractCommonsException extends Exception
 {
     /**
      * @var int|mixed

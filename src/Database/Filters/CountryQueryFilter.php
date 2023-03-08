@@ -76,13 +76,17 @@ class CountryQueryFilter extends AbstractQueryFilter
         return $this->builder->where('percentage', $operator, $value);
     }
     
-    public function geoNameId($value)
+    public function geoNameCode($value)
     {
-        $geoName = GeoName::where('id_ref', $value)->first();
+        $operator = substr($value, 0, 1);
 
-        if($geoName) {
-            return $this->builder->where('geoNameId', '=', $geoName->id);
+        if ($operator != '<' || $operator != '>') {
+           $operator = '=';
+        } else {
+            $value = substr($value, 1);
         }
-    }
 
+        return $this->builder->where('geoNameCode', $operator, $value);
+    }
+    
 }

@@ -14,7 +14,7 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class NotFoundException
  * @package  NextDeveloper\Commons\Exceptions
  */
-class NotFoundException extends AbstractCoreException
+class NotFoundException extends AbstractCommonsException
 {
 
     /**

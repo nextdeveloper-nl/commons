@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Controllers\Country;
 
 use Illuminate\Http\Request;
+use NextDeveloper\Commons\Database\Models\Country;
 use NextDeveloper\Generator\Common\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
@@ -22,9 +23,14 @@ class CountryController extends AbstractController
     * @return \Illuminate\Http\JsonResponse
     */
     public function index(CountryQueryFilter $filter, Request $request) {
-        $isPaginationRequested = $request->has('paginate');
-        $data = CountryService::get($filter, $isPaginationRequested);
+        $data = CountryService::get($filter, $request->all());
 
-        return ResponsableFactory::makeResponse($data);
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    public function show(Country $country) {
+        dd($country);
+
+        return ResponsableFactory::makeResponse($this, $country);
     }
 }

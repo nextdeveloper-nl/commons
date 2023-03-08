@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 
 abstract class AbstractServiceProvider extends ServiceProvider
 {
@@ -39,9 +40,9 @@ abstract class AbstractServiceProvider extends ServiceProvider
         if( is_array( $bindings ) && count( $bindings ) > 0 ) {
             foreach( $bindings as $key => $value ) {
                 if( is_callable( $value ) ) {
-                    $this->app['router']->bind( $key, $value );
+                    Route::bind( $key, $value );
                 } else {
-                    $this->app['router']->model( $key, $value );
+                    Route::model( $key, $value );
                 }
             }
         }

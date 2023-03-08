@@ -19,7 +19,7 @@ class CountryCreateRequest
 			'percentage'     => 'numeric',
 			'continent_name' => 'nullable|string|max:15',
 			'continent_code' => 'nullable|string|max:2',
-			'geo_name_id'    => 'nullable|integer',
+			'geo_name_code'  => 'nullable|integer',
 			'is_active'      => 'boolean',
         ];
     }

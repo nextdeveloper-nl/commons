@@ -15,7 +15,7 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class ModelNotFoundException
  * @package  NextDeveloper\Commons\Exceptions
  */
-class ModelNotFoundException extends AbstractCoreException
+class ModelNotFoundException extends AbstractCommonsException
 {
 
     /**
