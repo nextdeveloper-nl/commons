@@ -2,7 +2,9 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Country;
 
-class CountryCreateRequest
+use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
+
+class CountryCreateRequest extends AbstractFormRequest
 {
 
     /**

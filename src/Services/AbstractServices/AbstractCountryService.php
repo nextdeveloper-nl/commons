@@ -64,13 +64,48 @@ class AbstractCountryService {
         return Country::all();
     }
 
+    /**
+    * This method returns the model by looking at reference id
+    *
+    * @param $ref
+    * @return mixed
+    */
+    public static function getByRef($ref) : ?Country {
+        return Country::findByRef($ref);
+    }
+
+    /**
+    * This method returns the model by lookint at its id
+    *
+    * @param $id
+    * @return Country|null
+    */
+    public static function getById($id) : ?Country {
+        return Country::where('id', $id)->first();
+    }
+
+    /**
+    * This method created the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
     public static function create(array $data) {
         event( new CountriesCreatingEvent() );
 
-        $model = Country::create([
+        try {
+            $model = Country::create([
 
-        ]);
+            ]);
+        } catch(\Exception $e) {
+            throw $e;
+        }
 
         event( new CountriesCreatedEvent($model) );
+
+        return $model;
     }
 }

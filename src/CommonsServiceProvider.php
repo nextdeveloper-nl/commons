@@ -4,9 +4,7 @@ namespace NextDeveloper\Commons;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
 use NextDeveloper\Commons\AbstractServiceProvider;
-use NextDeveloper\Commons\Database\Models\Country;
 
 /**
  * Class CommonsServiceProvider
@@ -30,10 +28,6 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         ], 'config');
 
         $this->loadViewsFrom($this->dir.'/../resources/views', 'Commons');
-
-        Route::bind('country', function (string $value) {
-            return Country::where('id_ref', $value)->firstOrFail();
-        });
 
 //        $this->bootErrorHandler();
         $this->bootChannelRoutes();
