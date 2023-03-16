@@ -97,11 +97,33 @@ class AbstractCountryService {
         event( new CountriesCreatingEvent() );
 
         try {
-            $model = Country::create([
-
-            ]);
+            $model = Country::create($data);
         } catch(\Exception $e) {
             throw $e;
+        }
+
+        event( new CountriesCreatedEvent($model) );
+
+        return $model;
+    }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function update($id, array $data) {
+        event( new CountriesCreatingEvent() );
+
+        try {
+           $model = Country::create($data);
+        } catch(\Exception $e) {
+           throw $e;
         }
 
         event( new CountriesCreatedEvent($model) );

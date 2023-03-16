@@ -12,9 +12,9 @@ class CountryUpdateRequest extends AbstractFormRequest
      */
     public function rules() {
         return [
-            'code'           => 'required|string|max:2',
+            'code'           => 'nullable|string|max:2',
 			'locale'         => 'nullable|string|max:2',
-			'name'           => 'required|string|max:45',
+			'name'           => 'nullable|string|max:45',
 			'currency_code'  => 'nullable|string|max:3',
 			'phone_code'     => 'nullable|string|max:5',
 			'rate'           => 'numeric',

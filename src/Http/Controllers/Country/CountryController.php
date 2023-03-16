@@ -5,8 +5,8 @@ namespace NextDeveloper\Commons\Http\Controllers\Country;
 use Illuminate\Http\Request;
 use NextDeveloper\Generator\Common\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Requests\Country\CountryUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
-use NextDeveloper\Commons\Http\Transformers\CountryTransformer;
 use NextDeveloper\Commons\Services\CountryService;
 use NextDeveloper\Commons\Http\Requests\Country\CountryCreateRequest;
 
@@ -51,6 +51,20 @@ class CountryController extends AbstractController
     */
     public function store(CountryCreateRequest $request) {
         $model = CountryService::create($request->validated());
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    /**
+    * This method updates Country object on database.
+    *
+    * @param $countryId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function update($countryId, CountryUpdateRequest $request) {
+        $model = CountryService::update($countryId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }

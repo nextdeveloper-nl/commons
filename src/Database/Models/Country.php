@@ -17,6 +17,8 @@ class Country extends Model
 {
     use Filterable, UuidId;
     
+    public $timestamps = false;
+
     /**
      * @var array
      */
