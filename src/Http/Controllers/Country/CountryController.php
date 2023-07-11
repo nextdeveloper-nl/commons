@@ -25,6 +25,9 @@ class CountryController extends AbstractController
     public function index(CountryQueryFilter $filter, Request $request) {
         $data = CountryService::get($filter, $request->all());
 
+        $this->errorNotFound('Cannot find the object you are looking for. We may not have that object or 
+you may need to change your search filters.');
+
         return ResponsableFactory::makeResponse($this, $data);
     }
 

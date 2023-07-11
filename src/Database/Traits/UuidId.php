@@ -23,7 +23,7 @@ trait UuidId {
      * @return string
      */
     public static function getHashidsColumn() {
-        return 'id_ref';
+        return 'uuid';
     }
 
     /**
@@ -37,7 +37,7 @@ trait UuidId {
         if ( ! is_null($data = static::whereRaw(static::getHashidsColumn().' COLLATE utf8_bin = ?', [$ref])->first())) {
             return $data;
         }
-dd('asd');
+
         $className = str_replace('_', ' ', snake_case(camel_case(class_basename(static::class))));
 
         $message = sprintf('Could not find any %s', $className);
