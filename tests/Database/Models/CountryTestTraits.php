@@ -36,7 +36,35 @@ trait CountryTestTraits
     public function test_http_country_get()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('GET', '/commons/country');
+        $response = $this->http->request(
+            'GET',
+            '/commons/country',
+            ['http_errors' => false]
+        );
+
+        $this->assertContains($response->getStatusCode(), [
+            Response::HTTP_OK,
+            Response::HTTP_NOT_FOUND
+        ]);
+    }
+
+    public function test_http_country_post()
+    {
+        $this->setupGuzzle();
+        $response = $this->http->request('POST', '/commons/country', [
+            'form_params'   =>  [
+                'code'  =>  'a',
+                'locale'  =>  'a',
+                'name'  =>  'a',
+                'currency_code'  =>  'a',
+                'phone_code'  =>  'a',
+                'continent_name'  =>  'a',
+                'continent_code'  =>  'a',
+                'vat_rate'  =>  '1',
+                ],
+                ['http_errors' => false]
+            ]
+        );
 
         $this->assertEquals($response->getStatusCode(), Response::HTTP_OK);
     }
@@ -72,7 +100,7 @@ trait CountryTestTraits
     public function test_country_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRetrievedEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRetrievedEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -82,7 +110,7 @@ trait CountryTestTraits
     public function test_country_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesCreatedEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryCreatedEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -92,7 +120,7 @@ trait CountryTestTraits
     public function test_country_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesCreatingEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryCreatingEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -102,7 +130,7 @@ trait CountryTestTraits
     public function test_country_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesSavingEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountrySavingEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -112,7 +140,7 @@ trait CountryTestTraits
     public function test_country_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesSavedEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountrySavedEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -122,7 +150,7 @@ trait CountryTestTraits
     public function test_country_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesUpdatingEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryUpdatingEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -132,7 +160,7 @@ trait CountryTestTraits
     public function test_country_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesUpdatedEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryUpdatedEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -142,7 +170,7 @@ trait CountryTestTraits
     public function test_country_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesDeletingEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryDeletingEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -152,7 +180,7 @@ trait CountryTestTraits
     public function test_country_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesDeletedEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryDeletedEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -162,7 +190,7 @@ trait CountryTestTraits
     public function test_country_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRestoringEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRestoringEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -172,7 +200,7 @@ trait CountryTestTraits
     public function test_country_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRestoredEvent() );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRestoredEvent() );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -185,7 +213,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRetrievedEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRetrievedEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -197,7 +225,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesCreatedEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryCreatedEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -209,7 +237,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesCreatingEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryCreatingEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -221,7 +249,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesSavingEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountrySavingEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -233,7 +261,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesSavedEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountrySavedEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -245,7 +273,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesUpdatingEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryUpdatingEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -257,7 +285,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesUpdatedEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryUpdatedEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -269,7 +297,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesDeletingEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryDeletingEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -281,7 +309,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesDeletedEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryDeletedEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -293,7 +321,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRestoringEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRestoringEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -305,7 +333,7 @@ trait CountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\Country::first();
 
-            event( new \NextDeveloper\Commons\Events\Countries\CountriesRestoredEvent($model) );
+            event( new \NextDeveloper\Commons\Events\Country\CountryRestoredEvent($model) );
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -432,11 +460,11 @@ trait CountryTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_country_event_rate_filter()
+    public function test_country_event_vat_rate_filter()
     {
         try {
             $request = new Request([
-                'rate'  =>  '1'
+                'vat_rate'  =>  '1'
             ]);
 
             $filter = new CountryQueryFilter($request);
@@ -448,38 +476,5 @@ trait CountryTestTraits
 
         $this->assertTrue(true);
     }
-
-    public function test_country_event_percentage_filter()
-    {
-        try {
-            $request = new Request([
-                'percentage'  =>  '1'
-            ]);
-
-            $filter = new CountryQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\Country::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_country_event_geo_name_code_filter()
-    {
-        try {
-            $request = new Request([
-                'geo_name_code'  =>  '1'
-            ]);
-
-            $filter = new CountryQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\Country::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

@@ -17,7 +17,11 @@ class Country extends Model
 {
     use Filterable, UuidId;
     
+
     public $timestamps = false;
+
+    protected $table = 'countries';
+
 
     /**
      * @var array
@@ -44,17 +48,16 @@ class Country extends Model
      */
     protected $casts = [
         'id'             => 'integer',
-		'id_ref'         => 'string',
+		'uuid'           => 'string',
 		'code'           => 'string',
 		'locale'         => 'string',
 		'name'           => 'string',
 		'currency_code'  => 'string',
 		'phone_code'     => 'string',
-		'rate'           => 'double',
-		'percentage'     => 'double',
+		'vat_rate'       => 'double',
 		'continent_name' => 'string',
 		'continent_code' => 'string',
-		'geo_name_code'  => 'integer',
+		'geo_name_id'    => 'integer',
 		'is_active'      => 'boolean',
     ];
 
@@ -88,4 +91,11 @@ class Country extends Model
         //  We create and add Observer even if we wont use it.
         parent::observe(CountryObserver::class);
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

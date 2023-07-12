@@ -8,8 +8,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use NextDeveloper\Commons\Database\Models\Country;
 use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
 
-use NextDeveloper\Commons\Events\Countries\CountriesCreatedEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesCreatingEvent;
+use NextDeveloper\Commons\Events\Country\CountryCreatedEvent;
+use NextDeveloper\Commons\Events\Country\CountryCreatingEvent;
 
 /**
 * This class is responsible from managing the data for Country
@@ -94,7 +94,7 @@ class AbstractCountryService {
     * @throw Exception
     */
     public static function create(array $data) {
-        event( new CountriesCreatingEvent() );
+        event( new CountryCreatingEvent() );
 
         try {
             $model = Country::create($data);
@@ -102,7 +102,7 @@ class AbstractCountryService {
             throw $e;
         }
 
-        event( new CountriesCreatedEvent($model) );
+        event( new CountryCreatedEvent($model) );
 
         return $model;
     }
@@ -118,16 +118,47 @@ class AbstractCountryService {
     * @throw Exception
     */
     public static function update($id, array $data) {
-        event( new CountriesCreatingEvent() );
+        $model = Country::where('uuid', $id)->first();
+
+        event( new CountriesUpdateingEvent($model) );
 
         try {
-           $model = Country::create($data);
+           $model = $model->update($data);
         } catch(\Exception $e) {
            throw $e;
         }
 
-        event( new CountriesCreatedEvent($model) );
+        event( new CountriesUpdatedEvent($model) );
 
         return $model;
     }
+
+    /**
+    * This method updated the model from an array.
+    *
+    * Throws an exception if stuck with any problem.
+    *
+    * @param
+    * @param array $data
+    * @return mixed
+    * @throw Exception
+    */
+    public static function delete($id, array $data) {
+        $model = Country::where('uuid', $id)->first();
+
+        event( new CountriesDeletingEvent() );
+
+        try {
+            $model = $model->delete();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event( new CountriesDeletedEvent($model) );
+
+        return $model;
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

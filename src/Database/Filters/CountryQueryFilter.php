@@ -3,6 +3,8 @@
 namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
+    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -32,25 +34,25 @@ class CountryQueryFilter extends AbstractQueryFilter
     
     public function currencyCode($value)
     {
-        return $this->builder->where('currencyCode', 'like', '%' . $value . '%');
+        return $this->builder->where('currency_code', 'like', '%' . $value . '%');
     }
     
     public function phoneCode($value)
     {
-        return $this->builder->where('phoneCode', 'like', '%' . $value . '%');
+        return $this->builder->where('phone_code', 'like', '%' . $value . '%');
     }
     
     public function continentName($value)
     {
-        return $this->builder->where('continentName', 'like', '%' . $value . '%');
+        return $this->builder->where('continent_name', 'like', '%' . $value . '%');
     }
     
     public function continentCode($value)
     {
-        return $this->builder->where('continentCode', 'like', '%' . $value . '%');
+        return $this->builder->where('continent_code', 'like', '%' . $value . '%');
     }
 
-    public function rate($value)
+    public function vatRate($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -60,33 +62,22 @@ class CountryQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('rate', $operator, $value);
+        return $this->builder->where('vat_rate', $operator, $value);
     }
     
-    public function percentage($value)
+    public function isActive()
     {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('percentage', $operator, $value);
+        return $this->builder->where('is_active', true);
     }
     
-    public function geoNameCode($value)
+    public function geoNameId($value)
     {
-        $operator = substr($value, 0, 1);
+        $geoName = GeoName::where('uuid', $value)->first();
 
-        if ($operator != '<' || $operator != '>') {
-           $operator = '=';
-        } else {
-            $value = substr($value, 1);
+        if($geoName) {
+            return $this->builder->where('geo_name_id', '=', $geoName->id);
         }
-
-        return $this->builder->where('geoNameCode', $operator, $value);
     }
-    
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

@@ -25,9 +25,6 @@ class CountryController extends AbstractController
     public function index(CountryQueryFilter $filter, Request $request) {
         $data = CountryService::get($filter, $request->all());
 
-        $this->errorNotFound('Cannot find the object you are looking for. We may not have that object or 
-you may need to change your search filters.');
-
         return ResponsableFactory::makeResponse($this, $data);
     }
 
@@ -39,7 +36,8 @@ you may need to change your search filters.');
     * @throws \Laravel\Octane\Exceptions\DdException
     */
     public function show($ref) {
-        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file in NextDeveloper Platform Project
+        //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
+        //  in NextDeveloper Platform Project
         $model = CountryService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -71,4 +69,21 @@ you may need to change your search filters.');
 
         return ResponsableFactory::makeResponse($this, $model);
     }
+
+    /**
+    * This method updates Country object on database.
+    *
+    * @param $countryId
+    * @param CountryCreateRequest $request
+    * @return mixed|null
+    * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+    */
+    public function destroy($countryId) {
+        $model = CountryService::delete($countryId);
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

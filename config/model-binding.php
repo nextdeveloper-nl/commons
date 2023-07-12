@@ -1,9 +1,5 @@
 <?php
 
 return [
-    'country' => function ($value) {
-        return NextDeveloper\Commons\Database\Models\Country::findByRef($value);
-    },
-
-//!APPENDHERE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 ];

@@ -17,13 +17,13 @@ class CountryUpdateRequest extends AbstractFormRequest
 			'name'           => 'nullable|string|max:45',
 			'currency_code'  => 'nullable|string|max:3',
 			'phone_code'     => 'nullable|string|max:5',
-			'rate'           => 'numeric',
-			'percentage'     => 'numeric',
+			'vat_rate'       => 'numeric',
 			'continent_name' => 'nullable|string|max:15',
 			'continent_code' => 'nullable|string|max:2',
-			'geo_name_code'  => 'nullable|integer',
+			'geo_name_id'    => 'nullable|exists:geo_names,uuid|uuid',
 			'is_active'      => 'boolean',
+			'timezones'      => 'nullable',
         ];
     }
-
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

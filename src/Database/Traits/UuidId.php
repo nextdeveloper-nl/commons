@@ -34,7 +34,7 @@ trait UuidId {
      * @return mixed
      */
     public static function findByRef($ref) {
-        if ( ! is_null($data = static::whereRaw(static::getHashidsColumn().' COLLATE utf8_bin = ?', [$ref])->first())) {
+        if ( ! is_null($data = static::whereRaw(static::getHashidsColumn().' = ?', [$ref])->first())) {
             return $data;
         }
 
