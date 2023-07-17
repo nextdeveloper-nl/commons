@@ -1,76 +1,124 @@
 <?php
 
 Route::prefix('commons')->group(function() {
-Route::prefix('categories')->group(function () {
-        Route::get('/', 'categories\categoriesController@index');
-        Route::get('/{categories}', 'categories\categoriesController@show');
-        Route::post('/', 'categories\categoriesController@store');
-        Route::put('/{categories}', 'categories\categoriesController@update');
-        Route::delete('/{categories}', 'categories\categoriesController@destroy');
+Route::prefix('common-addresses')->group(function () {
+        Route::get('/', 'CommonAddress\CommonAddressController@index');
+        Route::get('/{common-addresses}', 'CommonAddress\CommonAddressController@show');
+        Route::post('/', 'CommonAddress\CommonAddressController@store');
+        Route::put('/{common-addresses}', 'CommonAddress\CommonAddressController@update');
+        Route::delete('/{common-addresses}', 'CommonAddress\CommonAddressController@destroy');
     });
 
-Route::prefix('countries')->group(function () {
-        Route::get('/', 'countries\countriesController@index');
-        Route::get('/{countries}', 'countries\countriesController@show');
-        Route::post('/', 'countries\countriesController@store');
-        Route::put('/{countries}', 'countries\countriesController@update');
-        Route::delete('/{countries}', 'countries\countriesController@destroy');
+Route::prefix('common-categories')->group(function () {
+        Route::get('/', 'CommonCategory\CommonCategoryController@index');
+        Route::get('/{common-categories}', 'CommonCategory\CommonCategoryController@show');
+        Route::post('/', 'CommonCategory\CommonCategoryController@store');
+        Route::put('/{common-categories}', 'CommonCategory\CommonCategoryController@update');
+        Route::delete('/{common-categories}', 'CommonCategory\CommonCategoryController@destroy');
     });
 
-Route::prefix('disposable-emails')->group(function () {
-        Route::get('/', 'disposable-emails\disposable-emailsController@index');
-        Route::get('/{disposable-emails}', 'disposable-emails\disposable-emailsController@show');
-        Route::post('/', 'disposable-emails\disposable-emailsController@store');
-        Route::put('/{disposable-emails}', 'disposable-emails\disposable-emailsController@update');
-        Route::delete('/{disposable-emails}', 'disposable-emails\disposable-emailsController@destroy');
+Route::prefix('common-comments')->group(function () {
+        Route::get('/', 'CommonComment\CommonCommentController@index');
+        Route::get('/{common-comments}', 'CommonComment\CommonCommentController@show');
+        Route::post('/', 'CommonComment\CommonCommentController@store');
+        Route::put('/{common-comments}', 'CommonComment\CommonCommentController@update');
+        Route::delete('/{common-comments}', 'CommonComment\CommonCommentController@destroy');
     });
 
-Route::prefix('exchange-rates')->group(function () {
-        Route::get('/', 'exchange-rates\exchange-ratesController@index');
-        Route::get('/{exchange-rates}', 'exchange-rates\exchange-ratesController@show');
-        Route::post('/', 'exchange-rates\exchange-ratesController@store');
-        Route::put('/{exchange-rates}', 'exchange-rates\exchange-ratesController@update');
-        Route::delete('/{exchange-rates}', 'exchange-rates\exchange-ratesController@destroy');
+Route::prefix('common-countries')->group(function () {
+        Route::get('/', 'CommonCountry\CommonCountryController@index');
+        Route::get('/{common-countries}', 'CommonCountry\CommonCountryController@show');
+        Route::post('/', 'CommonCountry\CommonCountryController@store');
+        Route::put('/{common-countries}', 'CommonCountry\CommonCountryController@update');
+        Route::delete('/{common-countries}', 'CommonCountry\CommonCountryController@destroy');
     });
 
-Route::prefix('languages')->group(function () {
-        Route::get('/', 'languages\languagesController@index');
-        Route::get('/{languages}', 'languages\languagesController@show');
-        Route::post('/', 'languages\languagesController@store');
-        Route::put('/{languages}', 'languages\languagesController@update');
-        Route::delete('/{languages}', 'languages\languagesController@destroy');
+Route::prefix('common-credit-cards')->group(function () {
+        Route::get('/', 'CommonCreditCard\CommonCreditCardController@index');
+        Route::get('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@show');
+        Route::post('/', 'CommonCreditCard\CommonCreditCardController@store');
+        Route::put('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@update');
+        Route::delete('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@destroy');
     });
 
-Route::prefix('media')->group(function () {
-        Route::get('/', 'media\mediaController@index');
-        Route::get('/{media}', 'media\mediaController@show');
-        Route::post('/', 'media\mediaController@store');
-        Route::put('/{media}', 'media\mediaController@update');
-        Route::delete('/{media}', 'media\mediaController@destroy');
+Route::prefix('common-disposable-emails')->group(function () {
+        Route::get('/', 'CommonDisposableEmail\CommonDisposableEmailController@index');
+        Route::get('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@show');
+        Route::post('/', 'CommonDisposableEmail\CommonDisposableEmailController@store');
+        Route::put('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@update');
+        Route::delete('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@destroy');
     });
 
-Route::prefix('states')->group(function () {
-        Route::get('/', 'states\statesController@index');
-        Route::get('/{states}', 'states\statesController@show');
-        Route::post('/', 'states\statesController@store');
-        Route::put('/{states}', 'states\statesController@update');
-        Route::delete('/{states}', 'states\statesController@destroy');
+Route::prefix('common-domains')->group(function () {
+        Route::get('/', 'CommonDomain\CommonDomainController@index');
+        Route::get('/{common-domains}', 'CommonDomain\CommonDomainController@show');
+        Route::post('/', 'CommonDomain\CommonDomainController@store');
+        Route::put('/{common-domains}', 'CommonDomain\CommonDomainController@update');
+        Route::delete('/{common-domains}', 'CommonDomain\CommonDomainController@destroy');
     });
 
-Route::prefix('tags')->group(function () {
-        Route::get('/', 'tags\tagsController@index');
-        Route::get('/{tags}', 'tags\tagsController@show');
-        Route::post('/', 'tags\tagsController@store');
-        Route::put('/{tags}', 'tags\tagsController@update');
-        Route::delete('/{tags}', 'tags\tagsController@destroy');
+Route::prefix('common-exchange-rates')->group(function () {
+        Route::get('/', 'CommonExchangeRate\CommonExchangeRateController@index');
+        Route::get('/{common-exchange-rates}', 'CommonExchangeRate\CommonExchangeRateController@show');
+        Route::post('/', 'CommonExchangeRate\CommonExchangeRateController@store');
+        Route::put('/{common-exchange-rates}', 'CommonExchangeRate\CommonExchangeRateController@update');
+        Route::delete('/{common-exchange-rates}', 'CommonExchangeRate\CommonExchangeRateController@destroy');
     });
 
-Route::prefix('votes')->group(function () {
-        Route::get('/', 'votes\votesController@index');
-        Route::get('/{votes}', 'votes\votesController@show');
-        Route::post('/', 'votes\votesController@store');
-        Route::put('/{votes}', 'votes\votesController@update');
-        Route::delete('/{votes}', 'votes\votesController@destroy');
+Route::prefix('common-languages')->group(function () {
+        Route::get('/', 'CommonLanguage\CommonLanguageController@index');
+        Route::get('/{common-languages}', 'CommonLanguage\CommonLanguageController@show');
+        Route::post('/', 'CommonLanguage\CommonLanguageController@store');
+        Route::put('/{common-languages}', 'CommonLanguage\CommonLanguageController@update');
+        Route::delete('/{common-languages}', 'CommonLanguage\CommonLanguageController@destroy');
+    });
+
+Route::prefix('common-media')->group(function () {
+        Route::get('/', 'CommonMedia\CommonMediaController@index');
+        Route::get('/{common-media}', 'CommonMedia\CommonMediaController@show');
+        Route::post('/', 'CommonMedia\CommonMediaController@store');
+        Route::put('/{common-media}', 'CommonMedia\CommonMediaController@update');
+        Route::delete('/{common-media}', 'CommonMedia\CommonMediaController@destroy');
+    });
+
+Route::prefix('common-meta')->group(function () {
+        Route::get('/', 'CommonMetum\CommonMetumController@index');
+        Route::get('/{common-meta}', 'CommonMetum\CommonMetumController@show');
+        Route::post('/', 'CommonMetum\CommonMetumController@store');
+        Route::put('/{common-meta}', 'CommonMetum\CommonMetumController@update');
+        Route::delete('/{common-meta}', 'CommonMetum\CommonMetumController@destroy');
+    });
+
+Route::prefix('common-registries')->group(function () {
+        Route::get('/', 'CommonRegistry\CommonRegistryController@index');
+        Route::get('/{common-registries}', 'CommonRegistry\CommonRegistryController@show');
+        Route::post('/', 'CommonRegistry\CommonRegistryController@store');
+        Route::put('/{common-registries}', 'CommonRegistry\CommonRegistryController@update');
+        Route::delete('/{common-registries}', 'CommonRegistry\CommonRegistryController@destroy');
+    });
+
+Route::prefix('common-states')->group(function () {
+        Route::get('/', 'CommonState\CommonStateController@index');
+        Route::get('/{common-states}', 'CommonState\CommonStateController@show');
+        Route::post('/', 'CommonState\CommonStateController@store');
+        Route::put('/{common-states}', 'CommonState\CommonStateController@update');
+        Route::delete('/{common-states}', 'CommonState\CommonStateController@destroy');
+    });
+
+Route::prefix('common-tags')->group(function () {
+        Route::get('/', 'CommonTag\CommonTagController@index');
+        Route::get('/{common-tags}', 'CommonTag\CommonTagController@show');
+        Route::post('/', 'CommonTag\CommonTagController@store');
+        Route::put('/{common-tags}', 'CommonTag\CommonTagController@update');
+        Route::delete('/{common-tags}', 'CommonTag\CommonTagController@destroy');
+    });
+
+Route::prefix('common-votes')->group(function () {
+        Route::get('/', 'CommonVote\CommonVoteController@index');
+        Route::get('/{common-votes}', 'CommonVote\CommonVoteController@show');
+        Route::post('/', 'CommonVote\CommonVoteController@store');
+        Route::put('/{common-votes}', 'CommonVote\CommonVoteController@update');
+        Route::delete('/{common-votes}', 'CommonVote\CommonVoteController@destroy');
     });
 
 // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
