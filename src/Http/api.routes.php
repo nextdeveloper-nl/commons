@@ -1,7 +1,7 @@
 <?php
 
 Route::prefix('commons')->group(function() {
-Route::prefix('common-addresses')->group(function () {
+Route::prefix('addresses')->group(function () {
         Route::get('/', 'CommonAddress\CommonAddressController@index');
         Route::get('/{common-addresses}', 'CommonAddress\CommonAddressController@show');
         Route::post('/', 'CommonAddress\CommonAddressController@store');
@@ -9,7 +9,7 @@ Route::prefix('common-addresses')->group(function () {
         Route::delete('/{common-addresses}', 'CommonAddress\CommonAddressController@destroy');
     });
 
-Route::prefix('common-categories')->group(function () {
+Route::prefix('categories')->group(function () {
         Route::get('/', 'CommonCategory\CommonCategoryController@index');
         Route::get('/{common-categories}', 'CommonCategory\CommonCategoryController@show');
         Route::post('/', 'CommonCategory\CommonCategoryController@store');
@@ -17,7 +17,7 @@ Route::prefix('common-categories')->group(function () {
         Route::delete('/{common-categories}', 'CommonCategory\CommonCategoryController@destroy');
     });
 
-Route::prefix('common-comments')->group(function () {
+Route::prefix('comments')->group(function () {
         Route::get('/', 'CommonComment\CommonCommentController@index');
         Route::get('/{common-comments}', 'CommonComment\CommonCommentController@show');
         Route::post('/', 'CommonComment\CommonCommentController@store');
@@ -25,7 +25,7 @@ Route::prefix('common-comments')->group(function () {
         Route::delete('/{common-comments}', 'CommonComment\CommonCommentController@destroy');
     });
 
-Route::prefix('common-countries')->group(function () {
+Route::prefix('countries')->group(function () {
         Route::get('/', 'CommonCountry\CommonCountryController@index');
         Route::get('/{common-countries}', 'CommonCountry\CommonCountryController@show');
         Route::post('/', 'CommonCountry\CommonCountryController@store');
@@ -33,7 +33,7 @@ Route::prefix('common-countries')->group(function () {
         Route::delete('/{common-countries}', 'CommonCountry\CommonCountryController@destroy');
     });
 
-Route::prefix('common-credit-cards')->group(function () {
+Route::prefix('credit-cards')->group(function () {
         Route::get('/', 'CommonCreditCard\CommonCreditCardController@index');
         Route::get('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@show');
         Route::post('/', 'CommonCreditCard\CommonCreditCardController@store');
@@ -41,7 +41,7 @@ Route::prefix('common-credit-cards')->group(function () {
         Route::delete('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@destroy');
     });
 
-Route::prefix('common-disposable-emails')->group(function () {
+Route::prefix('disposable-emails')->group(function () {
         Route::get('/', 'CommonDisposableEmail\CommonDisposableEmailController@index');
         Route::get('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@show');
         Route::post('/', 'CommonDisposableEmail\CommonDisposableEmailController@store');
@@ -49,7 +49,7 @@ Route::prefix('common-disposable-emails')->group(function () {
         Route::delete('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@destroy');
     });
 
-Route::prefix('common-domains')->group(function () {
+Route::prefix('domains')->group(function () {
         Route::get('/', 'CommonDomain\CommonDomainController@index');
         Route::get('/{common-domains}', 'CommonDomain\CommonDomainController@show');
         Route::post('/', 'CommonDomain\CommonDomainController@store');
@@ -57,7 +57,7 @@ Route::prefix('common-domains')->group(function () {
         Route::delete('/{common-domains}', 'CommonDomain\CommonDomainController@destroy');
     });
 
-Route::prefix('common-exchange-rates')->group(function () {
+Route::prefix('exchange-rates')->group(function () {
         Route::get('/', 'CommonExchangeRate\CommonExchangeRateController@index');
         Route::get('/{common-exchange-rates}', 'CommonExchangeRate\CommonExchangeRateController@show');
         Route::post('/', 'CommonExchangeRate\CommonExchangeRateController@store');
@@ -65,7 +65,7 @@ Route::prefix('common-exchange-rates')->group(function () {
         Route::delete('/{common-exchange-rates}', 'CommonExchangeRate\CommonExchangeRateController@destroy');
     });
 
-Route::prefix('common-languages')->group(function () {
+Route::prefix('languages')->group(function () {
         Route::get('/', 'CommonLanguage\CommonLanguageController@index');
         Route::get('/{common-languages}', 'CommonLanguage\CommonLanguageController@show');
         Route::post('/', 'CommonLanguage\CommonLanguageController@store');
@@ -73,7 +73,7 @@ Route::prefix('common-languages')->group(function () {
         Route::delete('/{common-languages}', 'CommonLanguage\CommonLanguageController@destroy');
     });
 
-Route::prefix('common-media')->group(function () {
+Route::prefix('media')->group(function () {
         Route::get('/', 'CommonMedia\CommonMediaController@index');
         Route::get('/{common-media}', 'CommonMedia\CommonMediaController@show');
         Route::post('/', 'CommonMedia\CommonMediaController@store');
@@ -81,7 +81,7 @@ Route::prefix('common-media')->group(function () {
         Route::delete('/{common-media}', 'CommonMedia\CommonMediaController@destroy');
     });
 
-Route::prefix('common-meta')->group(function () {
+Route::prefix('meta')->group(function () {
         Route::get('/', 'CommonMetum\CommonMetumController@index');
         Route::get('/{common-meta}', 'CommonMetum\CommonMetumController@show');
         Route::post('/', 'CommonMetum\CommonMetumController@store');
@@ -89,7 +89,7 @@ Route::prefix('common-meta')->group(function () {
         Route::delete('/{common-meta}', 'CommonMetum\CommonMetumController@destroy');
     });
 
-Route::prefix('common-registries')->group(function () {
+Route::prefix('registries')->group(function () {
         Route::get('/', 'CommonRegistry\CommonRegistryController@index');
         Route::get('/{common-registries}', 'CommonRegistry\CommonRegistryController@show');
         Route::post('/', 'CommonRegistry\CommonRegistryController@store');
@@ -97,7 +97,7 @@ Route::prefix('common-registries')->group(function () {
         Route::delete('/{common-registries}', 'CommonRegistry\CommonRegistryController@destroy');
     });
 
-Route::prefix('common-states')->group(function () {
+Route::prefix('states')->group(function () {
         Route::get('/', 'CommonState\CommonStateController@index');
         Route::get('/{common-states}', 'CommonState\CommonStateController@show');
         Route::post('/', 'CommonState\CommonStateController@store');
@@ -105,7 +105,7 @@ Route::prefix('common-states')->group(function () {
         Route::delete('/{common-states}', 'CommonState\CommonStateController@destroy');
     });
 
-Route::prefix('common-tags')->group(function () {
+Route::prefix('tags')->group(function () {
         Route::get('/', 'CommonTag\CommonTagController@index');
         Route::get('/{common-tags}', 'CommonTag\CommonTagController@show');
         Route::post('/', 'CommonTag\CommonTagController@store');
@@ -113,7 +113,7 @@ Route::prefix('common-tags')->group(function () {
         Route::delete('/{common-tags}', 'CommonTag\CommonTagController@destroy');
     });
 
-Route::prefix('common-votes')->group(function () {
+Route::prefix('votes')->group(function () {
         Route::get('/', 'CommonVote\CommonVoteController@index');
         Route::get('/{common-votes}', 'CommonVote\CommonVoteController@show');
         Route::post('/', 'CommonVote\CommonVoteController@store');
