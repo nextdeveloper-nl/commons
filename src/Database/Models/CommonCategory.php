@@ -18,7 +18,6 @@ class CommonCategory extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
-    
 
     public $timestamps = true;
 

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\CommonCountryObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\IAM\Database\Abstract\AuthorizationModel;
 
 /**
  * Class CommonCountry.
  *
  * @package NextDeveloper\Commons\Database\Models
  */
-class CommonCountry extends Model
+class CommonCountry extends AuthorizationModel
 {
     use Filterable, UuidId;
     
