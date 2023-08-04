@@ -33,14 +33,6 @@ Route::prefix('countries')->group(function () {
         Route::delete('/{common-countries}', 'CommonCountry\CommonCountryController@destroy');
     });
 
-Route::prefix('credit-cards')->group(function () {
-        Route::get('/', 'CommonCreditCard\CommonCreditCardController@index');
-        Route::get('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@show');
-        Route::post('/', 'CommonCreditCard\CommonCreditCardController@store');
-        Route::put('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@update');
-        Route::delete('/{common-credit-cards}', 'CommonCreditCard\CommonCreditCardController@destroy');
-    });
-
 Route::prefix('disposable-emails')->group(function () {
         Route::get('/', 'CommonDisposableEmail\CommonDisposableEmailController@index');
         Route::get('/{common-disposable-emails}', 'CommonDisposableEmail\CommonDisposableEmailController@show');
