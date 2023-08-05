@@ -18,7 +18,7 @@ class CommonState extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
-    
+
 
     public $timestamps = true;
 
@@ -34,14 +34,14 @@ class CommonState extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -49,16 +49,16 @@ class CommonState extends Model
      * @var array
      */
     protected $casts = [
-        'id'         => 'integer',
-		'uuid'       => 'string',
-		'name'       => 'string',
-		'value'      => 'string',
-		'reason'     => 'string',
-		'model_id'   => 'integer',
-		'model_type' => 'string',
-		'created_at' => 'datetime',
-		'updated_at' => 'datetime',
-		'deleted_at' => 'datetime',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'name' => 'string',
+        'value' => 'string',
+        'reason' => 'string',
+        'model_id' => 'integer',
+        'model_type' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
@@ -67,8 +67,8 @@ class CommonState extends Model
      */
     protected $dates = [
         'created_at',
-		'updated_at',
-		'deleted_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -90,9 +90,31 @@ class CommonState extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonStateObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_states');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

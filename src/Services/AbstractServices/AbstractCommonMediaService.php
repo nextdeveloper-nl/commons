@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonMedia;
 use NextDeveloper\Commons\Database\Filters\CommonMediaQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonMedia\CommonMediaCreatedEvent;
 use NextDeveloper\Commons\Events\CommonMedia\CommonMediaCreatingEvent;
+use NextDeveloper\Commons\Events\CommonMedia\CommonMediaUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonMedia\CommonMediaUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonMedia\CommonMediaDeletedEvent;
+use NextDeveloper\Commons\Events\CommonMedia\CommonMediaDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonMedia
@@ -53,11 +58,6 @@ class AbstractCommonMediaService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonMedia::paginate($perPage);
-        else
-            return CommonMedia::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonMediaService {
     public static function create(array $data) {
         event( new CommonMediaCreatingEvent() );
 
+		
+	
         try {
             $model = CommonMedia::create($data);
         } catch(\Exception $e) {

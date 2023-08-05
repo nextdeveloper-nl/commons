@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonComment;
 use NextDeveloper\Commons\Database\Filters\CommonCommentQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonComment\CommonCommentCreatedEvent;
 use NextDeveloper\Commons\Events\CommonComment\CommonCommentCreatingEvent;
+use NextDeveloper\Commons\Events\CommonComment\CommonCommentUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonComment\CommonCommentUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonComment\CommonCommentDeletedEvent;
+use NextDeveloper\Commons\Events\CommonComment\CommonCommentDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonComment
@@ -53,11 +58,6 @@ class AbstractCommonCommentService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonComment::paginate($perPage);
-        else
-            return CommonComment::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonCommentService {
     public static function create(array $data) {
         event( new CommonCommentCreatingEvent() );
 
+		
+	
         try {
             $model = CommonComment::create($data);
         } catch(\Exception $e) {

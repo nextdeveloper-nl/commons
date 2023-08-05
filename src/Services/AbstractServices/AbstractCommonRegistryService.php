@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonRegistry;
 use NextDeveloper\Commons\Database\Filters\CommonRegistryQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatedEvent;
 use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatingEvent;
+use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletedEvent;
+use NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonRegistry
@@ -53,11 +58,6 @@ class AbstractCommonRegistryService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonRegistry::paginate($perPage);
-        else
-            return CommonRegistry::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonRegistryService {
     public static function create(array $data) {
         event( new CommonRegistryCreatingEvent() );
 
+		
+	
         try {
             $model = CommonRegistry::create($data);
         } catch(\Exception $e) {

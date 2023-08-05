@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonDisposableEmail;
 use NextDeveloper\Commons\Database\Filters\CommonDisposableEmailQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailCreatedEvent;
 use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailCreatingEvent;
+use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailDeletedEvent;
+use NextDeveloper\Commons\Events\CommonDisposableEmail\CommonDisposableEmailDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonDisposableEmail
@@ -53,11 +58,6 @@ class AbstractCommonDisposableEmailService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonDisposableEmail::paginate($perPage);
-        else
-            return CommonDisposableEmail::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonDisposableEmailService {
     public static function create(array $data) {
         event( new CommonDisposableEmailCreatingEvent() );
 
+		
+	
         try {
             $model = CommonDisposableEmail::create($data);
         } catch(\Exception $e) {

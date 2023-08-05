@@ -18,7 +18,7 @@ class CommonMedia extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
-    
+
 
     public $timestamps = true;
 
@@ -34,14 +34,14 @@ class CommonMedia extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -49,23 +49,23 @@ class CommonMedia extends Model
      * @var array
      */
     protected $casts = [
-        'id'                => 'integer',
-		'uuid'              => 'string',
-		'mediable_id'       => 'integer',
-		'mediable_type'     => 'string',
-		'collection_name'   => 'string',
-		'name'              => 'string',
-		'cdn_url'           => 'string',
-		'file_name'         => 'string',
-		'mime_type'         => 'string',
-		'disk'              => 'string',
-		'size'              => 'integer',
-		'manipulations'     => 'string',
-		'custom_properties' => 'string',
-		'order_column'      => 'integer',
-		'created_at'        => 'datetime',
-		'updated_at'        => 'datetime',
-		'deleted_at'        => 'datetime',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'mediable_id' => 'integer',
+        'mediable_type' => 'string',
+        'collection_name' => 'string',
+        'name' => 'string',
+        'cdn_url' => 'string',
+        'file_name' => 'string',
+        'mime_type' => 'string',
+        'disk' => 'string',
+        'size' => 'integer',
+        'manipulations' => 'string',
+        'custom_properties' => 'string',
+        'order_column' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
@@ -74,8 +74,8 @@ class CommonMedia extends Model
      */
     protected $dates = [
         'created_at',
-		'updated_at',
-		'deleted_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -97,9 +97,31 @@ class CommonMedia extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonMediaObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_media');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

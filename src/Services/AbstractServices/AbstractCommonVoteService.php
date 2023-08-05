@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonVote;
 use NextDeveloper\Commons\Database\Filters\CommonVoteQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonVote\CommonVoteCreatedEvent;
 use NextDeveloper\Commons\Events\CommonVote\CommonVoteCreatingEvent;
+use NextDeveloper\Commons\Events\CommonVote\CommonVoteUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonVote\CommonVoteUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonVote\CommonVoteDeletedEvent;
+use NextDeveloper\Commons\Events\CommonVote\CommonVoteDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonVote
@@ -53,11 +58,6 @@ class AbstractCommonVoteService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonVote::paginate($perPage);
-        else
-            return CommonVote::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonVoteService {
     public static function create(array $data) {
         event( new CommonVoteCreatingEvent() );
 
+		
+	
         try {
             $model = CommonVote::create($data);
         } catch(\Exception $e) {

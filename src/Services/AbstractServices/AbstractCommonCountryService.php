@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonCountry;
 use NextDeveloper\Commons\Database\Filters\CommonCountryQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatedEvent;
 use NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatingEvent;
+use NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletedEvent;
+use NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonCountry
@@ -53,11 +58,6 @@ class AbstractCommonCountryService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonCountry::paginate($perPage);
-        else
-            return CommonCountry::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonCountryService {
     public static function create(array $data) {
         event( new CommonCountryCreatingEvent() );
 
+		
+	
         try {
             $model = CommonCountry::create($data);
         } catch(\Exception $e) {

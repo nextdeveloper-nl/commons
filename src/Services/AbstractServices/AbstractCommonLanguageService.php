@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonLanguage;
 use NextDeveloper\Commons\Database\Filters\CommonLanguageQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatedEvent;
 use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatingEvent;
+use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletedEvent;
+use NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonLanguage
@@ -53,11 +58,6 @@ class AbstractCommonLanguageService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonLanguage::paginate($perPage);
-        else
-            return CommonLanguage::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonLanguageService {
     public static function create(array $data) {
         event( new CommonLanguageCreatingEvent() );
 
+		
+	
         try {
             $model = CommonLanguage::create($data);
         } catch(\Exception $e) {

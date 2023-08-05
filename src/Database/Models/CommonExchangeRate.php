@@ -16,7 +16,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 class CommonExchangeRate extends Model
 {
     use Filterable, UuidId;
-    
+
 
     public $timestamps = true;
 
@@ -32,14 +32,14 @@ class CommonExchangeRate extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -47,13 +47,13 @@ class CommonExchangeRate extends Model
      * @var array
      */
     protected $casts = [
-        'id'            => 'integer',
-		'uuid'          => 'string',
-		'country_id'    => 'integer',
-		'rate'          => 'double',
-		'last_modified' => 'datetime',
-		'created_at'    => 'datetime',
-		'updated_at'    => 'datetime',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'country_id' => 'integer',
+        'rate' => 'double',
+        'last_modified' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
@@ -62,8 +62,8 @@ class CommonExchangeRate extends Model
      */
     protected $dates = [
         'last_modified',
-		'created_at',
-		'updated_at',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -85,9 +85,31 @@ class CommonExchangeRate extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonExchangeRateObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_exchange_rates');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

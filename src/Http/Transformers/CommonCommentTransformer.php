@@ -21,7 +21,7 @@ class CommonCommentTransformer extends AbstractTransformer {
         return $this->buildPayload([
             'id'  =>  $model->uuid,
             'body'  =>  $model->body,
-            'user_id'  =>  $model->user_id,
+            'iam_user_id'  =>  $model->iam_user_id,
             'commentable_id'  =>  $model->commentable_id,
             'commentable_type'  =>  $model->commentable_type,
             '_lft'  =>  $model->_lft,

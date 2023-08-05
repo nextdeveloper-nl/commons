@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -72,12 +72,21 @@ class CommonDomainQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'deleted_at', '<=', $date );
     }
 
-    public function accountId($value)
+    public function iamAccountId($value)
     {
-        $account = Account::where('uuid', $value)->first();
+        $iamAccount = IamAccount::where('uuid', $value)->first();
 
-        if($account) {
-            return $this->builder->where('account_id', '=', $account->id);
+        if($iamAccount) {
+            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
+        }
+    }
+
+    public function iamUserId($value)
+    {
+        $iamUser = IamUser::where('uuid', $value)->first();
+
+        if($iamUser) {
+            return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 

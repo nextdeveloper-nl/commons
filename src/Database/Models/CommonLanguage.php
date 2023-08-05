@@ -16,7 +16,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 class CommonLanguage extends Model
 {
     use Filterable, UuidId;
-    
+
 
     public $timestamps = false;
 
@@ -32,14 +32,14 @@ class CommonLanguage extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -47,18 +47,18 @@ class CommonLanguage extends Model
      * @var array
      */
     protected $casts = [
-        'id'              => 'integer',
-		'uuid'            => 'string',
-		'iso_639_1_code'  => 'string',
-		'iso_639_2_code'  => 'string',
-		'iso_639_2b_code' => 'string',
-		'code'            => 'string',
-		'code_v2'         => 'string',
-		'code_v2b'        => 'string',
-		'name'            => 'string',
-		'native_name'     => 'string',
-		'is_default'      => 'boolean',
-		'is_active'       => 'boolean',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'iso_639_1_code' => 'string',
+        'iso_639_2_code' => 'string',
+        'iso_639_2b_code' => 'string',
+        'code' => 'string',
+        'code_v2' => 'string',
+        'code_v2b' => 'string',
+        'name' => 'string',
+        'native_name' => 'string',
+        'is_default' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     /**
@@ -66,7 +66,7 @@ class CommonLanguage extends Model
      * @var array
      */
     protected $dates = [
-        
+
     ];
 
     /**
@@ -88,9 +88,31 @@ class CommonLanguage extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonLanguageObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_languages');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

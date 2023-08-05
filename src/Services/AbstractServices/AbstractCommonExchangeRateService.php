@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonExchangeRate;
 use NextDeveloper\Commons\Database\Filters\CommonExchangeRateQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateCreatedEvent;
 use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateCreatingEvent;
+use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateDeletedEvent;
+use NextDeveloper\Commons\Events\CommonExchangeRate\CommonExchangeRateDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonExchangeRate
@@ -53,11 +58,6 @@ class AbstractCommonExchangeRateService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonExchangeRate::paginate($perPage);
-        else
-            return CommonExchangeRate::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonExchangeRateService {
     public static function create(array $data) {
         event( new CommonExchangeRateCreatingEvent() );
 
+		
+	
         try {
             $model = CommonExchangeRate::create($data);
         } catch(\Exception $e) {

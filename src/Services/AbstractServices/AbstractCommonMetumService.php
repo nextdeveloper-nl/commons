@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonMetum;
 use NextDeveloper\Commons\Database\Filters\CommonMetumQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatedEvent;
 use NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatingEvent;
+use NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletedEvent;
+use NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonMetum
@@ -53,11 +58,6 @@ class AbstractCommonMetumService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonMetum::paginate($perPage);
-        else
-            return CommonMetum::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonMetumService {
     public static function create(array $data) {
         event( new CommonMetumCreatingEvent() );
 
+		
+	
         try {
             $model = CommonMetum::create($data);
         } catch(\Exception $e) {

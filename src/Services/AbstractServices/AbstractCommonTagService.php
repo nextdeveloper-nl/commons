@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonTag;
 use NextDeveloper\Commons\Database\Filters\CommonTagQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonTag\CommonTagCreatedEvent;
 use NextDeveloper\Commons\Events\CommonTag\CommonTagCreatingEvent;
+use NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonTag\CommonTagDeletedEvent;
+use NextDeveloper\Commons\Events\CommonTag\CommonTagDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonTag
@@ -53,11 +58,6 @@ class AbstractCommonTagService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonTag::paginate($perPage);
-        else
-            return CommonTag::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonTagService {
     public static function create(array $data) {
         event( new CommonTagCreatingEvent() );
 
+		
+	
         try {
             $model = CommonTag::create($data);
         } catch(\Exception $e) {

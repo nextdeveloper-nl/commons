@@ -15,8 +15,7 @@ class CommonVoteUpdateRequest extends AbstractFormRequest
             'value'         => 'nullable|boolean',
 			'voteable_id'   => 'nullable|exists:voteables,uuid|uuid',
 			'voteable_type' => 'nullable|string|max:255',
-			'user_id'       => 'nullable|exists:users,uuid|uuid',
-			'account_id'    => 'nullable|exists:accounts,uuid|uuid',
+			'iam_user_id'   => 'nullable|exists:iam_users,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonState;
 use NextDeveloper\Commons\Database\Filters\CommonStateQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonState\CommonStateCreatedEvent;
 use NextDeveloper\Commons\Events\CommonState\CommonStateCreatingEvent;
+use NextDeveloper\Commons\Events\CommonState\CommonStateUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonState\CommonStateUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonState\CommonStateDeletedEvent;
+use NextDeveloper\Commons\Events\CommonState\CommonStateDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonState
@@ -53,11 +58,6 @@ class AbstractCommonStateService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonState::paginate($perPage);
-        else
-            return CommonState::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonStateService {
     public static function create(array $data) {
         event( new CommonStateCreatingEvent() );
 
+		
+	
         try {
             $model = CommonState::create($data);
         } catch(\Exception $e) {

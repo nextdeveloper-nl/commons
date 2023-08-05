@@ -13,7 +13,7 @@ class CommonCommentUpdateRequest extends AbstractFormRequest
     public function rules() {
         return [
             'body'             => 'nullable|string',
-			'user_id'          => 'nullable|exists:users,uuid|uuid',
+			'iam_user_id'      => 'nullable|exists:iam_users,uuid|uuid',
 			'commentable_id'   => 'nullable|exists:commentables,uuid|uuid',
 			'commentable_type' => 'nullable|string|max:255',
 			'_lft'             => 'nullable|integer',

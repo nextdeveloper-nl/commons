@@ -18,7 +18,7 @@ class CommonAddress extends Model
 {
     use Filterable, UuidId;
     use SoftDeletes;
-    
+
 
     public $timestamps = true;
 
@@ -34,14 +34,14 @@ class CommonAddress extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -49,23 +49,23 @@ class CommonAddress extends Model
      * @var array
      */
     protected $casts = [
-        'id'                 => 'integer',
-		'uuid'               => 'string',
-		'addressable_id'     => 'integer',
-		'addressable_type'   => 'string',
-		'name'               => 'string',
-		'line1'              => 'string',
-		'line2'              => 'string',
-		'city'               => 'string',
-		'state'              => 'string',
-		'state_code'         => 'string',
-		'postcode'           => 'string',
-		'is_invoice_address' => 'boolean',
-		'country_id'         => 'integer',
-		'email_address'      => 'string',
-		'created_at'         => 'datetime',
-		'updated_at'         => 'datetime',
-		'deleted_at'         => 'datetime',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'addressable_id' => 'integer',
+        'addressable_type' => 'string',
+        'name' => 'string',
+        'line1' => 'string',
+        'line2' => 'string',
+        'city' => 'string',
+        'state' => 'string',
+        'state_code' => 'string',
+        'postcode' => 'string',
+        'is_invoice_address' => 'boolean',
+        'country_id' => 'integer',
+        'email_address' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
@@ -74,8 +74,8 @@ class CommonAddress extends Model
      */
     protected $dates = [
         'created_at',
-		'updated_at',
-		'deleted_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
@@ -97,14 +97,36 @@ class CommonAddress extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonAddressObserver::class);
+
+        self::registerScopes();
+    }
+
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_addresses');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
     }
 
     public function commonCountry()
     {
         return $this->belongsTo(CommonCountry::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

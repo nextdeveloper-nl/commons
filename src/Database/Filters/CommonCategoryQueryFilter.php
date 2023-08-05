@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                use NextDeveloper\Accounts\Database\Models\User;
         
 
 /**
@@ -112,30 +111,21 @@ class CommonCategoryQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'deleted_at', '<=', $date );
     }
 
-    public function domainId($value)
+    public function commonDomainId($value)
     {
-        $domain = Domain::where('uuid', $value)->first();
+        $commonDomain = CommonDomain::where('uuid', $value)->first();
 
-        if($domain) {
-            return $this->builder->where('domain_id', '=', $domain->id);
+        if($commonDomain) {
+            return $this->builder->where('common_domain_id', '=', $commonDomain->id);
         }
     }
 
-    public function userId($value)
+    public function commonCategoriesParentId($value)
     {
-        $user = User::where('uuid', $value)->first();
+        $commonCategoriesParent = CommonCategoriesParent::where('uuid', $value)->first();
 
-        if($user) {
-            return $this->builder->where('user_id', '=', $user->id);
-        }
-    }
-
-    public function parentId($value)
-    {
-        $parent = Parent::where('uuid', $value)->first();
-
-        if($parent) {
-            return $this->builder->where('parent_id', '=', $parent->id);
+        if($commonCategoriesParent) {
+            return $this->builder->where('common_categories_parent_id', '=', $commonCategoriesParent->id);
         }
     }
 

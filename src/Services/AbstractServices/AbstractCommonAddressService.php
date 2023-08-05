@@ -5,11 +5,16 @@ namespace NextDeveloper\Commons\Services\AbstractServices;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\CommonAddress;
 use NextDeveloper\Commons\Database\Filters\CommonAddressQueryFilter;
 
 use NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatedEvent;
 use NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatingEvent;
+use NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatedEvent;
+use NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatingEvent;
+use NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletedEvent;
+use NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletingEvent;
 
 /**
 * This class is responsible from managing the data for CommonAddress
@@ -53,11 +58,6 @@ class AbstractCommonAddressService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return CommonAddress::paginate($perPage);
-        else
-            return CommonAddress::get();
     }
 
     public static function getAll() {
@@ -96,6 +96,8 @@ class AbstractCommonAddressService {
     public static function create(array $data) {
         event( new CommonAddressCreatingEvent() );
 
+		
+	
         try {
             $model = CommonAddress::create($data);
         } catch(\Exception $e) {

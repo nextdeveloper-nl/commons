@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-                use NextDeveloper\Accounts\Database\Models\User;
         
 
 /**
@@ -75,21 +74,12 @@ class CommonVoteQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function userId($value)
+    public function iamUserId($value)
     {
-        $user = User::where('uuid', $value)->first();
+        $iamUser = IamUser::where('uuid', $value)->first();
 
-        if($user) {
-            return $this->builder->where('user_id', '=', $user->id);
-        }
-    }
-
-    public function accountId($value)
-    {
-        $account = Account::where('uuid', $value)->first();
-
-        if($account) {
-            return $this->builder->where('account_id', '=', $account->id);
+        if($iamUser) {
+            return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 

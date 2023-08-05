@@ -7,17 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\CommonCountryObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
-use NextDeveloper\IAM\Database\Abstract\AuthorizationModel;
 
 /**
  * Class CommonCountry.
  *
  * @package NextDeveloper\Commons\Database\Models
  */
-class CommonCountry extends AuthorizationModel
+class CommonCountry extends Model
 {
     use Filterable, UuidId;
-    
+
 
     public $timestamps = false;
 
@@ -33,14 +32,14 @@ class CommonCountry extends AuthorizationModel
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -48,18 +47,18 @@ class CommonCountry extends AuthorizationModel
      * @var array
      */
     protected $casts = [
-        'id'             => 'integer',
-		'uuid'           => 'string',
-		'code'           => 'string',
-		'locale'         => 'string',
-		'name'           => 'string',
-		'currency_code'  => 'string',
-		'phone_code'     => 'string',
-		'vat_rate'       => 'double',
-		'continent_name' => 'string',
-		'continent_code' => 'string',
-		'geo_name_id'    => 'integer',
-		'is_active'      => 'boolean',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'code' => 'string',
+        'locale' => 'string',
+        'name' => 'string',
+        'currency_code' => 'string',
+        'phone_code' => 'string',
+        'vat_rate' => 'double',
+        'continent_name' => 'string',
+        'continent_code' => 'string',
+        'geo_name_id' => 'integer',
+        'is_active' => 'boolean',
     ];
 
     /**
@@ -67,7 +66,7 @@ class CommonCountry extends AuthorizationModel
      * @var array
      */
     protected $dates = [
-        
+
     ];
 
     /**
@@ -89,9 +88,31 @@ class CommonCountry extends AuthorizationModel
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(CommonCountryObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function registerScopes()
+    {
+        $globalScopes = config('commons.scopes.global');
+        $modelScopes = config('commons.scopes.common_countries');
+
+        if (!$modelScopes) $modelScopes = [];
+        if (!$globalScopes) $globalScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
