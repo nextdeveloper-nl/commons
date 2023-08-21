@@ -12,7 +12,7 @@ class CommonCategoryCreateRequest extends AbstractFormRequest
      */
     public function rules() {
         return [
-            'slug'                        => 'nullable|string|max:500',
+            'slug'                        => 'required|string|max:500',
 			'name'                        => 'required|string|max:500',
 			'description'                 => 'required|string',
 			'url'                         => 'nullable|string|max:500',
@@ -24,5 +24,5 @@ class CommonCategoryCreateRequest extends AbstractFormRequest
 			'order'                       => 'integer',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

@@ -18,7 +18,7 @@ class CategoryCreateRequest extends AbstractFormRequest
 			'url'         => 'nullable|string|max:500',
 			'is_active'   => 'boolean',
 			'domain_id'   => 'required|exists:domains,uuid|uuid',
-			'user_id'     => 'required|exists:users,uuid|uuid',
+			'iam_user_id'     => 'required|exists:users,uuid|uuid',
 			'parent_id'   => 'nullable|exists:parents,uuid|uuid',
 			'_lft'        => 'required|integer',
 			'_rgt'        => 'required|integer',

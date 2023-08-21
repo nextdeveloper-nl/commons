@@ -2,15 +2,18 @@
 
 namespace NextDeveloper\Commons\Http\Transformers;
 
+use Illuminate\Support\Facades\Cache;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\CommonVote;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractCommonVoteTransformer;
 
 /**
  * Class CommonVoteTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class CommonVoteTransformer extends AbstractTransformer {
+class CommonVoteTransformer extends AbstractCommonVoteTransformer {
 
     /**
      * @param CommonVote $model
@@ -18,16 +21,20 @@ class CommonVoteTransformer extends AbstractTransformer {
      * @return array
      */
     public function transform(CommonVote $model) {
-        return $this->buildPayload([
-            'id'  =>  $model->uuid,
-            'value'  =>  $model->value == 1 ? true : false,
-            'voteable_id'  =>  $model->voteable_id,
-            'voteable_type'  =>  $model->voteable_type,
-            'iam_user_id'  =>  $model->iam_user_id,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-        ]);
+        $transformed = Cache::get(
+            CacheHelper::getKey('CommonVote', $model->uuid, 'Transformed')
+        );
+
+        if($transformed)
+            return $transformed;
+
+        $transformed = parent::transform($model);
+
+        Cache::set(
+            CacheHelper::getKey('CommonVote', $model->uuid, 'Transformed'),
+            $transformed
+        );
+
+        return parent::transform($model);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

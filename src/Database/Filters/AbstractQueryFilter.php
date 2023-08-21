@@ -123,6 +123,16 @@ abstract class AbstractQueryFilter {
     }
 
     /**
+     * Alias of order function
+     *
+     * @param $value
+     * @return Builder
+     */
+    public function sort($value) {
+        return self::order($value);
+    }
+
+    /**
      * @param string $filterName
      *
      * @return bool

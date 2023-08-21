@@ -12,8 +12,8 @@ class CommonDomainCreateRequest extends AbstractFormRequest
      */
     public function rules() {
         return [
-            'iam_account_id'   => 'nullable|exists:iam_accounts,uuid|uuid',
-			'iam_user_id'      => 'nullable|exists:iam_users,uuid|uuid',
+            'iam_account_id'   => 'required|exists:iam_accounts,uuid|uuid',
+			'iam_user_id'      => 'required|exists:iam_users,uuid|uuid',
 			'name'             => 'required|string|max:500',
 			'is_active'        => 'boolean',
 			'is_local_domain'  => 'boolean',
@@ -21,5 +21,5 @@ class CommonDomainCreateRequest extends AbstractFormRequest
 			'is_shared_domain' => 'boolean',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

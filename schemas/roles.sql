@@ -27,7 +27,7 @@ create table roles
     label          varchar(255)                            null,
     level          tinyint                                 not null,
     is_system_role tinyint   default 1                     null,
-    owner_id       bigint unsigned                         null comment 'Account Id (Team)',
+    iam_user_id       bigint unsigned                         null comment 'Account Id (Team)',
     created_at     timestamp default now() not null,
     updated_at     timestamp default now() not null,
     constraint roles_id_ref_unique

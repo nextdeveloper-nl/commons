@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Helpers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class DatabaseHelper
 {
@@ -25,5 +26,17 @@ class DatabaseHelper
         Cache::put('table_' . $table . '_has_column_' . $column, $hasColumn);
 
         return $hasColumn;
+    }
+
+    public static function uuidToId($obj, $uuid) {
+        if(is_int($uuid))
+            return $uuid;
+
+        $isUuid = Str::isUuid($uuid);
+
+        if($isUuid) {
+            $obj = $obj::findByUuid($uuid);
+            return $obj->id;
+		}
     }
 }

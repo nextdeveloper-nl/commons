@@ -17,8 +17,8 @@ class NotificationCreateRequest extends AbstractFormRequest
 			'notifiable_type' => 'required|string|max:255',
 			'data'            => 'required|string',
 			'read_at'         => 'nullable|date',
-			'user_id'         => 'required|exists:users,uuid|uuid',
-			'account_id'      => 'required|exists:accounts,uuid|uuid',
+			'iam_user_id'         => 'required|exists:users,uuid|uuid',
+			'iam_account_id'      => 'required|exists:accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

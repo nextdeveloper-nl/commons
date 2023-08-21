@@ -26,5 +26,5 @@ class CommonAddressUpdateRequest extends AbstractFormRequest
 			'email_address'      => 'nullable|string|max:200',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

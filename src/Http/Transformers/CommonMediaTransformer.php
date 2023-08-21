@@ -2,15 +2,18 @@
 
 namespace NextDeveloper\Commons\Http\Transformers;
 
+use Illuminate\Support\Facades\Cache;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\CommonMedia;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractCommonMediaTransformer;
 
 /**
  * Class CommonMediaTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class CommonMediaTransformer extends AbstractTransformer {
+class CommonMediaTransformer extends AbstractCommonMediaTransformer {
 
     /**
      * @param CommonMedia $model
@@ -18,24 +21,20 @@ class CommonMediaTransformer extends AbstractTransformer {
      * @return array
      */
     public function transform(CommonMedia $model) {
-        return $this->buildPayload([
-            'id'  =>  $model->uuid,
-            'mediable_id'  =>  $model->mediable_id,
-            'mediable_type'  =>  $model->mediable_type,
-            'collection_name'  =>  $model->collection_name,
-            'name'  =>  $model->name,
-            'cdn_url'  =>  $model->cdn_url,
-            'file_name'  =>  $model->file_name,
-            'mime_type'  =>  $model->mime_type,
-            'disk'  =>  $model->disk,
-            'size'  =>  $model->size,
-            'manipulations'  =>  $model->manipulations,
-            'custom_properties'  =>  $model->custom_properties,
-            'order_column'  =>  $model->order_column,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-        ]);
+        $transformed = Cache::get(
+            CacheHelper::getKey('CommonMedia', $model->uuid, 'Transformed')
+        );
+
+        if($transformed)
+            return $transformed;
+
+        $transformed = parent::transform($model);
+
+        Cache::set(
+            CacheHelper::getKey('CommonMedia', $model->uuid, 'Transformed'),
+            $transformed
+        );
+
+        return parent::transform($model);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

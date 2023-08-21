@@ -2,15 +2,18 @@
 
 namespace NextDeveloper\Commons\Http\Transformers;
 
+use Illuminate\Support\Facades\Cache;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\CommonTag;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractCommonTagTransformer;
 
 /**
  * Class CommonTagTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class CommonTagTransformer extends AbstractTransformer {
+class CommonTagTransformer extends AbstractCommonTagTransformer {
 
     /**
      * @param CommonTag $model
@@ -18,15 +21,20 @@ class CommonTagTransformer extends AbstractTransformer {
      * @return array
      */
     public function transform(CommonTag $model) {
-        return $this->buildPayload([
-            'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
-            'description'  =>  $model->description,
-            'slug'  =>  $model->slug,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-        ]);
+        $transformed = Cache::get(
+            CacheHelper::getKey('CommonTag', $model->uuid, 'Transformed')
+        );
+
+        if($transformed)
+            return $transformed;
+
+        $transformed = parent::transform($model);
+
+        Cache::set(
+            CacheHelper::getKey('CommonTag', $model->uuid, 'Transformed'),
+            $transformed
+        );
+
+        return parent::transform($model);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

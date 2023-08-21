@@ -17,8 +17,8 @@ class NotificationUpdateRequest extends AbstractFormRequest
 			'notifiable_type' => 'nullable|string|max:255',
 			'data'            => 'nullable|string',
 			'read_at'         => 'nullable|date',
-			'user_id'         => 'nullable|exists:users,uuid|uuid',
-			'account_id'      => 'nullable|exists:accounts,uuid|uuid',
+			'iam_user_id'         => 'nullable|exists:users,uuid|uuid',
+			'iam_account_id'      => 'nullable|exists:accounts,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

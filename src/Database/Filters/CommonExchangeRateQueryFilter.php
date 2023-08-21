@@ -60,14 +60,14 @@ class CommonExchangeRateQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'updated_at', '<=', $date );
     }
 
-    public function countryId($value)
+    public function commonCountryId($value)
     {
-        $country = Country::where('uuid', $value)->first();
+        $commonCountry = CommonCountry::where('uuid', $value)->first();
 
-        if($country) {
-            return $this->builder->where('country_id', '=', $country->id);
+        if($commonCountry) {
+            return $this->builder->where('common_country_id', '=', $commonCountry->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

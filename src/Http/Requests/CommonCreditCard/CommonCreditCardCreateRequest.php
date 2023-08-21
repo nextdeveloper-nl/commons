@@ -24,8 +24,8 @@ class CommonCreditCardCreateRequest extends AbstractFormRequest
 			'score'                => 'boolean',
 			'is_3d_secure_enabled' => 'boolean',
 			'retry_count'          => 'boolean',
-			'account_id'           => 'nullable|exists:accounts,uuid|uuid',
-			'user_id'              => 'nullable|exists:users,uuid|uuid',
+			'iam_account_id'           => 'nullable|exists:accounts,uuid|uuid',
+			'iam_user_id'              => 'nullable|exists:users,uuid|uuid',
 			'last_retry_date'      => 'nullable|date',
 			'verification_date'    => 'nullable|date',
         ];

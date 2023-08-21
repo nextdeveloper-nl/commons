@@ -16,7 +16,7 @@ class RemindableUpdateRequest extends AbstractFormRequest
 			'remindable_object_type' => 'nullable|string|max:191',
 			'remind_datetime'        => 'nullable|date',
 			'snooze_datetime'        => 'nullable|date',
-			'user_id'                => 'nullable|exists:users,uuid|uuid',
+			'iam_user_id'                => 'nullable|exists:users,uuid|uuid',
 			'note'                   => 'nullable|string',
 			'status'                 => 'nullable',
         ];

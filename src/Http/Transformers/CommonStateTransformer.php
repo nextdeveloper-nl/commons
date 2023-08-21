@@ -2,15 +2,18 @@
 
 namespace NextDeveloper\Commons\Http\Transformers;
 
+use Illuminate\Support\Facades\Cache;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\CommonState;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractCommonStateTransformer;
 
 /**
  * Class CommonStateTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class CommonStateTransformer extends AbstractTransformer {
+class CommonStateTransformer extends AbstractCommonStateTransformer {
 
     /**
      * @param CommonState $model
@@ -18,17 +21,20 @@ class CommonStateTransformer extends AbstractTransformer {
      * @return array
      */
     public function transform(CommonState $model) {
-        return $this->buildPayload([
-            'id'  =>  $model->uuid,
-            'name'  =>  $model->name,
-            'value'  =>  $model->value,
-            'reason'  =>  $model->reason,
-            'model_id'  =>  $model->model_id,
-            'model_type'  =>  $model->model_type,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
-        ]);
+        $transformed = Cache::get(
+            CacheHelper::getKey('CommonState', $model->uuid, 'Transformed')
+        );
+
+        if($transformed)
+            return $transformed;
+
+        $transformed = parent::transform($model);
+
+        Cache::set(
+            CacheHelper::getKey('CommonState', $model->uuid, 'Transformed'),
+            $transformed
+        );
+
+        return parent::transform($model);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

@@ -47,14 +47,14 @@ class CommonDisposableEmailQueryFilter extends AbstractQueryFilter
         return $this->builder->where( 'deleted_at', '<=', $date );
     }
 
-    public function domainId($value)
+    public function commonDomainId($value)
     {
-        $domain = Domain::where('uuid', $value)->first();
+        $commonDomain = CommonDomain::where('uuid', $value)->first();
 
-        if($domain) {
-            return $this->builder->where('domain_id', '=', $domain->id);
+        if($commonDomain) {
+            return $this->builder->where('common_domain_id', '=', $commonDomain->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

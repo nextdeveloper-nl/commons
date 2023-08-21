@@ -110,8 +110,6 @@ class AbstractCommonDomainService
                 $obj = \NextDeveloper\IAM\Database\Models\IamAccount::findByUuid($data['iam_account_id']);
                 $data['iam_account_id'] = $obj->id;
             }
-        } else {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
 
         if (array_key_exists('iam_user_id', $data)) {
@@ -121,8 +119,6 @@ class AbstractCommonDomainService
                 $obj = \NextDeveloper\IAM\Database\Models\IamUser::findByUuid($data['iam_user_id']);
                 $data['iam_user_id'] = $obj->id;
             }
-        } else {
-            $data['iam_user_id'] = UserHelper::me()->id;
         }
 
         try {

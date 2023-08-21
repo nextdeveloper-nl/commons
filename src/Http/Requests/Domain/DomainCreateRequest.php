@@ -12,7 +12,7 @@ class DomainCreateRequest extends AbstractFormRequest
      */
     public function rules() {
         return [
-            'account_id'       => 'nullable|exists:accounts,uuid|uuid',
+            'iam_account_id'       => 'nullable|exists:accounts,uuid|uuid',
 			'name'             => 'required|string|max:500',
 			'is_active'        => 'boolean',
 			'is_local_domain'  => 'boolean',

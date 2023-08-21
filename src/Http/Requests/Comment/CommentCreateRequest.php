@@ -13,7 +13,7 @@ class CommentCreateRequest extends AbstractFormRequest
     public function rules() {
         return [
             'body'             => 'required|string',
-			'user_id'          => 'required|exists:users,uuid|uuid',
+			'iam_user_id'          => 'required|exists:users,uuid|uuid',
 			'commentable_id'   => 'required|exists:commentables,uuid|uuid',
 			'commentable_type' => 'required|string|max:255',
 			'_lft'             => 'required|integer',

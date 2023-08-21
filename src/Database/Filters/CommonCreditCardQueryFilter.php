@@ -149,7 +149,7 @@ class CommonCreditCardQueryFilter extends AbstractQueryFilter
         $account = Account::where('uuid', $value)->first();
 
         if($account) {
-            return $this->builder->where('account_id', '=', $account->id);
+            return $this->builder->where('iam_account_id', '=', $account->id);
         }
     }
 
@@ -158,7 +158,7 @@ class CommonCreditCardQueryFilter extends AbstractQueryFilter
         $user = User::where('uuid', $value)->first();
 
         if($user) {
-            return $this->builder->where('user_id', '=', $user->id);
+            return $this->builder->where('iam_user_id', '=', $user->id);
         }
     }
 
