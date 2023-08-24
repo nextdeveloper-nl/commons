@@ -18,7 +18,7 @@ class AbstractCommonCountryTransformer extends AbstractTransformer {
      * @return array
      */
     public function transform(CommonCountry $model) {
-                        $geoNameId = \NextDeveloper\\Database\Models\GeoName::where('id', $model->geo_name_id)->first();
+                        //$geoNameId = \NextDeveloper\\Database\Models\GeoName::where('id', $model->geo_name_id)->first();
             
         return $this->buildPayload([
 'id'  =>  $model->uuid,
@@ -30,11 +30,12 @@ class AbstractCommonCountryTransformer extends AbstractTransformer {
 'vat_rate'  =>  $model->vat_rate,
 'continent_name'  =>  $model->continent_name,
 'continent_code'  =>  $model->continent_code,
-'geo_name_id'  =>  $geoNameId ? $geoNameId->uuid : null,
+//'geo_name_id'  =>  $geoNameId ? $geoNameId->uuid : null,
 'is_active'  =>  $model->is_active,
 'timezones'  =>  $model->timezones,
     ]);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+
 }
