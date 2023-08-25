@@ -3,7 +3,7 @@
 namespace NextDeveloper\Commons\Http\Controllers\CommonVote;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Generator\Common\AbstractController;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\CommonVote\CommonVoteUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommonVoteQueryFilter;

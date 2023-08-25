@@ -10,32 +10,32 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class AbstractCommonCountryTransformer extends AbstractTransformer {
-
+class AbstractCommonCountryTransformer extends AbstractTransformer
+{
     /**
      * @param CommonCountry $model
      *
      * @return array
      */
-    public function transform(CommonCountry $model) {
-                        //$geoNameId = \NextDeveloper\\Database\Models\GeoName::where('id', $model->geo_name_id)->first();
-            
+    public function transform(CommonCountry $model)
+    {
         return $this->buildPayload([
-'id'  =>  $model->uuid,
-'code'  =>  $model->code,
-'locale'  =>  $model->locale,
-'name'  =>  $model->name,
-'currency_code'  =>  $model->currency_code,
-'phone_code'  =>  $model->phone_code,
-'vat_rate'  =>  $model->vat_rate,
-'continent_name'  =>  $model->continent_name,
-'continent_code'  =>  $model->continent_code,
-//'geo_name_id'  =>  $geoNameId ? $geoNameId->uuid : null,
-'is_active'  =>  $model->is_active,
-'timezones'  =>  $model->timezones,
-    ]);
+            'id' => $model->uuid,
+            'code' => $model->code,
+            'locale' => $model->locale,
+            'name' => $model->name,
+            'currency_code' => $model->currency_code,
+            'phone_code' => $model->phone_code,
+            'vat_rate' => $model->vat_rate,
+            'continent_name' => $model->continent_name,
+            'continent_code' => $model->continent_code,
+            'geo_name_identitiy' => $model->geo_name_identitiy,
+            'is_active' => $model->is_active,
+            'timezones' => $model->timezones,
+        ]);
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 }

@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -65,19 +65,23 @@ class CommonCountryQueryFilter extends AbstractQueryFilter
         return $this->builder->where('vat_rate', $operator, $value);
     }
     
+    public function geoNameIdentitiy($value)
+    {
+        $operator = substr($value, 0, 1);
+
+        if ($operator != '<' || $operator != '>') {
+           $operator = '=';
+        } else {
+            $value = substr($value, 1);
+        }
+
+        return $this->builder->where('geo_name_identitiy', $operator, $value);
+    }
+    
     public function isActive()
     {
         return $this->builder->where('is_active', true);
     }
     
-    public function geoNameId($value)
-    {
-        $geoName = GeoName::where('uuid', $value)->first();
-
-        if($geoName) {
-            return $this->builder->where('geo_name_id', '=', $geoName->id);
-        }
-    }
-
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

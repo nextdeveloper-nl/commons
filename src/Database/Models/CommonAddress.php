@@ -11,125 +11,125 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\IAM\Database\Models\IamUser;
 
 /**
- * Class CommonAddress.
- *
- * @package NextDeveloper\Commons\Database\Models
- */
+* Class CommonAddress.
+*
+* @package NextDeveloper\Commons\Database\Models
+*/
 class CommonAddress extends Model
 {
-    use Filterable, UuidId;
-    use SoftDeletes;
+use Filterable, UuidId;
+	use SoftDeletes;
 
 
-    public $timestamps = true;
+	public $timestamps = true;
 
-    protected $table = 'common_addresses';
+protected $table = 'common_addresses';
 
 
-    /**
-     * @var array
-     */
-    protected $guarded = [];
+/**
+* @var array
+*/
+protected $guarded = [];
 
-    /**
-     *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
-     */
-    protected $fullTextFields = [
+/**
+*  Here we have the fulltext fields. We can use these for fulltext search if enabled.
+*/
+protected $fullTextFields = [
 
-    ];
+];
 
-    /**
-     * @var array
-     */
-    protected $appends = [
+/**
+* @var array
+*/
+protected $appends = [
 
-    ];
+];
 
-    /**
-     * We are casting fields to objects so that we can work on them better
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'uuid' => 'string',
-        'addressable_id' => 'integer',
-        'addressable_type' => 'string',
-        'name' => 'string',
-        'line1' => 'string',
-        'line2' => 'string',
-        'city' => 'string',
-        'state' => 'string',
-        'state_code' => 'string',
-        'postcode' => 'string',
-        'is_invoice_address' => 'boolean',
-        'country_id' => 'integer',
-        'email_address' => 'string',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-    ];
+/**
+* We are casting fields to objects so that we can work on them better
+* @var array
+*/
+protected $casts = [
+'id'                 => 'integer',
+		'uuid'               => 'string',
+		'addressable_id'     => 'integer',
+		'addressable_type'   => 'string',
+		'name'               => 'string',
+		'line1'              => 'string',
+		'line2'              => 'string',
+		'city'               => 'string',
+		'state'              => 'string',
+		'state_code'         => 'string',
+		'postcode'           => 'string',
+		'is_invoice_address' => 'boolean',
+		'country_id'         => 'integer',
+		'email_address'      => 'string',
+		'created_at'         => 'datetime',
+		'updated_at'         => 'datetime',
+		'deleted_at'         => 'datetime',
+];
 
-    /**
-     * We are casting data fields.
-     * @var array
-     */
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
+/**
+* We are casting data fields.
+* @var array
+*/
+protected $dates = [
+'created_at',
+		'updated_at',
+		'deleted_at',
+];
 
-    /**
-     * @var array
-     */
-    protected $with = [
+/**
+* @var array
+*/
+protected $with = [
 
-    ];
+];
 
-    /**
-     * @var int
-     */
-    protected $perPage = 20;
+/**
+* @var int
+*/
+protected $perPage = 20;
 
-    /**
-     * @return void
-     */
-    public static function boot()
-    {
-        parent::boot();
+/**
+* @return void
+*/
+public static function boot()
+{
+parent::boot();
 
 //  We create and add Observer even if we wont use it.
-        parent::observe(CommonAddressObserver::class);
+parent::observe(CommonAddressObserver::class);
 
-        self::registerScopes();
-    }
+self::registerScopes();
+}
 
-    public static function registerScopes()
-    {
-        $globalScopes = config('commons.scopes.global');
-        $modelScopes = config('commons.scopes.common_addresses');
+public static function registerScopes()
+{
+$globalScopes = config('commons.scopes.global');
+$modelScopes = config('commons.scopes.common_addresses');
 
-        if (!$modelScopes) $modelScopes = [];
-        if (!$globalScopes) $globalScopes = [];
+if(!$modelScopes) $modelScopes = [];
+if (!$globalScopes) $globalScopes = [];
 
-        $scopes = array_merge(
-            $globalScopes,
-            $modelScopes
-        );
+$scopes = array_merge(
+$globalScopes,
+$modelScopes
+);
 
-        if ($scopes) {
-            foreach ($scopes as $scope) {
-                static::addGlobalScope(app($scope));
-            }
-        }
-    }
+if($scopes) {
+foreach ($scopes as $scope) {
+static::addGlobalScope(app($scope));
+}
+}
+}
 
-    public function commonCountry()
+public function commonCountry()
     {
         return $this->belongsTo(CommonCountry::class);
     }
-
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n
+    
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
     public function merhaba(): IamUser
     {

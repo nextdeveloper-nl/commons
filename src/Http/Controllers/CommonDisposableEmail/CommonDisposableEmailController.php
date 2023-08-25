@@ -3,7 +3,7 @@
 namespace NextDeveloper\Commons\Http\Controllers\CommonDisposableEmail;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Generator\Common\AbstractController;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\CommonDisposableEmail\CommonDisposableEmailUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommonDisposableEmailQueryFilter;

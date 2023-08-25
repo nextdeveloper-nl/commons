@@ -3,7 +3,7 @@
 namespace NextDeveloper\Commons\Http\Controllers\CommonDomain;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Generator\Common\AbstractController;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\CommonDomain\CommonDomainUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommonDomainQueryFilter;

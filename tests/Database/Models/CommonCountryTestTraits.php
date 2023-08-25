@@ -61,6 +61,7 @@ trait CommonCountryTestTraits
                 'continent_name'  =>  'a',
                 'continent_code'  =>  'a',
                 'vat_rate'  =>  '1',
+                'geo_name_identitiy'  =>  '1',
                 ],
                 ['http_errors' => false]
             ]
@@ -476,5 +477,22 @@ trait CommonCountryTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+    public function test_commoncountry_event_geo_name_identitiy_filter()
+    {
+        try {
+            $request = new Request([
+                'geo_name_identitiy'  =>  '1'
+            ]);
+
+            $filter = new CommonCountryQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonCountry::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

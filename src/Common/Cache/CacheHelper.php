@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons\Common\Cache;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 
 class CacheHelper
 {
@@ -33,6 +32,29 @@ class CacheHelper
      */
     public static function deleteKeys($obj, $id) : bool
     {
+        $store = Cache::getDefaultDriver();
 
+        switch ($store) {
+            case 'redis':
+                self::deleteRedisKeys($obj, $id);
+                break;
+        }
+
+        return true;
+    }
+
+    private static function deleteRedisKeys($obj, $id) {
+        $config = config('database.redis.cache');
+        $r = new \Redis();
+        $r->connect($config['host'], $config['port']);
+        $r->select(1);
+
+        $it = null;
+
+        while( $it !== 0 ) {
+            foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*') as $k) {
+                $r->del($k);
+            }
+        }
     }
 }
