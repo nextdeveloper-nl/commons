@@ -19,7 +19,7 @@ class AbstractCommonCategoryTransformer extends AbstractTransformer {
      */
     public function transform(CommonCategory $model) {
                         $commonDomainId = \NextDeveloper\Commons\Database\Models\CommonDomain::where('id', $model->common_domain_id)->first();
-                    $commonCategoriesParentId = \NextDeveloper\Commons\Database\Models\CommonCategoriesParent::where('id', $model->common_categories_parent_id)->first();
+                    $commonCategoriesId = \NextDeveloper\Commons\Database\Models\CommonCategory::where('id', $model->common_categories_id)->first();
             
         return $this->buildPayload([
 'id'  =>  $model->uuid,
@@ -29,7 +29,7 @@ class AbstractCommonCategoryTransformer extends AbstractTransformer {
 'url'  =>  $model->url,
 'is_active'  =>  $model->is_active,
 'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
-'common_categories_parent_id'  =>  $commonCategoriesParentId ? $commonCategoriesParentId->uuid : null,
+'common_categories_id'  =>  $commonCategoriesId ? $commonCategoriesId->uuid : null,
 '_lft'  =>  $model->_lft,
 '_rgt'  =>  $model->_rgt,
 'order'  =>  $model->order,
@@ -39,7 +39,9 @@ class AbstractCommonCategoryTransformer extends AbstractTransformer {
     ]);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -43,6 +43,11 @@ class CommonDomainQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_shared_domain', true);
     }
     
+    public function isValidated()
+    {
+        return $this->builder->where('is_validated', true);
+    }
+    
     public function createdAtStart($date) 
     {
         return $this->builder->where( 'created_at', '>=', $date );
@@ -91,5 +96,5 @@ class CommonDomainQueryFilter extends AbstractQueryFilter
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -120,14 +120,14 @@ class CommonCategoryQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function commonCategoriesParentId($value)
+    public function commonCategoriesId($value)
     {
-        $commonCategoriesParent = CommonCategoriesParent::where('uuid', $value)->first();
+        $commonCategories = CommonCategories::where('uuid', $value)->first();
 
-        if($commonCategoriesParent) {
-            return $this->builder->where('common_categories_parent_id', '=', $commonCategoriesParent->id);
+        if($commonCategories) {
+            return $this->builder->where('common_categories_id', '=', $commonCategories->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

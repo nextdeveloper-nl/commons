@@ -97,6 +97,14 @@ Route::prefix('registries')->group(function () {
         Route::delete('/{common_registries}', 'CommonRegistry\CommonRegistryController@destroy');
     });
 
+Route::prefix('social-media')->group(function () {
+        Route::get('/', 'CommonSocialMedia\CommonSocialMediaController@index');
+        Route::get('/{common_social_media}', 'CommonSocialMedia\CommonSocialMediaController@show');
+        Route::post('/', 'CommonSocialMedia\CommonSocialMediaController@store');
+        Route::patch('/{common_social_media}', 'CommonSocialMedia\CommonSocialMediaController@update');
+        Route::delete('/{common_social_media}', 'CommonSocialMedia\CommonSocialMediaController@destroy');
+    });
+
 Route::prefix('states')->group(function () {
         Route::get('/', 'CommonState\CommonStateController@index');
         Route::get('/{common_states}', 'CommonState\CommonStateController@show');
@@ -121,6 +129,14 @@ Route::prefix('tags')->group(function () {
         Route::delete('/{common_tags}', 'CommonTag\CommonTagController@destroy');
     });
 
+Route::prefix('validatable')->group(function () {
+        Route::get('/', 'CommonValidatable\CommonValidatableController@index');
+        Route::get('/{common_validatable}', 'CommonValidatable\CommonValidatableController@show');
+        Route::post('/', 'CommonValidatable\CommonValidatableController@store');
+        Route::patch('/{common_validatable}', 'CommonValidatable\CommonValidatableController@update');
+        Route::delete('/{common_validatable}', 'CommonValidatable\CommonValidatableController@destroy');
+    });
+
 Route::prefix('votes')->group(function () {
         Route::get('/', 'CommonVote\CommonVoteController@index');
         Route::get('/{common_votes}', 'CommonVote\CommonVoteController@show');
@@ -129,5 +145,5 @@ Route::prefix('votes')->group(function () {
         Route::delete('/{common_votes}', 'CommonVote\CommonVoteController@destroy');
     });
 
-// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 });

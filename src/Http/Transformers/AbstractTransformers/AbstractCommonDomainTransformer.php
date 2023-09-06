@@ -30,13 +30,16 @@ class AbstractCommonDomainTransformer extends AbstractTransformer {
 'is_local_domain'  =>  $model->is_local_domain,
 'is_locked'  =>  $model->is_locked,
 'is_shared_domain'  =>  $model->is_shared_domain == 1 ? true : false,
+'is_validated'  =>  $model->is_validated == 1 ? true : false,
 'created_at'  =>  $model->created_at,
 'updated_at'  =>  $model->updated_at,
 'deleted_at'  =>  $model->deleted_at,
     ]);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

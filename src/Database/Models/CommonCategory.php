@@ -49,21 +49,21 @@ protected $appends = [
 * @var array
 */
 protected $casts = [
-'id'                          => 'integer',
-		'uuid'                        => 'string',
-		'slug'                        => 'string',
-		'name'                        => 'string',
-		'description'                 => 'string',
-		'url'                         => 'string',
-		'is_active'                   => 'boolean',
-		'common_domain_id'            => 'integer',
-		'common_categories_parent_id' => 'integer',
-		'_lft'                        => 'integer',
-		'_rgt'                        => 'integer',
-		'order'                       => 'integer',
-		'created_at'                  => 'datetime',
-		'updated_at'                  => 'datetime',
-		'deleted_at'                  => 'datetime',
+'id'                   => 'integer',
+		'uuid'                 => 'string',
+		'slug'                 => 'string',
+		'name'                 => 'string',
+		'description'          => 'string',
+		'url'                  => 'string',
+		'is_active'            => 'boolean',
+		'common_domain_id'     => 'integer',
+		'common_categories_id' => 'integer',
+		'_lft'                 => 'integer',
+		'_rgt'                 => 'integer',
+		'order'                => 'integer',
+		'created_at'           => 'datetime',
+		'updated_at'           => 'datetime',
+		'deleted_at'           => 'datetime',
 ];
 
 /**
@@ -126,5 +126,5 @@ public function commonDomain()
         return $this->belongsTo(CommonDomain::class);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

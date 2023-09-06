@@ -58,6 +58,7 @@ protected $casts = [
 		'is_local_domain'  => 'boolean',
 		'is_locked'        => 'boolean',
 		'is_shared_domain' => 'boolean',
+		'is_validated'     => 'boolean',
 		'created_at'       => 'datetime',
 		'updated_at'       => 'datetime',
 		'deleted_at'       => 'datetime',
@@ -128,5 +129,5 @@ public function commonCategories()
         return $this->hasMany(CommonDisposableEmail::class);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }
