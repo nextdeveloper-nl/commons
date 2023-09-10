@@ -6,10 +6,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Class CountriesDeletingEvent
+ * Class CommonCountriesDeletingEvent
  * @package PlusClouds\Account\Handlers\Events
  */
-class CountriesDeletingEvent implements ShouldQueue
+class CommonCountriesDeletingEvent implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -17,4 +17,5 @@ class CountriesDeletingEvent implements ShouldQueue
     {
 
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

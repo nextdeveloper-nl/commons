@@ -6,10 +6,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 /**
- * Class CountriesCreatedEvent
+ * Class CommonCountriesCreatedEvent
  * @package PlusClouds\Account\Handlers\Events
  */
-class CountriesCreatedEvent implements ShouldQueue
+class CommonCountriesCreatedEvent implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -17,4 +17,5 @@ class CountriesCreatedEvent implements ShouldQueue
     {
 
     }
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }
