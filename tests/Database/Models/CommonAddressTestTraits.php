@@ -16,18 +16,20 @@ trait CommonAddressTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonAddressTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonaddress_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonaddress', [
+        $response = $this->http->request(
+            'POST', '/commons/commonaddress', [
             'form_params'   =>  [
                 'addressable_type'  =>  'a',
                 'name'  =>  'a',
@@ -71,10 +76,10 @@ trait CommonAddressTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonaddress_model_get()
     {
         $result = AbstractCommonAddressService::get();
@@ -91,9 +96,11 @@ trait CommonAddressTestTraits
 
     public function test_commonaddress_get_paginated()
     {
-        $result = AbstractCommonAddressService::get(null, [
+        $result = AbstractCommonAddressService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -101,7 +108,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -111,7 +118,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -121,7 +128,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -131,7 +138,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -141,7 +148,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -151,7 +158,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -161,7 +168,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -171,7 +178,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -181,7 +188,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -191,7 +198,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -201,7 +208,7 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -214,7 +221,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -226,7 +233,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -238,7 +245,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -250,7 +257,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -262,7 +269,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -274,7 +281,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -286,7 +293,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -298,7 +305,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -310,7 +317,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -322,7 +329,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -334,7 +341,7 @@ trait CommonAddressTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonAddress::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonAddress\CommonAddressRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -345,9 +352,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_addressable_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'addressable_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -362,9 +371,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -379,9 +390,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_line1_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'line1'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -396,9 +409,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_line2_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'line2'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -413,9 +428,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_city_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'city'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -430,9 +447,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_state_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'state'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -447,9 +466,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_state_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'state_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -464,9 +485,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_postcode_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'postcode'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -481,9 +504,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_email_address_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'email_address'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -498,9 +523,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -515,9 +542,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -532,9 +561,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -549,9 +580,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -566,9 +599,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -583,9 +618,11 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -600,10 +637,12 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -618,10 +657,12 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -636,10 +677,12 @@ trait CommonAddressTestTraits
     public function test_commonaddress_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonAddressQueryFilter($request);
 
@@ -650,5 +693,5 @@ trait CommonAddressTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

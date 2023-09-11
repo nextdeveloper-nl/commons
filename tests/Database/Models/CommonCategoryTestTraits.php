@@ -16,18 +16,20 @@ trait CommonCategoryTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonCategoryTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commoncategory_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commoncategory', [
+        $response = $this->http->request(
+            'POST', '/commons/commoncategory', [
             'form_params'   =>  [
                 'slug'  =>  'a',
                 'name'  =>  'a',
@@ -69,10 +74,10 @@ trait CommonCategoryTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commoncategory_model_get()
     {
         $result = AbstractCommonCategoryService::get();
@@ -89,9 +94,11 @@ trait CommonCategoryTestTraits
 
     public function test_commoncategory_get_paginated()
     {
-        $result = AbstractCommonCategoryService::get(null, [
+        $result = AbstractCommonCategoryService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -99,7 +106,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -109,7 +116,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -119,7 +126,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -129,7 +136,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -139,7 +146,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -149,7 +156,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -159,7 +166,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -169,7 +176,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -179,7 +186,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -189,7 +196,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -199,7 +206,7 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -212,7 +219,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -224,7 +231,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -236,7 +243,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -248,7 +255,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -260,7 +267,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategorySavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -272,7 +279,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -284,7 +291,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -296,7 +303,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -308,7 +315,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -320,7 +327,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -332,7 +339,7 @@ trait CommonCategoryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCategory::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCategory\CommonCategoryRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -343,9 +350,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_slug_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'slug'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -360,9 +369,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -377,9 +388,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_description_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'description'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -394,9 +407,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_url_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'url'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -411,9 +426,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event__lft_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 '_lft'  =>  '1'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -428,9 +445,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event__rgt_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 '_rgt'  =>  '1'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -445,9 +464,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_order_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'order'  =>  '1'
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -462,9 +483,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -479,9 +502,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -496,9 +521,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -513,9 +540,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -530,9 +559,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -547,9 +578,11 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -564,10 +597,12 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -582,10 +617,12 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -600,10 +637,12 @@ trait CommonCategoryTestTraits
     public function test_commoncategory_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonCategoryQueryFilter($request);
 
@@ -614,5 +653,5 @@ trait CommonCategoryTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

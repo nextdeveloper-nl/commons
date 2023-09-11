@@ -16,18 +16,20 @@ trait CommonMetumTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonMetumTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonmetum_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonmetum', [
+        $response = $this->http->request(
+            'POST', '/commons/commonmetum', [
             'form_params'   =>  [
                 'metable_type'  =>  'a',
                 'key'  =>  'a',
@@ -65,10 +70,10 @@ trait CommonMetumTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonmetum_model_get()
     {
         $result = AbstractCommonMetumService::get();
@@ -85,9 +90,11 @@ trait CommonMetumTestTraits
 
     public function test_commonmetum_get_paginated()
     {
-        $result = AbstractCommonMetumService::get(null, [
+        $result = AbstractCommonMetumService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -95,7 +102,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -105,7 +112,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -115,7 +122,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -125,7 +132,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -135,7 +142,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -145,7 +152,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -155,7 +162,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -165,7 +172,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -175,7 +182,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -185,7 +192,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -195,7 +202,7 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -208,7 +215,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -220,7 +227,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -232,7 +239,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -244,7 +251,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -256,7 +263,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -268,7 +275,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -280,7 +287,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -292,7 +299,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -304,7 +311,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -316,7 +323,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -328,7 +335,7 @@ trait CommonMetumTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonMetum::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonMetum\CommonMetumRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -339,9 +346,11 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_metable_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'metable_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonMetumQueryFilter($request);
 
@@ -356,9 +365,11 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_key_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'key'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonMetumQueryFilter($request);
 
@@ -373,9 +384,11 @@ trait CommonMetumTestTraits
     public function test_commonmetum_event_value_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'value'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonMetumQueryFilter($request);
 
@@ -386,5 +399,5 @@ trait CommonMetumTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

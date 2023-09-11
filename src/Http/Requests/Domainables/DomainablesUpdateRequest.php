@@ -10,11 +10,12 @@ class DomainablesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             'domainable_id'   => 'nullable|exists:domainables,uuid|uuid',
-			'domainable_type' => 'nullable|string|max:255',
+        'domainable_type' => 'nullable|string|max:255',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

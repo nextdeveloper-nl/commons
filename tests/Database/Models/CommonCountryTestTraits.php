@@ -16,18 +16,20 @@ trait CommonCountryTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonCountryTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commoncountry_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commoncountry', [
+        $response = $this->http->request(
+            'POST', '/commons/commoncountry', [
             'form_params'   =>  [
                 'code'  =>  'a',
                 'locale'  =>  'a',
@@ -71,10 +76,10 @@ trait CommonCountryTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commoncountry_model_get()
     {
         $result = AbstractCommonCountryService::get();
@@ -91,9 +96,11 @@ trait CommonCountryTestTraits
 
     public function test_commoncountry_get_paginated()
     {
-        $result = AbstractCommonCountryService::get(null, [
+        $result = AbstractCommonCountryService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -101,7 +108,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -111,7 +118,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -121,7 +128,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -131,7 +138,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -141,7 +148,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -151,7 +158,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -161,7 +168,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -171,7 +178,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -181,7 +188,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -191,7 +198,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -201,7 +208,7 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -214,7 +221,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -226,7 +233,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -238,7 +245,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -250,7 +257,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -262,7 +269,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountrySavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -274,7 +281,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -286,7 +293,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -298,7 +305,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -310,7 +317,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -322,7 +329,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -334,7 +341,7 @@ trait CommonCountryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonCountry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonCountry\CommonCountryRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -345,9 +352,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -362,9 +371,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_locale_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'locale'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -379,9 +390,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -396,9 +409,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_currency_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'currency_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -413,9 +428,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_phone_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'phone_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -430,9 +447,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_continent_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'continent_name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -447,9 +466,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_continent_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'continent_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -464,9 +485,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_vat_rate_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'vat_rate'  =>  '1'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -481,9 +504,11 @@ trait CommonCountryTestTraits
     public function test_commoncountry_event_geo_name_identitiy_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'geo_name_identitiy'  =>  '1'
-            ]);
+                ]
+            );
 
             $filter = new CommonCountryQueryFilter($request);
 
@@ -494,5 +519,5 @@ trait CommonCountryTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

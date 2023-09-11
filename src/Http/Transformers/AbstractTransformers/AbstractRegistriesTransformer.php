@@ -10,23 +10,29 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class AbstractRegistriesTransformer extends AbstractTransformer {
+class AbstractRegistriesTransformer extends AbstractTransformer
+{
 
     /**
      * @param Registries $model
      *
      * @return array
      */
-    public function transform(Registries $model) {
+    public function transform(Registries $model)
+    {
                 
-        return $this->buildPayload([
-'id'  =>  $model->id,
-'key'  =>  $model->key,
-'value'  =>  $model->value,
-    ]);
+        return $this->buildPayload(
+            [
+            'id'  =>  $model->id,
+            'key'  =>  $model->key,
+            'value'  =>  $model->value,
+            ]
+        );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

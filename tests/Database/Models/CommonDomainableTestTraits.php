@@ -16,18 +16,20 @@ trait CommonDomainableTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonDomainableTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commondomainable_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commondomainable', [
+        $response = $this->http->request(
+            'POST', '/commons/commondomainable', [
             'form_params'   =>  [
                 'domainable_type'  =>  'a',
                         ],
@@ -63,10 +68,10 @@ trait CommonDomainableTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commondomainable_model_get()
     {
         $result = AbstractCommonDomainableService::get();
@@ -83,9 +88,11 @@ trait CommonDomainableTestTraits
 
     public function test_commondomainable_get_paginated()
     {
-        $result = AbstractCommonDomainableService::get(null, [
+        $result = AbstractCommonDomainableService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -93,7 +100,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -103,7 +110,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -113,7 +120,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -123,7 +130,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -133,7 +140,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -143,7 +150,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -153,7 +160,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -163,7 +170,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -173,7 +180,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -183,7 +190,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -193,7 +200,7 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -206,7 +213,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -218,7 +225,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -230,7 +237,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -242,7 +249,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -254,7 +261,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -266,7 +273,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -278,7 +285,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -290,7 +297,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -302,7 +309,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -314,7 +321,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -326,7 +333,7 @@ trait CommonDomainableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomainable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomainable\CommonDomainableRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -337,9 +344,11 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_domainable_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'domainable_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -354,9 +363,11 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -371,9 +382,11 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -388,9 +401,11 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -405,9 +420,11 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -422,10 +439,12 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -440,10 +459,12 @@ trait CommonDomainableTestTraits
     public function test_commondomainable_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainableQueryFilter($request);
 
@@ -454,5 +475,5 @@ trait CommonDomainableTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

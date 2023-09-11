@@ -10,29 +10,35 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class AbstractSocialMediaTransformer extends AbstractTransformer {
+class AbstractSocialMediaTransformer extends AbstractTransformer
+{
 
     /**
      * @param SocialMedia $model
      *
      * @return array
      */
-    public function transform(SocialMedia $model) {
+    public function transform(SocialMedia $model)
+    {
                         $sociableId = \NextDeveloper\\Database\Models\Sociables::where('id', $model->sociable_id)->first();
             
-        return $this->buildPayload([
-'id'  =>  $model->uuid,
-'sociable_id'  =>  $sociableId ? $sociableId->uuid : null,
-'sociable_type'  =>  $model->sociable_type,
-'profile_url'  =>  $model->profile_url,
-'is_invoice_address'  =>  $model->is_invoice_address,
-'created_at'  =>  $model->created_at,
-'updated_at'  =>  $model->updated_at,
-'deleted_at'  =>  $model->deleted_at,
-    ]);
+        return $this->buildPayload(
+            [
+            'id'  =>  $model->uuid,
+            'sociable_id'  =>  $sociableId ? $sociableId->uuid : null,
+            'sociable_type'  =>  $model->sociable_type,
+            'profile_url'  =>  $model->profile_url,
+            'is_invoice_address'  =>  $model->is_invoice_address,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
+            ]
+        );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -16,18 +16,20 @@ trait CommonTaggableTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonTaggableTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commontaggable_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commontaggable', [
+        $response = $this->http->request(
+            'POST', '/commons/commontaggable', [
             'form_params'   =>  [
                 'taggable_type'  =>  'a',
                         ],
@@ -63,10 +68,10 @@ trait CommonTaggableTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commontaggable_model_get()
     {
         $result = AbstractCommonTaggableService::get();
@@ -83,9 +88,11 @@ trait CommonTaggableTestTraits
 
     public function test_commontaggable_get_paginated()
     {
-        $result = AbstractCommonTaggableService::get(null, [
+        $result = AbstractCommonTaggableService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -93,7 +100,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -103,7 +110,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -113,7 +120,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -123,7 +130,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -133,7 +140,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -143,7 +150,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -153,7 +160,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -163,7 +170,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -173,7 +180,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -183,7 +190,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -193,7 +200,7 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -206,7 +213,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -218,7 +225,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -230,7 +237,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -242,7 +249,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -254,7 +261,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -266,7 +273,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -278,7 +285,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -290,7 +297,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -302,7 +309,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -314,7 +321,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -326,7 +333,7 @@ trait CommonTaggableTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTaggable::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTaggable\CommonTaggableRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -337,9 +344,11 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_taggable_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'taggable_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -354,9 +363,11 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -371,9 +382,11 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -388,9 +401,11 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -405,9 +420,11 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -422,10 +439,12 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -440,10 +459,12 @@ trait CommonTaggableTestTraits
     public function test_commontaggable_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTaggableQueryFilter($request);
 
@@ -454,5 +475,5 @@ trait CommonTaggableTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

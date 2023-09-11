@@ -16,18 +16,20 @@ trait CommonRegistryTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonRegistryTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonregistry_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonregistry', [
+        $response = $this->http->request(
+            'POST', '/commons/commonregistry', [
             'form_params'   =>  [
                 'key'  =>  'a',
                 'value'  =>  'a',
@@ -64,10 +69,10 @@ trait CommonRegistryTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonregistry_model_get()
     {
         $result = AbstractCommonRegistryService::get();
@@ -84,9 +89,11 @@ trait CommonRegistryTestTraits
 
     public function test_commonregistry_get_paginated()
     {
-        $result = AbstractCommonRegistryService::get(null, [
+        $result = AbstractCommonRegistryService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -94,7 +101,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -104,7 +111,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -114,7 +121,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -124,7 +131,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -134,7 +141,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -144,7 +151,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -154,7 +161,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -164,7 +171,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -174,7 +181,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -184,7 +191,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -194,7 +201,7 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -207,7 +214,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -219,7 +226,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -231,7 +238,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -243,7 +250,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -255,7 +262,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistrySavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -267,7 +274,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -279,7 +286,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -291,7 +298,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -303,7 +310,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -315,7 +322,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -327,7 +334,7 @@ trait CommonRegistryTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonRegistry\CommonRegistryRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -338,9 +345,11 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_key_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'key'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonRegistryQueryFilter($request);
 
@@ -355,9 +364,11 @@ trait CommonRegistryTestTraits
     public function test_commonregistry_event_value_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'value'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonRegistryQueryFilter($request);
 
@@ -368,5 +379,5 @@ trait CommonRegistryTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

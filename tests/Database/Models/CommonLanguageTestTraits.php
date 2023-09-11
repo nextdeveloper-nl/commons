@@ -16,18 +16,20 @@ trait CommonLanguageTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonLanguageTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonlanguage_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonlanguage', [
+        $response = $this->http->request(
+            'POST', '/commons/commonlanguage', [
             'form_params'   =>  [
                 'iso_639_1_code'  =>  'a',
                 'iso_639_2_code'  =>  'a',
@@ -70,10 +75,10 @@ trait CommonLanguageTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonlanguage_model_get()
     {
         $result = AbstractCommonLanguageService::get();
@@ -90,9 +95,11 @@ trait CommonLanguageTestTraits
 
     public function test_commonlanguage_get_paginated()
     {
-        $result = AbstractCommonLanguageService::get(null, [
+        $result = AbstractCommonLanguageService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -100,7 +107,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -110,7 +117,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -120,7 +127,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -130,7 +137,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -140,7 +147,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -150,7 +157,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -160,7 +167,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -170,7 +177,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -180,7 +187,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -190,7 +197,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -200,7 +207,7 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -213,7 +220,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -225,7 +232,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -237,7 +244,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -249,7 +256,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -261,7 +268,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -273,7 +280,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -285,7 +292,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -297,7 +304,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -309,7 +316,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -321,7 +328,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -333,7 +340,7 @@ trait CommonLanguageTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -344,9 +351,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_iso_639_1_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'iso_639_1_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -361,9 +370,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_iso_639_2_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'iso_639_2_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -378,9 +389,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_iso_639_2b_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'iso_639_2b_code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -395,9 +408,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_code_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'code'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -412,9 +427,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_code_v2_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'code_v2'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -429,9 +446,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_code_v2b_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'code_v2b'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -446,9 +465,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -463,9 +484,11 @@ trait CommonLanguageTestTraits
     public function test_commonlanguage_event_native_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'native_name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonLanguageQueryFilter($request);
 
@@ -476,5 +499,5 @@ trait CommonLanguageTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

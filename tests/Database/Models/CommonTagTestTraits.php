@@ -16,18 +16,20 @@ trait CommonTagTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonTagTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commontag_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commontag', [
+        $response = $this->http->request(
+            'POST', '/commons/commontag', [
             'form_params'   =>  [
                 'name'  =>  'a',
                 'description'  =>  'a',
@@ -65,10 +70,10 @@ trait CommonTagTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commontag_model_get()
     {
         $result = AbstractCommonTagService::get();
@@ -85,9 +90,11 @@ trait CommonTagTestTraits
 
     public function test_commontag_get_paginated()
     {
-        $result = AbstractCommonTagService::get(null, [
+        $result = AbstractCommonTagService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -95,7 +102,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -105,7 +112,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -115,7 +122,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -125,7 +132,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -135,7 +142,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -145,7 +152,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -155,7 +162,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -165,7 +172,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -175,7 +182,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -185,7 +192,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -195,7 +202,7 @@ trait CommonTagTestTraits
     public function test_commontag_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -208,7 +215,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -220,7 +227,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -232,7 +239,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -244,7 +251,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -256,7 +263,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -268,7 +275,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -280,7 +287,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -292,7 +299,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -304,7 +311,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -316,7 +323,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -328,7 +335,7 @@ trait CommonTagTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonTag::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonTag\CommonTagRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -339,9 +346,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -356,9 +365,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_description_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'description'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -373,9 +384,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_slug_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'slug'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -390,9 +403,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -407,9 +422,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -424,9 +441,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -441,9 +460,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -458,9 +479,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -475,9 +498,11 @@ trait CommonTagTestTraits
     public function test_commontag_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -492,10 +517,12 @@ trait CommonTagTestTraits
     public function test_commontag_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -510,10 +537,12 @@ trait CommonTagTestTraits
     public function test_commontag_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -528,10 +557,12 @@ trait CommonTagTestTraits
     public function test_commontag_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonTagQueryFilter($request);
 
@@ -542,5 +573,5 @@ trait CommonTagTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

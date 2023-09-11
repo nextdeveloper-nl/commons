@@ -10,27 +10,33 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class AbstractTagsTransformer extends AbstractTransformer {
+class AbstractTagsTransformer extends AbstractTransformer
+{
 
     /**
      * @param Tags $model
      *
      * @return array
      */
-    public function transform(Tags $model) {
+    public function transform(Tags $model)
+    {
                 
-        return $this->buildPayload([
-'id'  =>  $model->uuid,
-'name'  =>  $model->name,
-'description'  =>  $model->description,
-'slug'  =>  $model->slug,
-'created_at'  =>  $model->created_at,
-'updated_at'  =>  $model->updated_at,
-'deleted_at'  =>  $model->deleted_at,
-    ]);
+        return $this->buildPayload(
+            [
+            'id'  =>  $model->uuid,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
+            'slug'  =>  $model->slug,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
+            ]
+        );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

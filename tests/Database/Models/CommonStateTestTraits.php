@@ -16,18 +16,20 @@ trait CommonStateTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonStateTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonstate_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonstate', [
+        $response = $this->http->request(
+            'POST', '/commons/commonstate', [
             'form_params'   =>  [
                 'name'  =>  'a',
                 'value'  =>  'a',
@@ -66,10 +71,10 @@ trait CommonStateTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonstate_model_get()
     {
         $result = AbstractCommonStateService::get();
@@ -86,9 +91,11 @@ trait CommonStateTestTraits
 
     public function test_commonstate_get_paginated()
     {
-        $result = AbstractCommonStateService::get(null, [
+        $result = AbstractCommonStateService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -96,7 +103,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -106,7 +113,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -116,7 +123,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -126,7 +133,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -136,7 +143,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -146,7 +153,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -156,7 +163,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -166,7 +173,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -176,7 +183,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -186,7 +193,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -196,7 +203,7 @@ trait CommonStateTestTraits
     public function test_commonstate_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -209,7 +216,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -221,7 +228,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -233,7 +240,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -245,7 +252,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -257,7 +264,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -269,7 +276,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -281,7 +288,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -293,7 +300,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -305,7 +312,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -317,7 +324,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -329,7 +336,7 @@ trait CommonStateTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonState::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonState\CommonStateRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -340,9 +347,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -357,9 +366,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_value_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'value'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -374,9 +385,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_reason_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'reason'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -391,9 +404,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_model_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'model_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -408,9 +423,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -425,9 +442,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -442,9 +461,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -459,9 +480,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -476,9 +499,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -493,9 +518,11 @@ trait CommonStateTestTraits
     public function test_commonstate_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -510,10 +537,12 @@ trait CommonStateTestTraits
     public function test_commonstate_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -528,10 +557,12 @@ trait CommonStateTestTraits
     public function test_commonstate_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -546,10 +577,12 @@ trait CommonStateTestTraits
     public function test_commonstate_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonStateQueryFilter($request);
 
@@ -560,5 +593,5 @@ trait CommonStateTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

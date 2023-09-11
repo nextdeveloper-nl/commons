@@ -13,8 +13,8 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 class RegistriesQueryFilter extends AbstractQueryFilter
 {
     /**
-    * @var Builder
-    */
+     * @var Builder
+     */
     protected $builder;
     
     public function key($value)
@@ -27,5 +27,5 @@ class RegistriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('value', 'like', '%' . $value . '%');
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

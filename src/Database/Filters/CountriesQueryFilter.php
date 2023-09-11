@@ -13,8 +13,8 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 class CountriesQueryFilter extends AbstractQueryFilter
 {
     /**
-    * @var Builder
-    */
+     * @var Builder
+     */
     protected $builder;
     
     public function code($value)
@@ -57,7 +57,7 @@ class CountriesQueryFilter extends AbstractQueryFilter
         $operator = substr($value, 0, 1);
 
         if ($operator != '<' || $operator != '>') {
-           $operator = '=';
+            $operator = '=';
         } else {
             $value = substr($value, 1);
         }
@@ -70,7 +70,7 @@ class CountriesQueryFilter extends AbstractQueryFilter
         $operator = substr($value, 0, 1);
 
         if ($operator != '<' || $operator != '>') {
-           $operator = '=';
+            $operator = '=';
         } else {
             $value = substr($value, 1);
         }
@@ -83,5 +83,5 @@ class CountriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_active', true);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
 }

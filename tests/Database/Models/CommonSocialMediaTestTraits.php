@@ -16,18 +16,20 @@ trait CommonSocialMediaTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonSocialMediaTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commonsocialmedia_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commonsocialmedia', [
+        $response = $this->http->request(
+            'POST', '/commons/commonsocialmedia', [
             'form_params'   =>  [
                 'sociable_type'  =>  'a',
                 'profile_url'  =>  'a',
@@ -64,10 +69,10 @@ trait CommonSocialMediaTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commonsocialmedia_model_get()
     {
         $result = AbstractCommonSocialMediaService::get();
@@ -84,9 +89,11 @@ trait CommonSocialMediaTestTraits
 
     public function test_commonsocialmedia_get_paginated()
     {
-        $result = AbstractCommonSocialMediaService::get(null, [
+        $result = AbstractCommonSocialMediaService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -94,7 +101,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -104,7 +111,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -114,7 +121,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -124,7 +131,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -134,7 +141,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -144,7 +151,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -154,7 +161,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -164,7 +171,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -174,7 +181,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -184,7 +191,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -194,7 +201,7 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -207,7 +214,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -219,7 +226,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -231,7 +238,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -243,7 +250,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -255,7 +262,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -267,7 +274,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -279,7 +286,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -291,7 +298,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -303,7 +310,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -315,7 +322,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -327,7 +334,7 @@ trait CommonSocialMediaTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonSocialMedia::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonSocialMedia\CommonSocialMediaRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -338,9 +345,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_sociable_type_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'sociable_type'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -355,9 +364,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_profile_url_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'profile_url'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -372,9 +383,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -389,9 +402,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -406,9 +421,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -423,9 +440,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -440,9 +459,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -457,9 +478,11 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -474,10 +497,12 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -492,10 +517,12 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -510,10 +537,12 @@ trait CommonSocialMediaTestTraits
     public function test_commonsocialmedia_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonSocialMediaQueryFilter($request);
 
@@ -524,5 +553,5 @@ trait CommonSocialMediaTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

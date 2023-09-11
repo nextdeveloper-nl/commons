@@ -16,18 +16,20 @@ trait CommonDomainTestTraits
     public $http;
 
     /**
-    *   Creating the Guzzle object
-    */
+     *   Creating the Guzzle object
+     */
     public function setupGuzzle()
     {
-        $this->http = new Client([
+        $this->http = new Client(
+            [
             'base_uri'  =>  '127.0.0.1:8000'
-        ]);
+            ]
+        );
     }
 
     /**
-    *   Destroying the Guzzle object
-    */
+     *   Destroying the Guzzle object
+     */
     public function destroyGuzzle()
     {
         $this->http = null;
@@ -42,16 +44,19 @@ trait CommonDomainTestTraits
             ['http_errors' => false]
         );
 
-        $this->assertContains($response->getStatusCode(), [
+        $this->assertContains(
+            $response->getStatusCode(), [
             Response::HTTP_OK,
             Response::HTTP_NOT_FOUND
-        ]);
+            ]
+        );
     }
 
     public function test_http_commondomain_post()
     {
         $this->setupGuzzle();
-        $response = $this->http->request('POST', '/commons/commondomain', [
+        $response = $this->http->request(
+            'POST', '/commons/commondomain', [
             'form_params'   =>  [
                 'name'  =>  'a',
                             ],
@@ -63,10 +68,10 @@ trait CommonDomainTestTraits
     }
 
     /**
-    * Get test
-    *
-    * @return bool
-    */
+     * Get test
+     *
+     * @return bool
+     */
     public function test_commondomain_model_get()
     {
         $result = AbstractCommonDomainService::get();
@@ -83,9 +88,11 @@ trait CommonDomainTestTraits
 
     public function test_commondomain_get_paginated()
     {
-        $result = AbstractCommonDomainService::get(null, [
+        $result = AbstractCommonDomainService::get(
+            null, [
             'paginated' =>  'true'
-        ]);
+            ]
+        );
 
         $this->assertIsObject($result, LengthAwarePaginator::class);
     }
@@ -93,7 +100,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_retrieved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRetrievedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRetrievedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -103,7 +110,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_created_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -113,7 +120,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_creating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -123,7 +130,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_saving_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -133,7 +140,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_saved_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -143,7 +150,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_updating_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -153,7 +160,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_updated_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -163,7 +170,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_deleting_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletingEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletingEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -173,7 +180,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_deleted_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletedEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletedEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -183,7 +190,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_restoring_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoringEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoringEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -193,7 +200,7 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_restored_without_object()
     {
         try {
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoredEvent() );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoredEvent());
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -206,7 +213,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRetrievedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRetrievedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -218,7 +225,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -230,7 +237,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainCreatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -242,7 +249,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -254,7 +261,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainSavedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -266,7 +273,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -278,7 +285,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainUpdatedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -290,7 +297,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletingEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletingEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -302,7 +309,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletedEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainDeletedEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -314,7 +321,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoringEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoringEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -326,7 +333,7 @@ trait CommonDomainTestTraits
         try {
             $model = \NextDeveloper\Commons\Database\Models\CommonDomain::first();
 
-            event( new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoredEvent($model) );
+            event(new \NextDeveloper\Commons\Events\CommonDomain\CommonDomainRestoredEvent($model));
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }
@@ -337,9 +344,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_name_filter()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'name'  =>  'a'
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -354,9 +363,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_created_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -371,9 +382,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_updated_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -388,9 +401,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_deleted_at_filter_start()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -405,9 +420,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_created_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -422,9 +439,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_updated_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -439,9 +458,11 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_deleted_at_filter_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -456,10 +477,12 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_created_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -474,10 +497,12 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_updated_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -492,10 +517,12 @@ trait CommonDomainTestTraits
     public function test_commondomain_event_deleted_at_filter_start_and_end()
     {
         try {
-            $request = new Request([
+            $request = new Request(
+                [
                 'deleted_atStart'  =>  now(),
                 'deleted_atEnd'  =>  now()
-            ]);
+                ]
+            );
 
             $filter = new CommonDomainQueryFilter($request);
 
@@ -506,5 +533,5 @@ trait CommonDomainTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

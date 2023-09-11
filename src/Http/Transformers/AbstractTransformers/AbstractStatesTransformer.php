@@ -10,30 +10,36 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class AbstractStatesTransformer extends AbstractTransformer {
+class AbstractStatesTransformer extends AbstractTransformer
+{
 
     /**
      * @param States $model
      *
      * @return array
      */
-    public function transform(States $model) {
+    public function transform(States $model)
+    {
                         $modelId = \NextDeveloper\\Database\Models\Models::where('id', $model->model_id)->first();
             
-        return $this->buildPayload([
-'id'  =>  $model->uuid,
-'name'  =>  $model->name,
-'value'  =>  $model->value,
-'reason'  =>  $model->reason,
-'model_id'  =>  $modelId ? $modelId->uuid : null,
-'model_type'  =>  $model->model_type,
-'created_at'  =>  $model->created_at,
-'updated_at'  =>  $model->updated_at,
-'deleted_at'  =>  $model->deleted_at,
-    ]);
+        return $this->buildPayload(
+            [
+            'id'  =>  $model->uuid,
+            'name'  =>  $model->name,
+            'value'  =>  $model->value,
+            'reason'  =>  $model->reason,
+            'model_id'  =>  $modelId ? $modelId->uuid : null,
+            'model_type'  =>  $model->model_type,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
+            ]
+        );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 
