@@ -12,6 +12,7 @@
 namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Str;
 
 /**
  * Trait UuidId.
@@ -38,7 +39,7 @@ trait UuidId {
             return $data;
         }
 
-        $className = str_replace('_', ' ', snake_case(camel_case(class_basename(static::class))));
+        $className = str_replace('_', ' ', Str::snake(Str::camel(class_basename(static::class))));
 
         $message = sprintf('Could not find any %s', $className);
 
