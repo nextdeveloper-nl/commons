@@ -48,11 +48,11 @@ class Domainables extends Model
      @var array
      */
     protected $casts = [
-    'id'              => 'integer',
-    'domainable_id'   => 'integer',
-    'domainable_type' => 'string',
-    'created_at'      => 'datetime',
-    'updated_at'      => 'datetime',
+    'id'          => 'integer',
+    'object_id'   => 'integer',
+    'object_type' => 'string',
+    'created_at'  => 'datetime',
+    'updated_at'  => 'datetime',
     ];
 
     /**
@@ -112,5 +112,5 @@ class Domainables extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

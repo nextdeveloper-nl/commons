@@ -123,20 +123,25 @@ class Domains extends Model
         }
     }
 
-    public function categories()
+    public function categories() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class);
     }
 
-    public function disposableEmails()
+    public function disposableEmails() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\DisposableEmails::class);
     }
 
-    public function accounts()
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Accounts::class);
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

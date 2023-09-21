@@ -20,14 +20,14 @@ class AbstractAddressesTransformer extends AbstractTransformer
      */
     public function transform(Addresses $model)
     {
-                        $addressableId = \NextDeveloper\\Database\Models\Addressables::where('id', $model->addressable_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
                     $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'addressable_id'  =>  $addressableId ? $addressableId->uuid : null,
-            'addressable_type'  =>  $model->addressable_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'name'  =>  $model->name,
             'line1'  =>  $model->line1,
             'line2'  =>  $model->line2,
@@ -45,7 +45,20 @@ class AbstractAddressesTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

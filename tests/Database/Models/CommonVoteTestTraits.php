@@ -58,7 +58,7 @@ trait CommonVoteTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonvote', [
             'form_params'   =>  [
-                'voteable_type'  =>  'a',
+                'object_type'  =>  'a',
                 'value'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -342,12 +342,12 @@ trait CommonVoteTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonvote_event_voteable_type_filter()
+    public function test_commonvote_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'voteable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -553,5 +553,5 @@ trait CommonVoteTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

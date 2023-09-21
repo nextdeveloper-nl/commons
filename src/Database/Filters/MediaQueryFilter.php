@@ -17,9 +17,9 @@ class MediaQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function mediableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('mediable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
     
     public function collectionName($value)
@@ -118,14 +118,10 @@ class MediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function mediableId($value)
+    public function objectId($value)
     {
-        $mediable = Mediable::where('uuid', $value)->first();
-
-        if($mediable) {
-            return $this->builder->where('mediable_id', '=', $mediable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -50,14 +50,14 @@ class Validatables extends Model
      @var array
      */
     protected $casts = [
-    'id'               => 'integer',
-    'uuid'             => 'string',
-    'validatable_id'   => 'integer',
-    'validatable_type' => 'string',
-    'validation_code'  => 'string',
-    'created_at'       => 'datetime',
-    'updated_at'       => 'datetime',
-    'deleted_at'       => 'datetime',
+    'id'              => 'integer',
+    'uuid'            => 'string',
+    'object_id'       => 'integer',
+    'object_type'     => 'string',
+    'validation_code' => 'string',
+    'created_at'      => 'datetime',
+    'updated_at'      => 'datetime',
+    'deleted_at'      => 'datetime',
     ];
 
     /**
@@ -118,5 +118,5 @@ class Validatables extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

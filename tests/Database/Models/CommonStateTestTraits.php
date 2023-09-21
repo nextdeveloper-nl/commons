@@ -61,7 +61,7 @@ trait CommonStateTestTraits
                 'name'  =>  'a',
                 'value'  =>  'a',
                 'reason'  =>  'a',
-                'model_type'  =>  'a',
+                'object_type'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -401,12 +401,12 @@ trait CommonStateTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonstate_event_model_type_filter()
+    public function test_commonstate_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'model_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -593,5 +593,5 @@ trait CommonStateTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

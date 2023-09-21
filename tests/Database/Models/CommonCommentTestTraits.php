@@ -59,7 +59,7 @@ trait CommonCommentTestTraits
             'POST', '/commons/commoncomment', [
             'form_params'   =>  [
                 'body'  =>  'a',
-                'commentable_type'  =>  'a',
+                'object_type'  =>  'a',
                 '_lft'  =>  '1',
                 '_rgt'  =>  '1',
                             ],
@@ -363,12 +363,12 @@ trait CommonCommentTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commoncomment_event_commentable_type_filter()
+    public function test_commoncomment_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'commentable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -593,5 +593,5 @@ trait CommonCommentTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

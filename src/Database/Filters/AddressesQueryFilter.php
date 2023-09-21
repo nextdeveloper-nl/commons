@@ -17,9 +17,9 @@ class AddressesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function addressableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('addressable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
     
     public function name($value)
@@ -97,23 +97,19 @@ class AddressesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function addressableId($value)
+    public function objectId($value)
     {
-        $addressable = Addressable::where('uuid', $value)->first();
-
-        if($addressable) {
-            return $this->builder->where('addressable_id', '=', $addressable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
     public function commonCountryId($value)
     {
-        $commonCountry = CommonCountry::where('uuid', $value)->first();
+            $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
 
         if($commonCountry) {
             return $this->builder->where('common_country_id', '=', $commonCountry->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

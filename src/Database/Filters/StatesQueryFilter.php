@@ -32,9 +32,9 @@ class StatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('reason', 'like', '%' . $value . '%');
     }
     
-    public function modelType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('model_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function createdAtStart($date) 
@@ -67,14 +67,10 @@ class StatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function modelId($value)
+    public function objectId($value)
     {
-        $model = Model::where('uuid', $value)->first();
-
-        if($model) {
-            return $this->builder->where('model_id', '=', $model->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -17,9 +17,9 @@ class DomainablesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function domainableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('domainable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function createdAtStart($date) 
@@ -42,14 +42,10 @@ class DomainablesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    public function domainableId($value)
+    public function objectId($value)
     {
-        $domainable = Domainable::where('uuid', $value)->first();
-
-        if($domainable) {
-            return $this->builder->where('domainable_id', '=', $domainable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

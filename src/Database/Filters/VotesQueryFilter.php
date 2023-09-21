@@ -5,7 +5,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 use NextDeveloper\Accounts\Database\Models\User;
-    
+        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -18,9 +18,9 @@ class VotesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function voteableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('voteable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function value($value)
@@ -66,23 +66,19 @@ class VotesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function voteableId($value)
+    public function objectId($value)
     {
-        $voteable = Voteable::where('uuid', $value)->first();
-
-        if($voteable) {
-            return $this->builder->where('voteable_id', '=', $voteable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
     public function iamUserId($value)
     {
-        $iamUser = IamUser::where('uuid', $value)->first();
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
         if($iamUser) {
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -13,8 +13,8 @@ class AddressesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'addressable_id'     => 'nullable|exists:addressables,uuid|uuid',
-        'addressable_type'   => 'nullable|string|max:255',
+            'object_id'          => 'nullable|exists:objects,uuid|uuid',
+        'object_type'        => 'nullable|string|max:255',
         'name'               => 'string|max:100',
         'line1'              => 'nullable|string|max:100',
         'line2'              => 'nullable|string|max:100',
@@ -27,5 +27,5 @@ class AddressesUpdateRequest extends AbstractFormRequest
         'email_address'      => 'nullable|string|max:200',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

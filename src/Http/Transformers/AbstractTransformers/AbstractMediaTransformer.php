@@ -20,13 +20,13 @@ class AbstractMediaTransformer extends AbstractTransformer
      */
     public function transform(Media $model)
     {
-                        $mediableId = \NextDeveloper\\Database\Models\Mediables::where('id', $model->mediable_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'mediable_id'  =>  $mediableId ? $mediableId->uuid : null,
-            'mediable_type'  =>  $model->mediable_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'collection_name'  =>  $model->collection_name,
             'name'  =>  $model->name,
             'cdn_url'  =>  $model->cdn_url,
@@ -44,7 +44,20 @@ class AbstractMediaTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

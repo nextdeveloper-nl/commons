@@ -20,13 +20,13 @@ class AbstractSocialMediaTransformer extends AbstractTransformer
      */
     public function transform(SocialMedia $model)
     {
-                        $sociableId = \NextDeveloper\\Database\Models\Sociables::where('id', $model->sociable_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'sociable_id'  =>  $sociableId ? $sociableId->uuid : null,
-            'sociable_type'  =>  $model->sociable_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'profile_url'  =>  $model->profile_url,
             'is_invoice_address'  =>  $model->is_invoice_address,
             'created_at'  =>  $model->created_at,
@@ -36,7 +36,20 @@ class AbstractSocialMediaTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

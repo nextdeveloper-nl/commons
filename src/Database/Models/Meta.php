@@ -48,11 +48,11 @@ class Meta extends Model
      @var array
      */
     protected $casts = [
-    'id'           => 'integer',
-    'metable_id'   => 'integer',
-    'metable_type' => 'string',
-    'key'          => 'string',
-    'value'        => 'string',
+    'id'          => 'integer',
+    'object_id'   => 'integer',
+    'object_type' => 'string',
+    'key'         => 'string',
+    'value'       => 'string',
     ];
 
     /**
@@ -111,5 +111,5 @@ class Meta extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

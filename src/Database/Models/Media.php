@@ -52,8 +52,8 @@ class Media extends Model
     protected $casts = [
     'id'                => 'integer',
     'uuid'              => 'string',
-    'mediable_id'       => 'integer',
-    'mediable_type'     => 'string',
+    'object_id'         => 'integer',
+    'object_type'       => 'string',
     'collection_name'   => 'string',
     'name'              => 'string',
     'cdn_url'           => 'string',
@@ -127,5 +127,5 @@ class Media extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

@@ -20,20 +20,33 @@ class AbstractDomainablesTransformer extends AbstractTransformer
      */
     public function transform(Domainables $model)
     {
-                        $domainableId = \NextDeveloper\\Database\Models\Domainables::where('id', $model->domainable_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->id,
-            'domainable_id'  =>  $domainableId ? $domainableId->uuid : null,
-            'domainable_type'  =>  $model->domainable_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

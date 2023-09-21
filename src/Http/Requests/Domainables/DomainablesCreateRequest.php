@@ -13,9 +13,9 @@ class DomainablesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'domainable_id'   => 'required|exists:domainables,uuid|uuid',
-        'domainable_type' => 'required|string|max:255',
+            'object_id'   => 'required|exists:objects,uuid|uuid',
+        'object_type' => 'required|string|max:255',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

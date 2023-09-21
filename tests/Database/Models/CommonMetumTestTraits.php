@@ -58,7 +58,7 @@ trait CommonMetumTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonmetum', [
             'form_params'   =>  [
-                'metable_type'  =>  'a',
+                'object_type'  =>  'a',
                 'key'  =>  'a',
                 'value'  =>  'a',
                 ],
@@ -343,12 +343,12 @@ trait CommonMetumTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonmetum_event_metable_type_filter()
+    public function test_commonmetum_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'metable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -399,5 +399,5 @@ trait CommonMetumTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

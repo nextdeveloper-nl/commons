@@ -62,12 +62,12 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
 
     public function commonCountryId($value)
     {
-        $commonCountry = CommonCountry::where('uuid', $value)->first();
+            $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
 
         if($commonCountry) {
             return $this->builder->where('common_country_id', '=', $commonCountry->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

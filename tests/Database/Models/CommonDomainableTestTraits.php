@@ -58,7 +58,7 @@ trait CommonDomainableTestTraits
         $response = $this->http->request(
             'POST', '/commons/commondomainable', [
             'form_params'   =>  [
-                'domainable_type'  =>  'a',
+                'object_type'  =>  'a',
                         ],
                 ['http_errors' => false]
             ]
@@ -341,12 +341,12 @@ trait CommonDomainableTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commondomainable_event_domainable_type_filter()
+    public function test_commondomainable_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'domainable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -475,5 +475,5 @@ trait CommonDomainableTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

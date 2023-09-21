@@ -20,22 +20,35 @@ class AbstractTaggablesTransformer extends AbstractTransformer
      */
     public function transform(Taggables $model)
     {
-                        $tagId = \NextDeveloper\\Database\Models\Tags::where('id', $model->tag_id)->first();
-                    $taggableId = \NextDeveloper\\Database\Models\Taggables::where('id', $model->taggable_id)->first();
+                        $commonTagsId = \NextDeveloper\Commons\Database\Models\Tags::where('id', $model->common_tags_id)->first();
+                    $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->id,
-            'tag_id'  =>  $tagId ? $tagId->uuid : null,
-            'taggable_id'  =>  $taggableId ? $taggableId->uuid : null,
-            'taggable_type'  =>  $model->taggable_type,
+            'common_tags_id'  =>  $commonTagsId ? $commonTagsId->uuid : null,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             ]
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

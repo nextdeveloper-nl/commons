@@ -58,7 +58,7 @@ trait CommonMediaTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonmedia', [
             'form_params'   =>  [
-                'mediable_type'  =>  'a',
+                'object_type'  =>  'a',
                 'collection_name'  =>  'a',
                 'name'  =>  'a',
                 'cdn_url'  =>  'a',
@@ -351,12 +351,12 @@ trait CommonMediaTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonmedia_event_mediable_type_filter()
+    public function test_commonmedia_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'mediable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -733,5 +733,5 @@ trait CommonMediaTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

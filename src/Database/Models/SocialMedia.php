@@ -52,8 +52,8 @@ class SocialMedia extends Model
     protected $casts = [
     'id'                 => 'integer',
     'uuid'               => 'string',
-    'sociable_id'        => 'integer',
-    'sociable_type'      => 'string',
+    'object_id'          => 'integer',
+    'object_type'        => 'string',
     'profile_url'        => 'string',
     'is_invoice_address' => 'boolean',
     'created_at'         => 'datetime',
@@ -119,5 +119,5 @@ class SocialMedia extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

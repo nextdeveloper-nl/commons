@@ -58,7 +58,7 @@ trait CommonSocialMediaTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonsocialmedia', [
             'form_params'   =>  [
-                'sociable_type'  =>  'a',
+                'object_type'  =>  'a',
                 'profile_url'  =>  'a',
                             ],
                 ['http_errors' => false]
@@ -342,12 +342,12 @@ trait CommonSocialMediaTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonsocialmedia_event_sociable_type_filter()
+    public function test_commonsocialmedia_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'sociable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -553,5 +553,5 @@ trait CommonSocialMediaTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

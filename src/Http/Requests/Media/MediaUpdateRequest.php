@@ -13,8 +13,8 @@ class MediaUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'mediable_id'       => 'nullable|exists:mediables,uuid|uuid',
-        'mediable_type'     => 'nullable|string|max:500',
+            'object_id'         => 'nullable|exists:objects,uuid|uuid',
+        'object_type'       => 'nullable|string|max:500',
         'collection_name'   => 'nullable|string|max:255',
         'name'              => 'nullable|string|max:255',
         'cdn_url'           => 'nullable|string|max:255',
@@ -27,5 +27,5 @@ class MediaUpdateRequest extends AbstractFormRequest
         'order_column'      => 'nullable|integer',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

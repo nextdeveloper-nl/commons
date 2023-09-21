@@ -48,11 +48,11 @@ class Taggables extends Model
      @var array
      */
     protected $casts = [
-    'tag_id'        => 'integer',
-    'taggable_id'   => 'integer',
-    'taggable_type' => 'string',
-    'created_at'    => 'datetime',
-    'updated_at'    => 'datetime',
+    'common_tags_id' => 'integer',
+    'object_id'      => 'integer',
+    'object_type'    => 'string',
+    'created_at'     => 'datetime',
+    'updated_at'     => 'datetime',
     ];
 
     /**
@@ -112,5 +112,5 @@ class Taggables extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

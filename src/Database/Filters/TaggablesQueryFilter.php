@@ -17,9 +17,9 @@ class TaggablesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function taggableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('taggable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function createdAtStart($date) 
@@ -42,23 +42,19 @@ class TaggablesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    public function tagId($value)
+    public function commonTagsId($value)
     {
-        $tag = Tag::where('uuid', $value)->first();
+            $commonTags = \NextDeveloper\Commons\Database\Models\Tags::where('uuid', $value)->first();
 
-        if($tag) {
-            return $this->builder->where('tag_id', '=', $tag->id);
+        if($commonTags) {
+            return $this->builder->where('common_tags_id', '=', $commonTags->id);
         }
     }
 
-    public function taggableId($value)
+    public function objectId($value)
     {
-        $taggable = Taggable::where('uuid', $value)->first();
-
-        if($taggable) {
-            return $this->builder->where('taggable_id', '=', $taggable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

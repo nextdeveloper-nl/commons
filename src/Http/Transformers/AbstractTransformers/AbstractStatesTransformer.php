@@ -20,7 +20,7 @@ class AbstractStatesTransformer extends AbstractTransformer
      */
     public function transform(States $model)
     {
-                        $modelId = \NextDeveloper\\Database\Models\Models::where('id', $model->model_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
@@ -28,8 +28,8 @@ class AbstractStatesTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'value'  =>  $model->value,
             'reason'  =>  $model->reason,
-            'model_id'  =>  $modelId ? $modelId->uuid : null,
-            'model_type'  =>  $model->model_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -37,7 +37,20 @@ class AbstractStatesTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

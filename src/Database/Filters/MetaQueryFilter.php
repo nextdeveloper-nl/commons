@@ -17,9 +17,9 @@ class MetaQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function metableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('metable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
     
     public function key($value)
@@ -32,14 +32,10 @@ class MetaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('value', 'like', '%' . $value . '%');
     }
 
-    public function metableId($value)
+    public function objectId($value)
     {
-        $metable = Metable::where('uuid', $value)->first();
-
-        if($metable) {
-            return $this->builder->where('metable_id', '=', $metable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

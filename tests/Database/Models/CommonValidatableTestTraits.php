@@ -58,7 +58,7 @@ trait CommonValidatableTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonvalidatable', [
             'form_params'   =>  [
-                'validatable_type'  =>  'a',
+                'object_type'  =>  'a',
                 'validation_code'  =>  'a',
                             ],
                 ['http_errors' => false]
@@ -342,12 +342,12 @@ trait CommonValidatableTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonvalidatable_event_validatable_type_filter()
+    public function test_commonvalidatable_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'validatable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -553,5 +553,5 @@ trait CommonValidatableTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

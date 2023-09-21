@@ -13,11 +13,11 @@ class MetaCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'metable_id'   => 'required|exists:metables,uuid|uuid',
-        'metable_type' => 'required|string|max:255',
-        'key'          => 'required|string|max:255',
-        'value'        => 'required|string',
+            'object_id'   => 'required|exists:objects,uuid|uuid',
+        'object_type' => 'required|string|max:255',
+        'key'         => 'required|string|max:255',
+        'value'       => 'required|string',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

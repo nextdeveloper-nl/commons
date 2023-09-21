@@ -118,30 +118,20 @@ class Countries extends Model
         }
     }
 
-    public function addresses()
+    public function addresses() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\Addresses::class);
     }
 
-    public function exchangeRates()
+    public function currencies() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Currencies::class);
+    }
+
+    public function exchangeRates() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\ExchangeRates::class);
     }
 
-    public function users()
-    {
-        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
-    public function products()
-    {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
-    }
-
-    public function datacenters()
-    {
-        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Datacenters::class);
-    }
-
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

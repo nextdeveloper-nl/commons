@@ -50,18 +50,18 @@ class Comments extends Model
      @var array
      */
     protected $casts = [
-    'id'               => 'integer',
-    'uuid'             => 'string',
-    'body'             => 'string',
-    'iam_user_id'      => 'integer',
-    'commentable_id'   => 'integer',
-    'commentable_type' => 'string',
-    '_lft'             => 'integer',
-    '_rgt'             => 'integer',
-    'parent_id'        => 'integer',
-    'created_at'       => 'datetime',
-    'updated_at'       => 'datetime',
-    'deleted_at'       => 'datetime',
+    'id'          => 'integer',
+    'uuid'        => 'string',
+    'body'        => 'string',
+    'iam_user_id' => 'integer',
+    'object_id'   => 'integer',
+    'object_type' => 'string',
+    '_lft'        => 'integer',
+    '_rgt'        => 'integer',
+    'parent_id'   => 'integer',
+    'created_at'  => 'datetime',
+    'updated_at'  => 'datetime',
+    'deleted_at'  => 'datetime',
     ];
 
     /**
@@ -122,5 +122,10 @@ class Comments extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

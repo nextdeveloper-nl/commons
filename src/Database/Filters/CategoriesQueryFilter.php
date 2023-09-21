@@ -113,7 +113,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
 
     public function commonDomainId($value)
     {
-        $commonDomain = CommonDomain::where('uuid', $value)->first();
+            $commonDomain = \NextDeveloper\Commons\Database\Models\Domains::where('uuid', $value)->first();
 
         if($commonDomain) {
             return $this->builder->where('common_domain_id', '=', $commonDomain->id);
@@ -122,12 +122,12 @@ class CategoriesQueryFilter extends AbstractQueryFilter
 
     public function commonCategoriesId($value)
     {
-        $commonCategories = CommonCategories::where('uuid', $value)->first();
+            $commonCategories = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
 
         if($commonCategories) {
             return $this->builder->where('common_categories_id', '=', $commonCategories->id);
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

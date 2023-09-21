@@ -20,13 +20,13 @@ class AbstractValidatablesTransformer extends AbstractTransformer
      */
     public function transform(Validatables $model)
     {
-                        $validatableId = \NextDeveloper\\Database\Models\Validatables::where('id', $model->validatable_id)->first();
+                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'validatable_id'  =>  $validatableId ? $validatableId->uuid : null,
-            'validatable_type'  =>  $model->validatable_type,
+            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_type'  =>  $model->object_type,
             'validation_code'  =>  $model->validation_code,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -35,7 +35,20 @@ class AbstractValidatablesTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -17,9 +17,9 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function validatableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('validatable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
     
     public function validationCode($value)
@@ -57,14 +57,10 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function validatableId($value)
+    public function objectId($value)
     {
-        $validatable = Validatable::where('uuid', $value)->first();
-
-        if($validatable) {
-            return $this->builder->where('validatable_id', '=', $validatable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

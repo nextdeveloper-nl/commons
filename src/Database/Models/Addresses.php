@@ -52,8 +52,8 @@ class Addresses extends Model
     protected $casts = [
     'id'                 => 'integer',
     'uuid'               => 'string',
-    'addressable_id'     => 'integer',
-    'addressable_type'   => 'string',
+    'object_id'          => 'integer',
+    'object_type'        => 'string',
     'name'               => 'string',
     'line1'              => 'string',
     'line2'              => 'string',
@@ -127,10 +127,10 @@ class Addresses extends Model
         }
     }
 
-    public function countries()
+    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

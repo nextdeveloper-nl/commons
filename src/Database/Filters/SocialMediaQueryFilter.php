@@ -17,9 +17,9 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function sociableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('sociable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
     
     public function profileUrl($value)
@@ -62,14 +62,10 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    public function sociableId($value)
+    public function objectId($value)
     {
-        $sociable = Sociable::where('uuid', $value)->first();
-
-        if($sociable) {
-            return $this->builder->where('sociable_id', '=', $sociable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

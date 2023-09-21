@@ -58,7 +58,7 @@ trait CommonTaggableTestTraits
         $response = $this->http->request(
             'POST', '/commons/commontaggable', [
             'form_params'   =>  [
-                'taggable_type'  =>  'a',
+                'object_type'  =>  'a',
                         ],
                 ['http_errors' => false]
             ]
@@ -341,12 +341,12 @@ trait CommonTaggableTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaggable_event_taggable_type_filter()
+    public function test_commontaggable_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'taggable_type'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 
@@ -475,5 +475,5 @@ trait CommonTaggableTestTraits
 
         $this->assertTrue(true);
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

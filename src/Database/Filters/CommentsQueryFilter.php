@@ -23,9 +23,9 @@ class CommentsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('body', 'like', '%' . $value . '%');
     }
     
-    public function commentableType($value)
+    public function objectType($value)
     {
-        return $this->builder->where('commentable_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function lft($value)
@@ -86,30 +86,22 @@ class CommentsQueryFilter extends AbstractQueryFilter
 
     public function iamUserId($value)
     {
-        $iamUser = IamUser::where('uuid', $value)->first();
+            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
         if($iamUser) {
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 
-    public function commentableId($value)
+    public function objectId($value)
     {
-        $commentable = Commentable::where('uuid', $value)->first();
-
-        if($commentable) {
-            return $this->builder->where('commentable_id', '=', $commentable->id);
-        }
+            return $this->builder->where('object_id', '=', $value);
     }
 
     public function parentId($value)
     {
-        $parent = Parent::where('uuid', $value)->first();
-
-        if($parent) {
-            return $this->builder->where('parent_id', '=', $parent->id);
-        }
+            return $this->builder->where('parent_id', '=', $value);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }
