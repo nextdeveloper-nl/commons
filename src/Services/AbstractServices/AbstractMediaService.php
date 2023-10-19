@@ -97,13 +97,14 @@ class AbstractMediaService {
     * @throw Exception
     */
     public static function create(array $data) {
-        event( new MediumCreatingEvent() );
+        // TODO: Event class not found
+    //    event( new MediumCreatingEvent() );
 
-                if (array_key_exists('mediable_id', $data))
-            $data['mediable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Mediable',
-                $data['mediable_id']
-            );
+//                if (array_key_exists('object_id', $data))
+//            $data['mediable_id'] = DatabaseHelper::uuidToId(
+//                '\NextDeveloper\\Database\Models\Mediable',
+//                $data['mediable_id']
+//            );
 	        
         try {
             $model = Media::create($data);
