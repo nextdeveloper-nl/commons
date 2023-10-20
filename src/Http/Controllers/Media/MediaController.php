@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Controllers\Media;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Media\MediaUpdateRequest;
@@ -51,7 +52,22 @@ class MediaController extends AbstractController
     * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
     */
     public function store(MediaCreateRequest $request) {
-        $model = MediaService::create($request->validated());
+        $data       = $request->validated();
+        $file       = $request->file('file');
+        $fileName   = $file->getClientOriginalName();
+        $directory  = storage_path('temporary');
+
+        // Create temporary folder, if not exist
+        if (!File::isDirectory($directory))
+        {
+            File::makeDirectory($directory, 0775, false, false);
+        }
+
+        $uploadToLocalStore = $file->store('temporary');
+        $data['file']       = storage_path('app/' . $uploadToLocalStore);
+        $data['file_name']  = $fileName;
+
+        $model = MediaService::create($data);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
