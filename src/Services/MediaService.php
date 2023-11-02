@@ -31,21 +31,16 @@ class MediaService extends AbstractMediaService {
      */
     public static function create(array $data): mixed
     {
-        $file = $data['file'];
-        $fileName = $file->getClientOriginalName();
-        $uploadToLocalStore = $file->store('public');
-        $file = storage_path('app/' . $uploadToLocalStore);
 
         $defaultCdn = config('commons.cdn.default');
 
         switch ($defaultCdn) {
             case 'publitio':
-                $uploadMedia = Publitio::upload($file);
-                $uploadMedia['file_name'] = $fileName;
+                $uploadMedia = Publitio::upload($data['file']);
                 break;
             default:
                 // If any other CDN is selected, it will be uploaded to local storage
-                $uploadMedia = self::localStore($file, $fileName, $uploadToLocalStore);
+                $uploadMedia = self::localStore($data['file'], $data['file']);
                 // TODO: Add warning stating that the file was uploaded to local storage
                 break;
         }
@@ -63,11 +58,12 @@ class MediaService extends AbstractMediaService {
      *
      * @param string $file
      * @param string $fileName
-     * @param string $localFile
+     * @param string|null $localFile
      * @return array
      */
-    protected static function localStore(string $file, string $fileName, string $localFile): array
+    protected static function localStore(string $file, string $fileName, string $localFile = null): array
     {
+        // TODO: Move this file from temporary folder to public folder set in config
         return [
             'cdn_url'           => URL::to(Storage::url($localFile)),
             'file_name'         => $fileName,
