@@ -7,6 +7,7 @@ return [
             '\NextDeveloper\IAM\Database\Scopes\AuthorizationScope'
         ]
     ],
+
     /**
      * Why do we need this, if we can tag anything ?
      *
@@ -26,5 +27,15 @@ return [
     'taggable_objects'  =>  [
         'domain'    =>  \NextDeveloper\Commons\Database\Models\Domains::class,
         'media'     =>  \NextDeveloper\Commons\Database\Models\Media::class,
-    ]
+    ],
+
+    'cdn'   =>  [
+        'default'   =>  env('DEFAULT_CDN', 'publitio'),
+        'publitio'  =>  [
+            'api_key'       =>  env('PUBLITIO_API_KEY'),
+            'api_secret'    =>  env('PUBLITIO_API_SECRET'),
+            'domain'        =>  env('PUBLITIO_DOMAIN')
+        ]
+    ],
 ];
+

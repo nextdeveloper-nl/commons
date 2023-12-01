@@ -13,10 +13,11 @@ class MediaCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'         => 'required|string|max:36',
+        'object_id'         => 'required|uuid',
         'object_type'       => 'required|string|max:500',
+        'file'              => 'required|file|max:5000',
         'collection_name'   => 'nullable|string|max:255',
-        'name'              => 'required|string|max:255',
+        'name'              => 'nullable|string|max:255',
         'cdn_url'           => 'nullable|string|max:255',
         'file_name'         => 'nullable|string|max:255',
         'mime_type'         => 'nullable|string|max:255',

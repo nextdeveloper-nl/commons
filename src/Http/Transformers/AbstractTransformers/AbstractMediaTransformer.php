@@ -20,7 +20,6 @@ class AbstractMediaTransformer extends AbstractTransformer
      */
     public function transform(Media $model)
     {
-                
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -42,7 +41,7 @@ class AbstractMediaTransformer extends AbstractTransformer
             ]
         );
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 

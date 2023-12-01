@@ -109,7 +109,6 @@ class AbstractMediaService
     {
         event(new MediaCreatingEvent());
 
-        
         try {
             $model = Media::create($data);
         } catch(\Exception $e) {
@@ -123,7 +122,7 @@ class AbstractMediaService
 
     /**
      This function expects the ID inside the object.
-    
+
      @param  array $data
      @return Media
      */
@@ -150,7 +149,7 @@ class AbstractMediaService
     {
         $model = Media::where('uuid', $id)->first();
 
-        
+
         event(new MediaUpdatingEvent($model));
 
         try {
