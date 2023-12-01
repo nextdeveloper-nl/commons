@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Domainables\DomainablesDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Domainables
-*
-* Class DomainablesService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractDomainablesService {
-    public static function get(DomainablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Domainables
+ *
+ * Class DomainablesService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractDomainablesService
+{
+    public static function get(DomainablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractDomainablesService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new DomainablesQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,135 +62,130 @@ class AbstractDomainablesService {
 
         $model = Domainables::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Domainables::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Domainables {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Domainables
+    {
         return Domainables::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Domainables|null
-    */
-    public static function getById($id) : ?Domainables {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Domainables|null
+     */
+    public static function getById($id) : ?Domainables
+    {
         return Domainables::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new DomainableCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new DomainablesCreatingEvent());
 
-                if (array_key_exists('domainable_id', $data))
-            $data['domainable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Domainable',
-                $data['domainable_id']
-            );
-	        
+        
         try {
             $model = Domainables::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new DomainablesCreatedEvent($model) );
+        event(new DomainablesCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Domainables
-*/
-public static function updateRaw(array $data) : ?Domainables
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
-
-return null;
-}
-
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
-        $model = Domainables::where('uuid', $id)->first();
-
-                if (array_key_exists('domainable_id', $data))
-            $data['domainable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Domainable',
-                $data['domainable_id']
-            );
-	
-        event( new DomainablesUpdatingEvent($model) );
-
-        try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
-        } catch(\Exception $e) {
-           throw $e;
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Domainables
+     */
+    public static function updateRaw(array $data) : ?Domainables
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
         }
 
-        event( new DomainablesUpdatedEvent($model) );
+        return null;
+    }
+
+    /**
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
+        $model = Domainables::where('uuid', $id)->first();
+
+        
+        event(new DomainablesUpdatingEvent($model));
+
+        try {
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event(new DomainablesUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Domainables::where('uuid', $id)->first();
 
-        event( new DomainablesDeletingEvent() );
+        event(new DomainablesDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new DomainablesDeletedEvent($model) );
 
         return $model;
     }

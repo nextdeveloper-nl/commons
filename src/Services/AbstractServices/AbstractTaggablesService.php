@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Taggables\TaggablesDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Taggables
-*
-* Class TaggablesService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractTaggablesService {
-    public static function get(TaggablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Taggables
+ *
+ * Class TaggablesService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractTaggablesService
+{
+    public static function get(TaggablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractTaggablesService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new TaggablesQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,145 +62,142 @@ class AbstractTaggablesService {
 
         $model = Taggables::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Taggables::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Taggables {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Taggables
+    {
         return Taggables::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Taggables|null
-    */
-    public static function getById($id) : ?Taggables {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Taggables|null
+     */
+    public static function getById($id) : ?Taggables
+    {
         return Taggables::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new TaggableCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new TaggablesCreatingEvent());
 
-                if (array_key_exists('tag_id', $data))
-            $data['tag_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Tag',
-                $data['tag_id']
+        if (array_key_exists('common_tags_id', $data)) {
+            $data['common_tags_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Tags',
+                $data['common_tags_id']
             );
-	        if (array_key_exists('taggable_id', $data))
-            $data['taggable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Taggable',
-                $data['taggable_id']
-            );
-	        
+        }
+    
         try {
             $model = Taggables::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new TaggablesCreatedEvent($model) );
+        event(new TaggablesCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Taggables
-*/
-public static function updateRaw(array $data) : ?Taggables
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
-
-return null;
-}
-
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
-        $model = Taggables::where('uuid', $id)->first();
-
-                if (array_key_exists('tag_id', $data))
-            $data['tag_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Tag',
-                $data['tag_id']
-            );
-	        if (array_key_exists('taggable_id', $data))
-            $data['taggable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Taggable',
-                $data['taggable_id']
-            );
-	
-        event( new TaggablesUpdatingEvent($model) );
-
-        try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
-        } catch(\Exception $e) {
-           throw $e;
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Taggables
+     */
+    public static function updateRaw(array $data) : ?Taggables
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
         }
 
-        event( new TaggablesUpdatedEvent($model) );
+        return null;
+    }
+
+    /**
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
+        $model = Taggables::where('uuid', $id)->first();
+
+        if (array_key_exists('common_tags_id', $data)) {
+            $data['common_tags_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\Commons\Database\Models\Tags',
+                $data['common_tags_id']
+            );
+        }
+    
+        event(new TaggablesUpdatingEvent($model));
+
+        try {
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event(new TaggablesUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Taggables::where('uuid', $id)->first();
 
-        event( new TaggablesDeletingEvent() );
+        event(new TaggablesDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new TaggablesDeletedEvent($model) );
 
         return $model;
     }

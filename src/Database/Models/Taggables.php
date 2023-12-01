@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\TaggablesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 
 /**
  * Class Taggables.
@@ -15,7 +16,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Taggables extends Model
 {
-    use Filterable, UuidId;
+    use Filterable, UuidId, CleanCache;
 
 
     public $timestamps = true;
@@ -48,6 +49,8 @@ class Taggables extends Model
      @var array
      */
     protected $casts = [
+    'id'             => 'integer',
+    'uuid'           => 'string',
     'common_tags_id' => 'integer',
     'object_id'      => 'integer',
     'object_type'    => 'string',
@@ -112,5 +115,10 @@ class Taggables extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
 }

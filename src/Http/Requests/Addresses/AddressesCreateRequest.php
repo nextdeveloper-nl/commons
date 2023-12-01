@@ -13,7 +13,7 @@ class AddressesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'          => 'required|exists:objects,uuid|uuid',
+            'object_id'          => 'required',
         'object_type'        => 'required|string|max:255',
         'name'               => 'string|max:100',
         'line1'              => 'required|string|max:100',
@@ -27,5 +27,5 @@ class AddressesCreateRequest extends AbstractFormRequest
         'email_address'      => 'nullable|string|max:200',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

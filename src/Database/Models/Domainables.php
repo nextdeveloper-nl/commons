@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\DomainablesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 
 /**
  * Class Domainables.
@@ -15,7 +16,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Domainables extends Model
 {
-    use Filterable, UuidId;
+    use Filterable, UuidId, CleanCache;
 
 
     public $timestamps = true;
@@ -49,6 +50,7 @@ class Domainables extends Model
      */
     protected $casts = [
     'id'          => 'integer',
+    'uuid'        => 'string',
     'object_id'   => 'integer',
     'object_type' => 'string',
     'created_at'  => 'datetime',
@@ -112,5 +114,10 @@ class Domainables extends Model
         }
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
 }

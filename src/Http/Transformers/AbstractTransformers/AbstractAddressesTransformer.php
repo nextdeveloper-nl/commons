@@ -20,13 +20,12 @@ class AbstractAddressesTransformer extends AbstractTransformer
      */
     public function transform(Addresses $model)
     {
-                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
-                    $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
+                        $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
             
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
-            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_id'  =>  $model->object_id,
             'object_type'  =>  $model->object_type,
             'name'  =>  $model->name,
             'line1'  =>  $model->line1,
@@ -45,7 +44,21 @@ class AbstractAddressesTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

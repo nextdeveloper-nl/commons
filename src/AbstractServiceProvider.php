@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 
 abstract class AbstractServiceProvider extends ServiceProvider

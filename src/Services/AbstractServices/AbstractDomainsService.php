@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Domains\DomainsDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Domains
-*
-* Class DomainsService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractDomainsService {
-    public static function get(DomainsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Domains
+ *
+ * Class DomainsService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractDomainsService
+{
+    public static function get(DomainsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractDomainsService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new DomainsQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,145 +62,154 @@ class AbstractDomainsService {
 
         $model = Domains::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Domains::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Domains {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Domains
+    {
         return Domains::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Domains|null
-    */
-    public static function getById($id) : ?Domains {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Domains|null
+     */
+    public static function getById($id) : ?Domains
+    {
         return Domains::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new DomainCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new DomainsCreatingEvent());
 
-                if (array_key_exists('iam_account_id', $data))
+        if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\IamAccount',
+                '\NextDeveloper\IAM\Database\Models\Accounts',
                 $data['iam_account_id']
             );
-	        if (array_key_exists('iam_user_id', $data))
+        }
+        if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\IamUser',
+                '\NextDeveloper\IAM\Database\Models\Users',
                 $data['iam_user_id']
             );
-	        
+        }
+    
         try {
             $model = Domains::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new DomainsCreatedEvent($model) );
+        event(new DomainsCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Domains
-*/
-public static function updateRaw(array $data) : ?Domains
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
-
-return null;
-}
-
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
-        $model = Domains::where('uuid', $id)->first();
-
-                if (array_key_exists('iam_account_id', $data))
-            $data['iam_account_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\IamAccount',
-                $data['iam_account_id']
-            );
-	        if (array_key_exists('iam_user_id', $data))
-            $data['iam_user_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\IAM\Database\Models\IamUser',
-                $data['iam_user_id']
-            );
-	
-        event( new DomainsUpdatingEvent($model) );
-
-        try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
-        } catch(\Exception $e) {
-           throw $e;
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Domains
+     */
+    public static function updateRaw(array $data) : ?Domains
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
         }
 
-        event( new DomainsUpdatedEvent($model) );
+        return null;
+    }
+
+    /**
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
+        $model = Domains::where('uuid', $id)->first();
+
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+    
+        event(new DomainsUpdatingEvent($model));
+
+        try {
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event(new DomainsUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Domains::where('uuid', $id)->first();
 
-        event( new DomainsDeletingEvent() );
+        event(new DomainsDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new DomainsDeletedEvent($model) );
 
         return $model;
     }

@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\SocialMedia\SocialMediaDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for SocialMedia
-*
-* Class SocialMediaService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractSocialMediaService {
-    public static function get(SocialMediaQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for SocialMedia
+ *
+ * Class SocialMediaService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractSocialMediaService
+{
+    public static function get(SocialMediaQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractSocialMediaService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new SocialMediaQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,135 +62,130 @@ class AbstractSocialMediaService {
 
         $model = SocialMedia::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return SocialMedia::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?SocialMedia {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?SocialMedia
+    {
         return SocialMedia::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return SocialMedia|null
-    */
-    public static function getById($id) : ?SocialMedia {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return SocialMedia|null
+     */
+    public static function getById($id) : ?SocialMedia
+    {
         return SocialMedia::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new SocialMediaCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new SocialMediaCreatingEvent());
 
-                if (array_key_exists('sociable_id', $data))
-            $data['sociable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Sociable',
-                $data['sociable_id']
-            );
-	        
+        
         try {
             $model = SocialMedia::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new SocialMediaCreatedEvent($model) );
+        event(new SocialMediaCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return SocialMedia
-*/
-public static function updateRaw(array $data) : ?SocialMedia
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
-
-return null;
-}
-
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
-        $model = SocialMedia::where('uuid', $id)->first();
-
-                if (array_key_exists('sociable_id', $data))
-            $data['sociable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Sociable',
-                $data['sociable_id']
-            );
-	
-        event( new SocialMediaUpdatingEvent($model) );
-
-        try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
-        } catch(\Exception $e) {
-           throw $e;
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return SocialMedia
+     */
+    public static function updateRaw(array $data) : ?SocialMedia
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
         }
 
-        event( new SocialMediaUpdatedEvent($model) );
+        return null;
+    }
+
+    /**
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
+        $model = SocialMedia::where('uuid', $id)->first();
+
+        
+        event(new SocialMediaUpdatingEvent($model));
+
+        try {
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event(new SocialMediaUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = SocialMedia::where('uuid', $id)->first();
 
-        event( new SocialMediaDeletingEvent() );
+        event(new SocialMediaDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new SocialMediaDeletedEvent($model) );
 
         return $model;
     }

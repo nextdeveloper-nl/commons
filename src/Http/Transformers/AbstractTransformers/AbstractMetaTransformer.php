@@ -20,12 +20,11 @@ class AbstractMetaTransformer extends AbstractTransformer
      */
     public function transform(Meta $model)
     {
-                        $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
-            
+                
         return $this->buildPayload(
             [
-            'id'  =>  $model->id,
-            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'id'  =>  $model->uuid,
+            'object_id'  =>  $model->object_id,
             'object_type'  =>  $model->object_type,
             'key'  =>  $model->key,
             'value'  =>  $model->value,
@@ -33,7 +32,20 @@ class AbstractMetaTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

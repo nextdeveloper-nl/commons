@@ -115,7 +115,7 @@ class AbstractCurrenciesService
                 $data['common_country_id']
             );
         }
-            
+    
         try {
             $model = Currencies::create($data);
         } catch(\Exception $e) {
@@ -187,7 +187,7 @@ class AbstractCurrenciesService
      * @return mixed
      * @throw  Exception
      */
-    public static function delete($id, array $data)
+    public static function delete($id)
     {
         $model = Currencies::where('uuid', $id)->first();
 
@@ -198,8 +198,6 @@ class AbstractCurrenciesService
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event(new CurrenciesDeletedEvent($model));
 
         return $model;
     }

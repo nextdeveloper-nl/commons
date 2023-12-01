@@ -13,7 +13,7 @@ class MediaUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'         => 'nullable|exists:objects,uuid|uuid',
+            'object_id'         => 'nullable|string|max:36',
         'object_type'       => 'nullable|string|max:500',
         'collection_name'   => 'nullable|string|max:255',
         'name'              => 'nullable|string|max:255',
@@ -27,5 +27,5 @@ class MediaUpdateRequest extends AbstractFormRequest
         'order_column'      => 'nullable|integer',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

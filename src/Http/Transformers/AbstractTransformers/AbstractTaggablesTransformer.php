@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Transformers\AbstractTransformers;
 
 use NextDeveloper\Commons\Database\Models\Taggables;
+use NextDeveloper\Commons\Helpers\TagHelper;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
@@ -21,13 +22,12 @@ class AbstractTaggablesTransformer extends AbstractTransformer
     public function transform(Taggables $model)
     {
                         $commonTagsId = \NextDeveloper\Commons\Database\Models\Tags::where('id', $model->common_tags_id)->first();
-                    $objectId = \NextDeveloper\\Database\Models\Objects::where('id', $model->object_id)->first();
             
         return $this->buildPayload(
             [
-            'id'  =>  $model->id,
+            'id'  =>  $model->uuid,
             'common_tags_id'  =>  $commonTagsId ? $commonTagsId->uuid : null,
-            'object_id'  =>  $objectId ? $objectId->uuid : null,
+            'object_id'  =>  $model->object_id,
             'object_type'  =>  $model->object_type,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -35,20 +35,17 @@ class AbstractTaggablesTransformer extends AbstractTransformer
         );
     }
     
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
+    private function getObjectId(Taggables $model)
+    {
+        return app($model->object_type)->where('id', $model->object_id)->first()->uuid;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+    private function getObjectType(Taggables $model)
+    {
+        return (new TagHelper())->getAlias($model->object_type);
+    }
 
 
 

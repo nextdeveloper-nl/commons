@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Validatables\ValidatablesDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Validatables
-*
-* Class ValidatablesService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractValidatablesService {
-    public static function get(ValidatablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Validatables
+ *
+ * Class ValidatablesService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractValidatablesService
+{
+    public static function get(ValidatablesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractValidatablesService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new ValidatablesQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,135 +62,130 @@ class AbstractValidatablesService {
 
         $model = Validatables::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Validatables::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Validatables {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Validatables
+    {
         return Validatables::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Validatables|null
-    */
-    public static function getById($id) : ?Validatables {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Validatables|null
+     */
+    public static function getById($id) : ?Validatables
+    {
         return Validatables::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new ValidatableCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new ValidatablesCreatingEvent());
 
-                if (array_key_exists('validatable_id', $data))
-            $data['validatable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Validatable',
-                $data['validatable_id']
-            );
-	        
+        
         try {
             $model = Validatables::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new ValidatablesCreatedEvent($model) );
+        event(new ValidatablesCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Validatables
-*/
-public static function updateRaw(array $data) : ?Validatables
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
-
-return null;
-}
-
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
-        $model = Validatables::where('uuid', $id)->first();
-
-                if (array_key_exists('validatable_id', $data))
-            $data['validatable_id'] = DatabaseHelper::uuidToId(
-                '\NextDeveloper\\Database\Models\Validatable',
-                $data['validatable_id']
-            );
-	
-        event( new ValidatablesUpdatingEvent($model) );
-
-        try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
-        } catch(\Exception $e) {
-           throw $e;
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Validatables
+     */
+    public static function updateRaw(array $data) : ?Validatables
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
         }
 
-        event( new ValidatablesUpdatedEvent($model) );
+        return null;
+    }
+
+    /**
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
+        $model = Validatables::where('uuid', $id)->first();
+
+        
+        event(new ValidatablesUpdatingEvent($model));
+
+        try {
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
+        } catch(\Exception $e) {
+            throw $e;
+        }
+
+        event(new ValidatablesUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Validatables::where('uuid', $id)->first();
 
-        event( new ValidatablesDeletingEvent() );
+        event(new ValidatablesDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new ValidatablesDeletedEvent($model) );
 
         return $model;
     }

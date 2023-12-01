@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Registries\RegistriesDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Registries
-*
-* Class RegistriesService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractRegistriesService {
-    public static function get(RegistriesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Registries
+ *
+ * Class RegistriesService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractRegistriesService
+{
+    public static function get(RegistriesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractRegistriesService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new RegistriesQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,125 +62,130 @@ class AbstractRegistriesService {
 
         $model = Registries::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Registries::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Registries {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Registries
+    {
         return Registries::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Registries|null
-    */
-    public static function getById($id) : ?Registries {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Registries|null
+     */
+    public static function getById($id) : ?Registries
+    {
         return Registries::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new RegistryCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new RegistriesCreatingEvent());
 
-                
+        
         try {
             $model = Registries::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new RegistriesCreatedEvent($model) );
+        event(new RegistriesCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Registries
-*/
-public static function updateRaw(array $data) : ?Registries
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
+    /**
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Registries
+     */
+    public static function updateRaw(array $data) : ?Registries
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
+        }
 
-return null;
-}
+        return null;
+    }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
         $model = Registries::where('uuid', $id)->first();
 
         
-        event( new RegistriesUpdatingEvent($model) );
+        event(new RegistriesUpdatingEvent($model));
 
         try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
         } catch(\Exception $e) {
-           throw $e;
+            throw $e;
         }
 
-        event( new RegistriesUpdatedEvent($model) );
+        event(new RegistriesUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Registries::where('uuid', $id)->first();
 
-        event( new RegistriesDeletingEvent() );
+        event(new RegistriesDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new RegistriesDeletedEvent($model) );
 
         return $model;
     }

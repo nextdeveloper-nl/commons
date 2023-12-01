@@ -20,14 +20,16 @@ use NextDeveloper\Commons\Events\Countries\CountriesDeletingEvent;
 
 
 /**
-* This class is responsible from managing the data for Countries
-*
-* Class CountriesService.
-*
-* @package NextDeveloper\Commons\Database\Models
-*/
-class AbstractCountriesService {
-    public static function get(CountriesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+ * This class is responsible from managing the data for Countries
+ *
+ * Class CountriesService.
+ *
+ * @package NextDeveloper\Commons\Database\Models
+ */
+class AbstractCountriesService
+{
+    public static function get(CountriesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
@@ -36,19 +38,22 @@ class AbstractCountriesService {
         *
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
-        if($filter == null)
+        if($filter == null) {
             $filter = new CountriesQueryFilter(new Request());
+        }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null)
+        if($perPage == null) {
             $perPage = 20;
+        }
 
         if(array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0)
+            if($perPage == 0) {
                 $perPage = 20;
+            }
         }
 
         if(array_key_exists('orderBy', $params)) {
@@ -57,125 +62,130 @@ class AbstractCountriesService {
 
         $model = Countries::filter($filter);
 
-        if($model && $enablePaginate)
+        if($model && $enablePaginate) {
             return $model->paginate($perPage);
-        else
+        } else {
             return $model->get();
+        }
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         return Countries::all();
     }
 
     /**
-    * This method returns the model by looking at reference id
-    *
-    * @param $ref
-    * @return mixed
-    */
-    public static function getByRef($ref) : ?Countries {
+     * This method returns the model by looking at reference id
+     *
+     * @param  $ref
+     * @return mixed
+     */
+    public static function getByRef($ref) : ?Countries
+    {
         return Countries::findByRef($ref);
     }
 
     /**
-    * This method returns the model by lookint at its id
-    *
-    * @param $id
-    * @return Countries|null
-    */
-    public static function getById($id) : ?Countries {
+     * This method returns the model by lookint at its id
+     *
+     * @param  $id
+     * @return Countries|null
+     */
+    public static function getById($id) : ?Countries
+    {
         return Countries::where('id', $id)->first();
     }
 
     /**
-    * This method created the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function create(array $data) {
-        event( new CountryCreatingEvent() );
+     * This method created the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function create(array $data)
+    {
+        event(new CountriesCreatingEvent());
 
-                
+        
         try {
             $model = Countries::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event( new CountriesCreatedEvent($model) );
+        event(new CountriesCreatedEvent($model));
 
         return $model->fresh();
     }
 
-/**
-* This function expects the ID inside the object.
-*
-* @param array $data
-* @return Countries
-*/
-public static function updateRaw(array $data) : ?Countries
-{
-if(array_key_exists('id', $data)) {
-return self::update($data['id'], $data);
-}
+    /**
+     This function expects the ID inside the object.
+    
+     @param  array $data
+     @return Countries
+     */
+    public static function updateRaw(array $data) : ?Countries
+    {
+        if(array_key_exists('id', $data)) {
+            return self::update($data['id'], $data);
+        }
 
-return null;
-}
+        return null;
+    }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function update($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function update($id, array $data)
+    {
         $model = Countries::where('uuid', $id)->first();
 
         
-        event( new CountriesUpdatingEvent($model) );
+        event(new CountriesUpdatingEvent($model));
 
         try {
-           $isUpdated = $model->update($data);
-           $model = $model->fresh();
+            $isUpdated = $model->update($data);
+            $model = $model->fresh();
         } catch(\Exception $e) {
-           throw $e;
+            throw $e;
         }
 
-        event( new CountriesUpdatedEvent($model) );
+        event(new CountriesUpdatedEvent($model));
 
         return $model->fresh();
     }
 
     /**
-    * This method updated the model from an array.
-    *
-    * Throws an exception if stuck with any problem.
-    *
-    * @param
-    * @param array $data
-    * @return mixed
-    * @throw Exception
-    */
-    public static function delete($id, array $data) {
+     * This method updated the model from an array.
+     *
+     * Throws an exception if stuck with any problem.
+     *
+     * @param
+     * @param  array $data
+     * @return mixed
+     * @throw  Exception
+     */
+    public static function delete($id)
+    {
         $model = Countries::where('uuid', $id)->first();
 
-        event( new CountriesDeletingEvent() );
+        event(new CountriesDeletingEvent());
 
         try {
             $model = $model->delete();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        event( new CountriesDeletedEvent($model) );
 
         return $model;
     }

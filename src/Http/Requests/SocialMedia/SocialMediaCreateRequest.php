@@ -13,11 +13,11 @@ class SocialMediaCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'          => 'required|exists:objects,uuid|uuid',
+            'object_id'          => 'required',
         'object_type'        => 'required|string|max:500',
         'profile_url'        => 'string|max:250',
         'is_invoice_address' => 'boolean',
         ];
     }
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

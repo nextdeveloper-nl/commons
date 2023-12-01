@@ -4,6 +4,8 @@ namespace NextDeveloper\Commons\Database\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use NextDeveloper\IAM\Helpers\U;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class DomainsObserver
@@ -27,6 +29,7 @@ class DomainsObserver
      */
     public function creating(Model $model)
     {
+        return UserHelper::applyUserFields($model);
     }
 
     /**
@@ -36,6 +39,7 @@ class DomainsObserver
      */
     public function created(Model $model)
     {
+
     }
 
     /**
