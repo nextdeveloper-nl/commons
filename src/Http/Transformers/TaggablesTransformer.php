@@ -39,7 +39,7 @@ class TaggablesTransformer extends AbstractTaggablesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 
     private function getObjectId($objectType, $objectId)
