@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
@@ -96,9 +97,23 @@ class AbstractDomainsService
         return Domains::where('id', $id)->first();
     }
 
+    /**
+     * This method returns the sub objects of the related models
+     *
+     * @param $uuid
+     * @param $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
     public static function getSubObjects($uuid, $object) {
         try {
-            return Domains::where('uuid', $uuid)->first()->$object();
+            $obj = Domains::where('uuid', $uuid)->first();
+
+            if(!$obj)
+                throw new ModelNotFoundException('Cannot find the related model');
+
+            if($obj)
+                return $obj->$object();
         } catch (\Exception $e) {
             dd($e);
         }
