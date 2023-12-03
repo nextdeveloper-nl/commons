@@ -96,6 +96,14 @@ class AbstractDomainsService
         return Domains::where('id', $id)->first();
     }
 
+    public static function getSubObjects($uuid, $object) {
+        try {
+            return Domains::where('uuid', $uuid)->first()->$object();
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
     /**
      * This method created the model from an array.
      *
@@ -121,7 +129,7 @@ class AbstractDomainsService
                 $data['iam_user_id']
             );
         }
-    
+
         try {
             $model = Domains::create($data);
         } catch(\Exception $e) {
@@ -135,7 +143,7 @@ class AbstractDomainsService
 
     /**
      This function expects the ID inside the object.
-    
+
      @param  array $data
      @return Domains
      */
@@ -174,7 +182,7 @@ class AbstractDomainsService
                 $data['iam_user_id']
             );
         }
-    
+
         event(new DomainsUpdatingEvent($model));
 
         try {

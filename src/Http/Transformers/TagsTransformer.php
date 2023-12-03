@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Http\Transformers;
 use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Tags;
+use NextDeveloper\Commons\Helpers\TagHelper;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractTagsTransformer;
 

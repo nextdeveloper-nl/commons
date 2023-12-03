@@ -35,6 +35,6 @@ class DomainsTransformer extends AbstractDomainsTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

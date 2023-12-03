@@ -3,6 +3,8 @@
 namespace NextDeveloper\Commons\Helpers;
 
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Database\Models\Tags;
+use NextDeveloper\Commons\Services\TagsService;
 
 class TagHelper
 {
@@ -30,5 +32,19 @@ class TagHelper
             if($taggables == $object)
                 return $alias;
         }
+    }
+
+    public function getTag($tag) : Tags {
+        $obj = Tags::where('tag', $tag)->first();
+
+        if(!$obj) {
+            $obj = TagsService::create([
+                'name'  =>  Str::title(str_replace('-', ' ', $tag)),
+                'description'   =>  ' ',
+                'slug'  =>  Str::slug($tag)
+            ]);
+        }
+
+        return $obj;
     }
 }

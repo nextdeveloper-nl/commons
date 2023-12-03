@@ -21,21 +21,30 @@ class AbstractExchangeRatesTransformer extends AbstractTransformer
     public function transform(ExchangeRates $model)
     {
                         $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-            
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'code'  =>  $model->code,
             'rate'  =>  $model->rate,
-            'last_modified'  =>  $model->last_modified,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
+            'last_modified'  =>  $model->last_modified ? $model->last_modified->toIso8601String() : null,
+            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
+            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
             ]
         );
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 
 

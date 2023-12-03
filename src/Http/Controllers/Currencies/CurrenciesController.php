@@ -46,6 +46,20 @@ class CurrenciesController extends AbstractController
     }
 
     /**
+     * This method returns the list of sub objects the related object.
+     *
+     * @param  $ref
+     * @param  $subObject
+     * @return void
+     */
+    public function subObjects($ref, $subObject)
+    {
+        $objects = CurrenciesService::getSubObjects($ref, $subObject);
+
+        return ResponsableFactory::makeResponse($this, $objects);
+    }
+
+    /**
      * This method created Currencies object on database.
      *
      * @param  CurrenciesCreateRequest $request
@@ -86,7 +100,7 @@ class CurrenciesController extends AbstractController
     {
         $model = CurrenciesService::delete($currenciesId);
 
-        return ResponsableFactory::makeResponse($this, $model);
+        return $this->noContent();
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

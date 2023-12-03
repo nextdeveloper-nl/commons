@@ -21,7 +21,7 @@ class AbstractAddressesTransformer extends AbstractTransformer
     public function transform(Addresses $model)
     {
                         $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-            
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -37,14 +37,23 @@ class AbstractAddressesTransformer extends AbstractTransformer
             'is_invoice_address'  =>  $model->is_invoice_address,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'email_address'  =>  $model->email_address,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
+            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
+            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
+            'deleted_at'  =>  $model->deleted_at ? $model->deleted_at->toIso8601String() : null,
             ]
         );
     }
-    
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 
 

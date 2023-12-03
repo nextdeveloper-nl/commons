@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Services;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Taggables;
 use NextDeveloper\Commons\Database\Models\Tags;
@@ -26,6 +27,10 @@ class TaggablesService extends AbstractTaggablesService {
     {
         $data['object_type'] = (new TagHelper())->getObject($data['object_type']);
 
+        if(!$data['object_type'])
+            throw new ModelNotFoundException('Cannot find the object type you are looking for. If you think this is'
+                . ' wrong, please look at your configuration and give me the correct model name.');
+
         $obj = app($data['object_type'])->where('uuid', $data['object_id'])->first();
 
         if(!$obj) {
@@ -46,5 +51,29 @@ class TaggablesService extends AbstractTaggablesService {
                 return Taggables::where($data)->first();
             }
         }
+    }
+
+    public static function createWithTag(array $data) : Taggables {
+        $tag = (new TagHelper())->getTag($data['tag']);
+
+        $taggable = self::create([
+            'object_type'       =>  $data['object_type'],
+            'object_id'         =>  $data['object_id'],
+            'common_tags_id'    =>  $tag->uuid
+        ]);
+
+        return $taggable;
+    }
+
+    public static function deleteWithTag($objectType, $objectId, $tag) {
+        $tag = (new TagHelper())->getTag($tag);
+
+        Taggables::where([
+            'object_type'   =>  $objectType,
+            'object_id'     =>  $objectId,
+            'common_tags_id'    =>  $tag->id
+        ])->first()->delete();
+
+        return true;
     }
 }

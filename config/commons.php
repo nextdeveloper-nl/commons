@@ -25,8 +25,8 @@ return [
      * Also dont forget to add taggables to the TagHelper while initiating your own packages.
      */
     'taggable_objects'  =>  [
-        'domain'    =>  \NextDeveloper\Commons\Database\Models\Domains::class,
-        'media'     =>  \NextDeveloper\Commons\Database\Models\Media::class,
+        'common_domain'    =>  \NextDeveloper\Commons\Database\Models\Domains::class,
+        'common_media'     =>  \NextDeveloper\Commons\Database\Models\Media::class,
     ],
 
     'cdn'   =>  [
