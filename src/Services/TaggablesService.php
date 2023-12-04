@@ -25,11 +25,14 @@ class TaggablesService extends AbstractTaggablesService {
 
     public static function create(array $data)
     {
-        $data['object_type'] = (new TagHelper())->getObject($data['object_type']);
+        if(!class_exists($data['object_type']))
+            $data['object_type'] = (new TagHelper())->getObject($data['object_type']);
 
         if(!$data['object_type'])
-            throw new ModelNotFoundException('Cannot find the object type you are looking for. If you think this is'
-                . ' wrong, please look at your configuration and give me the correct model name.');
+            throw new ModelNotFoundException('Cannot find the object type you are looking for while creating a tag '
+                . 'for the object. This means that either you are providing wrong object or you are providing the '
+                . 'wrong name of the object. If you think this is '
+                . 'wrong, please look at your configuration and give me the correct model name.');
 
         $obj = app($data['object_type'])->where('uuid', $data['object_id'])->first();
 
@@ -54,12 +57,15 @@ class TaggablesService extends AbstractTaggablesService {
     }
 
     public static function createWithTag(array $data) : Taggables {
-        $tag = (new TagHelper())->getTag($data['tag']);
+        $obj = TagsService::getOrCreate($data['tag']);
+
+        if(!$obj)
+            dd($data);
 
         $taggable = self::create([
             'object_type'       =>  $data['object_type'],
             'object_id'         =>  $data['object_id'],
-            'common_tags_id'    =>  $tag->uuid
+            'common_tags_id'    =>  $obj->uuid
         ]);
 
         return $taggable;

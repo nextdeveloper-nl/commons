@@ -113,7 +113,8 @@ class AbstractDomainsService
                 throw new ModelNotFoundException('Cannot find the related model');
 
             if($obj)
-                return $obj->$object();
+                return $obj->$object;
+
         } catch (\Exception $e) {
             dd($e);
         }

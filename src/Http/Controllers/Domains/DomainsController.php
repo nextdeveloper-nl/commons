@@ -3,7 +3,9 @@
 namespace NextDeveloper\Commons\Http\Controllers\Domains;
 
 use Illuminate\Http\Request;
+use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
+use NextDeveloper\Commons\Http\Traits\Tags;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Domains\DomainsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
@@ -12,6 +14,10 @@ use NextDeveloper\Commons\Http\Requests\Domains\DomainsCreateRequest;
 
 class DomainsController extends AbstractController
 {
+    use Tags;
+
+    private $model = Domains::class;
+
     /**
      * This method returns the list of domains.
      *

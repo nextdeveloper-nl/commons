@@ -81,6 +81,9 @@ Route::prefix('commons')->group(
 
         Route::prefix('domains')->group(
             function () {
+                Route::get('/{common_domains}/tags', 'Domains\DomainsController@tags');
+                Route::post('/{common_domains}/tags', 'Domains\DomainsController@setTags');
+
                 Route::get('/', 'Domains\DomainsController@index');
                 Route::get('/{common_domains}', 'Domains\DomainsController@show');
                 Route::get('/{common_domains}/{subObjects}', 'Domains\DomainsController@subObjects');

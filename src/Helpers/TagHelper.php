@@ -35,15 +35,7 @@ class TagHelper
     }
 
     public function getTag($tag) : Tags {
-        $obj = Tags::where('name', $tag)->first();
-
-        if(!$obj) {
-            $obj = TagsService::create([
-                'name'  =>  Str::title(str_replace('-', ' ', $tag)),
-                'description'   =>  ' ',
-                'slug'  =>  Str::slug($tag)
-            ]);
-        }
+        $obj = TagsService::getOrCreate($tag);
 
         return $obj;
     }

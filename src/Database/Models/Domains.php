@@ -125,7 +125,7 @@ class Domains extends Model
 
     public function categories() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class);
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class, 'common_domain_id');
     }
 
     public function disposableEmails() : \Illuminate\Database\Eloquent\Relations\HasMany
@@ -135,7 +135,7 @@ class Domains extends Model
 
     public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class, 'common_domain_id');
     }
 
     public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -143,6 +143,11 @@ class Domains extends Model
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+
+    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 }
