@@ -21,7 +21,12 @@ class LimitScope implements Scope
             $rowCount = 20;
 
         if(request()->has('rowCount')) {
-            $rowCount = intval( request()->get('rowCount') );
+            $rc = request()->get('rowCount');
+
+            if($rc != 'all')
+                $rowCount = intval( $rc );
+            else
+                $rowCount = null;
         }
 
         return $builder->limit($rowCount);
