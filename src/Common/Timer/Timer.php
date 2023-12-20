@@ -46,9 +46,9 @@ class Timer
 
         $diff = $end->diffInSeconds($start);
 
-//        Log::debug('[Timer|' . $this->marker . '] The last stage [' . $this->lastStage . '] you asked for this was: '
-//            . $start->toDateTimeString() . '. And now this is: ' . $end->toDateTimeString() . '. It took '
-//            . $diff . ' seconds to reach to this stage [' . $stage . '].');
+        Log::debug('[Timer|' . $this->marker . '] The last stage [' . $this->lastStage . '] you asked for this was: '
+            . $start->toDateTimeString() . '. And now this is: ' . $end->toDateTimeString() . '. It took '
+            . $diff . ' seconds to reach to this stage [' . $stage . '].');
 
         $this->lastStage = $stage;
 
