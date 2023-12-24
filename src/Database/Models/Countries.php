@@ -135,32 +135,13 @@ class Countries extends Model
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\ExchangeRates::class);
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function phoneNumbers() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
-    }
-
-    public function datacenters() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Datacenters::class);
-    }
-
-    public function courses() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Golf\Database\Models\Courses::class);
-    }
-
-    public function roomTypes() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Stay\Database\Models\RoomTypes::class);
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\PhoneNumbers::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
