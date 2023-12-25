@@ -2,6 +2,24 @@
 
 Route::prefix('commons')->group(
     function () {
+        Route::prefix('action-logs')->group(
+            function () {
+                Route::get('/', 'ActionLogs\ActionLogsController@index');
+
+                Route::get('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@tags');
+                Route::post('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@saveTags');
+                Route::get('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@addresses');
+                Route::post('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@saveAddresses');
+
+                Route::get('/{common_action_logs}/{subObjects}', 'ActionLogs\ActionLogsController@relatedObjects');
+                Route::get('/{common_action_logs}', 'ActionLogs\ActionLogsController@show');
+
+                Route::post('/', 'ActionLogs\ActionLogsController@store');
+                Route::patch('/{common_action_logs}', 'ActionLogs\ActionLogsController@update');
+                Route::delete('/{common_action_logs}', 'ActionLogs\ActionLogsController@destroy');
+            }
+        );
+
         Route::prefix('actions')->group(
             function () {
                 Route::get('/', 'Actions\ActionsController@index');
@@ -423,10 +441,34 @@ Route::prefix('commons')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
+
 
 
 

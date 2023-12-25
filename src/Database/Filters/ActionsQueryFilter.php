@@ -22,14 +22,9 @@ class ActionsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('action', 'like', '%' . $value . '%');
     }
     
-    public function log($value)
+    public function objectType($value)
     {
-        return $this->builder->where('log', 'like', '%' . $value . '%');
-    }
-    
-    public function error($value)
-    {
-        return $this->builder->where('error', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
 
     public function progress($value)

@@ -59,8 +59,7 @@ trait CommonActionTestTraits
             'POST', '/commons/commonaction', [
             'form_params'   =>  [
                 'action'  =>  'a',
-                'log'  =>  'a',
-                'error'  =>  'a',
+                'object_type'  =>  'a',
                 'progress'  =>  '1',
                 'runtime'  =>  '1',
                     ],
@@ -364,31 +363,12 @@ trait CommonActionTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonaction_event_log_filter()
+    public function test_commonaction_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'log'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonActionQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonAction::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonaction_event_error_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'error'  =>  'a'
+                'object_type'  =>  'a'
                 ]
             );
 

@@ -19,7 +19,6 @@ class Actions extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
 
-
     public $timestamps = true;
 
     protected $table = 'common_actions';
@@ -50,14 +49,14 @@ class Actions extends Model
      @var array
      */
     protected $casts = [
-    'id'         => 'integer',
-    'uuid'       => 'string',
-    'action'     => 'string',
-    'progress'   => 'integer',
-    'log'        => 'string',
-    'error'      => 'string',
-    'runtime'    => 'integer',
-    'created_at' => 'datetime',
+    'id'          => 'integer',
+    'uuid'        => 'string',
+    'action'      => 'string',
+    'progress'    => 'integer',
+    'runtime'     => 'integer',
+    'object_id'   => 'integer',
+    'object_type' => 'string',
+    'created_at'  => 'datetime',
     ];
 
     /**
@@ -116,5 +115,11 @@ class Actions extends Model
         }
     }
 
+    public function actionLogs() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\ActionLogs::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

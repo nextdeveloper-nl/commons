@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 
 class Timer
 {
+    private $initialTime;
+
     private $lastTime;
 
     private $lastStage = 'Start';
@@ -16,6 +18,7 @@ class Timer
     public function __construct()
     {
         $this->lastTime = now();
+        $this->initialTime = now();
 
         $adjectives = array(
             "Awesome",
@@ -53,5 +56,29 @@ class Timer
         $this->lastStage = $stage;
 
         $this->lastTime = now();
+    }
+
+    public function diff($stage = null)
+    {
+        $tempLastTime = $this->lastTime;
+
+        $start = Carbon::parse($this->lastTime);
+        $end = Carbon::parse(now());
+
+        $diff = $end->diffInSeconds($start);
+
+        $this->lastStage = $stage;
+
+        $this->lastTime = now();
+
+        return $diff;
+    }
+
+    public function totalDiff()
+    {
+        $start = Carbon::parse($this->initialTime);
+        $end = Carbon::parse(now());
+
+        return $end->diffInSeconds($start);
     }
 }

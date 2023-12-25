@@ -134,4 +134,5 @@ class Taggables extends Model
 
 
 
+
 }
