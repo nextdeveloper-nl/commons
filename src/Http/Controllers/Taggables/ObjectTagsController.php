@@ -6,7 +6,7 @@ use Illuminate\Http\Client\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Taggables\CreateTaggablesWithTagRequest;
 use NextDeveloper\Commons\Services\TagsService;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Services\TaggablesService;
 use NextDeveloper\Commons\Http\Requests\Taggables\TaggablesCreateRequest;
 

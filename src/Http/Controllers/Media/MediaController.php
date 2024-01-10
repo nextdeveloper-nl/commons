@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Media;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Media\MediaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Services\MediaService;

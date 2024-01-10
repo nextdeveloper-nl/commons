@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Countries;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Countries\CountriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CountriesQueryFilter;
 use NextDeveloper\Commons\Services\CountriesService;

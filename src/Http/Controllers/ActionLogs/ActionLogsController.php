@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\ActionLogs;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\ActionLogs\ActionLogsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionLogsQueryFilter;
 use NextDeveloper\Commons\Database\Models\ActionLogs;

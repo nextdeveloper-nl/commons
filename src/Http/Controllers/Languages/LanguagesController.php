@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Languages;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Languages\LanguagesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\LanguagesQueryFilter;
 use NextDeveloper\Commons\Services\LanguagesService;

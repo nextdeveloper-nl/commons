@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Addresses;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
 use NextDeveloper\Commons\Services\AddressesService;

@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Middlewares\Localization;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use Closure;
 
@@ -18,20 +19,22 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        $locale = $request->getLocale();
+        $locale = App::getLocale();
+
+        if(session()->has('locale'))
+            $locale = session()->get('locale');
+
+        if($request->headers->get('accept-language') != $locale)
+            $locale = $request->headers->get('accept-language');
 
         //  If we dont have user logged in, we continue with default locale
         if(UserHelper::me()) {
-            return $next($request);
+            // @todo: User'ın locale'ı buraya gelecek
+            // $locale = User->locale
         }
 
-        //  If we dont get the locale from browser we continue with the default locale
-        if(!$locale) {
-            return $next($request);
-        }
-
-        //  We set the locale to browser locale
-        app()->setLocale($request->getLocale());
+        //  We set the locale to the locale we found
+        app()->setLocale($locale);
 
         return $next($request);
     }

@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Validatables;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Validatables\ValidatablesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ValidatablesQueryFilter;
 use NextDeveloper\Commons\Services\ValidatablesService;

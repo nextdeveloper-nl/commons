@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Categories;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Categories\CategoriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CategoriesQueryFilter;
 use NextDeveloper\Commons\Services\CategoriesService;

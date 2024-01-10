@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Votes;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Votes\VotesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
 use NextDeveloper\Commons\Services\VotesService;

@@ -7,7 +7,7 @@ use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesCreateRequest;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
 use NextDeveloper\Commons\Services\AddressesService;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 
 trait Addresses
 {

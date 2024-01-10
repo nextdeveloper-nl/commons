@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Comments;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Comments\CommentsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
 use NextDeveloper\Commons\Services\CommentsService;

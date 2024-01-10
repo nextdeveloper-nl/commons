@@ -6,7 +6,7 @@ use NextDeveloper\Commons\Database\Models\ViewTags;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
 use NextDeveloper\Commons\Services\TaggablesService;
 use NextDeveloper\Commons\Services\TagsService;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use Psy\Util\Str;
 
 trait Tags

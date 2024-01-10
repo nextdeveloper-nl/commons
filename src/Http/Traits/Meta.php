@@ -7,7 +7,7 @@ use NextDeveloper\Commons\Http\Requests\Meta\MetaCreateRequest;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
 use NextDeveloper\Commons\Services\TaggablesService;
 use NextDeveloper\Commons\Services\TagsService;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use Psy\Util\Str;
 
 trait Meta
