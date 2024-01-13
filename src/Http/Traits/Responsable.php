@@ -11,6 +11,7 @@
 namespace NextDeveloper\Commons\Http\Traits;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -176,7 +177,7 @@ trait Responsable
      * @return \Illuminate\Http\JsonResponse
      */
     public function withError($message, $code, array $errors = [], array $headers = []) {
-        $this->ref = genUuid();
+        $this->ref = Str::uuid();
 
         $data = [
             'error' => [
