@@ -19,7 +19,8 @@ class ActionLogs extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
 
-    public $timestamps = false;
+
+    public $timestamps = true;
 
     protected $table = 'common_action_logs';
 
@@ -27,17 +28,13 @@ class ActionLogs extends Model
     /**
      @var array
      */
-    protected $guarded = [
-    ];
+    protected $guarded = [];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
-    ];
-
-    protected $fillable = [
     ];
 
     /**
@@ -121,6 +118,9 @@ class ActionLogs extends Model
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Actions::class);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 }

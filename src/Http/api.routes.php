@@ -416,7 +416,129 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('view-tags')->group(
+            function () {
+                Route::get('/', 'ViewTags\ViewTagsController@index');
+
+                Route::get('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@tags');
+                Route::post('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@saveTags');
+                Route::get('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@addresses');
+                Route::post('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@saveAddresses');
+
+                Route::get('/{common_view_tags}/{subObjects}', 'ViewTags\ViewTagsController@relatedObjects');
+                Route::get('/{common_view_tags}', 'ViewTags\ViewTagsController@show');
+
+                Route::post('/', 'ViewTags\ViewTagsController@store');
+                Route::patch('/{common_view_tags}', 'ViewTags\ViewTagsController@update');
+                Route::delete('/{common_view_tags}', 'ViewTags\ViewTagsController@destroy');
+            }
+        );
+
+        Route::prefix('view-tags')->group(
+            function () {
+                Route::get('/', 'ViewTags\ViewTagsController@index');
+
+                Route::get('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@tags');
+                Route::post('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@saveTags');
+                Route::get('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@addresses');
+                Route::post('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@saveAddresses');
+
+                Route::get('/{common_view_tags}/{subObjects}', 'ViewTags\ViewTagsController@relatedObjects');
+                Route::get('/{common_view_tags}', 'ViewTags\ViewTagsController@show');
+
+                Route::post('/', 'ViewTags\ViewTagsController@store');
+                Route::patch('/{common_view_tags}', 'ViewTags\ViewTagsController@update');
+                Route::delete('/{common_view_tags}', 'ViewTags\ViewTagsController@destroy');
+            }
+        );
+
+        Route::prefix('view-tags')->group(
+            function () {
+                Route::get('/', 'ViewTags\ViewTagsController@index');
+
+                Route::get('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@tags');
+                Route::post('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@saveTags');
+                Route::get('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@addresses');
+                Route::post('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@saveAddresses');
+
+                Route::get('/{common_view_tags}/{subObjects}', 'ViewTags\ViewTagsController@relatedObjects');
+                Route::get('/{common_view_tags}', 'ViewTags\ViewTagsController@show');
+
+                Route::post('/', 'ViewTags\ViewTagsController@store');
+                Route::patch('/{common_view_tags}', 'ViewTags\ViewTagsController@update');
+                Route::delete('/{common_view_tags}', 'ViewTags\ViewTagsController@destroy');
+            }
+        );
+
+        Route::prefix('view-tags')->group(
+            function () {
+                Route::get('/', 'ViewTags\ViewTagsController@index');
+
+                Route::get('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@tags');
+                Route::post('{common_view_tags}/tags ', 'ViewTags\ViewTagsController@saveTags');
+                Route::get('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@addresses');
+                Route::post('{common_view_tags}/addresses ', 'ViewTags\ViewTagsController@saveAddresses');
+
+                Route::get('/{common_view_tags}/{subObjects}', 'ViewTags\ViewTagsController@relatedObjects');
+                Route::get('/{common_view_tags}', 'ViewTags\ViewTagsController@show');
+
+                Route::post('/', 'ViewTags\ViewTagsController@store');
+                Route::patch('/{common_view_tags}', 'ViewTags\ViewTagsController@update');
+                Route::delete('/{common_view_tags}', 'ViewTags\ViewTagsController@destroy');
+            }
+        );
+
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -468,6 +590,9 @@ Route::prefix('commons')->group(
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
+
+
+
 
 
 

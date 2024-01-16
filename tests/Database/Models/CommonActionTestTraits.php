@@ -62,7 +62,7 @@ trait CommonActionTestTraits
                 'object_type'  =>  'a',
                 'progress'  =>  '1',
                 'runtime'  =>  '1',
-                    ],
+                        ],
                 ['http_errors' => false]
             ]
         );
@@ -439,12 +439,50 @@ trait CommonActionTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_commonaction_event_updated_at_filter_start()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atStart'  =>  now()
+                ]
+            );
+
+            $filter = new CommonActionQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonAction::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_commonaction_event_created_at_filter_end()
     {
         try {
             $request = new Request(
                 [
                 'created_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CommonActionQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonAction::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonaction_event_updated_at_filter_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atEnd'  =>  now()
                 ]
             );
 
@@ -465,6 +503,26 @@ trait CommonActionTestTraits
                 [
                 'created_atStart'  =>  now(),
                 'created_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CommonActionQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonAction::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonaction_event_updated_at_filter_start_and_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'updated_atStart'  =>  now(),
+                'updated_atEnd'  =>  now()
                 ]
             );
 

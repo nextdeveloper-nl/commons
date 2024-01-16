@@ -20,7 +20,9 @@ class AbstractActionsTransformer extends AbstractTransformer
      */
     public function transform(Actions $model)
     {
-            
+                        $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
+                    $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+        
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -29,11 +31,16 @@ class AbstractActionsTransformer extends AbstractTransformer
             'runtime'  =>  $model->runtime,
             'object_id'  =>  $model->object_id,
             'object_type'  =>  $model->object_type,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
             'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
+            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 }
