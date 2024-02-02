@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Database\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use NextDeveloper\Commons\Exceptions\DataTypeException;
 
 class TextArray implements CastsAttributes
 {
@@ -34,6 +35,11 @@ class TextArray implements CastsAttributes
     {
         if (null === $value) {
             return null;
+        }
+
+        if(!is_array($value)) {
+            throw new DataTypeException('The given value is not an array. ' .
+                'Please provide an array to this file type: ' . $key);
         }
 
         return '{' . implode(',', $value) . '}';
