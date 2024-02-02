@@ -37,11 +37,6 @@ class TextArray implements CastsAttributes
             return null;
         }
 
-        // If the given value string is not an array, convert it to an array.
-        if(is_string($value)) {
-            $value = explode(',', $value);
-        }
-
         if(!is_array($value)) {
             throw new DataTypeException('The given value is not an array. ' .
                 'Please provide an array to this file type: ' . $key);
