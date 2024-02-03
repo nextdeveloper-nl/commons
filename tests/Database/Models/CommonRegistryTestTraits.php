@@ -59,7 +59,6 @@ trait CommonRegistryTestTraits
             'POST', '/commons/commonregistry', [
             'form_params'   =>  [
                 'key'  =>  'a',
-                'value'  =>  'a',
                 ],
                 ['http_errors' => false]
             ]
@@ -348,25 +347,6 @@ trait CommonRegistryTestTraits
             $request = new Request(
                 [
                 'key'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonRegistryQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonRegistry::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonregistry_event_value_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'value'  =>  'a'
                 ]
             );
 

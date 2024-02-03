@@ -52,17 +52,16 @@ class Domains extends Model
      @var array
      */
     protected $casts = [
-    'id'               => 'integer',
-    'uuid'             => 'string',
-    'name'             => 'string',
-    'is_active'        => 'boolean',
-    'is_local_domain'  => 'boolean',
-    'is_locked'        => 'boolean',
+    'id' => 'integer',
+    'name' => 'string',
+    'is_active' => 'boolean',
+    'is_local_domain' => 'boolean',
+    'is_locked' => 'boolean',
     'is_shared_domain' => 'boolean',
-    'is_validated'     => 'boolean',
-    'created_at'       => 'datetime',
-    'updated_at'       => 'datetime',
-    'deleted_at'       => 'datetime',
+    'is_validated' => 'boolean',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -123,27 +122,9 @@ class Domains extends Model
         }
     }
 
-    public function categories() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class);
-    }
-
-    public function disposableEmails() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\DisposableEmails::class);
-    }
-
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

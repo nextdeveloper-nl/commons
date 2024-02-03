@@ -52,16 +52,15 @@ class States extends Model
      @var array
      */
     protected $casts = [
-    'id'          => 'integer',
-    'uuid'        => 'string',
-    'name'        => 'string',
-    'value'       => 'string',
-    'reason'      => 'string',
-    'object_id'   => 'integer',
+    'id' => 'integer',
+    'name' => 'string',
+    'value' => 'string',
+    'reason' => 'string',
+    'object_id' => 'integer',
     'object_type' => 'string',
-    'created_at'  => 'datetime',
-    'updated_at'  => 'datetime',
-    'deleted_at'  => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -123,6 +122,8 @@ class States extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

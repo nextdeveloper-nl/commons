@@ -50,18 +50,17 @@ class Countries extends Model
      @var array
      */
     protected $casts = [
-    'id'                 => 'integer',
-    'uuid'               => 'string',
-    'code'               => 'string',
-    'locale'             => 'string',
-    'name'               => 'string',
-    'currency_code'      => 'string',
-    'phone_code'         => 'string',
-    'vat_rate'           => 'double',
-    'continent_name'     => 'string',
-    'continent_code'     => 'string',
-    'geo_name_identitiy' => 'integer',
-    'is_active'          => 'boolean',
+    'id' => 'integer',
+    'code' => 'string',
+    'locale' => 'string',
+    'name' => 'string',
+    'currency_code' => 'string',
+    'phone_code' => 'string',
+    'continent_name' => 'string',
+    'continent_code' => 'string',
+    'geo_name_identity' => 'integer',
+    'is_active' => 'boolean',
+    'timezones' => 'array',
     ];
 
     /**
@@ -120,42 +119,9 @@ class Countries extends Model
         }
     }
 
-    public function addresses() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Addresses::class);
-    }
-
-    public function currencies() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Currencies::class);
-    }
-
-    public function exchangeRates() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\ExchangeRates::class);
-    }
-
-    public function phoneNumbers() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\PhoneNumbers::class);
-    }
-
-    public function users() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
-    }
-
-    public function datacenters() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Datacenters::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

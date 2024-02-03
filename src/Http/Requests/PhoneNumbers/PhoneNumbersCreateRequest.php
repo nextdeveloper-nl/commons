@@ -13,12 +13,12 @@ class PhoneNumbersCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'         => 'required',
-        'object_type'       => 'required|string|max:255',
-        'name'              => 'string|max:100',
-        'code'              => 'required|string|max:10',
-        'number'            => 'nullable|string|max:100',
-        'is_active'         => 'boolean',
+            'object_id' => 'required',
+        'object_type' => 'required|string',
+        'name' => 'required|string',
+        'code' => 'required|string',
+        'number' => 'required|string',
+        'is_active' => 'boolean',
         'common_country_id' => 'required|exists:common_countries,uuid|uuid',
         ];
     }

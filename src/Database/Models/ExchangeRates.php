@@ -50,13 +50,12 @@ class ExchangeRates extends Model
      @var array
      */
     protected $casts = [
-    'id'                => 'integer',
-    'uuid'              => 'string',
+    'id' => 'integer',
     'common_country_id' => 'integer',
-    'rate'              => 'double',
-    'last_modified'     => 'datetime',
-    'created_at'        => 'datetime',
-    'updated_at'        => 'datetime',
+    'code' => 'string',
+    'last_modified' => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
     ];
 
     /**
@@ -117,12 +116,9 @@ class ExchangeRates extends Model
         }
     }
 
-    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -52,14 +52,13 @@ class Votes extends Model
      @var array
      */
     protected $casts = [
-    'id'          => 'integer',
-    'uuid'        => 'string',
-    'value'       => 'boolean',
-    'object_id'   => 'integer',
+    'id' => 'integer',
+    'value' => 'integer',
+    'object_id' => 'integer',
     'object_type' => 'string',
-    'created_at'  => 'datetime',
-    'updated_at'  => 'datetime',
-    'deleted_at'  => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -120,12 +119,9 @@ class Votes extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -33,17 +33,17 @@ class AbstractCategoriesTransformer extends AbstractTransformer
             'is_active'  =>  $model->is_active,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
             'common_categories_id'  =>  $commonCategoriesId ? $commonCategoriesId->uuid : null,
-            '_lft'  =>  $model->_lft,
-            '_rgt'  =>  $model->_rgt,
             'order'  =>  $model->order,
-            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
-            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
-            'deleted_at'  =>  $model->deleted_at ? $model->deleted_at->toIso8601String() : null,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

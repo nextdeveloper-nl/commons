@@ -28,12 +28,14 @@ class AbstractActionLogsTransformer extends AbstractTransformer
             'common_action_id'  =>  $commonActionId ? $commonActionId->uuid : null,
             'log'  =>  $model->log,
             'runtime'  =>  $model->runtime,
-            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
+            'created_at'  =>  $model->created_at,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 }

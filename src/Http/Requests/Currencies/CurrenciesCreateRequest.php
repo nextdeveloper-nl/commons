@@ -13,8 +13,8 @@ class CurrenciesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'code'              => 'required|string|max:3',
-        'name'              => 'required|string|max:45',
+            'code' => 'required|string',
+        'name' => 'required|string',
         'common_country_id' => 'nullable|exists:common_countries,uuid|uuid',
         ];
     }

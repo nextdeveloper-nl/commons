@@ -52,7 +52,7 @@ class CountriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('continent_code', 'like', '%' . $value . '%');
     }
 
-    public function vatRate($value)
+    public function geoNameIdentity($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -62,20 +62,7 @@ class CountriesQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('vat_rate', $operator, $value);
-    }
-    
-    public function geoNameIdentitiy($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('geo_name_identitiy', $operator, $value);
+        return $this->builder->where('geo_name_identity', $operator, $value);
     }
     
     public function isActive()

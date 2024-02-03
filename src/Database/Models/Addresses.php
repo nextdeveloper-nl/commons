@@ -52,23 +52,22 @@ class Addresses extends Model
      @var array
      */
     protected $casts = [
-    'id'                 => 'integer',
-    'uuid'               => 'string',
-    'object_id'          => 'integer',
-    'object_type'        => 'string',
-    'name'               => 'string',
-    'line1'              => 'string',
-    'line2'              => 'string',
-    'city'               => 'string',
-    'state'              => 'string',
-    'state_code'         => 'string',
-    'postcode'           => 'string',
+    'id' => 'integer',
+    'object_id' => 'integer',
+    'object_type' => 'string',
+    'name' => 'string',
+    'line1' => 'string',
+    'line2' => 'string',
+    'city' => 'string',
+    'state' => 'string',
+    'state_code' => 'string',
+    'postcode' => 'string',
     'is_invoice_address' => 'boolean',
-    'common_country_id'  => 'integer',
-    'email_address'      => 'string',
-    'created_at'         => 'datetime',
-    'updated_at'         => 'datetime',
-    'deleted_at'         => 'datetime',
+    'common_country_id' => 'integer',
+    'email_address' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -129,12 +128,9 @@ class Addresses extends Model
         }
     }
 
-    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

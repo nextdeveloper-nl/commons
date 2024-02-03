@@ -52,21 +52,17 @@ class Categories extends Model
      @var array
      */
     protected $casts = [
-    'id'                   => 'integer',
-    'uuid'                 => 'string',
-    'slug'                 => 'string',
-    'name'                 => 'string',
-    'description'          => 'string',
-    'url'                  => 'string',
-    'is_active'            => 'boolean',
-    'common_domain_id'     => 'integer',
+    'id' => 'integer',
+    'slug' => 'string',
+    'name' => 'string',
+    'description' => 'string',
+    'is_active' => 'boolean',
+    'common_domain_id' => 'integer',
     'common_categories_id' => 'integer',
-    '_lft'                 => 'integer',
-    '_rgt'                 => 'integer',
-    'order'                => 'integer',
-    'created_at'           => 'datetime',
-    'updated_at'           => 'datetime',
-    'deleted_at'           => 'datetime',
+    'order' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -127,17 +123,9 @@ class Categories extends Model
         }
     }
 
-    public function domains() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Domains::class);
-    }
-    
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

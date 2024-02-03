@@ -65,8 +65,7 @@ trait CommonCountryTestTraits
                 'phone_code'  =>  'a',
                 'continent_name'  =>  'a',
                 'continent_code'  =>  'a',
-                'vat_rate'  =>  '1',
-                'geo_name_identitiy'  =>  '1',
+                'geo_name_identity'  =>  '1',
                 ],
                 ['http_errors' => false]
             ]
@@ -482,31 +481,12 @@ trait CommonCountryTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commoncountry_event_vat_rate_filter()
+    public function test_commoncountry_event_geo_name_identity_filter()
     {
         try {
             $request = new Request(
                 [
-                'vat_rate'  =>  '1'
-                ]
-            );
-
-            $filter = new CommonCountryQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonCountry::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commoncountry_event_geo_name_identitiy_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'geo_name_identitiy'  =>  '1'
+                'geo_name_identity'  =>  '1'
                 ]
             );
 

@@ -50,12 +50,11 @@ class ActionLogs extends Model
      @var array
      */
     protected $casts = [
-    'id'               => 'integer',
-    'uuid'             => 'string',
+    'id' => 'integer',
     'common_action_id' => 'integer',
-    'log'              => 'string',
-    'runtime'          => 'integer',
-    'created_at'       => 'datetime',
+    'log' => 'array',
+    'runtime' => 'integer',
+    'created_at' => 'datetime',
     ];
 
     /**
@@ -114,12 +113,9 @@ class ActionLogs extends Model
         }
     }
 
-    public function actions() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Actions::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -13,8 +13,8 @@ class CurrenciesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'code'              => 'nullable|string|max:3',
-        'name'              => 'nullable|string|max:45',
+            'code' => 'nullable|string',
+        'name' => 'nullable|string',
         'common_country_id' => 'nullable|exists:common_countries,uuid|uuid',
         ];
     }

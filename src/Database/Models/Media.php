@@ -52,23 +52,22 @@ class Media extends Model
      @var array
      */
     protected $casts = [
-    'id'                => 'integer',
-    'uuid'              => 'string',
-    'object_id'         => 'string',
-    'object_type'       => 'string',
-    'collection_name'   => 'string',
-    'name'              => 'string',
-    'cdn_url'           => 'string',
-    'file_name'         => 'string',
-    'mime_type'         => 'string',
-    'disk'              => 'string',
-    'size'              => 'integer',
-    'manipulations'     => 'string',
-    'custom_properties' => 'string',
-    'order_column'      => 'integer',
-    'created_at'        => 'datetime',
-    'updated_at'        => 'datetime',
-    'deleted_at'        => 'datetime',
+    'id' => 'integer',
+    'object_id' => 'integer',
+    'object_type' => 'string',
+    'collection_name' => 'string',
+    'name' => 'string',
+    'cdn_url' => 'string',
+    'file_name' => 'string',
+    'mime_type' => 'string',
+    'disk' => 'string',
+    'size' => 'integer',
+    'manipulations' => 'array',
+    'custom_properties' => 'array',
+    'order_column' => 'integer',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -130,6 +129,8 @@ class Media extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

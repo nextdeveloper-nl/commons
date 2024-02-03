@@ -60,7 +60,6 @@ trait CommonMetumTestTraits
             'form_params'   =>  [
                 'object_type'  =>  'a',
                 'key'  =>  'a',
-                'value'  =>  'a',
                 ],
                 ['http_errors' => false]
             ]
@@ -368,25 +367,6 @@ trait CommonMetumTestTraits
             $request = new Request(
                 [
                 'key'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonMetumQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonMetum::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonmetum_event_value_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'value'  =>  'a'
                 ]
             );
 

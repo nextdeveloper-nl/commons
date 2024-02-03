@@ -52,18 +52,17 @@ class PhoneNumbers extends Model
      @var array
      */
     protected $casts = [
-    'id'                => 'integer',
-    'uuid'              => 'string',
-    'object_id'         => 'integer',
-    'object_type'       => 'string',
-    'name'              => 'string',
-    'code'              => 'string',
-    'number'            => 'string',
-    'is_active'         => 'boolean',
+    'id' => 'integer',
+    'object_id' => 'integer',
+    'object_type' => 'string',
+    'name' => 'string',
+    'code' => 'string',
+    'number' => 'string',
+    'is_active' => 'boolean',
     'common_country_id' => 'integer',
-    'created_at'        => 'datetime',
-    'updated_at'        => 'datetime',
-    'deleted_at'        => 'datetime',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -124,12 +123,9 @@ class PhoneNumbers extends Model
         }
     }
 
-    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

@@ -31,38 +31,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-    
-    public function url($value)
-    {
-        return $this->builder->where('url', 'like', '%' . $value . '%');
-    }
 
-    public function lft($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('_lft', $operator, $value);
-    }
-    
-    public function rgt($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('_rgt', $operator, $value);
-    }
-    
     public function order($value)
     {
         $operator = substr($value, 0, 1);

@@ -16,11 +16,6 @@ class ActionLogsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
-    public function log($value)
-    {
-        return $this->builder->where('log', 'like', '%' . $value . '%');
-    }
 
     public function runtime($value)
     {

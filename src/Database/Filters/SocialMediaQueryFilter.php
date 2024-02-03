@@ -27,11 +27,6 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('profile_url', 'like', '%' . $value . '%');
     }
 
-    public function isInvoiceAddress()
-    {
-        return $this->builder->where('is_invoice_address', true);
-    }
-    
     public function createdAtStart($date) 
     {
         return $this->builder->where('created_at', '>=', $date);

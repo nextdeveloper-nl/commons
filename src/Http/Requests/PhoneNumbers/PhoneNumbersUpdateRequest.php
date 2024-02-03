@@ -13,12 +13,12 @@ class PhoneNumbersUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'         => 'nullable',
-        'object_type'       => 'nullable|string|max:255',
-        'name'              => 'string|max:100',
-        'code'              => 'nullable|string|max:10',
-        'number'            => 'nullable|string|max:100',
-        'is_active'         => 'boolean',
+            'object_id' => 'nullable',
+        'object_type' => 'nullable|string',
+        'name' => 'nullable|string',
+        'code' => 'nullable|string',
+        'number' => 'nullable|string',
+        'is_active' => 'boolean',
         'common_country_id' => 'nullable|exists:common_countries,uuid|uuid',
         ];
     }

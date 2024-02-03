@@ -14,8 +14,8 @@ class ActionLogsUpdateRequest extends AbstractFormRequest
     {
         return [
             'common_action_id' => 'nullable|exists:common_actions,uuid|uuid',
-        'log'              => 'nullable|string',
-        'runtime'          => 'nullable|integer',
+        'log' => 'nullable',
+        'runtime' => 'nullable|integer',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

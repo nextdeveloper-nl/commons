@@ -13,11 +13,11 @@ class ActionsCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'action'         => 'required|string|max:500',
-        'progress'       => 'nullable|integer',
-        'runtime'        => 'nullable|integer',
-        'object_id'      => 'required',
-        'object_type'    => 'required|string|max:1000',
+            'action' => 'required|string',
+        'progress' => 'integer',
+        'runtime' => 'nullable|integer',
+        'object_id' => 'required',
+        'object_type' => 'required|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

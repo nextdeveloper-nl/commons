@@ -17,36 +17,6 @@ class LanguagesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
-    public function iso6391Code($value)
-    {
-        return $this->builder->where('iso_639_1_code', 'like', '%' . $value . '%');
-    }
-    
-    public function iso6392Code($value)
-    {
-        return $this->builder->where('iso_639_2_code', 'like', '%' . $value . '%');
-    }
-    
-    public function iso6392bCode($value)
-    {
-        return $this->builder->where('iso_639_2b_code', 'like', '%' . $value . '%');
-    }
-    
-    public function code($value)
-    {
-        return $this->builder->where('code', 'like', '%' . $value . '%');
-    }
-    
-    public function codeV2($value)
-    {
-        return $this->builder->where('code_v2', 'like', '%' . $value . '%');
-    }
-    
-    public function codeV2b($value)
-    {
-        return $this->builder->where('code_v2b', 'like', '%' . $value . '%');
-    }
-    
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');

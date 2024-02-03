@@ -28,14 +28,16 @@ class AbstractExchangeRatesTransformer extends AbstractTransformer
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'code'  =>  $model->code,
             'rate'  =>  $model->rate,
-            'last_modified'  =>  $model->last_modified ? $model->last_modified->toIso8601String() : null,
-            'created_at'  =>  $model->created_at ? $model->created_at->toIso8601String() : null,
-            'updated_at'  =>  $model->updated_at ? $model->updated_at->toIso8601String() : null,
+            'last_modified'  =>  $model->last_modified,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -13,10 +13,9 @@ class SocialMediaUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'          => 'nullable',
-        'object_type'        => 'nullable|string|max:500',
-        'profile_url'        => 'string|max:250',
-        'is_invoice_address' => 'boolean',
+            'object_id' => 'nullable',
+        'object_type' => 'nullable|string',
+        'profile_url' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

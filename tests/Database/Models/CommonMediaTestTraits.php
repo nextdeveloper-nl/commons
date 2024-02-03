@@ -65,8 +65,6 @@ trait CommonMediaTestTraits
                 'file_name'  =>  'a',
                 'mime_type'  =>  'a',
                 'disk'  =>  'a',
-                'manipulations'  =>  'a',
-                'custom_properties'  =>  'a',
                 'size'  =>  '1',
                 'order_column'  =>  '1',
                             ],
@@ -471,44 +469,6 @@ trait CommonMediaTestTraits
             $request = new Request(
                 [
                 'disk'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonMediaQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonMedia::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonmedia_event_manipulations_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'manipulations'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonMediaQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonMedia::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonmedia_event_custom_properties_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'custom_properties'  =>  'a'
                 ]
             );
 

@@ -13,9 +13,9 @@ class ValidatablesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'       => 'nullable',
-        'object_type'     => 'nullable|string|max:500',
-        'validation_code' => 'string|max:250',
+            'object_id' => 'nullable',
+        'object_type' => 'nullable|string',
+        'validation_code' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

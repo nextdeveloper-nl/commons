@@ -51,16 +51,6 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('disk', 'like', '%' . $value . '%');
     }
-    
-    public function manipulations($value)
-    {
-        return $this->builder->where('manipulations', 'like', '%' . $value . '%');
-    }
-    
-    public function customProperties($value)
-    {
-        return $this->builder->where('custom_properties', 'like', '%' . $value . '%');
-    }
 
     public function size($value)
     {

@@ -58,7 +58,7 @@ trait CommonExchangeRateTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonexchangerate', [
             'form_params'   =>  [
-                'rate'  =>  '1',
+                'code'  =>  'a',
                     'last_modified'  =>  now(),
                         ],
                 ['http_errors' => false]
@@ -342,12 +342,12 @@ trait CommonExchangeRateTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonexchangerate_event_rate_filter()
+    public function test_commonexchangerate_event_code_filter()
     {
         try {
             $request = new Request(
                 [
-                'rate'  =>  '1'
+                'code'  =>  'a'
                 ]
             );
 

@@ -58,12 +58,6 @@ trait CommonLanguageTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonlanguage', [
             'form_params'   =>  [
-                'iso_639_1_code'  =>  'a',
-                'iso_639_2_code'  =>  'a',
-                'iso_639_2b_code'  =>  'a',
-                'code'  =>  'a',
-                'code_v2'  =>  'a',
-                'code_v2b'  =>  'a',
                 'name'  =>  'a',
                 'native_name'  =>  'a',
                 ],
@@ -341,120 +335,6 @@ trait CommonLanguageTestTraits
             $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::first();
 
             event(new \NextDeveloper\Commons\Events\CommonLanguage\CommonLanguageRestoredEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_iso_639_1_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iso_639_1_code'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_iso_639_2_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iso_639_2_code'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_iso_639_2b_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'iso_639_2b_code'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'code'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_code_v2_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'code_v2'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonlanguage_event_code_v2b_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'code_v2b'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonLanguageQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonLanguage::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }

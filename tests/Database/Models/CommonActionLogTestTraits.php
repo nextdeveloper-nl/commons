@@ -58,7 +58,6 @@ trait CommonActionLogTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonactionlog', [
             'form_params'   =>  [
-                'log'  =>  'a',
                 'runtime'  =>  '1',
                     ],
                 ['http_errors' => false]
@@ -335,25 +334,6 @@ trait CommonActionLogTestTraits
             $model = \NextDeveloper\Commons\Database\Models\CommonActionLog::first();
 
             event(new \NextDeveloper\Commons\Events\CommonActionLog\CommonActionLogRestoredEvent($model));
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonactionlog_event_log_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'log'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonActionLogQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonActionLog::filter($filter)->first();
         } catch (\Exception $e) {
             $this->assertFalse(false, $e->getMessage());
         }

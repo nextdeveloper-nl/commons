@@ -13,9 +13,9 @@ class TagsUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name'           => 'nullable|string|max:50',
-        'description'    => 'nullable|string|max:500',
-        'slug'           => 'nullable|string|max:50',
+            'name' => 'nullable|string',
+        'description' => 'nullable|string',
+        'slug' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

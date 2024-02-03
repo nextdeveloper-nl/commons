@@ -50,18 +50,11 @@ class Languages extends Model
      @var array
      */
     protected $casts = [
-    'id'              => 'integer',
-    'uuid'            => 'string',
-    'iso_639_1_code'  => 'string',
-    'iso_639_2_code'  => 'string',
-    'iso_639_2b_code' => 'string',
-    'code'            => 'string',
-    'code_v2'         => 'string',
-    'code_v2b'        => 'string',
-    'name'            => 'string',
-    'native_name'     => 'string',
-    'is_default'      => 'boolean',
-    'is_active'       => 'boolean',
+    'id' => 'integer',
+    'name' => 'string',
+    'native_name' => 'string',
+    'is_default' => 'boolean',
+    'is_active' => 'boolean',
     ];
 
     /**
@@ -120,17 +113,9 @@ class Languages extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

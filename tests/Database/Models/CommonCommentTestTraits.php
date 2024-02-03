@@ -59,9 +59,6 @@ trait CommonCommentTestTraits
             'POST', '/commons/commoncomment', [
             'form_params'   =>  [
                 'body'  =>  'a',
-                'object_type'  =>  'a',
-                '_lft'  =>  '1',
-                '_rgt'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -350,63 +347,6 @@ trait CommonCommentTestTraits
             $request = new Request(
                 [
                 'body'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonCommentQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonComment::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commoncomment_event_object_type_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'object_type'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonCommentQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonComment::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commoncomment_event__lft_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                '_lft'  =>  '1'
-                ]
-            );
-
-            $filter = new CommonCommentQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonComment::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commoncomment_event__rgt_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                '_rgt'  =>  '1'
                 ]
             );
 

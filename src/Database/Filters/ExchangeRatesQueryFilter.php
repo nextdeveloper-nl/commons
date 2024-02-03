@@ -16,20 +16,12 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
-    public function rate($value)
-    {
-        $operator = substr($value, 0, 1);
-
-        if ($operator != '<' || $operator != '>') {
-            $operator = '=';
-        } else {
-            $value = substr($value, 1);
-        }
-
-        return $this->builder->where('rate', $operator, $value);
-    }
     
+    public function code($value)
+    {
+        return $this->builder->where('code', 'like', '%' . $value . '%');
+    }
+
     public function lastModifiedStart($date) 
     {
         return $this->builder->where('last_modified', '>=', $date);

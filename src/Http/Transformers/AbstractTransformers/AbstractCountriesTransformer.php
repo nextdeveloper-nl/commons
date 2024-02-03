@@ -32,7 +32,7 @@ class AbstractCountriesTransformer extends AbstractTransformer
             'vat_rate'  =>  $model->vat_rate,
             'continent_name'  =>  $model->continent_name,
             'continent_code'  =>  $model->continent_code,
-            'geo_name_identitiy'  =>  $model->geo_name_identitiy,
+            'geo_name_identity'  =>  $model->geo_name_identity,
             'is_active'  =>  $model->is_active,
             'timezones'  =>  $model->timezones,
             ]
@@ -40,6 +40,8 @@ class AbstractCountriesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 
