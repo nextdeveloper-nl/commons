@@ -139,4 +139,6 @@ class ExchangeRates extends Model
 
 
 
+
+
 }
