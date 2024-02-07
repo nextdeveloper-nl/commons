@@ -42,6 +42,9 @@ class AbstractAction implements ShouldQueue
             'object_id'     =>  $id,
             'object_type'   =>  $class
         ]);
+
+//        $this->timer = new Timer();
+//        $this->timer->diff('Action starts');
     }
 
     public function getAction()
@@ -49,21 +52,11 @@ class AbstractAction implements ShouldQueue
         return $this->action;
     }
 
-    public function setAction(Actions $actions)
-    {
-        $this->action = $actions;
-
-        if(!$this->timer) {
-            $this->timer = new Timer();
-            $this->timer->diff('Action starts');
-        }
-    }
-
     public function setProgress($percent, $completedAction) {
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  $completedAction,
-            'runtime'   =>  $this->timer->diff($completedAction)
+            //'runtime'   =>  $this->timer->diff($completedAction)
         ]);
     }
 
@@ -72,12 +65,12 @@ class AbstractAction implements ShouldQueue
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  'Action finished',
-            'runtime'   =>  $this->timer->diff('Action finished')
+            //'runtime'   =>  $this->timer->diff('Action finished')
         ]);
 
         $this->action->update([
             'progress'  =>  100,
-            'runtime'   =>  $this->timer->totalDiff()
+            //'runtime'   =>  $this->timer->totalDiff()
         ]);
     }
 }

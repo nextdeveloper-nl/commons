@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Log;
 use Iodev\Whois\Factory;
 
 
-
-
 /**
  * This action validates the domain by using http(s) protocol. It will check if the domain is reachable.
  */
@@ -37,17 +35,17 @@ class ValidateReachability extends AbstractAction
                 'is_reachable'  => false,
             ]
         ]);
+
+        parent::__construct();
     }
-
-
 
     /**
      * Checks if the domain is reachable and registered
+     *
+     * @return void
      */
-
     public function handle()
     {
-
         //  Application starts here
         $this->setProgress(0, 'Validating domain action started');
         if($this->checkDomainIsReachable()) {
@@ -90,8 +88,6 @@ class ValidateReachability extends AbstractAction
         }
 
         $this->setProgress(100, 'Validating domain action completed');
-
-        //  Application ends here
     }
 
 
@@ -139,6 +135,6 @@ class ValidateReachability extends AbstractAction
     }
 
     public function fail($exception = null){
-        dd($exception->getMessage());
+        dd($exception);
     }
 }
