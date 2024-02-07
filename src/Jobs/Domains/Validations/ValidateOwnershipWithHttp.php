@@ -23,8 +23,7 @@ class ValidateOwnershipWithHttp extends AbstractAction
         $this->domain = $domain;
     }
 
-    public function handle()
-    {
+    public function handle(){
 
     }
 }
