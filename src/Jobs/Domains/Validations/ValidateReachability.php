@@ -13,7 +13,7 @@ use phpWhois\Whois;
  */
 class ValidateReachability extends AbstractAction
 {
-    public $domain = null;
+    public $model = null;
 
     public $validatable = null;
 
@@ -22,37 +22,74 @@ class ValidateReachability extends AbstractAction
      *
      * @param Domains $domain
      */
-    public function __construct(Domains $domain)
+    public function __construct(Domains $model)
     {
-        $this->domain = $domain;
+        $this->model = $model;
 
         $this->validatable = Validatables::create([
-            'domain_id' => $domain->id,
-            'validation_type' => 'reachability',
+            'object_id' => $model->id,
+            'object_type' => get_class($model),
+            'validation_data'   =>  [
+                'is_registered' => false,
+                'is_reachable'  => false,
+            ]
         ]);
     }
 
     public function handle()
     {
-        /**
-         * This will check if the domain is reachable && regsitered
-         */
+        //  Application starts here
+        $this->setProgress(0, 'Validating domain action started');
 
-        if($this->checkDomainIsRegistered && $this->checkDomainIsReachable) {
-
-            return true;
+        if ($this->checkDomainIsRegistered()) {
+            $this->setProgress(33, 'We validate domain if it is registered');
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'is_registered' => false,
+                ],
+            ]);
         } else {
-            return false;
+            $this->validatable->update([
+                'is_registered' => false
+            ]);
+
+            $this->setProgress(33, 'We cannot validate domain if it is registered');
         }
-        
+
+        if($this->checkDomainIsReachable()) {
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'is_registered' => true,
+                ],
+            ]);
+            $this->setProgress(66, 'We validate domain if it is reachable');
+        } else {
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'is_registered' => false,
+                ],
+            ]);
+            $this->setProgress(66, 'We cannot validate domain if it is reachable');
+        }
+
+        $this->validatable = $this->validatable->fresh();
+
+        if($this->validatable->is_registered && $this->validatable->is_reachable) {
+            $this->model->update([
+                'is_reachable' => true,
+            ]);
+        }
+
+        $this->setProgress(100, 'Validating domain action completed');
+        //  Application ends here
     }
 
     private function checkDomainIsRegistered() : bool {
         // Create a new instance of the Whois class
         $whois = new Whois();
-        
+
         // Perform the WHOIS query for the specified domain
-        $result = $whois->lookup($this->domain);
+        $result = $whois->lookup($this->model->name);
 
         // Check the result to determine the registration status
         if ($result['regrinfo']['registered'] === true) {
