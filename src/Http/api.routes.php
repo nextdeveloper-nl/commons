@@ -272,24 +272,6 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('domains')->group(
-            function () {
-                Route::get('/', 'Domains\DomainsController@index');
-
-                Route::get('{common_domains}/tags ', 'Domains\DomainsController@tags');
-                Route::post('{common_domains}/tags ', 'Domains\DomainsController@saveTags');
-                Route::get('{common_domains}/addresses ', 'Domains\DomainsController@addresses');
-                Route::post('{common_domains}/addresses ', 'Domains\DomainsController@saveAddresses');
-
-                Route::get('/{common_domains}/{subObjects}', 'Domains\DomainsController@relatedObjects');
-                Route::get('/{common_domains}', 'Domains\DomainsController@show');
-
-                Route::post('/', 'Domains\DomainsController@store');
-                Route::patch('/{common_domains}', 'Domains\DomainsController@update');
-                Route::delete('/{common_domains}', 'Domains\DomainsController@destroy');
-            }
-        );
-
         Route::prefix('comments')->group(
             function () {
                 Route::get('/', 'Comments\CommentsController@index');
@@ -323,6 +305,42 @@ Route::prefix('commons')->group(
                 Route::post('/', 'Actions\ActionsController@store');
                 Route::patch('/{common_actions}', 'Actions\ActionsController@update');
                 Route::delete('/{common_actions}', 'Actions\ActionsController@destroy');
+            }
+        );
+
+        Route::prefix('domains')->group(
+            function () {
+                Route::get('/', 'Domains\DomainsController@index');
+
+                Route::get('{common_domains}/tags ', 'Domains\DomainsController@tags');
+                Route::post('{common_domains}/tags ', 'Domains\DomainsController@saveTags');
+                Route::get('{common_domains}/addresses ', 'Domains\DomainsController@addresses');
+                Route::post('{common_domains}/addresses ', 'Domains\DomainsController@saveAddresses');
+
+                Route::get('/{common_domains}/{subObjects}', 'Domains\DomainsController@relatedObjects');
+                Route::get('/{common_domains}', 'Domains\DomainsController@show');
+
+                Route::post('/', 'Domains\DomainsController@store');
+                Route::patch('/{common_domains}', 'Domains\DomainsController@update');
+                Route::delete('/{common_domains}', 'Domains\DomainsController@destroy');
+            }
+        );
+
+        Route::prefix('validatable')->group(
+            function () {
+                Route::get('/', 'Validatable\ValidatableController@index');
+
+                Route::get('{common_validatable}/tags ', 'Validatable\ValidatableController@tags');
+                Route::post('{common_validatable}/tags ', 'Validatable\ValidatableController@saveTags');
+                Route::get('{common_validatable}/addresses ', 'Validatable\ValidatableController@addresses');
+                Route::post('{common_validatable}/addresses ', 'Validatable\ValidatableController@saveAddresses');
+
+                Route::get('/{common_validatable}/{subObjects}', 'Validatable\ValidatableController@relatedObjects');
+                Route::get('/{common_validatable}', 'Validatable\ValidatableController@show');
+
+                Route::post('/', 'Validatable\ValidatableController@store');
+                Route::patch('/{common_validatable}', 'Validatable\ValidatableController@update');
+                Route::delete('/{common_validatable}', 'Validatable\ValidatableController@destroy');
             }
         );
 
@@ -382,258 +400,7 @@ Route::prefix('commons')->group(
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

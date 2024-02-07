@@ -59,7 +59,6 @@ trait CommonValidatableTestTraits
             'POST', '/commons/commonvalidatable', [
             'form_params'   =>  [
                 'object_type'  =>  'a',
-                'validation_code'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -348,25 +347,6 @@ trait CommonValidatableTestTraits
             $request = new Request(
                 [
                 'object_type'  =>  'a'
-                ]
-            );
-
-            $filter = new CommonValidatableQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonValidatable::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonvalidatable_event_validation_code_filter()
-    {
-        try {
-            $request = new Request(
-                [
-                'validation_code'  =>  'a'
                 ]
             );
 

@@ -15,7 +15,7 @@ class ValidatablesCreateRequest extends AbstractFormRequest
         return [
             'object_id' => 'required',
         'object_type' => 'required|string',
-        'validation_code' => 'required|string',
+        'validation_data' => 'required',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
