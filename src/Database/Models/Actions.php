@@ -20,7 +20,7 @@ class Actions extends Model
     use Filterable, UuidId, CleanCache, Taggable;
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'common_actions';
 
