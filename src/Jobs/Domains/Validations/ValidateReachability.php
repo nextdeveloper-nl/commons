@@ -48,6 +48,9 @@ class ValidateReachability extends AbstractAction
     {
         //  Application starts here
         $this->setProgress(0, 'Validating domain action started');
+
+        // Check if the domain is reachable
+
         if($this->checkDomainIsReachable()) {
             $validationData['is_reachable'] = true;
             $this->validatable->update([
@@ -62,6 +65,9 @@ class ValidateReachability extends AbstractAction
             ]);
             $this->setProgress(66, 'We cannot validate domain if it is reachable');
         }
+
+        // Check if the domain is registered
+
         if ($this->checkDomainIsRegistered()){
 
             $this->setProgress(33, 'We validate domain if it is registered');
@@ -80,7 +86,11 @@ class ValidateReachability extends AbstractAction
             $this->setProgress(33, 'We cannot validate domain if it is registered');
         }
 
+        // Refresh the Validatables record to reflect the latest changes
+
         $this->validatable->refresh();
+
+        // If domain is registered and reachable, generate and store a token
 
         if($validationData['is_registered'] && $validationData['is_reachable']){
             $this->model->is_reachable = true;
