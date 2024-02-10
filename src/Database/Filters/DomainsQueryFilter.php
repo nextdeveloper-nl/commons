@@ -43,14 +43,9 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_shared_domain', true);
     }
     
-    public function isOwnershipValidated()
+    public function isValidated()
     {
-        return $this->builder->where('is_ownership_validated', true);
-    }
-    
-    public function isReachable()
-    {
-        return $this->builder->where('is_reachable', true);
+        return $this->builder->where('is_validated', true);
     }
     
     public function createdAtStart($date) 

@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\Commons\Database\Filters\LanguagesQueryFilter;
-use NextDeveloper\Commons\Events\Languages\LanguagesCreatedEvent;
-use NextDeveloper\Commons\Events\Languages\LanguagesCreatingEvent;
-use NextDeveloper\Commons\Events\Languages\LanguagesUpdatedEvent;
-use NextDeveloper\Commons\Events\Languages\LanguagesUpdatingEvent;
-use NextDeveloper\Commons\Events\Languages\LanguagesDeletedEvent;
-use NextDeveloper\Commons\Events\Languages\LanguagesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Languages
@@ -97,6 +92,31 @@ class AbstractLanguagesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Languages::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractLanguagesService
      */
     public static function create(array $data)
     {
-        event(new LanguagesCreatingEvent());
-
         
         try {
             $model = Languages::create($data);
@@ -116,16 +134,16 @@ class AbstractLanguagesService
             throw $e;
         }
 
-        event(new LanguagesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Languages', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Languages
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Languages
      */
     public static function updateRaw(array $data) : ?Languages
     {
@@ -151,7 +169,7 @@ class AbstractLanguagesService
         $model = Languages::where('uuid', $id)->first();
 
         
-        event(new LanguagesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Languages', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +178,7 @@ class AbstractLanguagesService
             throw $e;
         }
 
-        event(new LanguagesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Languages', $model);
 
         return $model->fresh();
     }
@@ -179,7 +197,7 @@ class AbstractLanguagesService
     {
         $model = Languages::where('uuid', $id)->first();
 
-        event(new LanguagesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Languages', $model);
 
         try {
             $model = $model->delete();

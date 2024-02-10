@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\CountryStates;
 use NextDeveloper\Commons\Database\Filters\CountryStatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for CountryStates
@@ -180,7 +181,7 @@ class AbstractCountryStatesService
             );
         }
     
-        event(new CountryStatesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\CountryStates', $model);
 
         try {
             $isUpdated = $model->update($data);

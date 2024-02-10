@@ -15,8 +15,9 @@ class CommentsCreateRequest extends AbstractFormRequest
         return [
             'body' => 'required|string',
         'object_id' => 'required',
-        'object_type' => 'required',
+        'object_type' => 'required|string',
         'parent_id' => 'nullable|exists:parents,uuid|uuid',
+        'tags' => '',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

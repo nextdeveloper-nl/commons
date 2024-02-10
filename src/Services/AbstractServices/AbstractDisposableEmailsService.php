@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\DisposableEmails;
 use NextDeveloper\Commons\Database\Filters\DisposableEmailsQueryFilter;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsCreatedEvent;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsCreatingEvent;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsUpdatedEvent;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsUpdatingEvent;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsDeletedEvent;
-use NextDeveloper\Commons\Events\DisposableEmails\DisposableEmailsDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for DisposableEmails
@@ -97,6 +92,31 @@ class AbstractDisposableEmailsService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = DisposableEmails::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractDisposableEmailsService
      */
     public static function create(array $data)
     {
-        event(new DisposableEmailsCreatingEvent());
-
         if (array_key_exists('common_domain_id', $data)) {
             $data['common_domain_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Domains',
@@ -122,16 +140,16 @@ class AbstractDisposableEmailsService
             throw $e;
         }
 
-        event(new DisposableEmailsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\DisposableEmails', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return DisposableEmails
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return DisposableEmails
      */
     public static function updateRaw(array $data) : ?DisposableEmails
     {
@@ -163,7 +181,7 @@ class AbstractDisposableEmailsService
             );
         }
     
-        event(new DisposableEmailsUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\DisposableEmails', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +190,7 @@ class AbstractDisposableEmailsService
             throw $e;
         }
 
-        event(new DisposableEmailsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\DisposableEmails', $model);
 
         return $model->fresh();
     }
@@ -191,7 +209,7 @@ class AbstractDisposableEmailsService
     {
         $model = DisposableEmails::where('uuid', $id)->first();
 
-        event(new DisposableEmailsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\DisposableEmails', $model);
 
         try {
             $model = $model->delete();

@@ -36,6 +36,7 @@ class AbstractMediaTransformer extends AbstractTransformer
             'manipulations'  =>  $model->manipulations,
             'custom_properties'  =>  $model->custom_properties,
             'order_column'  =>  $model->order_column,
+            'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -44,6 +45,10 @@ class AbstractMediaTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 

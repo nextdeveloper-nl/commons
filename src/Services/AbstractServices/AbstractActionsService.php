@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\Commons\Database\Filters\ActionsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\Commons\Events\Actions\ActionsCreatedEvent;
-use NextDeveloper\Commons\Events\Actions\ActionsCreatingEvent;
-use NextDeveloper\Commons\Events\Actions\ActionsUpdatedEvent;
-use NextDeveloper\Commons\Events\Actions\ActionsUpdatingEvent;
-use NextDeveloper\Commons\Events\Actions\ActionsDeletedEvent;
-use NextDeveloper\Commons\Events\Actions\ActionsDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Actions
@@ -132,25 +127,35 @@ class AbstractActionsService
      */
     public static function create(array $data)
     {
-        event(new ActionsCreatingEvent());
-
-        
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+    
         try {
             $model = Actions::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new ActionsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Actions', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Actions
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Actions
      */
     public static function updateRaw(array $data) : ?Actions
     {
@@ -175,8 +180,20 @@ class AbstractActionsService
     {
         $model = Actions::where('uuid', $id)->first();
 
-        
-        event(new ActionsUpdatingEvent($model));
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+    
+        Events::fire('updating:NextDeveloper\Commons\Actions', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -185,7 +202,7 @@ class AbstractActionsService
             throw $e;
         }
 
-        event(new ActionsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Actions', $model);
 
         return $model->fresh();
     }
@@ -204,7 +221,7 @@ class AbstractActionsService
     {
         $model = Actions::where('uuid', $id)->first();
 
-        event(new ActionsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Actions', $model);
 
         try {
             $model = $model->delete();

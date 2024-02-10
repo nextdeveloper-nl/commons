@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Media;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
-use NextDeveloper\Commons\Events\Media\MediaCreatedEvent;
-use NextDeveloper\Commons\Events\Media\MediaCreatingEvent;
-use NextDeveloper\Commons\Events\Media\MediaUpdatedEvent;
-use NextDeveloper\Commons\Events\Media\MediaUpdatingEvent;
-use NextDeveloper\Commons\Events\Media\MediaDeletedEvent;
-use NextDeveloper\Commons\Events\Media\MediaDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Media
@@ -97,6 +92,31 @@ class AbstractMediaService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Media::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,24 +127,23 @@ class AbstractMediaService
      */
     public static function create(array $data)
     {
-        event(new MediaCreatingEvent());
-
+        
         try {
             $model = Media::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new MediaCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Media', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-
-     @param  array $data
-     @return Media
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Media
      */
     public static function updateRaw(array $data) : ?Media
     {
@@ -149,8 +168,8 @@ class AbstractMediaService
     {
         $model = Media::where('uuid', $id)->first();
 
-
-        event(new MediaUpdatingEvent($model));
+        
+        Events::fire('updating:NextDeveloper\Commons\Media', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -159,7 +178,7 @@ class AbstractMediaService
             throw $e;
         }
 
-        event(new MediaUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Media', $model);
 
         return $model->fresh();
     }
@@ -178,7 +197,7 @@ class AbstractMediaService
     {
         $model = Media::where('uuid', $id)->first();
 
-        event(new MediaDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Media', $model);
 
         try {
             $model = $model->delete();

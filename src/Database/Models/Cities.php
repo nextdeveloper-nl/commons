@@ -56,9 +56,9 @@ class Cities extends Model
     'name' => 'string',
     'phone_code' => 'string',
     'geo_name_identitiy' => 'integer',
+    'common_country_id' => 'integer',
     'is_active' => 'boolean',
     'timezones' => 'array',
-    'common_country_id' => 'integer',
     ];
 
     /**
@@ -118,6 +118,9 @@ class Cities extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

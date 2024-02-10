@@ -60,6 +60,7 @@ class PhoneNumbers extends Model
     'number' => 'string',
     'is_active' => 'boolean',
     'common_country_id' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -124,6 +125,9 @@ class PhoneNumbers extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

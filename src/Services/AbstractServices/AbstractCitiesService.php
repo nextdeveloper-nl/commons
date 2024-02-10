@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Cities;
 use NextDeveloper\Commons\Database\Filters\CitiesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Cities
@@ -180,7 +181,7 @@ class AbstractCitiesService
             );
         }
     
-        event(new CitiesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Cities', $model);
 
         try {
             $isUpdated = $model->update($data);

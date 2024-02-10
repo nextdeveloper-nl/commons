@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Categories;
 use NextDeveloper\Commons\Database\Filters\CategoriesQueryFilter;
-use NextDeveloper\Commons\Events\Categories\CategoriesCreatedEvent;
-use NextDeveloper\Commons\Events\Categories\CategoriesCreatingEvent;
-use NextDeveloper\Commons\Events\Categories\CategoriesUpdatedEvent;
-use NextDeveloper\Commons\Events\Categories\CategoriesUpdatingEvent;
-use NextDeveloper\Commons\Events\Categories\CategoriesDeletedEvent;
-use NextDeveloper\Commons\Events\Categories\CategoriesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Categories
@@ -97,6 +92,31 @@ class AbstractCategoriesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Categories::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractCategoriesService
      */
     public static function create(array $data)
     {
-        event(new CategoriesCreatingEvent());
-
         if (array_key_exists('common_domain_id', $data)) {
             $data['common_domain_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Domains',
@@ -128,16 +146,16 @@ class AbstractCategoriesService
             throw $e;
         }
 
-        event(new CategoriesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Categories', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Categories
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Categories
      */
     public static function updateRaw(array $data) : ?Categories
     {
@@ -175,7 +193,7 @@ class AbstractCategoriesService
             );
         }
     
-        event(new CategoriesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Categories', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -184,7 +202,7 @@ class AbstractCategoriesService
             throw $e;
         }
 
-        event(new CategoriesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Categories', $model);
 
         return $model->fresh();
     }
@@ -203,7 +221,7 @@ class AbstractCategoriesService
     {
         $model = Categories::where('uuid', $id)->first();
 
-        event(new CategoriesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Categories', $model);
 
         try {
             $model = $model->delete();

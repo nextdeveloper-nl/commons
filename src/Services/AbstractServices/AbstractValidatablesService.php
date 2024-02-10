@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Validatables;
 use NextDeveloper\Commons\Database\Filters\ValidatablesQueryFilter;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesCreatedEvent;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesCreatingEvent;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesUpdatedEvent;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesUpdatingEvent;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesDeletedEvent;
-use NextDeveloper\Commons\Events\Validatables\ValidatablesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Validatables
@@ -97,6 +92,31 @@ class AbstractValidatablesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Validatables::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractValidatablesService
      */
     public static function create(array $data)
     {
-        event(new ValidatablesCreatingEvent());
-
         
         try {
             $model = Validatables::create($data);
@@ -116,16 +134,16 @@ class AbstractValidatablesService
             throw $e;
         }
 
-        event(new ValidatablesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Validatables', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Validatables
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Validatables
      */
     public static function updateRaw(array $data) : ?Validatables
     {
@@ -151,7 +169,7 @@ class AbstractValidatablesService
         $model = Validatables::where('uuid', $id)->first();
 
         
-        event(new ValidatablesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Validatables', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +178,7 @@ class AbstractValidatablesService
             throw $e;
         }
 
-        event(new ValidatablesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Validatables', $model);
 
         return $model->fresh();
     }
@@ -179,7 +197,7 @@ class AbstractValidatablesService
     {
         $model = Validatables::where('uuid', $id)->first();
 
-        event(new ValidatablesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Validatables', $model);
 
         try {
             $model = $model->delete();

@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\ActionLogs;
 use NextDeveloper\Commons\Database\Filters\ActionLogsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsCreatedEvent;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsCreatingEvent;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsUpdatedEvent;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsUpdatingEvent;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsDeletedEvent;
-use NextDeveloper\Commons\Events\ActionLogs\ActionLogsDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for ActionLogs
@@ -132,8 +127,6 @@ class AbstractActionLogsService
      */
     public static function create(array $data)
     {
-        event(new ActionLogsCreatingEvent());
-
         if (array_key_exists('common_action_id', $data)) {
             $data['common_action_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Actions',
@@ -147,16 +140,16 @@ class AbstractActionLogsService
             throw $e;
         }
 
-        event(new ActionLogsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\ActionLogs', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return ActionLogs
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return ActionLogs
      */
     public static function updateRaw(array $data) : ?ActionLogs
     {
@@ -188,7 +181,7 @@ class AbstractActionLogsService
             );
         }
     
-        event(new ActionLogsUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\ActionLogs', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -197,7 +190,7 @@ class AbstractActionLogsService
             throw $e;
         }
 
-        event(new ActionLogsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\ActionLogs', $model);
 
         return $model->fresh();
     }
@@ -216,7 +209,7 @@ class AbstractActionLogsService
     {
         $model = ActionLogs::where('uuid', $id)->first();
 
-        event(new ActionLogsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\ActionLogs', $model);
 
         try {
             $model = $model->delete();

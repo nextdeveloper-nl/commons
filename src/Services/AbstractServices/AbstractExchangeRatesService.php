@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
 use NextDeveloper\Commons\Database\Filters\ExchangeRatesQueryFilter;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesCreatedEvent;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesCreatingEvent;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesUpdatedEvent;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesUpdatingEvent;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesDeletedEvent;
-use NextDeveloper\Commons\Events\ExchangeRates\ExchangeRatesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for ExchangeRates
@@ -97,6 +92,31 @@ class AbstractExchangeRatesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = ExchangeRates::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractExchangeRatesService
      */
     public static function create(array $data)
     {
-        event(new ExchangeRatesCreatingEvent());
-
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
@@ -122,16 +140,16 @@ class AbstractExchangeRatesService
             throw $e;
         }
 
-        event(new ExchangeRatesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\ExchangeRates', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return ExchangeRates
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return ExchangeRates
      */
     public static function updateRaw(array $data) : ?ExchangeRates
     {
@@ -163,7 +181,7 @@ class AbstractExchangeRatesService
             );
         }
     
-        event(new ExchangeRatesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\ExchangeRates', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +190,7 @@ class AbstractExchangeRatesService
             throw $e;
         }
 
-        event(new ExchangeRatesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\ExchangeRates', $model);
 
         return $model->fresh();
     }
@@ -191,7 +209,7 @@ class AbstractExchangeRatesService
     {
         $model = ExchangeRates::where('uuid', $id)->first();
 
-        event(new ExchangeRatesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\ExchangeRates', $model);
 
         try {
             $model = $model->delete();

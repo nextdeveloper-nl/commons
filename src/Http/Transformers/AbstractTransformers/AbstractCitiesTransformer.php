@@ -30,14 +30,17 @@ class AbstractCitiesTransformer extends AbstractTransformer
             'name'  =>  $model->name,
             'phone_code'  =>  $model->phone_code,
             'geo_name_identitiy'  =>  $model->geo_name_identitiy,
+            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             'is_active'  =>  $model->is_active,
             'timezones'  =>  $model->timezones,
-            'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

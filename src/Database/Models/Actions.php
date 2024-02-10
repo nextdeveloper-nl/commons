@@ -56,6 +56,7 @@ class Actions extends Model
     'runtime' => 'integer',
     'object_id' => 'integer',
     'object_type' => 'string',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -118,6 +119,9 @@ class Actions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 
 

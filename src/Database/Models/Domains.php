@@ -58,11 +58,11 @@ class Domains extends Model
     'is_local_domain' => 'boolean',
     'is_locked' => 'boolean',
     'is_shared_domain' => 'boolean',
-    'is_ownership_validated' => 'boolean',
+    'is_validated' => 'boolean',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
-    'is_reachable' => 'boolean',
     ];
 
     /**
@@ -124,6 +124,10 @@ class Domains extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 
 
 
