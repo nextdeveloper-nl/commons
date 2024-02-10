@@ -46,6 +46,9 @@ class ValidateReachability extends AbstractAction
      * Checks if the domain is reachable and registered
      *
      * @return void
+     * @throws ConnectionException
+     * @throws ServerMismatchException
+     * @throws WhoisException
      */
     public function handle()
     {
@@ -69,7 +72,6 @@ class ValidateReachability extends AbstractAction
             $this->setProgress(66, 'We validate domain if it is not reachable.');
 
         // Refresh the Validatables record to reflect the latest changes
-
         $this->validatable->refresh();
 
         // If domain is registered and reachable, generate and store a token
@@ -167,7 +169,13 @@ class ValidateReachability extends AbstractAction
         }
     }
 
+    /**
+     * @param $exception
+     * @return void
+     */
     public function fail($exception = null){
-        dd($exception);
+        Log::error('[Commons\Action\ValidateReachability] Domain validation application created an exception.' .
+            ' We were trying to validate this domain: ' . $this->model->uuid . ' and the exception is:
+        ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' on line ' . $exception->getLine());
     }
 }
