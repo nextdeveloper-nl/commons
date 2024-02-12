@@ -23,28 +23,8 @@ class AbstractAction implements ShouldQueue
 
     private $timer;
 
-    /**
-     * This action takes a user object and assigns an Account Manager
-     *
-     * @param Users $users
-     */
     public function __construct()
     {
-        $class = get_class($this->model);
-        $id = $this->model->id;
-
-        $action = get_class($this);
-
-        $this->action = Actions::create([
-            'action'    =>  $action,
-            'progress'  =>  0,
-            'runtime'   =>  0,
-            'object_id'     =>  $id,
-            'object_type'   =>  $class
-        ]);
-
-//        $this->timer = new Timer();
-//        $this->timer->diff('Action starts');
     }
 
     public function getAction()
@@ -52,7 +32,24 @@ class AbstractAction implements ShouldQueue
         return $this->action;
     }
 
+    private function createAction() {
+        $class = get_class($this->model);
+        $id = $this->model->id;
+
+        $this->action = Actions::create([
+            'action'    =>  get_class($this),
+            'progress'  =>  0,
+            'runtime'   =>  0,
+            'object_id'     =>  $id,
+            'object_type'   =>  $class
+        ]);
+    }
+
     public function setProgress($percent, $completedAction) {
+        if(!$this->action) {
+            $this->createAction();
+        }
+
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  $completedAction,
@@ -60,7 +57,7 @@ class AbstractAction implements ShouldQueue
         ]);
     }
 
-    public function setFinished()
+    public function setFinished($log = 'Action finished')
     {
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
