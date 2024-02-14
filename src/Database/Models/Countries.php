@@ -11,9 +11,22 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Countries.
+ * Countries model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $code
+ * @property string $locale
+ * @property string $name
+ * @property string $currency_code
+ * @property string $phone_code
+ * @property $vat_rate
+ * @property string $continent_name
+ * @property string $continent_code
+ * @property integer $geo_name_identity
+ * @property boolean $is_active
+ * @property $timezones
  */
 class Countries extends Model
 {
@@ -29,6 +42,20 @@ class Countries extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'code',
+            'locale',
+            'name',
+            'currency_code',
+            'phone_code',
+            'vat_rate',
+            'continent_name',
+            'continent_code',
+            'geo_name_identity',
+            'is_active',
+            'timezones',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -120,6 +147,7 @@ class Countries extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

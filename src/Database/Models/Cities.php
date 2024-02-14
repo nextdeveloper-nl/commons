@@ -11,9 +11,19 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Cities.
+ * Cities model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $code
+ * @property string $locale
+ * @property string $name
+ * @property string $phone_code
+ * @property integer $geo_name_identitiy
+ * @property integer $common_country_id
+ * @property boolean $is_active
+ * @property $timezones
  */
 class Cities extends Model
 {
@@ -29,6 +39,17 @@ class Cities extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'code',
+            'locale',
+            'name',
+            'phone_code',
+            'geo_name_identitiy',
+            'common_country_id',
+            'is_active',
+            'timezones',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -118,6 +139,7 @@ class Cities extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

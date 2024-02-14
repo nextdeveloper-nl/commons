@@ -11,16 +11,22 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class ActionLogs.
+ * ActionLogs model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $common_action_id
+ * @property $log
+ * @property integer $runtime
+ * @property \Carbon\Carbon $created_at
  */
 class ActionLogs extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable;
 
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $table = 'common_action_logs';
 
@@ -29,6 +35,12 @@ class ActionLogs extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'common_action_id',
+            'log',
+            'runtime',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -114,6 +126,7 @@ class ActionLogs extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

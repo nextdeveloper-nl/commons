@@ -12,9 +12,23 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * Class Domains.
+ * Domains model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
+ * @property string $name
+ * @property boolean $is_active
+ * @property boolean $is_local_domain
+ * @property boolean $is_locked
+ * @property boolean $is_shared_domain
+ * @property boolean $is_validated
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Domains extends Model
 {
@@ -31,6 +45,18 @@ class Domains extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iam_account_id',
+            'iam_user_id',
+            'name',
+            'is_active',
+            'is_local_domain',
+            'is_locked',
+            'is_shared_domain',
+            'is_validated',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -124,6 +150,7 @@ class Domains extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
