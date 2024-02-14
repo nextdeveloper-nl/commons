@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Registries;
 use NextDeveloper\Commons\Database\Filters\RegistriesQueryFilter;
-use NextDeveloper\Commons\Events\Registries\RegistriesCreatedEvent;
-use NextDeveloper\Commons\Events\Registries\RegistriesCreatingEvent;
-use NextDeveloper\Commons\Events\Registries\RegistriesUpdatedEvent;
-use NextDeveloper\Commons\Events\Registries\RegistriesUpdatingEvent;
-use NextDeveloper\Commons\Events\Registries\RegistriesDeletedEvent;
-use NextDeveloper\Commons\Events\Registries\RegistriesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Registries
@@ -97,6 +92,31 @@ class AbstractRegistriesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Registries::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,25 +127,31 @@ class AbstractRegistriesService
      */
     public static function create(array $data)
     {
-        event(new RegistriesCreatingEvent());
-
         
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Registries::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new RegistriesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Registries', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Registries
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Registries
      */
     public static function updateRaw(array $data) : ?Registries
     {
@@ -151,7 +177,7 @@ class AbstractRegistriesService
         $model = Registries::where('uuid', $id)->first();
 
         
-        event(new RegistriesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Registries', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +186,7 @@ class AbstractRegistriesService
             throw $e;
         }
 
-        event(new RegistriesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Registries', $model);
 
         return $model->fresh();
     }
@@ -179,7 +205,7 @@ class AbstractRegistriesService
     {
         $model = Registries::where('uuid', $id)->first();
 
-        event(new RegistriesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Registries', $model);
 
         try {
             $model = $model->delete();

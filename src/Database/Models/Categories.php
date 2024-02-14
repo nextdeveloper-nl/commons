@@ -12,9 +12,22 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Categories.
+ * Categories model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $slug
+ * @property string $name
+ * @property string $description
+ * @property $url
+ * @property boolean $is_active
+ * @property integer $common_domain_id
+ * @property integer $common_categories_id
+ * @property integer $order
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Categories extends Model
 {
@@ -31,6 +44,17 @@ class Categories extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'slug',
+            'name',
+            'description',
+            'url',
+            'is_active',
+            'common_domain_id',
+            'common_categories_id',
+            'order',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -124,6 +148,15 @@ class Categories extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 
 

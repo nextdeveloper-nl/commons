@@ -2,10 +2,14 @@
 
 namespace NextDeveloper\Commons\Jobs\Domains\Validations;
 
+use Iodev\Whois\Exceptions\ConnectionException;
+use Iodev\Whois\Exceptions\ServerMismatchException;
+use Iodev\Whois\Exceptions\WhoisException;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Validatables;
-use phpWhois\Whois;
+use Illuminate\Support\Facades\Log;
+use Iodev\Whois\Factory;
 
 
 /**
@@ -34,89 +38,145 @@ class ValidateReachability extends AbstractAction
                 'is_reachable'  => false,
             ]
         ]);
+
+        parent::__construct();
     }
 
+    /**
+     * Checks if the domain is reachable and registered
+     *
+     * @return void
+     * @throws ConnectionException
+     * @throws ServerMismatchException
+     * @throws WhoisException
+     */
     public function handle()
     {
         //  Application starts here
         $this->setProgress(0, 'Validating domain action started');
 
-        if ($this->checkDomainIsRegistered()) {
-            $this->setProgress(33, 'We validate domain if it is registered');
-            $this->validatable->update([
-                'validation_data'   =>  [
-                    'is_registered' => false,
-                ],
-            ]);
-        } else {
-            $this->validatable->update([
-                'is_registered' => false
-            ]);
+        //  Check if the domain is registered
+        $isRegistered = $this->checkDomainIsRegistered();
 
-            $this->setProgress(33, 'We cannot validate domain if it is registered');
-        }
+        if($isRegistered)
+            $this->setProgress(33, 'We validate that the domain is registered');
+        else
+            $this->setProgress(33, 'We validate that the domain is not registered.');
 
-        if($this->checkDomainIsReachable()) {
-            $this->validatable->update([
-                'validation_data'   =>  [
-                    'is_registered' => true,
-                ],
-            ]);
+        // Check if the domain is reachable
+        $isReachable = $this->checkDomainIsReachable();
+
+        if($isReachable)
             $this->setProgress(66, 'We validate domain if it is reachable');
-        } else {
-            $this->validatable->update([
-                'validation_data'   =>  [
-                    'is_registered' => false,
-                ],
-            ]);
-            $this->setProgress(66, 'We cannot validate domain if it is reachable');
-        }
+        else
+            $this->setProgress(66, 'We validate domain if it is not reachable.');
 
-        $this->validatable = $this->validatable->fresh();
+        // Refresh the Validatables record to reflect the latest changes
+        $this->validatable->refresh();
 
-        if($this->validatable->is_registered && $this->validatable->is_reachable) {
+        // If domain is registered and reachable, generate and store a token
+
+        if($this->validatable['validation_data']['is_reachable']){
+            
             $this->model->update([
                 'is_reachable' => true,
             ]);
         }
 
         $this->setProgress(100, 'Validating domain action completed');
-        //  Application ends here
     }
 
+
+    /**
+     * This method checks if the domain is registered and not expired. It uses the Iodev\Whois package to check the domain.
+     *
+     * It returns true if the domain is registered and false if it is not.
+     *
+     * @return bool
+     * @throws \Iodev\Whois\Exceptions\ConnectionException
+     * @throws \Iodev\Whois\Exceptions\ServerMismatchException
+     * @throws \Iodev\Whois\Exceptions\WhoisException
+     */
     private function checkDomainIsRegistered() : bool {
-        // Create a new instance of the Whois class
-        $whois = new Whois();
+        try {
+            $whois = Factory::get()->createWhois();
+            $url = $this->model->name;
+            $info = $whois->loadDomainInfo($url);
+            if($info){
+                $this->validatable->update([
+                    'validation_data'   =>  [
+                        'is_registered' => true,
+                    ],
+                ]);
 
-        // Perform the WHOIS query for the specified domain
-        $result = $whois->lookup($this->model->name);
+                return true;
+            }else{
+                $this->validatable->update([
+                    'validation_data'   =>  [
+                        'is_registered' => false,
+                    ],
+                ]);
 
-        // Check the result to determine the registration status
-        if ($result['regrinfo']['registered'] === true) {
-            // Domain is registered
-            return true;
-        } else {
-            // Domain is not registered
-            return false;
+                return false;
+            }
+        } catch (ConnectionException $exception) {
+            //  @todo: Log the exception and return false
+
+        } catch (ServerMismatchException $exception) {
+            //  @todo: Log the exception and return false
+
+        } catch (WhoisException $exception) {
+            //  @todo: Log the exception and return false
+
         }
 
+        return false;
     }
 
-    private function checkDomainIsReachable() : bool {
 
-        $url = $this->domain->url;
+    /**
+     * This method checks if the domain is reachable. It uses the curl to check the domain.
+     *
+     * @return bool
+     */
+    private function checkDomainIsReachable() : bool {
+        $url = $this->model->name;
         $ch = curl_init($url);
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_exec($ch);
+
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        Log::info("[Commons\Action\ValidateReachability@checkDomainIsReachable] Domain validation application created a log. Validating if ".$url." is reachable and the HTTP Code is ".$httpCode. "time: ".date('Y-m-d H:i:s'));
+        
         if ($httpCode === 200) {
             // Domain is reachable
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'is_reachable' => true,
+                ],
+            ]);
             return true;
         } else {
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'is_reachable' => false,
+                ],
+            ]);
             // Domain is not reachable
             return false;
         }
+    }
+
+    /**
+     * @param $exception
+     * @return void
+     */
+    public function fail($exception = null){
+        Log::error('[Commons\Action\ValidateReachability] Domain validation application created an exception.' .
+            ' We were trying to validate this domain: ' . $this->model->uuid . ' and the exception is:
+        ' . $exception->getMessage() . ' in ' . $exception->getFile() . ' on line ' . $exception->getLine());
     }
 }

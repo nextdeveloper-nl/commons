@@ -18,6 +18,7 @@ class ActionsUpdateRequest extends AbstractFormRequest
         'runtime' => 'nullable|integer',
         'object_id' => 'nullable',
         'object_type' => 'nullable|string',
+        'tags' => '',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

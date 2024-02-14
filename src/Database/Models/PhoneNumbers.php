@@ -12,9 +12,22 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class PhoneNumbers.
+ * PhoneNumbers model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $object_id
+ * @property string $object_type
+ * @property string $name
+ * @property string $code
+ * @property string $number
+ * @property boolean $is_active
+ * @property integer $common_country_id
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class PhoneNumbers extends Model
 {
@@ -31,6 +44,17 @@ class PhoneNumbers extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'object_id',
+            'object_type',
+            'name',
+            'code',
+            'number',
+            'is_active',
+            'common_country_id',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -60,6 +84,7 @@ class PhoneNumbers extends Model
     'number' => 'string',
     'is_active' => 'boolean',
     'common_country_id' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -124,6 +149,15 @@ class PhoneNumbers extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
 
 
 

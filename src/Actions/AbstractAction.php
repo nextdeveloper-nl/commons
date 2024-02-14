@@ -23,25 +23,8 @@ class AbstractAction implements ShouldQueue
 
     private $timer;
 
-    /**
-     * This action takes a user object and assigns an Account Manager
-     *
-     * @param Users $users
-     */
     public function __construct()
     {
-        $class = get_class($this->model);
-        $id = $this->model->id;
-
-        $action = get_class($this);
-
-        $this->action = Actions::create([
-            'action'    =>  $action,
-            'progress'  =>  0,
-            'runtime'   =>  0,
-            'object_id'     =>  $id,
-            'object_type'   =>  $class
-        ]);
     }
 
     public function getAction()
@@ -49,35 +32,42 @@ class AbstractAction implements ShouldQueue
         return $this->action;
     }
 
-    public function setAction(Actions $actions)
-    {
-        $this->action = $actions;
+    private function createAction() {
+        $class = get_class($this->model);
+        $id = $this->model->id;
 
-        if(!$this->timer) {
-            $this->timer = new Timer();
-            $this->timer->diff('Action starts');
-        }
-    }
-
-    public function setProgress($percent, $completedAction) {
-        ActionLogs::create([
-            'common_action_id'  =>  $this->action->id,
-            'log'   =>  $completedAction,
-            'runtime'   =>  $this->timer->diff($completedAction)
+        $this->action = Actions::create([
+            'action'    =>  get_class($this),
+            'progress'  =>  0,
+            'runtime'   =>  0,
+            'object_id'     =>  $id,
+            'object_type'   =>  $class
         ]);
     }
 
-    public function setFinished()
+    public function setProgress($percent, $completedAction) {
+        if(!$this->action) {
+            $this->createAction();
+        }
+
+        ActionLogs::create([
+            'common_action_id'  =>  $this->action->id,
+            'log'   =>  $completedAction,
+            //'runtime'   =>  $this->timer->diff($completedAction)
+        ]);
+    }
+
+    public function setFinished($log = 'Action finished')
     {
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  'Action finished',
-            'runtime'   =>  $this->timer->diff('Action finished')
+            //'runtime'   =>  $this->timer->diff('Action finished')
         ]);
 
         $this->action->update([
             'progress'  =>  100,
-            'runtime'   =>  $this->timer->totalDiff()
+            //'runtime'   =>  $this->timer->totalDiff()
         ]);
     }
 }

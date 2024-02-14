@@ -21,6 +21,11 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
+    
+    public function validationCode($value)
+    {
+        return $this->builder->where('validation_code', 'like', '%' . $value . '%');
+    }
 
     public function createdAtStart($date) 
     {

@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
-use NextDeveloper\Commons\Events\Addresses\AddressesCreatedEvent;
-use NextDeveloper\Commons\Events\Addresses\AddressesCreatingEvent;
-use NextDeveloper\Commons\Events\Addresses\AddressesUpdatedEvent;
-use NextDeveloper\Commons\Events\Addresses\AddressesUpdatingEvent;
-use NextDeveloper\Commons\Events\Addresses\AddressesDeletedEvent;
-use NextDeveloper\Commons\Events\Addresses\AddressesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Addresses
@@ -97,6 +92,31 @@ class AbstractAddressesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Addresses::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,31 +127,43 @@ class AbstractAddressesService
      */
     public static function create(array $data)
     {
-        event(new AddressesCreatingEvent());
-
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
                 $data['common_country_id']
             );
         }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Addresses::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new AddressesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Addresses', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Addresses
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Addresses
      */
     public static function updateRaw(array $data) : ?Addresses
     {
@@ -162,8 +194,14 @@ class AbstractAddressesService
                 $data['common_country_id']
             );
         }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
     
-        event(new AddressesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Addresses', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +210,7 @@ class AbstractAddressesService
             throw $e;
         }
 
-        event(new AddressesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Addresses', $model);
 
         return $model->fresh();
     }
@@ -191,7 +229,7 @@ class AbstractAddressesService
     {
         $model = Addresses::where('uuid', $id)->first();
 
-        event(new AddressesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Addresses', $model);
 
         try {
             $model = $model->delete();

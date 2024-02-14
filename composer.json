@@ -9,7 +9,7 @@
         "php": ">=8.2.0",
         "league/fractal": "*",
         "monolog/monolog": "*",
-        "phpwhois/phpwhois": "*"
+        "io-developer/php-whois": "^4.1"
     },
     "require-dev": {
         "illuminate/support": "5.5.*",

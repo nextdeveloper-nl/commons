@@ -6,19 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
-use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
-use NextDeveloper\Commons\Events\Domains\DomainsCreatedEvent;
-use NextDeveloper\Commons\Events\Domains\DomainsCreatingEvent;
-use NextDeveloper\Commons\Events\Domains\DomainsUpdatedEvent;
-use NextDeveloper\Commons\Events\Domains\DomainsUpdatingEvent;
-use NextDeveloper\Commons\Events\Domains\DomainsDeletedEvent;
-use NextDeveloper\Commons\Events\Domains\DomainsDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Domains
@@ -100,21 +94,23 @@ class AbstractDomainsService
     /**
      * This method returns the sub objects of the related models
      *
-     * @param $uuid
-     * @param $object
+     * @param  $uuid
+     * @param  $object
      * @return void
      * @throws \Laravel\Octane\Exceptions\DdException
      */
-    public static function getSubObjects($uuid, $object) {
+    public static function relatedObjects($uuid, $object)
+    {
         try {
             $obj = Domains::where('uuid', $uuid)->first();
 
-            if(!$obj)
+            if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
+            }
 
-            if($obj)
+            if($obj) {
                 return $obj->$object;
-
+            }
         } catch (\Exception $e) {
             dd($e);
         }
@@ -131,8 +127,6 @@ class AbstractDomainsService
      */
     public static function create(array $data)
     {
-        event(new DomainsCreatingEvent());
-
         if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
@@ -145,6 +139,14 @@ class AbstractDomainsService
                 $data['iam_user_id']
             );
         }
+    
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
 
         try {
             $model = Domains::create($data);
@@ -152,16 +154,16 @@ class AbstractDomainsService
             throw $e;
         }
 
-        event(new DomainsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Domains', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-
-     @param  array $data
-     @return Domains
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Domains
      */
     public static function updateRaw(array $data) : ?Domains
     {
@@ -198,8 +200,8 @@ class AbstractDomainsService
                 $data['iam_user_id']
             );
         }
-
-        event(new DomainsUpdatingEvent($model));
+    
+        Events::fire('updating:NextDeveloper\Commons\Domains', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -208,7 +210,7 @@ class AbstractDomainsService
             throw $e;
         }
 
-        event(new DomainsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Domains', $model);
 
         return $model->fresh();
     }
@@ -227,7 +229,7 @@ class AbstractDomainsService
     {
         $model = Domains::where('uuid', $id)->first();
 
-        event(new DomainsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Domains', $model);
 
         try {
             $model = $model->delete();

@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\States;
 use NextDeveloper\Commons\Database\Filters\StatesQueryFilter;
-use NextDeveloper\Commons\Events\States\StatesCreatedEvent;
-use NextDeveloper\Commons\Events\States\StatesCreatingEvent;
-use NextDeveloper\Commons\Events\States\StatesUpdatedEvent;
-use NextDeveloper\Commons\Events\States\StatesUpdatingEvent;
-use NextDeveloper\Commons\Events\States\StatesDeletedEvent;
-use NextDeveloper\Commons\Events\States\StatesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for States
@@ -97,6 +92,31 @@ class AbstractStatesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = States::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,25 +127,31 @@ class AbstractStatesService
      */
     public static function create(array $data)
     {
-        event(new StatesCreatingEvent());
-
         
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = States::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new StatesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\States', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return States
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return States
      */
     public static function updateRaw(array $data) : ?States
     {
@@ -151,7 +177,7 @@ class AbstractStatesService
         $model = States::where('uuid', $id)->first();
 
         
-        event(new StatesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\States', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +186,7 @@ class AbstractStatesService
             throw $e;
         }
 
-        event(new StatesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\States', $model);
 
         return $model->fresh();
     }
@@ -179,7 +205,7 @@ class AbstractStatesService
     {
         $model = States::where('uuid', $id)->first();
 
-        event(new StatesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\States', $model);
 
         try {
             $model = $model->delete();

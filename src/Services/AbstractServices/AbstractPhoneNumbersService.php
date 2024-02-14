@@ -12,12 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\PhoneNumbers;
 use NextDeveloper\Commons\Database\Filters\PhoneNumbersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersCreatedEvent;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersCreatingEvent;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersUpdatedEvent;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersUpdatingEvent;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersDeletedEvent;
-use NextDeveloper\Commons\Events\PhoneNumbers\PhoneNumbersDeletingEvent;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for PhoneNumbers
@@ -132,8 +127,6 @@ class AbstractPhoneNumbersService
      */
     public static function create(array $data)
     {
-        event(new PhoneNumbersCreatingEvent());
-
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
@@ -141,22 +134,30 @@ class AbstractPhoneNumbersService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = PhoneNumbers::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new PhoneNumbersCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\PhoneNumbers', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return PhoneNumbers
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return PhoneNumbers
      */
     public static function updateRaw(array $data) : ?PhoneNumbers
     {
@@ -188,7 +189,7 @@ class AbstractPhoneNumbersService
             );
         }
     
-        event(new PhoneNumbersUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\PhoneNumbers', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -197,7 +198,7 @@ class AbstractPhoneNumbersService
             throw $e;
         }
 
-        event(new PhoneNumbersUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\PhoneNumbers', $model);
 
         return $model->fresh();
     }
@@ -216,7 +217,7 @@ class AbstractPhoneNumbersService
     {
         $model = PhoneNumbers::where('uuid', $id)->first();
 
-        event(new PhoneNumbersDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\PhoneNumbers', $model);
 
         try {
             $model = $model->delete();

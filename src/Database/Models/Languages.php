@@ -11,9 +11,21 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Languages.
+ * Languages model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property $iso_639_1_code
+ * @property $iso_639_2_code
+ * @property $iso_639_2b_code
+ * @property $code
+ * @property $code_v2
+ * @property $code_v2b
+ * @property string $name
+ * @property string $native_name
+ * @property boolean $is_default
+ * @property boolean $is_active
  */
 class Languages extends Model
 {
@@ -29,6 +41,19 @@ class Languages extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'iso_639_1_code',
+            'iso_639_2_code',
+            'iso_639_2b_code',
+            'code',
+            'code_v2',
+            'code_v2b',
+            'name',
+            'native_name',
+            'is_default',
+            'is_active',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -114,6 +139,16 @@ class Languages extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
 
 
 

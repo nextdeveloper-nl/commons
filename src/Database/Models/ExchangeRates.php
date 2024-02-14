@@ -11,9 +11,17 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class ExchangeRates.
+ * ExchangeRates model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $common_country_id
+ * @property string $code
+ * @property $rate
+ * @property \Carbon\Carbon $last_modified
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class ExchangeRates extends Model
 {
@@ -29,6 +37,13 @@ class ExchangeRates extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'common_country_id',
+            'code',
+            'rate',
+            'last_modified',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -117,6 +132,15 @@ class ExchangeRates extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 
 

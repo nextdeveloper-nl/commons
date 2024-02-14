@@ -82,4 +82,14 @@ class AbstractRegistriesTransformer extends AbstractTransformer
 
 
 
+
+
+
+
+
+
+
+
+
+
 }

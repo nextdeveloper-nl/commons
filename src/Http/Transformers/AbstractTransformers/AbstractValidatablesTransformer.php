@@ -26,7 +26,7 @@ class AbstractValidatablesTransformer extends AbstractTransformer
             'id'  =>  $model->uuid,
             'object_id'  =>  $model->object_id,
             'object_type'  =>  $model->object_type,
-            'validation_data'  =>  $model->validation_data,
+            'validation_code'  =>  $model->validation_code,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -35,6 +35,15 @@ class AbstractValidatablesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
 
 
 

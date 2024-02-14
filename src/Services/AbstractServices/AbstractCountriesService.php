@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Filters\CountriesQueryFilter;
-use NextDeveloper\Commons\Events\Countries\CountriesCreatedEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesCreatingEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesUpdatedEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesUpdatingEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesDeletedEvent;
-use NextDeveloper\Commons\Events\Countries\CountriesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Countries
@@ -97,6 +92,31 @@ class AbstractCountriesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Countries::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,25 +127,31 @@ class AbstractCountriesService
      */
     public static function create(array $data)
     {
-        event(new CountriesCreatingEvent());
-
         
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Countries::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new CountriesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Countries', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Countries
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Countries
      */
     public static function updateRaw(array $data) : ?Countries
     {
@@ -151,7 +177,7 @@ class AbstractCountriesService
         $model = Countries::where('uuid', $id)->first();
 
         
-        event(new CountriesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Countries', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +186,7 @@ class AbstractCountriesService
             throw $e;
         }
 
-        event(new CountriesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Countries', $model);
 
         return $model->fresh();
     }
@@ -179,7 +205,7 @@ class AbstractCountriesService
     {
         $model = Countries::where('uuid', $id)->first();
 
-        event(new CountriesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Countries', $model);
 
         try {
             $model = $model->delete();
