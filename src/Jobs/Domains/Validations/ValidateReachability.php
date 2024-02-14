@@ -77,6 +77,7 @@ class ValidateReachability extends AbstractAction
         // If domain is registered and reachable, generate and store a token
 
         if($this->validatable['validation_data']['is_reachable']){
+            
             $this->model->update([
                 'is_reachable' => true,
             ]);
@@ -148,8 +149,8 @@ class ValidateReachability extends AbstractAction
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        Log::info($httpCode);
-
+        Log::info("[Commons\Action\ValidateReachability@checkDomainIsReachable] Domain validation application created a log. Validating if ".$url." is reachable and the HTTP Code is ".$httpCode. "time: ".date('Y-m-d H:i:s'));
+        
         if ($httpCode === 200) {
             // Domain is reachable
             $this->validatable->update([
