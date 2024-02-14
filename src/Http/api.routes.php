@@ -2,6 +2,150 @@
 
 Route::prefix('commons')->group(
     function () {
+        Route::prefix('cities')->group(
+            function () {
+                Route::get('/', 'Cities\CitiesController@index');
+
+                Route::get('{common_cities}/tags ', 'Cities\CitiesController@tags');
+                Route::post('{common_cities}/tags ', 'Cities\CitiesController@saveTags');
+                Route::get('{common_cities}/addresses ', 'Cities\CitiesController@addresses');
+                Route::post('{common_cities}/addresses ', 'Cities\CitiesController@saveAddresses');
+
+                Route::get('/{common_cities}/{subObjects}', 'Cities\CitiesController@relatedObjects');
+                Route::get('/{common_cities}', 'Cities\CitiesController@show');
+
+                Route::post('/', 'Cities\CitiesController@store');
+                Route::patch('/{common_cities}', 'Cities\CitiesController@update');
+                Route::delete('/{common_cities}', 'Cities\CitiesController@destroy');
+            }
+        );
+
+        Route::prefix('currencies')->group(
+            function () {
+                Route::get('/', 'Currencies\CurrenciesController@index');
+
+                Route::get('{common_currencies}/tags ', 'Currencies\CurrenciesController@tags');
+                Route::post('{common_currencies}/tags ', 'Currencies\CurrenciesController@saveTags');
+                Route::get('{common_currencies}/addresses ', 'Currencies\CurrenciesController@addresses');
+                Route::post('{common_currencies}/addresses ', 'Currencies\CurrenciesController@saveAddresses');
+
+                Route::get('/{common_currencies}/{subObjects}', 'Currencies\CurrenciesController@relatedObjects');
+                Route::get('/{common_currencies}', 'Currencies\CurrenciesController@show');
+
+                Route::post('/', 'Currencies\CurrenciesController@store');
+                Route::patch('/{common_currencies}', 'Currencies\CurrenciesController@update');
+                Route::delete('/{common_currencies}', 'Currencies\CurrenciesController@destroy');
+            }
+        );
+
+        Route::prefix('countries')->group(
+            function () {
+                Route::get('/', 'Countries\CountriesController@index');
+
+                Route::get('{common_countries}/tags ', 'Countries\CountriesController@tags');
+                Route::post('{common_countries}/tags ', 'Countries\CountriesController@saveTags');
+                Route::get('{common_countries}/addresses ', 'Countries\CountriesController@addresses');
+                Route::post('{common_countries}/addresses ', 'Countries\CountriesController@saveAddresses');
+
+                Route::get('/{common_countries}/{subObjects}', 'Countries\CountriesController@relatedObjects');
+                Route::get('/{common_countries}', 'Countries\CountriesController@show');
+
+                Route::post('/', 'Countries\CountriesController@store');
+                Route::patch('/{common_countries}', 'Countries\CountriesController@update');
+                Route::delete('/{common_countries}', 'Countries\CountriesController@destroy');
+            }
+        );
+
+        Route::prefix('action-logs')->group(
+            function () {
+                Route::get('/', 'ActionLogs\ActionLogsController@index');
+
+                Route::get('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@tags');
+                Route::post('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@saveTags');
+                Route::get('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@addresses');
+                Route::post('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@saveAddresses');
+
+                Route::get('/{common_action_logs}/{subObjects}', 'ActionLogs\ActionLogsController@relatedObjects');
+                Route::get('/{common_action_logs}', 'ActionLogs\ActionLogsController@show');
+
+                Route::post('/', 'ActionLogs\ActionLogsController@store');
+                Route::patch('/{common_action_logs}', 'ActionLogs\ActionLogsController@update');
+                Route::delete('/{common_action_logs}', 'ActionLogs\ActionLogsController@destroy');
+            }
+        );
+
+        Route::prefix('addresses')->group(
+            function () {
+                Route::get('/', 'Addresses\AddressesController@index');
+
+                Route::get('{common_addresses}/tags ', 'Addresses\AddressesController@tags');
+                Route::post('{common_addresses}/tags ', 'Addresses\AddressesController@saveTags');
+                Route::get('{common_addresses}/addresses ', 'Addresses\AddressesController@addresses');
+                Route::post('{common_addresses}/addresses ', 'Addresses\AddressesController@saveAddresses');
+
+                Route::get('/{common_addresses}/{subObjects}', 'Addresses\AddressesController@relatedObjects');
+                Route::get('/{common_addresses}', 'Addresses\AddressesController@show');
+
+                Route::post('/', 'Addresses\AddressesController@store');
+                Route::patch('/{common_addresses}', 'Addresses\AddressesController@update');
+                Route::delete('/{common_addresses}', 'Addresses\AddressesController@destroy');
+            }
+        );
+
+        Route::prefix('categories')->group(
+            function () {
+                Route::get('/', 'Categories\CategoriesController@index');
+
+                Route::get('{common_categories}/tags ', 'Categories\CategoriesController@tags');
+                Route::post('{common_categories}/tags ', 'Categories\CategoriesController@saveTags');
+                Route::get('{common_categories}/addresses ', 'Categories\CategoriesController@addresses');
+                Route::post('{common_categories}/addresses ', 'Categories\CategoriesController@saveAddresses');
+
+                Route::get('/{common_categories}/{subObjects}', 'Categories\CategoriesController@relatedObjects');
+                Route::get('/{common_categories}', 'Categories\CategoriesController@show');
+
+                Route::post('/', 'Categories\CategoriesController@store');
+                Route::patch('/{common_categories}', 'Categories\CategoriesController@update');
+                Route::delete('/{common_categories}', 'Categories\CategoriesController@destroy');
+            }
+        );
+
+        Route::prefix('country-states')->group(
+            function () {
+                Route::get('/', 'CountryStates\CountryStatesController@index');
+
+                Route::get('{common_country_states}/tags ', 'CountryStates\CountryStatesController@tags');
+                Route::post('{common_country_states}/tags ', 'CountryStates\CountryStatesController@saveTags');
+                Route::get('{common_country_states}/addresses ', 'CountryStates\CountryStatesController@addresses');
+                Route::post('{common_country_states}/addresses ', 'CountryStates\CountryStatesController@saveAddresses');
+
+                Route::get('/{common_country_states}/{subObjects}', 'CountryStates\CountryStatesController@relatedObjects');
+                Route::get('/{common_country_states}', 'CountryStates\CountryStatesController@show');
+
+                Route::post('/', 'CountryStates\CountryStatesController@store');
+                Route::patch('/{common_country_states}', 'CountryStates\CountryStatesController@update');
+                Route::delete('/{common_country_states}', 'CountryStates\CountryStatesController@destroy');
+            }
+        );
+
+        Route::prefix('actions')->group(
+            function () {
+                Route::get('/', 'Actions\ActionsController@index');
+
+                Route::get('{common_actions}/tags ', 'Actions\ActionsController@tags');
+                Route::post('{common_actions}/tags ', 'Actions\ActionsController@saveTags');
+                Route::get('{common_actions}/addresses ', 'Actions\ActionsController@addresses');
+                Route::post('{common_actions}/addresses ', 'Actions\ActionsController@saveAddresses');
+
+                Route::get('/{common_actions}/{subObjects}', 'Actions\ActionsController@relatedObjects');
+                Route::get('/{common_actions}', 'Actions\ActionsController@show');
+
+                Route::post('/', 'Actions\ActionsController@store');
+                Route::patch('/{common_actions}', 'Actions\ActionsController@update');
+                Route::delete('/{common_actions}', 'Actions\ActionsController@destroy');
+            }
+        );
+
         Route::prefix('comments')->group(
             function () {
                 Route::get('/', 'Comments\CommentsController@index');
@@ -20,6 +164,42 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('exchange-rates')->group(
+            function () {
+                Route::get('/', 'ExchangeRates\ExchangeRatesController@index');
+
+                Route::get('{common_exchange_rates}/tags ', 'ExchangeRates\ExchangeRatesController@tags');
+                Route::post('{common_exchange_rates}/tags ', 'ExchangeRates\ExchangeRatesController@saveTags');
+                Route::get('{common_exchange_rates}/addresses ', 'ExchangeRates\ExchangeRatesController@addresses');
+                Route::post('{common_exchange_rates}/addresses ', 'ExchangeRates\ExchangeRatesController@saveAddresses');
+
+                Route::get('/{common_exchange_rates}/{subObjects}', 'ExchangeRates\ExchangeRatesController@relatedObjects');
+                Route::get('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@show');
+
+                Route::post('/', 'ExchangeRates\ExchangeRatesController@store');
+                Route::patch('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@update');
+                Route::delete('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@destroy');
+            }
+        );
+
+        Route::prefix('disposable-emails')->group(
+            function () {
+                Route::get('/', 'DisposableEmails\DisposableEmailsController@index');
+
+                Route::get('{common_disposable_emails}/tags ', 'DisposableEmails\DisposableEmailsController@tags');
+                Route::post('{common_disposable_emails}/tags ', 'DisposableEmails\DisposableEmailsController@saveTags');
+                Route::get('{common_disposable_emails}/addresses ', 'DisposableEmails\DisposableEmailsController@addresses');
+                Route::post('{common_disposable_emails}/addresses ', 'DisposableEmails\DisposableEmailsController@saveAddresses');
+
+                Route::get('/{common_disposable_emails}/{subObjects}', 'DisposableEmails\DisposableEmailsController@relatedObjects');
+                Route::get('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@show');
+
+                Route::post('/', 'DisposableEmails\DisposableEmailsController@store');
+                Route::patch('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@update');
+                Route::delete('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@destroy');
+            }
+        );
+
         Route::prefix('languages')->group(
             function () {
                 Route::get('/', 'Languages\LanguagesController@index');
@@ -35,6 +215,24 @@ Route::prefix('commons')->group(
                 Route::post('/', 'Languages\LanguagesController@store');
                 Route::patch('/{common_languages}', 'Languages\LanguagesController@update');
                 Route::delete('/{common_languages}', 'Languages\LanguagesController@destroy');
+            }
+        );
+
+        Route::prefix('domains')->group(
+            function () {
+                Route::get('/', 'Domains\DomainsController@index');
+
+                Route::get('{common_domains}/tags ', 'Domains\DomainsController@tags');
+                Route::post('{common_domains}/tags ', 'Domains\DomainsController@saveTags');
+                Route::get('{common_domains}/addresses ', 'Domains\DomainsController@addresses');
+                Route::post('{common_domains}/addresses ', 'Domains\DomainsController@saveAddresses');
+
+                Route::get('/{common_domains}/{subObjects}', 'Domains\DomainsController@relatedObjects');
+                Route::get('/{common_domains}', 'Domains\DomainsController@show');
+
+                Route::post('/', 'Domains\DomainsController@store');
+                Route::patch('/{common_domains}', 'Domains\DomainsController@update');
+                Route::delete('/{common_domains}', 'Domains\DomainsController@destroy');
             }
         );
 
@@ -71,24 +269,6 @@ Route::prefix('commons')->group(
                 Route::post('/', 'Meta\MetaController@store');
                 Route::patch('/{common_meta}', 'Meta\MetaController@update');
                 Route::delete('/{common_meta}', 'Meta\MetaController@destroy');
-            }
-        );
-
-        Route::prefix('domains')->group(
-            function () {
-                Route::get('/', 'Domains\DomainsController@index');
-
-                Route::get('{common_domains}/tags ', 'Domains\DomainsController@tags');
-                Route::post('{common_domains}/tags ', 'Domains\DomainsController@saveTags');
-                Route::get('{common_domains}/addresses ', 'Domains\DomainsController@addresses');
-                Route::post('{common_domains}/addresses ', 'Domains\DomainsController@saveAddresses');
-
-                Route::get('/{common_domains}/{subObjects}', 'Domains\DomainsController@relatedObjects');
-                Route::get('/{common_domains}', 'Domains\DomainsController@show');
-
-                Route::post('/', 'Domains\DomainsController@store');
-                Route::patch('/{common_domains}', 'Domains\DomainsController@update');
-                Route::delete('/{common_domains}', 'Domains\DomainsController@destroy');
             }
         );
 
@@ -182,93 +362,21 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('disposable-emails')->group(
+        Route::prefix('phone-numbers')->group(
             function () {
-                Route::get('/', 'DisposableEmails\DisposableEmailsController@index');
+                Route::get('/', 'PhoneNumbers\PhoneNumbersController@index');
 
-                Route::get('{common_disposable_emails}/tags ', 'DisposableEmails\DisposableEmailsController@tags');
-                Route::post('{common_disposable_emails}/tags ', 'DisposableEmails\DisposableEmailsController@saveTags');
-                Route::get('{common_disposable_emails}/addresses ', 'DisposableEmails\DisposableEmailsController@addresses');
-                Route::post('{common_disposable_emails}/addresses ', 'DisposableEmails\DisposableEmailsController@saveAddresses');
+                Route::get('{common_phone_numbers}/tags ', 'PhoneNumbers\PhoneNumbersController@tags');
+                Route::post('{common_phone_numbers}/tags ', 'PhoneNumbers\PhoneNumbersController@saveTags');
+                Route::get('{common_phone_numbers}/addresses ', 'PhoneNumbers\PhoneNumbersController@addresses');
+                Route::post('{common_phone_numbers}/addresses ', 'PhoneNumbers\PhoneNumbersController@saveAddresses');
 
-                Route::get('/{common_disposable_emails}/{subObjects}', 'DisposableEmails\DisposableEmailsController@relatedObjects');
-                Route::get('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@show');
+                Route::get('/{common_phone_numbers}/{subObjects}', 'PhoneNumbers\PhoneNumbersController@relatedObjects');
+                Route::get('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@show');
 
-                Route::post('/', 'DisposableEmails\DisposableEmailsController@store');
-                Route::patch('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@update');
-                Route::delete('/{common_disposable_emails}', 'DisposableEmails\DisposableEmailsController@destroy');
-            }
-        );
-
-        Route::prefix('countries')->group(
-            function () {
-                Route::get('/', 'Countries\CountriesController@index');
-
-                Route::get('{common_countries}/tags ', 'Countries\CountriesController@tags');
-                Route::post('{common_countries}/tags ', 'Countries\CountriesController@saveTags');
-                Route::get('{common_countries}/addresses ', 'Countries\CountriesController@addresses');
-                Route::post('{common_countries}/addresses ', 'Countries\CountriesController@saveAddresses');
-
-                Route::get('/{common_countries}/{subObjects}', 'Countries\CountriesController@relatedObjects');
-                Route::get('/{common_countries}', 'Countries\CountriesController@show');
-
-                Route::post('/', 'Countries\CountriesController@store');
-                Route::patch('/{common_countries}', 'Countries\CountriesController@update');
-                Route::delete('/{common_countries}', 'Countries\CountriesController@destroy');
-            }
-        );
-
-        Route::prefix('categories')->group(
-            function () {
-                Route::get('/', 'Categories\CategoriesController@index');
-
-                Route::get('{common_categories}/tags ', 'Categories\CategoriesController@tags');
-                Route::post('{common_categories}/tags ', 'Categories\CategoriesController@saveTags');
-                Route::get('{common_categories}/addresses ', 'Categories\CategoriesController@addresses');
-                Route::post('{common_categories}/addresses ', 'Categories\CategoriesController@saveAddresses');
-
-                Route::get('/{common_categories}/{subObjects}', 'Categories\CategoriesController@relatedObjects');
-                Route::get('/{common_categories}', 'Categories\CategoriesController@show');
-
-                Route::post('/', 'Categories\CategoriesController@store');
-                Route::patch('/{common_categories}', 'Categories\CategoriesController@update');
-                Route::delete('/{common_categories}', 'Categories\CategoriesController@destroy');
-            }
-        );
-
-        Route::prefix('cities')->group(
-            function () {
-                Route::get('/', 'Cities\CitiesController@index');
-
-                Route::get('{common_cities}/tags ', 'Cities\CitiesController@tags');
-                Route::post('{common_cities}/tags ', 'Cities\CitiesController@saveTags');
-                Route::get('{common_cities}/addresses ', 'Cities\CitiesController@addresses');
-                Route::post('{common_cities}/addresses ', 'Cities\CitiesController@saveAddresses');
-
-                Route::get('/{common_cities}/{subObjects}', 'Cities\CitiesController@relatedObjects');
-                Route::get('/{common_cities}', 'Cities\CitiesController@show');
-
-                Route::post('/', 'Cities\CitiesController@store');
-                Route::patch('/{common_cities}', 'Cities\CitiesController@update');
-                Route::delete('/{common_cities}', 'Cities\CitiesController@destroy');
-            }
-        );
-
-        Route::prefix('country-states')->group(
-            function () {
-                Route::get('/', 'CountryStates\CountryStatesController@index');
-
-                Route::get('{common_country_states}/tags ', 'CountryStates\CountryStatesController@tags');
-                Route::post('{common_country_states}/tags ', 'CountryStates\CountryStatesController@saveTags');
-                Route::get('{common_country_states}/addresses ', 'CountryStates\CountryStatesController@addresses');
-                Route::post('{common_country_states}/addresses ', 'CountryStates\CountryStatesController@saveAddresses');
-
-                Route::get('/{common_country_states}/{subObjects}', 'CountryStates\CountryStatesController@relatedObjects');
-                Route::get('/{common_country_states}', 'CountryStates\CountryStatesController@show');
-
-                Route::post('/', 'CountryStates\CountryStatesController@store');
-                Route::patch('/{common_country_states}', 'CountryStates\CountryStatesController@update');
-                Route::delete('/{common_country_states}', 'CountryStates\CountryStatesController@destroy');
+                Route::post('/', 'PhoneNumbers\PhoneNumbersController@store');
+                Route::patch('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@update');
+                Route::delete('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@destroy');
             }
         );
 
@@ -287,114 +395,6 @@ Route::prefix('commons')->group(
                 Route::post('/', 'Votes\VotesController@store');
                 Route::patch('/{common_votes}', 'Votes\VotesController@update');
                 Route::delete('/{common_votes}', 'Votes\VotesController@destroy');
-            }
-        );
-
-        Route::prefix('actions')->group(
-            function () {
-                Route::get('/', 'Actions\ActionsController@index');
-
-                Route::get('{common_actions}/tags ', 'Actions\ActionsController@tags');
-                Route::post('{common_actions}/tags ', 'Actions\ActionsController@saveTags');
-                Route::get('{common_actions}/addresses ', 'Actions\ActionsController@addresses');
-                Route::post('{common_actions}/addresses ', 'Actions\ActionsController@saveAddresses');
-
-                Route::get('/{common_actions}/{subObjects}', 'Actions\ActionsController@relatedObjects');
-                Route::get('/{common_actions}', 'Actions\ActionsController@show');
-
-                Route::post('/', 'Actions\ActionsController@store');
-                Route::patch('/{common_actions}', 'Actions\ActionsController@update');
-                Route::delete('/{common_actions}', 'Actions\ActionsController@destroy');
-            }
-        );
-
-        Route::prefix('addresses')->group(
-            function () {
-                Route::get('/', 'Addresses\AddressesController@index');
-
-                Route::get('{common_addresses}/tags ', 'Addresses\AddressesController@tags');
-                Route::post('{common_addresses}/tags ', 'Addresses\AddressesController@saveTags');
-                Route::get('{common_addresses}/addresses ', 'Addresses\AddressesController@addresses');
-                Route::post('{common_addresses}/addresses ', 'Addresses\AddressesController@saveAddresses');
-
-                Route::get('/{common_addresses}/{subObjects}', 'Addresses\AddressesController@relatedObjects');
-                Route::get('/{common_addresses}', 'Addresses\AddressesController@show');
-
-                Route::post('/', 'Addresses\AddressesController@store');
-                Route::patch('/{common_addresses}', 'Addresses\AddressesController@update');
-                Route::delete('/{common_addresses}', 'Addresses\AddressesController@destroy');
-            }
-        );
-
-        Route::prefix('currencies')->group(
-            function () {
-                Route::get('/', 'Currencies\CurrenciesController@index');
-
-                Route::get('{common_currencies}/tags ', 'Currencies\CurrenciesController@tags');
-                Route::post('{common_currencies}/tags ', 'Currencies\CurrenciesController@saveTags');
-                Route::get('{common_currencies}/addresses ', 'Currencies\CurrenciesController@addresses');
-                Route::post('{common_currencies}/addresses ', 'Currencies\CurrenciesController@saveAddresses');
-
-                Route::get('/{common_currencies}/{subObjects}', 'Currencies\CurrenciesController@relatedObjects');
-                Route::get('/{common_currencies}', 'Currencies\CurrenciesController@show');
-
-                Route::post('/', 'Currencies\CurrenciesController@store');
-                Route::patch('/{common_currencies}', 'Currencies\CurrenciesController@update');
-                Route::delete('/{common_currencies}', 'Currencies\CurrenciesController@destroy');
-            }
-        );
-
-        Route::prefix('exchange-rates')->group(
-            function () {
-                Route::get('/', 'ExchangeRates\ExchangeRatesController@index');
-
-                Route::get('{common_exchange_rates}/tags ', 'ExchangeRates\ExchangeRatesController@tags');
-                Route::post('{common_exchange_rates}/tags ', 'ExchangeRates\ExchangeRatesController@saveTags');
-                Route::get('{common_exchange_rates}/addresses ', 'ExchangeRates\ExchangeRatesController@addresses');
-                Route::post('{common_exchange_rates}/addresses ', 'ExchangeRates\ExchangeRatesController@saveAddresses');
-
-                Route::get('/{common_exchange_rates}/{subObjects}', 'ExchangeRates\ExchangeRatesController@relatedObjects');
-                Route::get('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@show');
-
-                Route::post('/', 'ExchangeRates\ExchangeRatesController@store');
-                Route::patch('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@update');
-                Route::delete('/{common_exchange_rates}', 'ExchangeRates\ExchangeRatesController@destroy');
-            }
-        );
-
-        Route::prefix('action-logs')->group(
-            function () {
-                Route::get('/', 'ActionLogs\ActionLogsController@index');
-
-                Route::get('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@tags');
-                Route::post('{common_action_logs}/tags ', 'ActionLogs\ActionLogsController@saveTags');
-                Route::get('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@addresses');
-                Route::post('{common_action_logs}/addresses ', 'ActionLogs\ActionLogsController@saveAddresses');
-
-                Route::get('/{common_action_logs}/{subObjects}', 'ActionLogs\ActionLogsController@relatedObjects');
-                Route::get('/{common_action_logs}', 'ActionLogs\ActionLogsController@show');
-
-                Route::post('/', 'ActionLogs\ActionLogsController@store');
-                Route::patch('/{common_action_logs}', 'ActionLogs\ActionLogsController@update');
-                Route::delete('/{common_action_logs}', 'ActionLogs\ActionLogsController@destroy');
-            }
-        );
-
-        Route::prefix('phone-numbers')->group(
-            function () {
-                Route::get('/', 'PhoneNumbers\PhoneNumbersController@index');
-
-                Route::get('{common_phone_numbers}/tags ', 'PhoneNumbers\PhoneNumbersController@tags');
-                Route::post('{common_phone_numbers}/tags ', 'PhoneNumbers\PhoneNumbersController@saveTags');
-                Route::get('{common_phone_numbers}/addresses ', 'PhoneNumbers\PhoneNumbersController@addresses');
-                Route::post('{common_phone_numbers}/addresses ', 'PhoneNumbers\PhoneNumbersController@saveAddresses');
-
-                Route::get('/{common_phone_numbers}/{subObjects}', 'PhoneNumbers\PhoneNumbersController@relatedObjects');
-                Route::get('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@show');
-
-                Route::post('/', 'PhoneNumbers\PhoneNumbersController@store');
-                Route::patch('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@update');
-                Route::delete('/{common_phone_numbers}', 'PhoneNumbers\PhoneNumbersController@destroy');
             }
         );
 
@@ -474,10 +474,125 @@ Route::prefix('commons')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
+
+
+
+
+
 
 
 

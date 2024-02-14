@@ -20,7 +20,7 @@ class ActionLogs extends Model
     use Filterable, UuidId, CleanCache, Taggable;
 
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $table = 'common_action_logs';
 
@@ -114,6 +114,11 @@ class ActionLogs extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
 
 
 
