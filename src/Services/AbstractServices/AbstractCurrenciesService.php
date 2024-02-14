@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Filters\CurrenciesQueryFilter;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesCreatedEvent;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesCreatingEvent;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesUpdatedEvent;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesUpdatingEvent;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesDeletedEvent;
-use NextDeveloper\Commons\Events\Currencies\CurrenciesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Currencies
@@ -97,6 +92,31 @@ class AbstractCurrenciesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Currencies::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractCurrenciesService
      */
     public static function create(array $data)
     {
-        event(new CurrenciesCreatingEvent());
-
         if (array_key_exists('common_country_id', $data)) {
             $data['common_country_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Countries',
@@ -116,22 +134,30 @@ class AbstractCurrenciesService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Currencies::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new CurrenciesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Currencies', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Currencies
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Currencies
      */
     public static function updateRaw(array $data) : ?Currencies
     {
@@ -163,7 +189,7 @@ class AbstractCurrenciesService
             );
         }
     
-        event(new CurrenciesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Currencies', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +198,7 @@ class AbstractCurrenciesService
             throw $e;
         }
 
-        event(new CurrenciesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Currencies', $model);
 
         return $model->fresh();
     }
@@ -191,7 +217,7 @@ class AbstractCurrenciesService
     {
         $model = Currencies::where('uuid', $id)->first();
 
-        event(new CurrenciesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Currencies', $model);
 
         try {
             $model = $model->delete();

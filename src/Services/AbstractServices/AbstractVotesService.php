@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Votes;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
-use NextDeveloper\Commons\Events\Votes\VotesCreatedEvent;
-use NextDeveloper\Commons\Events\Votes\VotesCreatingEvent;
-use NextDeveloper\Commons\Events\Votes\VotesUpdatedEvent;
-use NextDeveloper\Commons\Events\Votes\VotesUpdatingEvent;
-use NextDeveloper\Commons\Events\Votes\VotesDeletedEvent;
-use NextDeveloper\Commons\Events\Votes\VotesDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Votes
@@ -97,6 +92,31 @@ class AbstractVotesService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Votes::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractVotesService
      */
     public static function create(array $data)
     {
-        event(new VotesCreatingEvent());
-
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -116,22 +134,30 @@ class AbstractVotesService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Votes::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new VotesCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Votes', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Votes
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Votes
      */
     public static function updateRaw(array $data) : ?Votes
     {
@@ -163,7 +189,7 @@ class AbstractVotesService
             );
         }
     
-        event(new VotesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Votes', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +198,7 @@ class AbstractVotesService
             throw $e;
         }
 
-        event(new VotesUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Votes', $model);
 
         return $model->fresh();
     }
@@ -191,7 +217,7 @@ class AbstractVotesService
     {
         $model = Votes::where('uuid', $id)->first();
 
-        event(new VotesDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Votes', $model);
 
         try {
             $model = $model->delete();

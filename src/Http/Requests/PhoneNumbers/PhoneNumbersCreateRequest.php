@@ -20,6 +20,7 @@ class PhoneNumbersCreateRequest extends AbstractFormRequest
         'number' => 'required|string',
         'is_active' => 'boolean',
         'common_country_id' => 'required|exists:common_countries,uuid|uuid',
+        'tags' => '',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

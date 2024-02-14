@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Tags;
 use NextDeveloper\Commons\Database\Filters\TagsQueryFilter;
-use NextDeveloper\Commons\Events\Tags\TagsCreatedEvent;
-use NextDeveloper\Commons\Events\Tags\TagsCreatingEvent;
-use NextDeveloper\Commons\Events\Tags\TagsUpdatedEvent;
-use NextDeveloper\Commons\Events\Tags\TagsUpdatingEvent;
-use NextDeveloper\Commons\Events\Tags\TagsDeletedEvent;
-use NextDeveloper\Commons\Events\Tags\TagsDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Tags
@@ -97,6 +92,31 @@ class AbstractTagsService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Tags::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractTagsService
      */
     public static function create(array $data)
     {
-        event(new TagsCreatingEvent());
-
         if (array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Accounts',
@@ -116,22 +134,30 @@ class AbstractTagsService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Tags::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new TagsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Tags', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Tags
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Tags
      */
     public static function updateRaw(array $data) : ?Tags
     {
@@ -163,7 +189,7 @@ class AbstractTagsService
             );
         }
     
-        event(new TagsUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Tags', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -172,7 +198,7 @@ class AbstractTagsService
             throw $e;
         }
 
-        event(new TagsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Tags', $model);
 
         return $model->fresh();
     }
@@ -191,7 +217,7 @@ class AbstractTagsService
     {
         $model = Tags::where('uuid', $id)->first();
 
-        event(new TagsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Tags', $model);
 
         try {
             $model = $model->delete();

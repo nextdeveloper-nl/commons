@@ -12,9 +12,27 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Addresses.
+ * Addresses model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $object_id
+ * @property string $object_type
+ * @property string $name
+ * @property string $line1
+ * @property string $line2
+ * @property string $city
+ * @property string $state
+ * @property string $state_code
+ * @property string $postcode
+ * @property boolean $is_invoice_address
+ * @property integer $common_country_id
+ * @property string $email_address
+ * @property integer $iam_account_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Addresses extends Model
 {
@@ -31,6 +49,22 @@ class Addresses extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'object_id',
+            'object_type',
+            'name',
+            'line1',
+            'line2',
+            'city',
+            'state',
+            'state_code',
+            'postcode',
+            'is_invoice_address',
+            'common_country_id',
+            'email_address',
+            'iam_account_id',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -129,6 +163,16 @@ class Addresses extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
 
 
 

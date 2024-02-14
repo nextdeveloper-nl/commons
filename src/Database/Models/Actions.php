@@ -11,9 +11,21 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Actions.
+ * Actions model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property string $action
+ * @property integer $progress
+ * @property integer $runtime
+ * @property integer $object_id
+ * @property string $object_type
+ * @property integer $iam_user_id
+ * @property integer $iam_account_id
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class Actions extends Model
 {
@@ -29,6 +41,17 @@ class Actions extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'action',
+            'progress',
+            'runtime',
+            'object_id',
+            'object_type',
+            'iam_user_id',
+            'iam_account_id',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -56,6 +79,7 @@ class Actions extends Model
     'runtime' => 'integer',
     'object_id' => 'integer',
     'object_type' => 'string',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -118,6 +142,16 @@ class Actions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
 
 
 

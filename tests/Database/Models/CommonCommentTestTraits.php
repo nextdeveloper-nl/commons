@@ -59,6 +59,7 @@ trait CommonCommentTestTraits
             'POST', '/commons/commoncomment', [
             'form_params'   =>  [
                 'body'  =>  'a',
+                'object_type'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -347,6 +348,25 @@ trait CommonCommentTestTraits
             $request = new Request(
                 [
                 'body'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonCommentQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonComment::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commoncomment_event_object_type_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'object_type'  =>  'a'
                 ]
             );
 

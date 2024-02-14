@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Meta;
 use NextDeveloper\Commons\Database\Filters\MetaQueryFilter;
-use NextDeveloper\Commons\Events\Meta\MetaCreatedEvent;
-use NextDeveloper\Commons\Events\Meta\MetaCreatingEvent;
-use NextDeveloper\Commons\Events\Meta\MetaUpdatedEvent;
-use NextDeveloper\Commons\Events\Meta\MetaUpdatingEvent;
-use NextDeveloper\Commons\Events\Meta\MetaDeletedEvent;
-use NextDeveloper\Commons\Events\Meta\MetaDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Meta
@@ -97,6 +92,31 @@ class AbstractMetaService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Meta::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,25 +127,31 @@ class AbstractMetaService
      */
     public static function create(array $data)
     {
-        event(new MetasCreatingEvent());
-
         
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Meta::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new MetasCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Meta', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Meta
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Meta
      */
     public static function updateRaw(array $data) : ?Meta
     {
@@ -151,7 +177,7 @@ class AbstractMetaService
         $model = Meta::where('uuid', $id)->first();
 
         
-        event(new MetaUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Meta', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +186,7 @@ class AbstractMetaService
             throw $e;
         }
 
-        event(new MetaUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Meta', $model);
 
         return $model->fresh();
     }
@@ -179,7 +205,7 @@ class AbstractMetaService
     {
         $model = Meta::where('uuid', $id)->first();
 
-        event(new MetaDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Meta', $model);
 
         try {
             $model = $model->delete();

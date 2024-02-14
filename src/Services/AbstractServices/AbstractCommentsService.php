@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
-use NextDeveloper\Commons\Events\Comments\CommentsCreatedEvent;
-use NextDeveloper\Commons\Events\Comments\CommentsCreatingEvent;
-use NextDeveloper\Commons\Events\Comments\CommentsUpdatedEvent;
-use NextDeveloper\Commons\Events\Comments\CommentsUpdatingEvent;
-use NextDeveloper\Commons\Events\Comments\CommentsDeletedEvent;
-use NextDeveloper\Commons\Events\Comments\CommentsDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for Comments
@@ -97,6 +92,31 @@ class AbstractCommentsService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = Comments::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,8 +127,6 @@ class AbstractCommentsService
      */
     public static function create(array $data)
     {
-        event(new CommentsCreatingEvent());
-
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\IAM\Database\Models\Users',
@@ -122,22 +140,30 @@ class AbstractCommentsService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = Comments::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new CommentsCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\Comments', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return Comments
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return Comments
      */
     public static function updateRaw(array $data) : ?Comments
     {
@@ -175,7 +201,7 @@ class AbstractCommentsService
             );
         }
     
-        event(new CommentsUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\Comments', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -184,7 +210,7 @@ class AbstractCommentsService
             throw $e;
         }
 
-        event(new CommentsUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\Comments', $model);
 
         return $model->fresh();
     }
@@ -203,7 +229,7 @@ class AbstractCommentsService
     {
         $model = Comments::where('uuid', $id)->first();
 
-        event(new CommentsDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\Comments', $model);
 
         try {
             $model = $model->delete();

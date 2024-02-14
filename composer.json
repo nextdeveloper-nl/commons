@@ -8,7 +8,8 @@
     "require": {
         "php": ">=8.2.0",
         "league/fractal": "*",
-        "monolog/monolog": "*"
+        "monolog/monolog": "*",
+        "io-developer/php-whois": "^4.1"
     },
     "require-dev": {
         "illuminate/support": "5.5.*",
@@ -28,5 +29,10 @@
             ]
         }
     },
-    "suggest": {}
+    "suggest": {},
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    }
 }

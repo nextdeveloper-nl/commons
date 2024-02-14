@@ -11,13 +11,8 @@ use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\SocialMedia;
 use NextDeveloper\Commons\Database\Filters\SocialMediaQueryFilter;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaCreatedEvent;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaCreatingEvent;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaUpdatedEvent;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaUpdatingEvent;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaDeletedEvent;
-use NextDeveloper\Commons\Events\SocialMedia\SocialMediaDeletingEvent;
-
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for SocialMedia
@@ -97,6 +92,31 @@ class AbstractSocialMediaService
     }
 
     /**
+     * This method returns the sub objects of the related models
+     *
+     * @param  $uuid
+     * @param  $object
+     * @return void
+     * @throws \Laravel\Octane\Exceptions\DdException
+     */
+    public static function relatedObjects($uuid, $object)
+    {
+        try {
+            $obj = SocialMedia::where('uuid', $uuid)->first();
+
+            if(!$obj) {
+                throw new ModelNotFoundException('Cannot find the related model');
+            }
+
+            if($obj) {
+                return $obj->$object;
+            }
+        } catch (\Exception $e) {
+            dd($e);
+        }
+    }
+
+    /**
      * This method created the model from an array.
      *
      * Throws an exception if stuck with any problem.
@@ -107,25 +127,31 @@ class AbstractSocialMediaService
      */
     public static function create(array $data)
     {
-        event(new SocialMediaCreatingEvent());
-
         
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = SocialMedia::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
 
-        event(new SocialMediaCreatedEvent($model));
+        Events::fire('created:NextDeveloper\Commons\SocialMedia', $model);
 
         return $model->fresh();
     }
 
     /**
-     This function expects the ID inside the object.
-    
-     @param  array $data
-     @return SocialMedia
+     * This function expects the ID inside the object.
+     *
+     * @param  array $data
+     * @return SocialMedia
      */
     public static function updateRaw(array $data) : ?SocialMedia
     {
@@ -151,7 +177,7 @@ class AbstractSocialMediaService
         $model = SocialMedia::where('uuid', $id)->first();
 
         
-        event(new SocialMediaUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\SocialMedia', $model);
 
         try {
             $isUpdated = $model->update($data);
@@ -160,7 +186,7 @@ class AbstractSocialMediaService
             throw $e;
         }
 
-        event(new SocialMediaUpdatedEvent($model));
+        Events::fire('updated:NextDeveloper\Commons\SocialMedia', $model);
 
         return $model->fresh();
     }
@@ -179,7 +205,7 @@ class AbstractSocialMediaService
     {
         $model = SocialMedia::where('uuid', $id)->first();
 
-        event(new SocialMediaDeletingEvent());
+        Events::fire('deleted:NextDeveloper\Commons\SocialMedia', $model);
 
         try {
             $model = $model->delete();

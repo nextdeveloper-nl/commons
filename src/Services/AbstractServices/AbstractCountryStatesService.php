@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\CountryStates;
 use NextDeveloper\Commons\Database\Filters\CountryStatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for CountryStates
@@ -133,6 +134,14 @@ class AbstractCountryStatesService
             );
         }
     
+        if(!array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = UserHelper::currentAccount()->id;
+        }
+
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
+
         try {
             $model = CountryStates::create($data);
         } catch(\Exception $e) {
@@ -180,7 +189,7 @@ class AbstractCountryStatesService
             );
         }
     
-        event(new CountryStatesUpdatingEvent($model));
+        Events::fire('updating:NextDeveloper\Commons\CountryStates', $model);
 
         try {
             $isUpdated = $model->update($data);

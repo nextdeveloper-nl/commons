@@ -12,9 +12,27 @@ use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
- * Class Media.
+ * Media model.
  *
- * @package NextDeveloper\Commons\Database\Models
+ * @package  NextDeveloper\Commons\Database\Models
+ * @property integer $id
+ * @property string $uuid
+ * @property integer $object_id
+ * @property string $object_type
+ * @property string $collection_name
+ * @property string $name
+ * @property string $cdn_url
+ * @property string $file_name
+ * @property string $mime_type
+ * @property string $disk
+ * @property integer $size
+ * @property $manipulations
+ * @property $custom_properties
+ * @property integer $order_column
+ * @property array $tags
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class Media extends Model
 {
@@ -31,6 +49,22 @@ class Media extends Model
      @var array
      */
     protected $guarded = [];
+
+    protected $fillable = [
+            'object_id',
+            'object_type',
+            'collection_name',
+            'name',
+            'cdn_url',
+            'file_name',
+            'mime_type',
+            'disk',
+            'size',
+            'manipulations',
+            'custom_properties',
+            'order_column',
+            'tags',
+    ];
 
     /**
       Here we have the fulltext fields. We can use these for fulltext search if enabled.
@@ -65,6 +99,7 @@ class Media extends Model
     'manipulations' => 'array',
     'custom_properties' => 'array',
     'order_column' => 'integer',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -129,6 +164,17 @@ class Media extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
+
+
+
+
+
+
+
 
 
 

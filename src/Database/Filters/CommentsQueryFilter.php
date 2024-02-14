@@ -22,6 +22,11 @@ class CommentsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('body', 'like', '%' . $value . '%');
     }
+    
+    public function objectType($value)
+    {
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+    }
 
     public function createdAtStart($date) 
     {
