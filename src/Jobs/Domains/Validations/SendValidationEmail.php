@@ -29,7 +29,7 @@ class SendValidationEmail extends AbstractAction
 
         parent::__construct(); // Call the constructor of the parent class
     }
-
+     
     /**
      * Handle the job.
      *
