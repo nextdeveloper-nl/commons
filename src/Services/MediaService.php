@@ -33,7 +33,6 @@ class MediaService extends AbstractMediaService
      */
     public static function create(array $data): mixed
     {
-
         $defaultCdn = config('commons.cdn.default');
 
         switch ($defaultCdn) {
