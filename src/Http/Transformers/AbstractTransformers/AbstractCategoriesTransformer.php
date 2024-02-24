@@ -21,7 +21,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
     public function transform(Categories $model)
     {
                         $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
-                    $commonCategoriesId = \NextDeveloper\Commons\Database\Models\Categories::where('id', $model->common_categories_id)->first();
+                    $commonCategoryId = \NextDeveloper\Commons\Database\Models\Categories::where('id', $model->common_category_id)->first();
         
         return $this->buildPayload(
             [
@@ -32,7 +32,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
             'url'  =>  $model->url,
             'is_active'  =>  $model->is_active,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
-            'common_categories_id'  =>  $commonCategoriesId ? $commonCategoriesId->uuid : null,
+            'common_category_id'  =>  $commonCategoryId ? $commonCategoryId->uuid : null,
             'order'  =>  $model->order,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
@@ -42,6 +42,8 @@ class AbstractCategoriesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 
