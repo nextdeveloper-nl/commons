@@ -13,13 +13,13 @@ class CategoriesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'slug' => 'nullable|string',
+            'slug' => 'required|string',
         'name' => 'required|string',
         'description' => 'nullable|string',
-        'url' => 'nullable',
+        'url' => 'nullable|string',
         'is_active' => 'boolean',
         'common_domain_id' => 'required|exists:common_domains,uuid|uuid',
-        'common_categories_id' => 'nullable|exists:common_categories,uuid|uuid',
+        'common_category_id' => 'nullable|exists:common_categories,uuid|uuid',
         'order' => 'integer',
         ];
     }

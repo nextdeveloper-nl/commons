@@ -20,10 +20,10 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $slug
  * @property string $name
  * @property string $description
- * @property $url
+ * @property string $url
  * @property boolean $is_active
  * @property integer $common_domain_id
- * @property integer $common_categories_id
+ * @property integer $common_category_id
  * @property integer $order
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -52,8 +52,8 @@ class Categories extends Model
             'url',
             'is_active',
             'common_domain_id',
-            'common_categories_id',
-            'order',
+            'common_category_id',
+            'position',
     ];
 
     /**
@@ -80,9 +80,10 @@ class Categories extends Model
     'slug' => 'string',
     'name' => 'string',
     'description' => 'string',
+    'url' => 'string',
     'is_active' => 'boolean',
     'common_domain_id' => 'integer',
-    'common_categories_id' => 'integer',
+    'common_category_id' => 'integer',
     'order' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
@@ -148,6 +149,7 @@ class Categories extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

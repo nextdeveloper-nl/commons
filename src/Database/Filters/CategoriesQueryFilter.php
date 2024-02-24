@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -16,23 +16,28 @@ class CategoriesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function slug($value)
     {
         return $this->builder->where('slug', 'like', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-    public function order($value)
+    public function url($value)
+    {
+        return $this->builder->where('url', 'like', '%' . $value . '%');
+    }
+
+    public function position($value)
     {
         $operator = substr($value, 0, 1);
 
@@ -42,40 +47,40 @@ class CategoriesQueryFilter extends AbstractQueryFilter
             $value = substr($value, 1);
         }
 
-        return $this->builder->where('order', $operator, $value);
+        return $this->builder->where('position', $operator, $value);
     }
-    
+
     public function isActive()
     {
         return $this->builder->where('is_active', true);
     }
-    
-    public function createdAtStart($date) 
+
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function updatedAtStart($date) 
+    public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
     }
 
-    public function updatedAtEnd($date) 
+    public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    public function deletedAtStart($date) 
+    public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
     }
 
-    public function deletedAtEnd($date) 
+    public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
     }
@@ -89,12 +94,12 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    public function commonCategoriesId($value)
+    public function commonCategoryId($value)
     {
-            $commonCategories = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
+            $commonCategory = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
 
-        if($commonCategories) {
-            return $this->builder->where('common_categories_id', '=', $commonCategories->id);
+        if($commonCategory) {
+            return $this->builder->where('common_category_id', '=', $commonCategory->id);
         }
     }
 
