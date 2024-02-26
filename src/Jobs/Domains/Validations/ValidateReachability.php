@@ -10,6 +10,7 @@ use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Validatables;
 use Illuminate\Support\Facades\Log;
 use Iodev\Whois\Factory;
+use Illuminate\Support\Str;
 
 
 /**
@@ -36,6 +37,7 @@ class ValidateReachability extends AbstractAction
             'validation_data'   =>  [
                 'is_registered' => false,
                 'is_reachable'  => false,
+                'dns_token'     => null,
             ]
         ]);
 
@@ -80,6 +82,11 @@ class ValidateReachability extends AbstractAction
             
             $this->model->update([
                 'is_reachable' => true,
+            ]);
+            $this->validatable->update([
+                'validation_data'   =>  [
+                    'dns_token' => Str::random(40),
+                ],
             ]);
         }
 

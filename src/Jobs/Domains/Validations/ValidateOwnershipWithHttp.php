@@ -4,7 +4,9 @@ namespace NextDeveloper\Commons\Jobs\Domains\Validations;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Domains;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Database\Models\Validatables;
+
 
 /**
  * This action validates the domain by using http(s) protocol. It will check if the domain is ownership by
@@ -12,17 +14,18 @@ use Illuminate\Http\Request;
  */
 class ValidateOwnershipWithHttp extends AbstractAction
 {
-    public $domain = null;
+    public $model = null;
+
 
     /**
      * @todo: Write comments
      *
-     * @param Domains $domain
+     * @param Domains $model
      * 
      */
-    public function __construct(Domains $domain)
+    public function __construct(Domains $model)
     {
-        $this->domain = $domain; // Assign the provided Domains model to $this->model
+        $this->model = $model; // Assign the provided Domains model to $this->model
 
     }
 
@@ -37,21 +40,55 @@ class ValidateOwnershipWithHttp extends AbstractAction
         // Set progress to 0% and start checking the domain
         $this->setProgress(0, 'Checking domain');
 
-        // Check if the domain exists
-        if ($this->domain){
-            // If the domain exists, mark it as validated
-            $this->domain->update([
-                'is_validated' => true,
-            ]);
+        if ($this->model) {
+            $validatable = Validatables::where('object_id', $this->model->id)
+                                    ->where('object_type', get_class($this->model))
+                                    ->first();
+            if($validatable && $this->model->is_reachable){
 
+                // Set progress to 50% and start checking the domain ownership
+                $this->setProgress(50, 'Checking domain ownership');
+
+                // Get the domain's DNS token
+                $domainDnsToken = $validatable->validation_data['dns_token'];
+
+                $checkDnsRecords = dns_get_record($this->model->name, TXT);
+                if ($checkDnsRecords !== false) {
+                    foreach ($checkDnsRecords as $record) {
+                        // Display each TXT record found
+                        if($record['txt'] == $domainDnsToken){
+                            // Set progress to 100% and indicate that the domain was found and validated
+                            $this->setProgress(100, 'Domain found and Ownership Validated');
+                        }else{
+                            // Set progress to 100% and indicate that the domain was found but not validated
+                            $this->setProgress(100, 'Domain found but not validated');
+                        }
+                    }
+                } else {
+
+                    // No TXT records found for the domain
+                    echo "No TXT records found for the domain.\n";
+                    $this->setProgress(100, 'Domain found but No TXT records found for the domain');
+
+                }
+
+                
+            }else{
+                //Set progress to 100% and indicate that the domain was found but not reachable
+                $this->setProgress(100, 'Domain found but not reachable');
+
+            }
+
+            
             // Set progress to 100% and indicate that the domain was found and validated
             $this->setProgress(100, 'Domain found and validated');
-        } else {
-            // If the domain doesn't exist, set progress to 100% and indicate that the domain was not found
+        }else{
+            // Set progress to 100% and indicate that the domain was not found
             $this->setProgress(100, 'Domain not found');
         }
+        
+
+        
     }
 
 }
-
-
