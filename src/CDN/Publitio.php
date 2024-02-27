@@ -39,8 +39,7 @@ class Publitio
                 'mime_type'         => $uploadToPublitio->type,
                 'disk'              => 'publitio',
                 'size'              => $uploadToPublitio->size,
-                'manipulations'     => 'N/A',
-                'custom_properties' => json_encode([
+                'custom_properties' => [
                     'id'            => $uploadToPublitio->id,
                     'public_id'     => $uploadToPublitio->public_id,
                     'type'          => $uploadToPublitio->type,
@@ -48,7 +47,7 @@ class Publitio
                     'privacy'       => $uploadToPublitio->privacy,
                     'download_url'  => $uploadToPublitio->url_download,
                     'created_at'    => $uploadToPublitio->created_at,
-                ]),
+                ],
             ];
             unlink($file);
             return $data;

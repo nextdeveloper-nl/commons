@@ -35,7 +35,11 @@ return [
             'api_key'       =>  env('PUBLITIO_API_KEY'),
             'api_secret'    =>  env('PUBLITIO_API_SECRET'),
             'domain'        =>  env('PUBLITIO_DOMAIN')
-        ]
+        ],
+        'local'    =>  [
+            'disk'      =>  env('LOCAL_STORAGE_DISK', 'public'),
+            'directory' =>  env('LOCAL_STORAGE_DIRECTORY', 'media')
+        ],
     ],
 ];
 
