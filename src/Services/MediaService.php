@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Services;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use NextDeveloper\Commons\Exceptions\CannotCreateModelException;
 use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractMediaService;
 use Publitio\BadJSONResponse;
@@ -34,7 +35,7 @@ class MediaService extends AbstractMediaService
      */
     public static function create(array $data): mixed
     {
-        $data = self::prepareData($data);
+        $data = self::processMediaUploadData($data);
 
         $defaultCdn = config('commons.cdn.default');
 
@@ -44,7 +45,7 @@ class MediaService extends AbstractMediaService
                 break;
             default:
                 // If any other CDN is selected, it will be uploaded to local storage
-                $uploadMedia = self::localStorage($data['file'], $data['file_name']);
+                $uploadMedia = self::saveToLocalStorage($data['file'], $data['file_name']);
                 break;
         }
 
@@ -62,10 +63,10 @@ class MediaService extends AbstractMediaService
      * @param string $file
      * @return array
      */
-    protected static function localStorage(string $file): array
+    protected static function saveToLocalStorage(string $file): array
     {
-        $localDisk = config('commons.cdn.local.disk');
-        $localDirectory = config('commons.cdn.local.directory');
+        $localDisk      = config('commons.local.disk');
+        $localDirectory = config('commons.local.directory');
 
         if (!Storage::disk($localDisk)->exists($localDirectory)) {
             Storage::disk($localDisk)->makeDirectory($localDirectory);
@@ -79,13 +80,13 @@ class MediaService extends AbstractMediaService
             'size' => File::size($file),
             'mime_type' => File::mimeType($file),
             'custom_properties' => [
-                'id' => $localFile,
-                'public_id' => $localFile,
-                'type' => File::type($file),
-                'extension' => File::extension($file),
-                'privacy' => 'public',
-                'download_url' => URL::to(Storage::url($localFile)),
-                'created_at' => now(),
+                'id'            => $localFile,
+                'public_id'     => $localFile,
+                'type'          => File::type($file),
+                'extension'     => File::extension($file),
+                'privacy'       => 'public',
+                'download_url'  => URL::to(Storage::url($localFile)),
+                'created_at'    => now(),
             ],
         ];
     }
@@ -95,9 +96,15 @@ class MediaService extends AbstractMediaService
      *
      * @param array $data
      * @return array
+     * @throws CannotCreateModelException
      */
-    protected static function prepareData(array $data): array
+    protected static function processMediaUploadData(array $data): array
     {
+
+        if (!isset($data['file'])) {
+            throw new CannotCreateModelException('File field is required');
+        }
+
         $file       = $data['file'];
         $fileName   = $file->getClientOriginalName();
         $directory  = storage_path('tmp');
