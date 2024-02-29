@@ -12,7 +12,7 @@ use NextDeveloper\Commons\Database\Models\Validatables;
  * This action validates the domain by using http(s) protocol. It will check if the domain is ownership by
  * looking at the server if the designated file is there with the given content.
  */
-class ValidateOwnershipWithHttp extends AbstractAction
+class ValidateOwnershipWithDns extends AbstractAction
 {
     public $model = null;
 
@@ -57,6 +57,10 @@ class ValidateOwnershipWithHttp extends AbstractAction
                     foreach ($checkDnsRecords as $record) {
                         // Display each TXT record found
                         if($record['txt'] == $domainDnsToken){
+
+                            $this->model->update([
+                                'is_validated' => true
+                            ]);
                             // Set progress to 100% and indicate that the domain was found and validated
                             $this->setProgress(100, 'Domain found and Ownership Validated');
                         }else{
