@@ -44,7 +44,7 @@ return [
     ],
 
     'cdn'   =>  [
-        'default'   =>  env('DEFAULT_CDN', 'publitio'),
+        'default'   =>  env('DEFAULT_CDN'),
         'publitio'  =>  [
             'api_key'       =>  env('PUBLITIO_API_KEY'),
             'api_secret'    =>  env('PUBLITIO_API_SECRET'),
