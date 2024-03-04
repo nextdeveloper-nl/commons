@@ -37,10 +37,12 @@ return [
      * LOCAL_STORAGE_DIRECTORY: The directory name for the local storage. Default is 'media'
      *
      * You can also add more storage configurations to the 'cdn' array.
-     *
      */
     'local'    =>  [
+        //  This is the root for local uploads
         'disk'      =>  env('LOCAL_STORAGE_DISK', 'public'),
+
+        //  This is the directory for local uploads
         'directory' =>  env('LOCAL_STORAGE_DIRECTORY', 'media')
     ],
 
