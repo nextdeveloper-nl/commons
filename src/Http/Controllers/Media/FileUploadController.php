@@ -2,24 +2,22 @@
 
 namespace NextDeveloper\Commons\Http\Controllers\Media;
 
-use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
+use NextDeveloper\Commons\Http\Requests\Media\FileUploadCreateRequest;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Media\MediaUpdateRequest;
-use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Services\MediaService;
-use NextDeveloper\Commons\Http\Requests\Media\MediaCreateRequest;
+use Publitio\BadJSONResponse;
 
 class FileUploadController extends AbstractController
 {
     /**
-     * This method created Media object on database.
+     * This method created a Media object on a database.
      *
-     * @param  MediaCreateRequest $request
+     * @param FileUploadCreateRequest $request
      * @return mixed|null
-     * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
+     * @throws BadJSONResponse
      */
-    public function upload(MediaCreateRequest $request)
+    public function upload(FileUploadCreateRequest $request)
     {
         $model = MediaService::create($request->validated());
 
