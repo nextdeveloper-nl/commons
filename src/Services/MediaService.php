@@ -2,8 +2,10 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use NextDeveloper\Commons\Exceptions\CannotCreateModelException;
 use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractMediaService;
 use Publitio\BadJSONResponse;
@@ -33,6 +35,8 @@ class MediaService extends AbstractMediaService
      */
     public static function create(array $data): mixed
     {
+        $data = self::processMediaUploadData($data);
+
         $defaultCdn = config('commons.cdn.default');
 
         switch ($defaultCdn) {
@@ -41,8 +45,7 @@ class MediaService extends AbstractMediaService
                 break;
             default:
                 // If any other CDN is selected, it will be uploaded to local storage
-                $uploadMedia = self::localStore($data['file'], $data['file']);
-                // TODO: Add warning stating that the file was uploaded to local storage
+                $uploadMedia = self::saveToLocalStorage($data['file'], $data['file_name']);
                 break;
         }
 
@@ -58,23 +61,64 @@ class MediaService extends AbstractMediaService
      * When local storage is used, the file is stored in the local storage and the file path is returned.
      *
      * @param string $file
-     * @param string $fileName
-     * @param string|null $localFile
      * @return array
      */
-    protected static function localStore(string $file, string $fileName, string $localFile = null): array
+    protected static function saveToLocalStorage(string $file): array
     {
-        // TODO: Move this file from temporary folder to public folder set in config
+        $localDisk      = config('commons.local.disk');
+        $localDirectory = config('commons.local.directory');
+
+        if (!Storage::disk($localDisk)->exists($localDirectory)) {
+            Storage::disk($localDisk)->makeDirectory($localDirectory);
+        }
+
+        $localFile = Storage::disk($localDisk)->putFile($localDirectory, $file);
+
         return [
-            'cdn_url'           => URL::to(Storage::url($localFile)),
-            'file_name'         => $fileName,
-            'mime_type'         => mime_content_type($file),
-            'disk'              => 'local',
-            'size'              => filesize($file),
-            'manipulations'     => 'N/A',
-            'custom_properties' => json_encode([
-                'file_name'     => $fileName,
-            ]),
+            'cdn_url' => URL::to(Storage::url($localFile)),
+            'disk' => 'public',
+            'size' => File::size($file),
+            'mime_type' => File::mimeType($file),
+            'custom_properties' => [
+                'id'            => $localFile,
+                'public_id'     => $localFile,
+                'type'          => File::type($file),
+                'extension'     => File::extension($file),
+                'privacy'       => 'public',
+                'download_url'  => URL::to(Storage::url($localFile)),
+                'created_at'    => now(),
+            ],
         ];
+    }
+
+    /**
+     * Prepares data to be stored in the database.
+     *
+     * @param array $data
+     * @return array
+     * @throws CannotCreateModelException
+     */
+    protected static function processMediaUploadData(array $data): array
+    {
+
+        if (!isset($data['file'])) {
+            throw new CannotCreateModelException('File field is required');
+        }
+
+        $file       = $data['file'];
+        $fileName   = $file->getClientOriginalName();
+        $directory  = storage_path('tmp');
+
+        // Create temporary folder, if not exist
+        if (!File::isDirectory($directory))
+        {
+            File::makeDirectory($directory, 0775, false, false);
+        }
+
+        $uploadToLocalStore = $file->store('tmp');
+        $data['file']       = storage_path('app/' . $uploadToLocalStore);
+        $data['file_name']  = $fileName;
+
+        return $data;
     }
 }
