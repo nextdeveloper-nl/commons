@@ -39,7 +39,6 @@ class ValidateOwnershipWithDns extends AbstractAction
     {
         // Set progress to 0% and start checking the domain
         $this->setProgress(0, 'Checking domain');
-
         if ($this->model) {
             $validatable = Validatables::where('object_id', $this->model->id)
                                     ->where('object_type', get_class($this->model))
@@ -50,14 +49,12 @@ class ValidateOwnershipWithDns extends AbstractAction
                 $this->setProgress(50, 'Checking domain ownership');
 
                 // Get the domain's DNS token
-                $domainDnsToken = $validatable->validation_data['dns_token'];
-
-                $checkDnsRecords = dns_get_record($this->model->name, TXT);
-                if ($checkDnsRecords !== false) {
-                    foreach ($checkDnsRecords as $record) {
+                $domain_dns_token = $validatable->validation_data['token'];
+                $check_dns_records = dns_get_record($this->model->name, TXT);
+                if ($check_dns_records !== false) {
+                    foreach ($check_dns_records as $record) {
                         // Display each TXT record found
-                        if($record['txt'] == $domainDnsToken){
-
+                        if($record['txt'] == $domain_dns_token){
                             $this->model->update([
                                 'is_validated' => true
                             ]);
@@ -69,30 +66,18 @@ class ValidateOwnershipWithDns extends AbstractAction
                         }
                     }
                 } else {
-
                     // No TXT records found for the domain
-                    echo "No TXT records found for the domain.\n";
                     $this->setProgress(100, 'Domain found but No TXT records found for the domain');
-
-                }
-
-                
+                }                
             }else{
                 //Set progress to 100% and indicate that the domain was found but not reachable
                 $this->setProgress(100, 'Domain found but not reachable');
-
-            }
-
-            
+            } 
             // Set progress to 100% and indicate that the domain was found and validated
             $this->setProgress(100, 'Domain found and validated');
         }else{
             // Set progress to 100% and indicate that the domain was not found
             $this->setProgress(100, 'Domain not found');
         }
-        
-
-        
     }
-
 }

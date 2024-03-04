@@ -37,7 +37,7 @@ class ValidateReachability extends AbstractAction
             'validation_data'   =>  [
                 'is_registered' => false,
                 'is_reachable'  => false,
-                'dns_token'     => null,
+                'token'     => null,
             ]
         ]);
 
@@ -85,7 +85,7 @@ class ValidateReachability extends AbstractAction
             ]);
             $this->validatable->update([
                 'validation_data'   =>  [
-                    'dns_token' => Str::random(40),
+                    'token' => Str::random(40),
                 ],
             ]);
         }
