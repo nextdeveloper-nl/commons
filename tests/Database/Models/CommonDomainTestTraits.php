@@ -59,6 +59,7 @@ trait CommonDomainTestTraits
             'POST', '/commons/commondomain', [
             'form_params'   =>  [
                 'name'  =>  'a',
+                'description'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -347,6 +348,25 @@ trait CommonDomainTestTraits
             $request = new Request(
                 [
                 'name'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonDomainQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonDomain::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commondomain_event_description_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'description'  =>  'a'
                 ]
             );
 

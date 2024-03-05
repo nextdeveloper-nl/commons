@@ -406,24 +406,3 @@ Route::prefix('commons')->group(
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

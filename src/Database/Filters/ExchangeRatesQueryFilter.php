@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class ExchangeRatesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -22,32 +23,32 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('code', 'like', '%' . $value . '%');
     }
 
-    public function lastModifiedStart($date) 
+    public function lastModifiedStart($date)
     {
         return $this->builder->where('last_modified', '>=', $date);
     }
 
-    public function lastModifiedEnd($date) 
+    public function lastModifiedEnd($date)
     {
         return $this->builder->where('last_modified', '<=', $date);
     }
 
-    public function createdAtStart($date) 
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    public function updatedAtStart($date) 
+    public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
     }
 
-    public function updatedAtEnd($date) 
+    public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
     }

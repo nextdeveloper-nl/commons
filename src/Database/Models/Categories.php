@@ -24,7 +24,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property boolean $is_active
  * @property integer $common_domain_id
  * @property integer $common_category_id
- * @property integer $order
+ * @property integer $position
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -84,7 +84,7 @@ class Categories extends Model
     'is_active' => 'boolean',
     'common_domain_id' => 'integer',
     'common_category_id' => 'integer',
-    'order' => 'integer',
+    'position' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -149,6 +149,7 @@ class Categories extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

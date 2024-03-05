@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class CitiesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -49,12 +50,12 @@ class CitiesQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('geo_name_identitiy', $operator, $value);
     }
-    
+
     public function isActive()
     {
         return $this->builder->where('is_active', true);
     }
-    
+
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
