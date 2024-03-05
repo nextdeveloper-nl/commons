@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class ActionLogsQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -29,13 +30,13 @@ class ActionLogsQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('runtime', $operator, $value);
     }
-    
-    public function createdAtStart($date) 
+
+    public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
     }
 
-    public function createdAtEnd($date) 
+    public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
     }

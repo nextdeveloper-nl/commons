@@ -33,7 +33,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
             'is_active'  =>  $model->is_active,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
             'common_category_id'  =>  $commonCategoryId ? $commonCategoryId->uuid : null,
-            'order'  =>  $model->order,
+            'position'  =>  $model->position,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
@@ -42,6 +42,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

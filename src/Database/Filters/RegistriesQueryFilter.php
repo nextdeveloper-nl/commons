@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class RegistriesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */

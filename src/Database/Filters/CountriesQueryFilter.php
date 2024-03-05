@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class CountriesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -64,11 +65,11 @@ class CountriesQueryFilter extends AbstractQueryFilter
 
         return $this->builder->where('geo_name_identity', $operator, $value);
     }
-    
+
     public function isActive()
     {
         return $this->builder->where('is_active', true);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 }

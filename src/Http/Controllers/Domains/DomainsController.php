@@ -3,21 +3,20 @@
 namespace NextDeveloper\Commons\Http\Controllers\Domains;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Traits\Tags;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Domains\DomainsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
+use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Services\DomainsService;
 use NextDeveloper\Commons\Http\Requests\Domains\DomainsCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class DomainsController extends AbstractController
 {
-    use Tags;
-
     private $model = Domains::class;
 
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of domains.
      *
@@ -52,15 +51,18 @@ class DomainsController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = DomainsService::getSubObjects($ref, $subObject);
+        $objects = DomainsService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

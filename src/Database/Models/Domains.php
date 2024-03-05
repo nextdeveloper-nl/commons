@@ -3,13 +3,13 @@
 namespace NextDeveloper\Commons\Database\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Observers\DomainsObserver;
-use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
-use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\Taggable;
 
 /**
  * Domains model.
@@ -29,6 +29,7 @@ use Illuminate\Notifications\Notifiable;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property string $description
  */
 class Domains extends Model
 {
@@ -56,6 +57,7 @@ class Domains extends Model
             'is_shared_domain',
             'is_validated',
             'tags',
+            'description',
     ];
 
     /**
@@ -89,6 +91,7 @@ class Domains extends Model
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'description' => 'string',
     ];
 
     /**
@@ -150,19 +153,4 @@ class Domains extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

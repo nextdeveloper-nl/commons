@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class CountryStatesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */
@@ -46,7 +47,7 @@ class CountryStatesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('is_active', true);
     }
-    
+
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();

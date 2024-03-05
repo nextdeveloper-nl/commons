@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  */
 class CurrenciesQueryFilter extends AbstractQueryFilter
 {
+
     /**
      * @var Builder
      */

@@ -62,7 +62,7 @@ trait CommonCategoryTestTraits
                 'name'  =>  'a',
                 'description'  =>  'a',
                 'url'  =>  'a',
-                'order'  =>  '1',
+                'position'  =>  '1',
                             ],
                 ['http_errors' => false]
             ]
@@ -421,12 +421,12 @@ trait CommonCategoryTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commoncategory_event_order_filter()
+    public function test_commoncategory_event_position_filter()
     {
         try {
             $request = new Request(
                 [
-                'order'  =>  '1'
+                'position'  =>  '1'
                 ]
             );
 
