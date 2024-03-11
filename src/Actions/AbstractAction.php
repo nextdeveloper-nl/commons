@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Actions;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,10 @@ class AbstractAction implements ShouldQueue
     }
 
     public function setProgress($percent, $completedAction) {
+        if(!$this->timer) {
+            $this->timer = now();
+        }
+
         if(!$this->action) {
             $this->createAction();
         }
@@ -59,10 +64,13 @@ class AbstractAction implements ShouldQueue
 
     public function setFinished($log = 'Action finished')
     {
+        $now = Carbon::now();
+        $diff = $now->diffInMilliseconds($this->timer);
+
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  'Action finished',
-            //'runtime'   =>  $this->timer->diff('Action finished')
+            'runtime'   =>  $diff
         ]);
 
         $this->action->update([
