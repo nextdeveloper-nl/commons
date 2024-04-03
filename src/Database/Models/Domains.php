@@ -18,7 +18,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $id
  * @property string $uuid
  * @property integer $iam_account_id
- * @property integer $iam_user_id
+
  * @property string $name
  * @property boolean $is_active
  * @property boolean $is_local_domain
@@ -49,7 +49,6 @@ class Domains extends Model
 
     protected $fillable = [
             'iam_account_id',
-            'iam_user_id',
             'name',
             'is_active',
             'is_local_domain',
