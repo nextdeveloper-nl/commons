@@ -22,7 +22,13 @@ class AbstractAction implements ShouldQueue
 
     public $model;
 
-    private $timer;
+    public $flowId;
+
+    public $nodeId;
+
+    private $startTime;
+
+    private $latestTime;
 
     public function __construct()
     {
@@ -42,13 +48,58 @@ class AbstractAction implements ShouldQueue
             'progress'  =>  0,
             'runtime'   =>  0,
             'object_id'     =>  $id,
-            'object_type'   =>  $class
+            'object_type'   =>  $class,
+            'iam_account_id'    => $this->getAccountId(),
+            'iam_user_id'       =>  $this->getUserId()
         ]);
     }
 
+    public function getUserId() {
+        if(property_exists($this->model, 'iam_user_id')) {
+            return $this->model->iam_user_id;
+        }
+
+        return null;
+    }
+
+    public function getAccountId() {
+        if(property_exists($this->model, 'iam_account_id')) {
+            return $this->model->iam_account_id;
+        }
+
+        return null;
+    }
+
+    public function setFlow($flow) {
+        $this->flowId = $flow;
+    }
+
+    public function getFlow() {
+        return $this->flowId;
+    }
+
+    public function setNode($node) {
+        $this->nodeId = $node;
+    }
+
+    public function getNode() {
+        return $this->nodeId;
+    }
+
     public function setProgress($percent, $completedAction) {
-        if(!$this->timer) {
-            $this->timer = now();
+        if(!$this->startTime) {
+            $this->startTime = now();
+        }
+
+        $diff = 0;
+
+        if(!$this->latestTime) {
+            $this->latestTime = now();
+        } else {
+            $now = Carbon::now();
+            $diff = $now->diffInMilliseconds($this->startTime);
+
+            $this->latestTime = now();
         }
 
         if(!$this->action) {
@@ -58,14 +109,16 @@ class AbstractAction implements ShouldQueue
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  $completedAction,
-            //'runtime'   =>  $this->timer->diff($completedAction)
+            'runtime'   =>  $diff,
+            'iam_account_id'    => $this->getAccountId(),
+            'iam_user_id'       =>  $this->getUserId()
         ]);
     }
 
     public function setFinished($log = 'Action finished')
     {
         $now = Carbon::now();
-        $diff = $now->diffInMilliseconds($this->timer);
+        $diff = $now->diffInMilliseconds($this->startTime);
 
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,

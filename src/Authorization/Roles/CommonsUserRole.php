@@ -15,7 +15,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'commons-user';
 
-    public const LEVEL = 50;
+    public const LEVEL = 150;
 
     public const DESCRIPTION = 'Commons User';
 
