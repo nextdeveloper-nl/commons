@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Authorization\Roles;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -30,10 +31,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
-         */
-        $builder->whereIsNull('iam_user_id');
+        $builder->where([
+            'iam_account_id'    =>  UserHelper::currentAccount()->id,
+            'iam_user_id'       =>  UserHelper::me()->id
+        ]);
     }
 
     public function checkPrivileges(Users $users = null)
@@ -117,5 +118,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     public function getDbPrefix()
     {
         return self::DB_PREFIX;
+    }
+
+    public function checkRules(Users $users): bool
+    {
+        // TODO: Implement checkRules() method.
     }
 }
