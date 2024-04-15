@@ -115,6 +115,23 @@ class AbstractAction implements ShouldQueue
         ]);
     }
 
+    public function setFinishedWithError($log = 'Action failed')
+    {
+        $now = Carbon::now();
+        $diff = $now->diffInMilliseconds($this->startTime);
+
+        ActionLogs::create([
+            'common_action_id'  =>  $this->action->id,
+            'log'   =>  'Error: ' . $log,
+            'runtime'   =>  $diff
+        ]);
+
+        $this->action->update([
+            'progress'  =>  100,
+            'runtime'   =>  $diff
+        ]);
+    }
+
     public function setFinished($log = 'Action finished')
     {
         $now = Carbon::now();
@@ -128,7 +145,7 @@ class AbstractAction implements ShouldQueue
 
         $this->action->update([
             'progress'  =>  100,
-            //'runtime'   =>  $this->timer->totalDiff()
+            'runtime'   => $diff
         ]);
     }
 }
