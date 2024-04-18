@@ -39,6 +39,19 @@ class AbstractAction implements ShouldQueue
         return $this->action;
     }
 
+    /**
+     * Returns the action
+     *
+     * @return mixed
+     */
+    public function getActionId() {
+        if(!$this->action) {
+            $this->createAction();
+        }
+
+        return $this->action->uuid;
+    }
+
     private function createAction() {
         $class = get_class($this->model);
         $id = $this->model->id;
@@ -52,6 +65,8 @@ class AbstractAction implements ShouldQueue
             'iam_account_id'    => $this->getAccountId(),
             'iam_user_id'       =>  $this->getUserId()
         ]);
+
+        $this->action = $this->action->fresh();
     }
 
     public function getUserId() {
