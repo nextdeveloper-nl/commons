@@ -4,7 +4,10 @@ namespace NextDeveloper\Commons;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 use NextDeveloper\Commons\AbstractServiceProvider;
+use NextDeveloper\Commons\Macros\Acronym;
 
 /**
  * Class CommonsServiceProvider
@@ -34,6 +37,21 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         $this->bootModelBindings();
         $this->bootEvents();
         $this->bootLogger();
+        $this->bootMacros();
+    }
+
+    public function bootMacros() {
+        //  String macros
+        $macros = [
+            'acronym' => Acronym::class,
+        ];
+
+        foreach ($macros as $macro) {
+            if(!Str::hasMacro($macro::NAME, $macro)) {
+                Str::macro($macro::NAME, app($macro)());
+                Stringable::macro($macro::NAME, app($macro)());
+            }
+        }
     }
 
     /**
