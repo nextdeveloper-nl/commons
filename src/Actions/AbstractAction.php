@@ -13,6 +13,8 @@ use NextDeveloper\Commons\Common\Timer\Timer;
 use NextDeveloper\Commons\Database\Models\ActionLogs;
 use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\CRM\Database\Models\Users;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 class AbstractAction implements ShouldQueue
 {
@@ -70,16 +72,36 @@ class AbstractAction implements ShouldQueue
     }
 
     public function getUserId() {
+        if(UserHelper::me()) {
+            return UserHelper::me()->id;
+        }
+
         if(property_exists($this->model, 'iam_user_id')) {
             return $this->model->iam_user_id;
+        }
+
+        if($this->action) {
+            if($this->action->iam_user_id) {
+                return $this->model->iam_user_id;
+            }
         }
 
         return null;
     }
 
     public function getAccountId() {
+        if(UserHelper::me()) {
+            return UserHelper::currentAccount()->id;
+        }
+
         if(property_exists($this->model, 'iam_account_id')) {
             return $this->model->iam_account_id;
+        }
+
+        if($this->action) {
+            if($this->action->iam_account_id) {
+                return $this->model->iam_account_id;
+            }
         }
 
         return null;
@@ -138,7 +160,9 @@ class AbstractAction implements ShouldQueue
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  'Error: ' . $log,
-            'runtime'   =>  $diff
+            'runtime'   =>  $diff,
+            'iam_account_id'    => $this->getAccountId(),
+            'iam_user_id'       =>  $this->getUserId()
         ]);
 
         $this->action->update([
@@ -155,7 +179,9 @@ class AbstractAction implements ShouldQueue
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  'Action finished',
-            'runtime'   =>  $diff
+            'runtime'   =>  $diff,
+            'iam_account_id'    => $this->getAccountId(),
+            'iam_user_id'       =>  $this->getUserId()
         ]);
 
         $this->action->update([
