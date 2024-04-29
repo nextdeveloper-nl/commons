@@ -5,13 +5,19 @@ namespace NextDeveloper\Commons\Http\Controllers\Tags;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\TagsQueryFilter;
+use NextDeveloper\Commons\Database\Models\Tags;
 use NextDeveloper\Commons\Services\TagsService;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class TagsController extends AbstractController
 {
+    private $model = Tags::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of tags.
      *
@@ -27,6 +33,36 @@ class TagsController extends AbstractController
         $data = TagsService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = TagsService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = TagsService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +82,18 @@ class TagsController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = TagsService::getSubObjects($ref, $subObject);
+        $objects = TagsService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

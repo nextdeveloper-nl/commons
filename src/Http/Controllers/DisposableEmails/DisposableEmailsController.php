@@ -5,13 +5,19 @@ namespace NextDeveloper\Commons\Http\Controllers\DisposableEmails;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DisposableEmailsQueryFilter;
+use NextDeveloper\Commons\Database\Models\DisposableEmails;
 use NextDeveloper\Commons\Services\DisposableEmailsService;
 use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class DisposableEmailsController extends AbstractController
 {
+    private $model = DisposableEmails::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of disposableemails.
      *
@@ -27,6 +33,36 @@ class DisposableEmailsController extends AbstractController
         $data = DisposableEmailsService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = DisposableEmailsService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = DisposableEmailsService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +82,18 @@ class DisposableEmailsController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = DisposableEmailsService::getSubObjects($ref, $subObject);
+        $objects = DisposableEmailsService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

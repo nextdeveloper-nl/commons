@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Http\Controllers\Actions;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Actions\ActionsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Actions;
@@ -32,6 +33,36 @@ class ActionsController extends AbstractController
         $data = ActionsService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = ActionsService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = ActionsService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

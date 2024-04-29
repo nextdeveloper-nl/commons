@@ -17,7 +17,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @package  NextDeveloper\Commons\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property $level
+ * @property $object_states
  * @property string $name
  * @property string $value
  * @property string $reason
@@ -44,7 +44,7 @@ class States extends Model
     protected $guarded = [];
 
     protected $fillable = [
-            'level',
+            'object_states',
             'name',
             'value',
             'reason',
@@ -142,6 +142,10 @@ class States extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
+
+
 
 
 

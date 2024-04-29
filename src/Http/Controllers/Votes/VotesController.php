@@ -5,13 +5,19 @@ namespace NextDeveloper\Commons\Http\Controllers\Votes;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Votes\VotesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
+use NextDeveloper\Commons\Database\Models\Votes;
 use NextDeveloper\Commons\Services\VotesService;
 use NextDeveloper\Commons\Http\Requests\Votes\VotesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class VotesController extends AbstractController
 {
+    private $model = Votes::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of votes.
      *
@@ -27,6 +33,36 @@ class VotesController extends AbstractController
         $data = VotesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = VotesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = VotesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +82,18 @@ class VotesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = VotesService::getSubObjects($ref, $subObject);
+        $objects = VotesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

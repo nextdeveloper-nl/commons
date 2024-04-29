@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Http\Controllers\PhoneNumbers;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\PhoneNumbers\PhoneNumbersUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\PhoneNumbersQueryFilter;
 use NextDeveloper\Commons\Database\Models\PhoneNumbers;
@@ -32,6 +33,36 @@ class PhoneNumbersController extends AbstractController
         $data = PhoneNumbersService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = PhoneNumbersService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = PhoneNumbersService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

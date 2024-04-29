@@ -16,7 +16,6 @@ class CommentsUpdateRequest extends AbstractFormRequest
             'body' => 'nullable|string',
         'object_id' => 'nullable',
         'object_type' => 'nullable|string',
-        'parent_id' => 'nullable|exists:parents,uuid|uuid',
         'tags' => '',
         ];
     }

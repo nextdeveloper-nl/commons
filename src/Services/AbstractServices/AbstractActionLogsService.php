@@ -80,6 +80,38 @@ class AbstractActionLogsService
         return ActionLogs::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = ActionLogs::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Invoices::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\Commons\\Actions\\ActionLogs\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -133,15 +165,27 @@ class AbstractActionLogsService
                 $data['common_action_id']
             );
         }
-    
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+            
         if(!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
+            );
+        }
+                    
         if(!array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id']    = UserHelper::me()->id;
         }
-
+            
         try {
             $model = ActionLogs::create($data);
         } catch(\Exception $e) {
@@ -186,6 +230,18 @@ class AbstractActionLogsService
             $data['common_action_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\Commons\Database\Models\Actions',
                 $data['common_action_id']
+            );
+        }
+        if (array_key_exists('iam_account_id', $data)) {
+            $data['iam_account_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Accounts',
+                $data['iam_account_id']
+            );
+        }
+        if (array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id'] = DatabaseHelper::uuidToId(
+                '\NextDeveloper\IAM\Database\Models\Users',
+                $data['iam_user_id']
             );
         }
     

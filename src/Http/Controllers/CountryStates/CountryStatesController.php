@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Http\Controllers\CountryStates;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\CountryStates\CountryStatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CountryStatesQueryFilter;
 use NextDeveloper\Commons\Database\Models\CountryStates;
@@ -32,6 +33,36 @@ class CountryStatesController extends AbstractController
         $data = CountryStatesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = CountryStatesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = CountryStatesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**

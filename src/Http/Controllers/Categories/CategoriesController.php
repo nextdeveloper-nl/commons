@@ -5,13 +5,19 @@ namespace NextDeveloper\Commons\Http\Controllers\Categories;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Categories\CategoriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CategoriesQueryFilter;
+use NextDeveloper\Commons\Database\Models\Categories;
 use NextDeveloper\Commons\Services\CategoriesService;
 use NextDeveloper\Commons\Http\Requests\Categories\CategoriesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class CategoriesController extends AbstractController
 {
+    private $model = Categories::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of categories.
      *
@@ -27,6 +33,36 @@ class CategoriesController extends AbstractController
         $data = CategoriesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = CategoriesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = CategoriesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +82,18 @@ class CategoriesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = CategoriesService::getSubObjects($ref, $subObject);
+        $objects = CategoriesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
