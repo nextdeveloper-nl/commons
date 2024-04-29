@@ -21,6 +21,8 @@ class AbstractActionLogsTransformer extends AbstractTransformer
     public function transform(ActionLogs $model)
     {
                         $commonActionId = \NextDeveloper\Commons\Database\Models\Actions::where('id', $model->common_action_id)->first();
+                    $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
+                    $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
         
         return $this->buildPayload(
             [
@@ -29,11 +31,17 @@ class AbstractActionLogsTransformer extends AbstractTransformer
             'log'  =>  $model->log,
             'runtime'  =>  $model->runtime,
             'created_at'  =>  $model->created_at,
+            'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
+            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             ]
         );
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 
 
 

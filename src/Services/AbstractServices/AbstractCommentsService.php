@@ -80,6 +80,38 @@ class AbstractCommentsService
         return Comments::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = Comments::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Invoices::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\Commons\\Actions\\Comments\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -133,21 +165,17 @@ class AbstractCommentsService
                 $data['iam_user_id']
             );
         }
+                    
+        if(!array_key_exists('iam_user_id', $data)) {
+            $data['iam_user_id']    = UserHelper::me()->id;
+        }
         if (array_key_exists('parent_id', $data)) {
             $data['parent_id'] = DatabaseHelper::uuidToId(
                 '\NextDeveloper\\Database\Models\Parents',
                 $data['parent_id']
             );
         }
-    
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
+                        
         try {
             $model = Comments::create($data);
         } catch(\Exception $e) {

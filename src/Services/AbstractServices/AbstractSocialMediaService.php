@@ -80,6 +80,38 @@ class AbstractSocialMediaService
         return SocialMedia::findByRef($ref);
     }
 
+    public static function getActions()
+    {
+        $model = SocialMedia::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Invoices::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\Commons\\Actions\\SocialMedia\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
+    }
+
     /**
      * This method returns the model by lookint at its id
      *
@@ -128,14 +160,6 @@ class AbstractSocialMediaService
     public static function create(array $data)
     {
         
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
         try {
             $model = SocialMedia::create($data);
         } catch(\Exception $e) {

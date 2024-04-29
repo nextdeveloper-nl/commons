@@ -18,7 +18,6 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $id
  * @property string $uuid
  * @property integer $iam_account_id
-
  * @property string $name
  * @property boolean $is_active
  * @property boolean $is_local_domain
@@ -152,4 +151,8 @@ class Domains extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 }

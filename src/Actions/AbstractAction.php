@@ -33,12 +33,16 @@ class AbstractAction implements ShouldQueue
     private $latestTime;
 
     public function __construct()
-    {
-    }
+    {}
 
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function validateParameters($parameters, $validation)
+    {
+        return true;
     }
 
     /**

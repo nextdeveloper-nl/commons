@@ -5,13 +5,19 @@ namespace NextDeveloper\Commons\Http\Controllers\Registries;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\RegistriesQueryFilter;
+use NextDeveloper\Commons\Database\Models\Registries;
 use NextDeveloper\Commons\Services\RegistriesService;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class RegistriesController extends AbstractController
 {
+    private $model = Registries::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of registries.
      *
@@ -27,6 +33,36 @@ class RegistriesController extends AbstractController
         $data = RegistriesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = RegistriesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = RegistriesService::doAction($objectId, $action);
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +82,18 @@ class RegistriesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = RegistriesService::getSubObjects($ref, $subObject);
+        $objects = RegistriesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }

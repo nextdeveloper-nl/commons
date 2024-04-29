@@ -13,7 +13,7 @@ class StatesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'level' => 'nullable',
+            'object_states' => 'nullable',
         'name' => 'nullable|string',
         'value' => 'nullable|string',
         'reason' => 'nullable|string',

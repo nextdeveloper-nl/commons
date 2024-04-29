@@ -21,13 +21,11 @@ class AbstractDomainsTransformer extends AbstractTransformer
     public function transform(Domains $model)
     {
                         $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                    $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
         
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'iam_account_id'  =>  $iamAccountId ? $iamAccountId->uuid : null,
-            'iam_user_id'  =>  $iamUserId ? $iamUserId->uuid : null,
             'name'  =>  $model->name,
             'is_active'  =>  $model->is_active,
             'is_local_domain'  =>  $model->is_local_domain,
@@ -44,4 +42,8 @@ class AbstractDomainsTransformer extends AbstractTransformer
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
 }
