@@ -5,7 +5,9 @@ namespace NextDeveloper\Commons\Authorization\Roles;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
@@ -20,7 +22,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 
     public const DESCRIPTION = 'Commons User';
 
-    public const DB_PREFIX = 'commons';
+    public const DB_PREFIX = 'common';
 
     /**
      * Applies basic member role sql for Eloquent
@@ -31,10 +33,33 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where([
-            'iam_account_id'    =>  UserHelper::currentAccount()->id,
-            'iam_user_id'       =>  UserHelper::me()->id
-        ]);
+        $isPublicExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_public');
+
+        // TODO: Implement apply() method.
+        $isAccountIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id');
+        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+
+        $where = [];
+
+        if($isAccountIdExists) {
+            Log::info('[MemberRole] Applying iam_account_id');
+            $where[] = ['iam_account_id', UserHelper::currentAccount()->id];
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+        }
+
+        if($isUserIdExists) {
+            Log::info('[MemberRole] Applying iam_user_id');
+            $where[] = ['iam_user_id', UserHelper::me()->id];
+            $builder->where('iam_user_id', UserHelper::me()->id);
+        }
+
+        if($isPublicExists) {
+            Log::info('[MemberRole] Applying is_public = true and user model');
+            $builder->where('is_public', true)
+                ->orWhere($where);
+        } else {
+            $builder->where($where);
+        }
     }
 
     public function checkPrivileges(Users $users = null)
