@@ -11,114 +11,143 @@
 
 namespace NextDeveloper\Commons\Database\Traits;
 
-use Bravo3\SSH\Connection;
-use Bravo3\SSH\Credentials\PasswordCredential;
-use  NextDeveloper\Commons\Common\Logger\QueueLogger;
-use  NextDeveloper\Commons\Exceptions\CannotConnectWithSSHException;
-use PlusClouds\Ip\Database\Models\Ip;
-
+use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Helpers\StateHelper;
 /*
  * This trait creates SSH Connections
  */
 
 trait SSHable
 {
-    public function performSSHCommand(string $command, QueueLogger $logger = null)
+    public function performSSHCommand($command)
     {
-        $connection = $this->createSSHConnection($logger);
+        $connection = $this->createSSHConnection();
 
-        if (!is_null($logger)) {
-            $logger->info("Executing : " . $command);
+        if(!$connection)
+            return null;
+
+        $response = [];
+
+        if(!is_array($command))
+            $command = [$command];
+
+        foreach ($command as $c) {
+            $out = '';
+            $error = '';
+            $this->ssh2Run($connection, $c, $out, $error);
+
+            $response[] = [
+                'output'    =>  trim($out),
+                'error'     =>  trim($error)
+            ];
         }
 
-        $result = trim($connection->execute($command)->getOutput());
-
-        if (!is_null($logger)) {
-            $logger->info("Result : " . $result);
-        }
-
-        $connection->disconnect();
-
-        return $result;
+        return $response;
     }
 
-    public function performSSHCommands(array $commands, QueueLogger $logger = null)
-    {
-        $connection = $this->createSSHConnection($logger);
+    private function ssh2Run($ssh2,$cmd,&$out=null,&$err=null){
+        $result=false;
+        $out='';
+        $err='';
+        $sshout=ssh2_exec($ssh2,$cmd);
 
-        $result = "";
+        if($sshout){
+            $ssherr=ssh2_fetch_stream($sshout,SSH2_STREAM_STDERR);
 
-        foreach ($commands as $command) {
-            if (!is_null($logger)) {
-                $logger->info("Executing " . $command);
+            if($ssherr){
+                # we cannot use stream_select() with SSH2 streams
+                # so use non-blocking stream_get_contents() and usleep()
+                if(stream_set_blocking($sshout,false) and
+                    stream_set_blocking($ssherr,false)
+                ){
+                    $result=true;
+                    # loop until end of output on both stdout and stderr
+                    $wait=0;
+                    while(!feof($sshout) or !feof($ssherr)){
+                        # sleep only after not reading any data
+                        if($wait)usleep($wait);
+                        $wait=50000; # 1/20 second
+                        if(!feof($sshout)){
+                            $one=stream_get_contents($sshout);
+                            if($one===false){ $result=false; break; }
+                            if($one!=''){ $out.=$one; $wait=0; }
+                        }
+                        if(!feof($ssherr)){
+                            $one=stream_get_contents($ssherr);
+                            if($one===false){ $result=false; break; }
+                            if($one!=''){ $err.=$one; $wait=0; }
+                        }
+                    }
+                }
+                # we need to wait for end of command
+                stream_set_blocking($sshout,true);
+                stream_set_blocking($ssherr,true);
+                # these will not get any output
+                stream_get_contents($sshout);
+                stream_get_contents($ssherr);
+                fclose($ssherr);
             }
-
-            $result = trim($connection->execute($command)->getOutput());
-
-            if (!is_null($logger)) {
-                $logger->info("Result: $result");
-            }
+            fclose($sshout);
         }
-
-        $connection->disconnect();
         return $result;
     }
 
     /**
      * @throws \Throwable
      */
-    public function createSSHConnection(QueueLogger $logger = null): Connection
+    public function createSSHConnection()
     {
-        $ipAddr = null;
+        $result = $this->checkSSHPort();
 
-        if ("PlusClouds\IAAS\Database\Models\VirtualMachine" == get_class($this)
-            &&
-            $this->virtualNetworkCards->count() > 0
-        ) {
-            $networkCard = $this->virtualNetworkCards[0];
-            $ip = Ip::where("virtual_network_card_id", $networkCard->id)->where('is_reachable', true)->first();
+        if($result['status'] === false)
+            return null;
 
-            $this->ip_addr = $ip->ip_addr;
+        $ipAddr = $this->ip_addr;
+        $ipAddr = explode('/', $ipAddr);
+        $ipAddr = $ipAddr[0];
+
+        try {
+            $connection = ssh2_connect($ipAddr, $this->ssh_port);
+            ssh2_auth_password($connection, $this->ssh_username, decrypt($this->ssh_password));
+        } catch (\ErrorException $e) {
+            if($e->getMessage() == 'ssh2_auth_password(): Authentication failed for root using password') {
+                StateHelper::setState($this, 'ssh_connection', 'Authentication failed! Please check your ssh username and password.', StateHelper::STATE_ERROR);
+                return null;
+            }
+            return null;
         }
 
-        /**
-         * Some tables has ip_v4, some has ip_addr, fixing here that problem
-         */
-        $ipAddr = $this->ip_v4 ?? $this->ip_addr;
-
-        throw_if(
-            is_null($ipAddr) || is_null($this->password),
-            new CannotConnectWithSSHException("Cannot create an SSH Connection. IP Address and Password information is missing.")
-        );
-
-        if (is_null($this->password)) {
-            $this->password = "template1";
-        }
-
-        if (is_null($this->username)) {
-            $this->username = "root";
-        }
-
-        $auth = new PasswordCredential($this->username, $this->password);
-
-        $connection = new Connection(
-            $ipAddr,
-            22,
-            $auth
-        );
-
-        if (!$connection->connect()) {
-            throw new CannotConnectWithSSHException('Error connecting to the linux machine');
-        }
-
-        if (!is_null($logger)) {
-            $logger->info("Created an SSH Connection with " . $this->ip_addr);
-        }
-
-        if (!$connection->authenticate()) {
-            throw new CannotConnectWithSSHException('Error authenticating to the linux machine');
-        }
+        StateHelper::setState($this, 'ssh_connection', 'successful', StateHelper::STATE_SUCCESS);
 
         return $connection;
+    }
+
+    public function checkSSHPort($timeout = 30)
+    {
+        $errCode = 0;
+        $errMessage = '';
+
+        $ipAddr = $this->ip_addr;
+        $ipAddr = explode('/', $ipAddr);
+        $ipAddr = $ipAddr[0];
+
+        Log::debug('[SSHable] Trying to connect to ssh port: ' . $ipAddr . ':' . $this->ssh_port . ' with timeout: ' . $timeout . ' seconds.');
+
+        $connection = @fsockopen($ipAddr, $this->ssh_port, $errCode, $errMessage, 30);
+
+        if(is_resource($connection))
+        {
+            fclose($connection);
+            StateHelper::setState($this, 'ssh_connection', 'successful', StateHelper::STATE_SUCCESS);
+            return ['status' => true];
+        }
+
+        $this->update([
+            'has_warning' => true
+        ]);
+
+        StateHelper::setState($this, 'ssh_connection', 'Cannot reach to ssh port! Error message: ' . $errMessage, StateHelper::STATE_ERROR);
+
+        return ['status' => false, 'message' => $errMessage];
     }
 }

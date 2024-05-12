@@ -35,6 +35,6 @@ class CategoriesTransformer extends AbstractCategoriesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

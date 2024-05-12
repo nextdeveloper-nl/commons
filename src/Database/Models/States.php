@@ -72,15 +72,15 @@ class States extends Model
      @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'value' => 'string',
-    'reason' => 'string',
-    'object_id' => 'integer',
-    'object_type' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+        'id' => 'integer',
+        'name' => 'string',
+        'value' => 'string',
+        'reason' => 'string',
+        'object_id' => 'integer',
+        'object_type' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**

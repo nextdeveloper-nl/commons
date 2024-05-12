@@ -30,11 +30,14 @@ class StatesTransformer extends AbstractStatesTransformer {
 
         $transformed = parent::transform($model);
 
+        unset($transformed['object_id']);
+        unset($transformed['object_type']);
+
         Cache::set(
             CacheHelper::getKey('States', $model->uuid, 'Transformed'),
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

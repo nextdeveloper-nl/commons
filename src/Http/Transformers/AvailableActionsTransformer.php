@@ -33,6 +33,8 @@ class AvailableActionsTransformer extends AbstractAvailableActionsTransformer
 
         $transformed = parent::transform($model);
 
+        unset($transformed['class']);
+
         Cache::set(
             CacheHelper::getKey('AvailableActions', $model->uuid, 'Transformed'),
             $transformed
