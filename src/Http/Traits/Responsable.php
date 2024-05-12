@@ -11,6 +11,7 @@
 namespace NextDeveloper\Commons\Http\Traits;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
@@ -106,6 +107,18 @@ trait Responsable
         return $this->setStatusCode( Response::HTTP_OK )
             ->withArray([
                 'task'    =>  'completed'
+            ]);
+    }
+
+    /**
+     * @param $message Reason why the task failed
+     * @return JsonResponse
+     */
+    public function withFailed($message) {
+        return $this->setStatusCode( Response::HTTP_OK )
+            ->withArray([
+                'task'    =>  'failed',
+                'reason'    =>  $message
             ]);
     }
 

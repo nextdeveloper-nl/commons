@@ -3,6 +3,8 @@
 namespace NextDeveloper\Commons;
 
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
@@ -52,6 +54,20 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                 Stringable::macro($macro::NAME, app($macro)());
             }
         }
+
+        Collection::macro('paginate', function($perPage, $page = null, $pageName = 'page') {
+            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
+            return new LengthAwarePaginator(
+                $this->forPage($page, $perPage), // $items
+                $this->count(),                  // $total
+                $perPage,
+                $page,
+                [                                // $options
+                    'path' => LengthAwarePaginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]
+            );
+        });
     }
 
     /**

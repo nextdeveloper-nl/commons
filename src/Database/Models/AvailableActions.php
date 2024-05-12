@@ -77,7 +77,7 @@ class AvailableActions extends Model
     'description' => 'string',
     'class' => 'string',
     'input' => 'string',
-    'parameters' => 'string',
+    'parameters' => 'array',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
