@@ -37,11 +37,6 @@ class AvailableActionsQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('input', 'like', '%' . $value . '%');
     }
-    
-    public function parameters($value)
-    {
-        return $this->builder->where('parameters', 'like', '%' . $value . '%');
-    }
 
     public function createdAtStart($date)
     {
@@ -74,4 +69,5 @@ class AvailableActionsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

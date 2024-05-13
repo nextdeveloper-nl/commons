@@ -14,10 +14,7 @@ class DomainsUpdateRequest extends AbstractFormRequest
     {
         return [
             'name' => 'nullable|string',
-        'is_active' => 'boolean',
         'is_local_domain' => 'boolean',
-        'is_locked' => 'boolean',
-        'is_shared_domain' => 'boolean',
         'tags' => '',
         'description' => 'nullable|string',
         ];

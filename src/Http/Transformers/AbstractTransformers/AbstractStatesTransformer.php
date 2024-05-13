@@ -4,6 +4,12 @@ namespace NextDeveloper\Commons\Http\Transformers\AbstractTransformers;
 
 use NextDeveloper\Commons\Database\Models\States;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Database\Models\Media;
+use NextDeveloper\Commons\Http\Transformers\MediaTransformer;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
+use NextDeveloper\Commons\Http\Transformers\AvailableActionsTransformer;
+use NextDeveloper\Commons\Http\Transformers\StatesTransformer;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
  * Class StatesTransformer. This class is being used to manipulate the data we are serving to the customer
@@ -12,6 +18,15 @@ use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
  */
 class AbstractStatesTransformer extends AbstractTransformer
 {
+
+    /**
+     * @var array
+     */
+    protected array $availableIncludes = [
+        'states',
+        'actions',
+        'media'
+    ];
 
     /**
      * @param States $model
@@ -37,7 +52,38 @@ class AbstractStatesTransformer extends AbstractTransformer
         );
     }
 
+    public function includeStates(States $model)
+    {
+        $states = States::where('object_type', get_class($model))
+            ->where('object_id', $model->id)
+            ->get();
+
+        return $this->collection($states, new StatesTransformer());
+    }
+
+    public function includeActions(States $model)
+    {
+        $input = get_class($model);
+        $input = str_replace('\\Database\\Models', '', $input);
+
+        $actions = AvailableActions::withoutGlobalScope(AuthorizationScope::class)
+            ->where('input', $input)
+            ->get();
+
+        return $this->collection($actions, new AvailableActionsTransformer());
+    }
+
+    public function includeMedia(Datacenters $model)
+    {
+        $media = Media::where('object_type', get_class($model))
+            ->where('object_id', $model->id)
+            ->get();
+
+        return $this->collection($media, new MediaTransformer());
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

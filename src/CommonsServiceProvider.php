@@ -54,26 +54,6 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                 Stringable::macro($macro::NAME, app($macro)());
             }
         }
-
-        $perPage = config('commons.pagination.per_page');
-
-        if($perPage == null) {
-            $perPage = 20;
-        }
-
-        Collection::macro('paginate', function($perPage, $page = null, $pageName = 'page') {
-            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
-            return new LengthAwarePaginator(
-                $this->forPage($page, $perPage), // $items
-                $this->count(),                  // $total
-                $perPage,
-                $page,
-                [                                // $options
-                    'path' => LengthAwarePaginator::resolveCurrentPath(),
-                    'pageName' => $pageName,
-                ]
-            );
-        });
     }
 
     /**
