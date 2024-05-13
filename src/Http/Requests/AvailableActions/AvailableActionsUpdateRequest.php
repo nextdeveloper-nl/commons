@@ -17,7 +17,7 @@ class AvailableActionsUpdateRequest extends AbstractFormRequest
         'description' => 'nullable|string',
         'class' => 'nullable|string',
         'input' => 'nullable|string',
-        'parameters' => 'nullable|string',
+        'parameters' => 'nullable',
         'outputs' => 'nullable',
         ];
     }

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Database\Models\ActionsPerspective;
 use NextDeveloper\Commons\Database\Filters\ActionsPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
@@ -27,6 +28,8 @@ class AbstractActionsPerspectiveService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -34,7 +37,7 @@ class AbstractActionsPerspectiveService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new ActionsPerspectiveQueryFilter(new Request());
+            $filter = new ActionsPerspectiveQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -57,11 +60,16 @@ class AbstractActionsPerspectiveService
 
         $model = ActionsPerspective::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -97,7 +105,7 @@ class AbstractActionsPerspectiveService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Invoices::where('uuid', $objectId)->first();
+        $object = ActionsPerspective::where('uuid', $objectId)->first();
 
         $action = '\\NextDeveloper\\Commons\\Actions\\ActionsPerspective\\' . Str::studly($action);
 

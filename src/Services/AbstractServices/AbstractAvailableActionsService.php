@@ -27,6 +27,8 @@ class AbstractAvailableActionsService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -34,7 +36,7 @@ class AbstractAvailableActionsService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new AvailableActionsQueryFilter(new Request());
+            $filter = new AvailableActionsQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -57,11 +59,16 @@ class AbstractAvailableActionsService
 
         $model = AvailableActions::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -97,7 +104,7 @@ class AbstractAvailableActionsService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = Invoices::where('uuid', $objectId)->first();
+        $object = AvailableActions::where('uuid', $objectId)->first();
 
         $action = '\\NextDeveloper\\Commons\\Actions\\AvailableActions\\' . Str::studly($action);
 

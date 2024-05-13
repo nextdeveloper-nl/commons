@@ -21,7 +21,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property string $description
  * @property string $class
  * @property string $input
- * @property string $parameters
+ * @property $parameters
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -143,6 +143,7 @@ class AvailableActions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
