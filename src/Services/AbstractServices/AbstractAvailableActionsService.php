@@ -60,6 +60,8 @@ class AbstractAvailableActionsService
         $model = AvailableActions::filter($filter);
 
         if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
             return new \Illuminate\Pagination\LengthAwarePaginator(
                 $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
                 $model->count(),
@@ -206,6 +208,13 @@ class AbstractAvailableActionsService
     public static function update($id, array $data)
     {
         $model = AvailableActions::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new \Exception(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         
         Events::fire('updating:NextDeveloper\Commons\AvailableActions', $model);

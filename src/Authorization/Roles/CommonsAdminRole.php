@@ -19,7 +19,7 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
 
     public const DESCRIPTION = 'Commons Admin';
 
-    public const DB_PREFIX = 'commons';
+    public const DB_PREFIX = 'common';
 
     /**
      * Applies basic member role sql for Eloquent
@@ -69,6 +69,7 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_domains:create',
             'common_domains:delete',
             'common_exchange_rates:read',
+            'common_languages:create',
             'common_languages:read',
             'common_media:read',
             'common_media:create',

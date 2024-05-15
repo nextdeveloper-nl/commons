@@ -61,6 +61,8 @@ class AbstractVotesService
         $model = Votes::filter($filter);
 
         if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
             return new \Illuminate\Pagination\LengthAwarePaginator(
                 $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
                 $model->count(),
@@ -217,6 +219,13 @@ class AbstractVotesService
     public static function update($id, array $data)
     {
         $model = Votes::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new \Exception(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         if (array_key_exists('iam_user_id', $data)) {
             $data['iam_user_id'] = DatabaseHelper::uuidToId(

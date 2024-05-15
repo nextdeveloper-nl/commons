@@ -13,6 +13,7 @@ use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 {
@@ -53,18 +54,39 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             $builder->where('iam_user_id', UserHelper::me()->id);
         }
 
-        if($isPublicExists) {
-            Log::info('[MemberRole] Applying is_public = true and user model');
-            $builder->where('is_public', true)
-                ->orWhere($where);
-        } else {
-            $builder->where($where);
+        //  We need to change this in the future because in the future if we try to implement NON-HTTP request, this will not work.
+        if(request()->getMethod() == 'GET') {
+            if($isPublicExists) {
+                Log::info('[MemberRole] Applying is_public = true and user model');
+                $builder->where('is_public', true)
+                    ->orWhere($where);
+            }
         }
+
+        $builder->where($where);
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(Users $users = null, Model $model)
     {
-        //return UserHelper::hasRole(self::NAME, $users);
+        $operation = $model->getTable();
+
+        switch (request()->getMethod()) {
+            case 'GET':
+                $operation .= ':read';
+            case 'POST':
+                $operation .= ':create';
+            case 'PUT':
+            case 'PATCH':
+            $operation .= ':update';
+            case 'DELETE':
+                $operation .= ':delete';
+        }
+
+        if(in_array($operation, $this->allowedOperations())) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getModule()
