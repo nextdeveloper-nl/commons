@@ -4,21 +4,23 @@ namespace NextDeveloper\Commons\Database\Observers;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use NextDeveloper\IAM\Helpers\U;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class DomainsObserver
+ *
  * @package NextDeveloper\Commons\Database\Observers
  */
 class DomainsObserver
 {
     /**
-    * Triggered when a new record is retrieved.
-    *
-    * @param Model $model
-    */
-    public function retrieved(Model $model){
+     * Triggered when a new record is retrieved.
+     *
+     * @param Model $model
+     */
+    public function retrieved(Model $model)
+    {
 
     }
 
@@ -29,7 +31,10 @@ class DomainsObserver
      */
     public function creating(Model $model)
     {
-        return UserHelper::applyUserFields($model);
+        throw_if(
+            !UserHelper::can('create', $model),
+            new NotAllowedException('You are not allowed to create this record')
+        );
     }
 
     /**
@@ -39,7 +44,6 @@ class DomainsObserver
      */
     public function created(Model $model)
     {
-
     }
 
     /**
@@ -49,6 +53,10 @@ class DomainsObserver
      */
     public function saving(Model $model)
     {
+        throw_if(
+            !UserHelper::can('update', $model),
+            new NotAllowedException('You are not allowed to create this record')
+        );
     }
 
     /**
@@ -63,10 +71,13 @@ class DomainsObserver
 
     /**
      * @param Model $model
-     *
      */
     public function updating(Model $model)
     {
+        throw_if(
+            !UserHelper::can('update', $model),
+            new NotAllowedException('You are not allowed to create this record')
+        );
     }
 
     /**
@@ -81,10 +92,13 @@ class DomainsObserver
 
     /**
      * @param Model $model
-     *
      */
     public function deleting(Model $model)
     {
+        throw_if(
+            !UserHelper::can('delete', $model),
+            new NotAllowedException('You are not allowed to create this record')
+        );
     }
 
     /**
@@ -103,6 +117,10 @@ class DomainsObserver
      */
     public function restoring(Model $model)
     {
+        throw_if(
+            !UserHelper::can('restore', $model),
+            new NotAllowedException('You are not allowed to create this record')
+        );
     }
 
     /**

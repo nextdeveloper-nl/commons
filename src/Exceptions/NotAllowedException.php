@@ -14,7 +14,7 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class NotFoundException
  * @package  NextDeveloper\Commons\Exceptions
  */
-class NotFoundException extends AbstractCommonsException
+class NotAllowedException extends \Exception// extends AbstractCommonsException
 {
 
     /**
@@ -22,8 +22,7 @@ class NotFoundException extends AbstractCommonsException
      *
      * @return mixed
      */
-    public function render($request) {
-        return response()->api()->errorNotFound( $this->getMessage() ?: 'Requested object not found.' );
-    }
-
+//    public function render($request) {
+//        return response()->api()->errorNotFound( $this->getMessage() ?: 'Requested object not found.' );
+//    }
 }

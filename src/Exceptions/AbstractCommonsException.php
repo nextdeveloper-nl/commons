@@ -56,6 +56,6 @@ abstract class AbstractCommonsException extends Exception
         $args = func_get_args();
 
         //  We will come back here later!!
-        dd($args);
+        //dd($args);
     }
 }

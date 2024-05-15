@@ -82,4 +82,6 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
 
 
 
+
+
 }
