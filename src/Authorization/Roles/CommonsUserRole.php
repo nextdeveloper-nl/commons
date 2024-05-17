@@ -94,7 +94,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         return 'commons';
     }
 
-    
+
     public function allowedOperations() :array
     {
         return [
