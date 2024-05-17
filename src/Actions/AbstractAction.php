@@ -127,6 +127,12 @@ class AbstractAction implements ShouldQueue
         return $this->nodeId;
     }
 
+    public function setUserAsThisActionOwner()
+    {
+        UserHelper::setUserById($this->getUserId());
+        UserHelper::setCurrentAccountById($this->getAccountId());
+    }
+
     public function setProgress($percent, $completedAction) {
         if(!$this->startTime) {
             $this->startTime = now();
@@ -146,6 +152,8 @@ class AbstractAction implements ShouldQueue
         if(!$this->action) {
             $this->createAction();
         }
+
+        UserHelper::setUserById($this->getUserId());
 
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
