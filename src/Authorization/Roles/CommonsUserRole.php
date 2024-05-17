@@ -94,12 +94,16 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         return 'commons';
     }
 
+
     public function allowedOperations() :array
     {
         return [
             'common_action_logs:read',
+            'common_action_logs:create',
+            'common_action_logs:update',
             'common_actions:read',
             'common_actions:create',
+            'common_actions:update',
             'common_addresses:read',
             'common_categories:read',
             'common_cities:read',

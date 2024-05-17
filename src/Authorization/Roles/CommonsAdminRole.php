@@ -47,7 +47,11 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
     {
         return [
             'common_action_logs:read',
+            'common_action_logs:create',
+            'common_action_logs:update',
             'common_actions:read',
+            'common_actions:create',
+            'common_actions:update',
             'common_addresses:read',
             'common_addresses:create',
             'common_addresses:update',
