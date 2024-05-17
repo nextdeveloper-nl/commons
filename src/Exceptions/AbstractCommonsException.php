@@ -11,6 +11,10 @@
 namespace  NextDeveloper\Commons\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Http\Traits\Responsable;
+use NextDeveloper\I18n\Helpers\i18n;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class AbstractCoreException.
@@ -19,6 +23,8 @@ use Exception;
  */
 abstract class AbstractCommonsException extends Exception
 {
+    use Responsable;
+
     /**
      * @var int|mixed
      */
@@ -52,10 +58,28 @@ abstract class AbstractCommonsException extends Exception
     /**
      * AbstractCoreException constructor.
      */
-    public function __construct() {
+    public function __construct($message) {
         $args = func_get_args();
 
-        //  We will come back here later!!
-        //dd($args);
+        $this->message = $message;
+    }
+
+    public function render($request = null)
+    {
+        $returnMessage = $this->defaultMessage;
+
+        $me = UserHelper::me();
+
+        if($me)
+            $returnMessage = I18n::t($returnMessage, $me->common_language_id);
+
+        Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message);
+
+        return $this->setStatusCode(422)->withArray([
+            'status'    =>  422, // 'Unprocessable Entity'
+            'message'   =>  $returnMessage,
+            'helper'    =>  I18n::t($this->message, $me->common_language_id),
+            'code'      =>  $this->code,
+        ]);
     }
 }
