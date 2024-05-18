@@ -16,7 +16,6 @@ namespace  NextDeveloper\Commons\Exceptions;
  */
 class NotAllowedException extends AbstractCommonsException
 {
-
         /**
         * @var string
         */
