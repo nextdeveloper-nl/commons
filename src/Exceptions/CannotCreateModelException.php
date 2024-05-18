@@ -11,30 +11,31 @@
 namespace  NextDeveloper\Commons\Exceptions;
 
 
+use NextDeveloper\Commons\Http\Traits\Responsable;
+
 /**
  * Class ModelNotFoundException
  * @package  NextDeveloper\Commons\Exceptions
  */
 class CannotCreateModelException extends AbstractCommonsException
 {
-
     /**
      * @var string
      */
-    protected $defaultMessage = 'Cannot create the object. Please get in touch with your software developer or
-    service provider to fix your problem.';
+    protected $defaultMessage = 'Cannot create the object. Please get in touch with your software developer or' .
+        ' service provider to fix your problem.';
+
+    public function __construct($message)
+    {
+        return parent::__construct($message);
+    }
 
     /**
      * @param \Illuminate\Http\Request
      *
      * @return mixed
      */
-    public function render($request) {
-        $message = $this->getMessage();
-
-        $message = $this->defaultMessage . ' Here is an additional message, that may solve your problem: ' . $message;
-
-        return response()->api()->errorUnprocessable( $message ?: $this->defaultMessage );
-    }
-
+//    public function render($request) {
+//        return parent::render();
+//    }
 }
