@@ -14,15 +14,23 @@ namespace  NextDeveloper\Commons\Exceptions;
  * Class NotFoundException
  * @package  NextDeveloper\Commons\Exceptions
  */
-class NotAllowedException extends \Exception// extends AbstractCommonsException
+class NotAllowedException extends AbstractCommonsException
 {
 
-    /**
-     * @param  \Illuminate\Http\Request
-     *
-     * @return mixed
-     */
-//    public function render($request) {
-//        return response()->api()->errorNotFound( $this->getMessage() ?: 'Requested object not found.' );
-//    }
+        /**
+        * @var string
+        */
+        protected $defaultMessage = 'You are not allowed to access this resource. That is why we denied this request.';
+
+        /**
+        * @param $message
+        * @param $code
+        * @param \Exception|null $previous
+        */
+        public function __construct($message, $code = 0, \Exception $previous = null)
+        {
+            $message = $this->defaultMessage . 'Error message is: ' . $message;
+
+            parent::__construct($message, $code, $previous);
+        }
 }
