@@ -58,10 +58,12 @@ abstract class AbstractCommonsException extends Exception
     /**
      * AbstractCoreException constructor.
      */
-    public function __construct($message) {
+    public function __construct($message, $code = 0, \Exception $previous = null) {
         $args = func_get_args();
 
         $this->message = $message;
+
+        parent::__construct($message, $code, $previous);
     }
 
     public function render($request = null)
