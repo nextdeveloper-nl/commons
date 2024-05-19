@@ -55,7 +55,7 @@ class ActionsPerspectiveObserver
     {
         throw_if(
             !UserHelper::can('update', $model),
-            new NotAllowedException('You are not allowed to create this record')
+            new NotAllowedException('You are not allowed to save this record')
         );
     }
 
@@ -76,7 +76,7 @@ class ActionsPerspectiveObserver
     {
         throw_if(
             !UserHelper::can('update', $model),
-            new NotAllowedException('You are not allowed to create this record')
+            new NotAllowedException('You are not allowed to update this record')
         );
     }
 
@@ -97,7 +97,7 @@ class ActionsPerspectiveObserver
     {
         throw_if(
             !UserHelper::can('delete', $model),
-            new NotAllowedException('You are not allowed to create this record')
+            new NotAllowedException('You are not allowed to delete this record')
         );
     }
 
@@ -119,7 +119,7 @@ class ActionsPerspectiveObserver
     {
         throw_if(
             !UserHelper::can('restore', $model),
-            new NotAllowedException('You are not allowed to create this record')
+            new NotAllowedException('You are not allowed to restore this record')
         );
     }
 
