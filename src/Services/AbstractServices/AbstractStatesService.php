@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\States;
 use NextDeveloper\Commons\Database\Filters\StatesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for States
@@ -211,7 +212,7 @@ class AbstractStatesService
         $model = States::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
@@ -245,6 +246,13 @@ class AbstractStatesService
     public static function delete($id)
     {
         $model = States::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\States', $model);
 

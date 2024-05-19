@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Filters\CountriesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Countries
@@ -169,6 +170,7 @@ class AbstractCountriesService
      */
     public static function create(array $data)
     {
+        
         try {
             $model = Countries::create($data);
         } catch(\Exception $e) {
@@ -210,12 +212,13 @@ class AbstractCountriesService
         $model = Countries::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
         }
 
+        
         Events::fire('updating:NextDeveloper\Commons\Countries', $model);
 
         try {
@@ -243,6 +246,13 @@ class AbstractCountriesService
     public static function delete($id)
     {
         $model = Countries::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\Countries', $model);
 

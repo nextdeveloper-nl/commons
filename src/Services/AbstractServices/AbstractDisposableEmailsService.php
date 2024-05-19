@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\DisposableEmails;
 use NextDeveloper\Commons\Database\Filters\DisposableEmailsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for DisposableEmails
@@ -217,7 +218,7 @@ class AbstractDisposableEmailsService
         $model = DisposableEmails::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
@@ -257,6 +258,13 @@ class AbstractDisposableEmailsService
     public static function delete($id)
     {
         $model = DisposableEmails::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\DisposableEmails', $model);
 
