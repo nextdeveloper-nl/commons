@@ -43,13 +43,11 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         $where = [];
 
         if($isAccountIdExists) {
-            Log::info('[MemberRole] Applying iam_account_id');
             $where[] = ['iam_account_id', UserHelper::currentAccount()->id];
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
         }
 
         if($isUserIdExists) {
-            Log::info('[MemberRole] Applying iam_user_id');
             $where[] = ['iam_user_id', UserHelper::me()->id];
             $builder->where('iam_user_id', UserHelper::me()->id);
         }
@@ -57,7 +55,6 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         //  We need to change this in the future because in the future if we try to implement NON-HTTP request, this will not work.
         if(request()->getMethod() == 'GET') {
             if($isPublicExists) {
-                Log::info('[MemberRole] Applying is_public = true and user model');
                 $builder->where('is_public', true)
                     ->orWhere($where);
             }
