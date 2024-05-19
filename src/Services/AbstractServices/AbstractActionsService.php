@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\Commons\Database\Filters\ActionsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Actions
@@ -231,7 +232,7 @@ class AbstractActionsService
         $model = Actions::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
@@ -277,6 +278,13 @@ class AbstractActionsService
     public static function delete($id)
     {
         $model = Actions::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\Actions', $model);
 

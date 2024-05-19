@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\Votes;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Votes
@@ -221,7 +222,7 @@ class AbstractVotesService
         $model = Votes::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
@@ -261,6 +262,13 @@ class AbstractVotesService
     public static function delete($id)
     {
         $model = Votes::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\Votes', $model);
 

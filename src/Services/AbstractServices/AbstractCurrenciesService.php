@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Filters\CurrenciesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Currencies
@@ -217,7 +218,7 @@ class AbstractCurrenciesService
         $model = Currencies::where('uuid', $id)->first();
 
         if(!$model) {
-            throw new \Exception(
+            throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
             );
@@ -257,6 +258,13 @@ class AbstractCurrenciesService
     public static function delete($id)
     {
         $model = Currencies::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\Currencies', $model);
 
