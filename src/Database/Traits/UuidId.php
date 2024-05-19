@@ -43,7 +43,7 @@ trait UuidId {
 
         $message = sprintf('Could not find any %s', $className);
 
-        throw new ModelNotFoundException($message);
+        throw new \NextDeveloper\Commons\Exceptions\ModelNotFoundException($message);
     }
 
     /**
