@@ -69,4 +69,5 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }
