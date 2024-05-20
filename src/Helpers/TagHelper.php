@@ -78,10 +78,12 @@ class TagHelper
     public static function tag(object $object, string $tag): void
     {
 
+        // Get the tag object
         $tagObj = Tags::withoutGlobalScope(AuthorizationScope::class)
             ->where('name', 'like', $tag)
             ->first();
 
+        // If the tag does not exist, create it
         if (!$tagObj) {
             $tagObj = TagsService::create([
                 'name'        => $tag,
@@ -90,12 +92,15 @@ class TagHelper
             ]);
         }
 
+        // If the tag object is still not found, throw an exception
         if (!$tagObj) {
             throw new CannotCreateModelException('Cannot create the tag you are looking for.');
         }
 
+        // Get the tags of the object
         $objectTags = $object->tags;
 
+        // If the tag is not already tagged, tag it
         if (!in_array($tagObj->name, $objectTags)) {
             $objectTags[] = $tagObj->name;
             $object->tags = self::cleanTags($objectTags);
@@ -113,9 +118,18 @@ class TagHelper
      */
     public static function untag(object $object, string $tag): void
     {
+
+        // Define the key as null
+        $key = null;
+
+        // Get the tags of the object
         $objectTags = self::cleanTags($object->tags);
 
-        if (($key = array_search($tag, $objectTags))) {
+        // Find the tag in the tags array
+        $key  = array_search($tag, $objectTags);
+
+        // If the tag is found, remove it
+        if (is_int($key)) {
             unset($objectTags[$key]);
             $object->tags = self::cleanTags($objectTags);
             $object->save();
