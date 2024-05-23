@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use NextDeveloper\Commons\Common\Timer\Timer;
 use NextDeveloper\Commons\Database\Models\ActionLogs;
 use NextDeveloper\Commons\Database\Models\Actions;
+use NextDeveloper\Commons\Exceptions\CannotValidateActionRequestException;
 use NextDeveloper\CRM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
@@ -32,8 +35,18 @@ class AbstractAction implements ShouldQueue
 
     private $latestTime;
 
-    public function __construct()
-    {}
+    public function __construct($params = null)
+    {
+        if($params) {
+            $validator = Validator::make($params, $this::PARAMS);
+            throw_if(
+                $validator->fails(),
+                new CannotValidateActionRequestException($validator->errors()->all())
+            );
+        }
+
+        $this->setUserAsThisActionOwner();
+    }
 
     public function getAction()
     {
@@ -155,6 +168,10 @@ class AbstractAction implements ShouldQueue
 
         UserHelper::setUserById($this->getUserId());
 
+        if(config('leo.debug.action_logs')) {
+            Log::info('[ActionLog]' . $completedAction . ' / Diff: ' . $diff . 'ms');
+        }
+
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  $completedAction,
@@ -168,6 +185,10 @@ class AbstractAction implements ShouldQueue
     {
         $now = Carbon::now();
         $diff = $now->diffInMilliseconds($this->startTime);
+
+        if(config('leo.debug.action_logs')) {
+            Log::info('[ActionLog][ERROR]' . $log . ' / Diff: ' . $diff . 'ms');
+        }
 
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
@@ -187,6 +208,10 @@ class AbstractAction implements ShouldQueue
     {
         $now = Carbon::now();
         $diff = $now->diffInMilliseconds($this->startTime);
+
+        if(config('leo.debug.action_logs')) {
+            Log::info('[ActionLog]' . $log . ' / Diff: ' . $diff . 'ms');
+        }
 
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,

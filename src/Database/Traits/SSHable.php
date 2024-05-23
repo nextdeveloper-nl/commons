@@ -131,7 +131,8 @@ trait SSHable
         $ipAddr = explode('/', $ipAddr);
         $ipAddr = $ipAddr[0];
 
-        Log::debug('[SSHable] Trying to connect to ssh port: ' . $ipAddr . ':' . $this->ssh_port . ' with timeout: ' . $timeout . ' seconds.');
+        if(config('leo.debug.ssh.connection'))
+            Log::debug('[SSHable] Trying to connect to ssh port: ' . $ipAddr . ':' . $this->ssh_port . ' with timeout: ' . $timeout . ' seconds.');
 
         $connection = @fsockopen($ipAddr, $this->ssh_port, $errCode, $errMessage, 30);
 

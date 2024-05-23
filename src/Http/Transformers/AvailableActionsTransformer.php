@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Transformers;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
@@ -34,6 +35,8 @@ class AvailableActionsTransformer extends AbstractAvailableActionsTransformer
         $transformed = parent::transform($model);
 
         unset($transformed['class']);
+
+        $transformed['action-name'] = Str::kebab($transformed['action']);
 
         Cache::set(
             CacheHelper::getKey('AvailableActions', $model->uuid, 'Transformed'),
