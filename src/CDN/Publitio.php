@@ -16,7 +16,6 @@ class Publitio
         return new API($api_key, $api_secret);
     }
 
-
     /**
      * This method uploads a file to the CDN.
      *

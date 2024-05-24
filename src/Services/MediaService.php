@@ -38,19 +38,21 @@ class MediaService extends AbstractMediaService
     {
         $data = self::processMediaUploadData($data);
 
-        if(strpos( $data['object_type'], '-' )) {
-            $exploded = explode('-', $data['object_type']);
+        if(array_key_exists('object_type', $data)) {
+            if(strpos( $data['object_type'], '-' )) {
+                $exploded = explode('-', $data['object_type']);
 
-            if(count($exploded) > 2) {
-                $data['object_type'] = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
+                if(count($exploded) > 2) {
+                    $data['object_type'] = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
+                }
+
+                if(count($exploded) == 2) {
+                    $data['object_type'] = 'NextDeveloper\\' . $exploded[0] . '\\Database\\Models\\' . $exploded[1];
+                }
             }
 
-            if(count($exploded) == 2) {
-                $data['object_type'] = 'NextDeveloper\\' . $exploded[0] . '\\Database\\Models\\' . $exploded[1];
-            }
+            $data['object_id'] = app($data['object_type'])->where('uuid', $data['object_id'])->first()->id;
         }
-
-        $data['object_id'] = app($data['object_type'])->where('uuid', $data['object_id'])->first()->id;
 
         $defaultCdn = config('commons.cdn.default');
 
