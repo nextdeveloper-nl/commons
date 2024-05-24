@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Transformers;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
@@ -23,20 +24,20 @@ class ActionsTransformer extends AbstractActionsTransformer
      */
     public function transform(Actions $model)
     {
-        $transformed = Cache::get(
-            CacheHelper::getKey('Actions', $model->uuid, 'Transformed')
-        );
-
-        if($transformed) {
-            return $transformed;
-        }
+//        $transformed = Cache::get(
+//            CacheHelper::getKey('Actions', $model->uuid, 'Transformed')
+//        );
+//
+//        if($transformed) {
+//            //return $transformed;
+//        }
 
         $transformed = parent::transform($model);
 
-        Cache::set(
-            CacheHelper::getKey('Actions', $model->uuid, 'Transformed'),
-            $transformed
-        );
+//        Cache::set(
+//            CacheHelper::getKey('Actions', $model->uuid, 'Transformed'),
+//            $transformed
+//        );
 
         return $transformed;
     }

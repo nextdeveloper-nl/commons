@@ -90,9 +90,21 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_social_media:update',
             'common_social_media:delete',
             'common_states:read',
+            //  When we have ! here, this means that dont check the policy. Just do it.
+            '!common_states:create',
+            '!common_states:update',
+            '!common_states:delete',
             'common_tags:read',
+            '!common_tags:create',
+            '!common_tags:update',
+            '!common_tags:delete',
             'common_validatable:read',
-            'common_votes:read'
+            '!common_validatable:create',
+            '!common_validatable:update',
+            'common_votes:read',
+            '!common_votes:create',
+            '!common_votes:update',
+            '!common_votes:delete'
         ];
     }
 
