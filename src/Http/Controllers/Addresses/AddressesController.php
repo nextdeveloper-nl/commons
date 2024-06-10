@@ -56,7 +56,7 @@ class AddressesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = AddressesService::doAction($objectId, $action);
+        $actionId = AddressesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

@@ -66,6 +66,12 @@ abstract class AbstractCommonsException extends Exception
         parent::__construct($message, $code, $previous);
     }
 
+    /**
+     *  Render the exception into an HTTP response.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function render($request = null)
     {
         $returnMessage = $this->defaultMessage;

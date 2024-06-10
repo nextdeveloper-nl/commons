@@ -35,6 +35,6 @@ class RegistriesTransformer extends AbstractRegistriesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

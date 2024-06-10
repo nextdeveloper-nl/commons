@@ -56,7 +56,7 @@ class LanguagesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = LanguagesService::doAction($objectId, $action);
+        $actionId = LanguagesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

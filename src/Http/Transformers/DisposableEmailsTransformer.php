@@ -35,6 +35,6 @@ class DisposableEmailsTransformer extends AbstractDisposableEmailsTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

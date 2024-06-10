@@ -35,6 +35,6 @@ class LanguagesTransformer extends AbstractLanguagesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

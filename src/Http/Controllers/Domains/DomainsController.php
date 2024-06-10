@@ -56,7 +56,7 @@ class DomainsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = DomainsService::doAction($objectId, $action);
+        $actionId = DomainsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

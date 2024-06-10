@@ -56,7 +56,7 @@ class CountriesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = CountriesService::doAction($objectId, $action);
+        $actionId = CountriesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

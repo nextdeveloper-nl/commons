@@ -56,7 +56,7 @@ class CommentsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = CommentsService::doAction($objectId, $action);
+        $actionId = CommentsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

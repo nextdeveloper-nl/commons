@@ -35,6 +35,6 @@ class ValidatablesTransformer extends AbstractValidatablesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }
