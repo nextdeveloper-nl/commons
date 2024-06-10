@@ -56,7 +56,7 @@ class MetaController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = MetaService::doAction($objectId, $action);
+        $actionId = MetaService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

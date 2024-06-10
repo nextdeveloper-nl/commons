@@ -38,6 +38,6 @@ class CurrenciesTransformer extends AbstractCurrenciesTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

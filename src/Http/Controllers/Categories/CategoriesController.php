@@ -56,7 +56,7 @@ class CategoriesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = CategoriesService::doAction($objectId, $action);
+        $actionId = CategoriesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

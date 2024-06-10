@@ -5,25 +5,24 @@ namespace NextDeveloper\Commons\Actions;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use NextDeveloper\Commons\Common\Timer\Timer;
 use NextDeveloper\Commons\Database\Models\ActionLogs;
 use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\Commons\Exceptions\CannotValidateActionRequestException;
-use NextDeveloper\CRM\Database\Models\Users;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 class AbstractAction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $action;
+    public $allowedRoles = [];
+
+    public $action;
 
     public $model;
 
@@ -37,12 +36,25 @@ class AbstractAction implements ShouldQueue
 
     public function __construct($params = null)
     {
+        $this->createAction();
+
+        //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
         if($params) {
+            if(array_key_exists(0, $params))
+                $params = $params[0];
+
             $validator = Validator::make($params, $this::PARAMS);
+
             throw_if(
                 $validator->fails(),
                 new CannotValidateActionRequestException($validator->errors()->all())
             );
+        }
+
+        foreach ($this->allowedRoles as $role) {
+            if(!UserHelper::hasRole($role)) {
+                throw new NotAllowedException('You dont have the right privilige and/or role to run this action.');
+            }
         }
 
         $this->setUserAsThisActionOwner();
@@ -172,6 +184,11 @@ class AbstractAction implements ShouldQueue
             Log::info('[ActionLog]' . $completedAction . ' / Diff: ' . $diff . 'ms');
         }
 
+        $this->action->update([
+            'progress'  =>  $percent,
+            'runtime'   =>  $diff
+        ]);
+
         ActionLogs::create([
             'common_action_id'  =>  $this->action->id,
             'log'   =>  $completedAction,
@@ -199,7 +216,7 @@ class AbstractAction implements ShouldQueue
         ]);
 
         $this->action->update([
-            'progress'  =>  100,
+            'progress'  =>  -1,
             'runtime'   =>  $diff
         ]);
     }

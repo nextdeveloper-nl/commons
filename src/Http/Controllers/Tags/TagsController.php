@@ -56,7 +56,7 @@ class TagsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = TagsService::doAction($objectId, $action);
+        $actionId = TagsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

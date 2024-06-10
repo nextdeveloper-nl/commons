@@ -56,7 +56,7 @@ class RegistriesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = RegistriesService::doAction($objectId, $action);
+        $actionId = RegistriesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

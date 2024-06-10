@@ -35,6 +35,6 @@ class VotesTransformer extends AbstractVotesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

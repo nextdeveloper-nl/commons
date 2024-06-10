@@ -56,7 +56,7 @@ class VotesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = VotesService::doAction($objectId, $action);
+        $actionId = VotesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

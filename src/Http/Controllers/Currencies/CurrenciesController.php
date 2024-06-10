@@ -56,7 +56,7 @@ class CurrenciesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = CurrenciesService::doAction($objectId, $action);
+        $actionId = CurrenciesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

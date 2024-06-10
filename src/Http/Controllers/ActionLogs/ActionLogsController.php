@@ -56,7 +56,7 @@ class ActionLogsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ActionLogsService::doAction($objectId, $action);
+        $actionId = ActionLogsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

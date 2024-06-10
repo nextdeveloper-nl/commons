@@ -35,6 +35,6 @@ class ExchangeRatesTransformer extends AbstractExchangeRatesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

@@ -56,7 +56,7 @@ class SocialMediaController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = SocialMediaService::doAction($objectId, $action);
+        $actionId = SocialMediaService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

@@ -56,7 +56,7 @@ class ValidatablesController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ValidatablesService::doAction($objectId, $action);
+        $actionId = ValidatablesService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

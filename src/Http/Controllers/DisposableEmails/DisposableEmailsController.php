@@ -56,7 +56,7 @@ class DisposableEmailsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = DisposableEmailsService::doAction($objectId, $action);
+        $actionId = DisposableEmailsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

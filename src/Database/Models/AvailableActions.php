@@ -45,6 +45,7 @@ class AvailableActions extends Model
 
     protected $fillable = [
             'action',
+            'name',
             'description',
             'class',
             'input',

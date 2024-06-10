@@ -56,7 +56,7 @@ class ActionsController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ActionsService::doAction($objectId, $action);
+        $actionId = ActionsService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [

@@ -56,7 +56,7 @@ class PhoneNumbersController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = PhoneNumbersService::doAction($objectId, $action);
+        $actionId = PhoneNumbersService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
