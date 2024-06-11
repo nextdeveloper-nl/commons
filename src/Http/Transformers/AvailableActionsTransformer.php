@@ -36,7 +36,7 @@ class AvailableActionsTransformer extends AbstractAvailableActionsTransformer
 
         unset($transformed['class']);
 
-        $transformed['action-name'] = Str::kebab($transformed['action']);
+        $transformed['action_name'] = Str::kebab($transformed['action']);
 
         Cache::set(
             CacheHelper::getKey('AvailableActions', $model->uuid, 'Transformed'),
