@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Tags;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\TagsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Tags;
@@ -107,6 +106,12 @@ class TagsController extends AbstractController
      */
     public function store(TagsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = TagsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class TagsController extends AbstractController
      * This method updates Tags object on database.
      *
      * @param  $tagsId
-     * @param  CountryCreateRequest $request
+     * @param  TagsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($tagsId, TagsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = TagsService::update($tagsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class TagsController extends AbstractController
      * This method updates Tags object on database.
      *
      * @param  $tagsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

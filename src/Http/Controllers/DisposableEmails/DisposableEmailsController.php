@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\DisposableEmails;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DisposableEmailsQueryFilter;
 use NextDeveloper\Commons\Database\Models\DisposableEmails;
@@ -107,6 +106,12 @@ class DisposableEmailsController extends AbstractController
      */
     public function store(DisposableEmailsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = DisposableEmailsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class DisposableEmailsController extends AbstractController
      * This method updates DisposableEmails object on database.
      *
      * @param  $disposableEmailsId
-     * @param  CountryCreateRequest $request
+     * @param  DisposableEmailsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($disposableEmailsId, DisposableEmailsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = DisposableEmailsService::update($disposableEmailsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class DisposableEmailsController extends AbstractController
      * This method updates DisposableEmails object on database.
      *
      * @param  $disposableEmailsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

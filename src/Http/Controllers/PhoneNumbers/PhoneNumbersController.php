@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\PhoneNumbers;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\PhoneNumbers\PhoneNumbersUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\PhoneNumbersQueryFilter;
 use NextDeveloper\Commons\Database\Models\PhoneNumbers;
@@ -107,6 +106,12 @@ class PhoneNumbersController extends AbstractController
      */
     public function store(PhoneNumbersCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = PhoneNumbersService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class PhoneNumbersController extends AbstractController
      * This method updates PhoneNumbers object on database.
      *
      * @param  $phoneNumbersId
-     * @param  CountryCreateRequest $request
+     * @param  PhoneNumbersUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($phoneNumbersId, PhoneNumbersUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = PhoneNumbersService::update($phoneNumbersId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class PhoneNumbersController extends AbstractController
      * This method updates PhoneNumbers object on database.
      *
      * @param  $phoneNumbersId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

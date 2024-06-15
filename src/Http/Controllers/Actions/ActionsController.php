@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Actions;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Actions\ActionsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Actions;
@@ -107,6 +106,12 @@ class ActionsController extends AbstractController
      */
     public function store(ActionsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = ActionsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class ActionsController extends AbstractController
      * This method updates Actions object on database.
      *
      * @param  $actionsId
-     * @param  CountryCreateRequest $request
+     * @param  ActionsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($actionsId, ActionsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = ActionsService::update($actionsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class ActionsController extends AbstractController
      * This method updates Actions object on database.
      *
      * @param  $actionsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Currencies;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Currencies\CurrenciesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CurrenciesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Currencies;
@@ -107,6 +106,12 @@ class CurrenciesController extends AbstractController
      */
     public function store(CurrenciesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CurrenciesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CurrenciesController extends AbstractController
      * This method updates Currencies object on database.
      *
      * @param  $currenciesId
-     * @param  CountryCreateRequest $request
+     * @param  CurrenciesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($currenciesId, CurrenciesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CurrenciesService::update($currenciesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CurrenciesController extends AbstractController
      * This method updates Currencies object on database.
      *
      * @param  $currenciesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

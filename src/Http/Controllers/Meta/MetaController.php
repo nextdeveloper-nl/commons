@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Meta;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Meta\MetaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\MetaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Meta;
@@ -107,6 +106,12 @@ class MetaController extends AbstractController
      */
     public function store(MetaCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MetaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class MetaController extends AbstractController
      * This method updates Meta object on database.
      *
      * @param  $metaId
-     * @param  CountryCreateRequest $request
+     * @param  MetaUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($metaId, MetaUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MetaService::update($metaId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class MetaController extends AbstractController
      * This method updates Meta object on database.
      *
      * @param  $metaId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

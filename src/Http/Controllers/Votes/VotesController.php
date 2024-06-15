@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Votes;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Votes\VotesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Votes;
@@ -107,6 +106,12 @@ class VotesController extends AbstractController
      */
     public function store(VotesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = VotesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class VotesController extends AbstractController
      * This method updates Votes object on database.
      *
      * @param  $votesId
-     * @param  CountryCreateRequest $request
+     * @param  VotesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($votesId, VotesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = VotesService::update($votesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class VotesController extends AbstractController
      * This method updates Votes object on database.
      *
      * @param  $votesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

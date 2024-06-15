@@ -53,7 +53,7 @@ class AbstractAvailableActionsTransformer extends AbstractTransformer
      */
     public function transform(AvailableActions $model)
     {
-
+            
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -66,6 +66,7 @@ class AbstractAvailableActionsTransformer extends AbstractTransformer
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             'outputs'  =>  $model->outputs,
+            'name'  =>  $model->name,
             ]
         );
     }
@@ -154,6 +155,7 @@ class AbstractAvailableActionsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

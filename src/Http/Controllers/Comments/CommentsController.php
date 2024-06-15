@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Comments;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Comments\CommentsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Comments;
@@ -107,6 +106,12 @@ class CommentsController extends AbstractController
      */
     public function store(CommentsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CommentsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CommentsController extends AbstractController
      * This method updates Comments object on database.
      *
      * @param  $commentsId
-     * @param  CountryCreateRequest $request
+     * @param  CommentsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($commentsId, CommentsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CommentsService::update($commentsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CommentsController extends AbstractController
      * This method updates Comments object on database.
      *
      * @param  $commentsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

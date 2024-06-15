@@ -13,7 +13,6 @@ class MediaCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'file'  =>  'required|file',
             'object_id' => 'nullable',
         'object_type' => 'nullable|string',
         'collection_name' => 'nullable|string',
@@ -30,6 +29,7 @@ class MediaCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 }

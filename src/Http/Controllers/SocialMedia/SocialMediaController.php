@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\SocialMedia;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\SocialMediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\SocialMedia;
@@ -107,6 +106,12 @@ class SocialMediaController extends AbstractController
      */
     public function store(SocialMediaCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = SocialMediaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class SocialMediaController extends AbstractController
      * This method updates SocialMedia object on database.
      *
      * @param  $socialMediaId
-     * @param  CountryCreateRequest $request
+     * @param  SocialMediaUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($socialMediaId, SocialMediaUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = SocialMediaService::update($socialMediaId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class SocialMediaController extends AbstractController
      * This method updates SocialMedia object on database.
      *
      * @param  $socialMediaId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

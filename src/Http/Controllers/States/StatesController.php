@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\States;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\States\StatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\StatesQueryFilter;
 use NextDeveloper\Commons\Database\Models\States;
@@ -107,6 +106,12 @@ class StatesController extends AbstractController
      */
     public function store(StatesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class StatesController extends AbstractController
      * This method updates States object on database.
      *
      * @param  $statesId
-     * @param  CountryCreateRequest $request
+     * @param  StatesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($statesId, StatesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatesService::update($statesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class StatesController extends AbstractController
      * This method updates States object on database.
      *
      * @param  $statesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

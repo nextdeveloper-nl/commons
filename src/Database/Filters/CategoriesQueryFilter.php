@@ -51,9 +51,13 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('position', $operator, $value);
     }
 
-    public function isActive()
+    public function isActive($value)
     {
-        return $this->builder->where('is_active', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_active', $value);
     }
 
     public function createdAtStart($date)
@@ -105,6 +109,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 
