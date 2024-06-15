@@ -26,6 +26,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property $outputs
+ * @property string $name
  */
 class AvailableActions extends Model
 {
@@ -45,12 +46,12 @@ class AvailableActions extends Model
 
     protected $fillable = [
             'action',
-            'name',
             'description',
             'class',
             'input',
             'parameters',
             'outputs',
+            'name',
     ];
 
     /**
@@ -83,6 +84,7 @@ class AvailableActions extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'outputs' => 'array',
+    'name' => 'string',
     ];
 
     /**
@@ -144,6 +146,7 @@ class AvailableActions extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

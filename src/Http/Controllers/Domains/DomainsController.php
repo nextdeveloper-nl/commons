@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Domains;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Domains\DomainsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Domains;
@@ -107,6 +106,12 @@ class DomainsController extends AbstractController
      */
     public function store(DomainsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = DomainsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class DomainsController extends AbstractController
      * This method updates Domains object on database.
      *
      * @param  $domainsId
-     * @param  CountryCreateRequest $request
+     * @param  DomainsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($domainsId, DomainsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = DomainsService::update($domainsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class DomainsController extends AbstractController
      * This method updates Domains object on database.
      *
      * @param  $domainsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

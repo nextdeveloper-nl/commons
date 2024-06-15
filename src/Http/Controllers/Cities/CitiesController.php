@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Cities;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Cities\CitiesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CitiesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Cities;
@@ -107,6 +106,12 @@ class CitiesController extends AbstractController
      */
     public function store(CitiesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CitiesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CitiesController extends AbstractController
      * This method updates Cities object on database.
      *
      * @param  $citiesId
-     * @param  CountryCreateRequest $request
+     * @param  CitiesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($citiesId, CitiesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CitiesService::update($citiesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CitiesController extends AbstractController
      * This method updates Cities object on database.
      *
      * @param  $citiesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

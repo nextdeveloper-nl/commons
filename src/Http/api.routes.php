@@ -128,27 +128,6 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('actions')->group(
-            function () {
-                Route::get('/', 'Actions\ActionsController@index');
-                Route::get('/actions', 'Actions\ActionsController@getActions');
-
-                Route::get('{common_actions}/tags ', 'Actions\ActionsController@tags');
-                Route::post('{common_actions}/tags ', 'Actions\ActionsController@saveTags');
-                Route::get('{common_actions}/addresses ', 'Actions\ActionsController@addresses');
-                Route::post('{common_actions}/addresses ', 'Actions\ActionsController@saveAddresses');
-
-                Route::get('/{common_actions}/{subObjects}', 'Actions\ActionsController@relatedObjects');
-                Route::get('/{common_actions}', 'Actions\ActionsController@show');
-
-                Route::post('/', 'Actions\ActionsController@store');
-                Route::post('/{common_actions}/do/{action}', 'Actions\ActionsController@doAction');
-
-                Route::patch('/{common_actions}', 'Actions\ActionsController@update');
-                Route::delete('/{common_actions}', 'Actions\ActionsController@destroy');
-            }
-        );
-
         Route::prefix('comments')->group(
             function () {
                 Route::get('/', 'Comments\CommentsController@index');
@@ -464,6 +443,27 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('actions')->group(
+            function () {
+                Route::get('/', 'Actions\ActionsController@index');
+                Route::get('/actions', 'Actions\ActionsController@getActions');
+
+                Route::get('{common_actions}/tags ', 'Actions\ActionsController@tags');
+                Route::post('{common_actions}/tags ', 'Actions\ActionsController@saveTags');
+                Route::get('{common_actions}/addresses ', 'Actions\ActionsController@addresses');
+                Route::post('{common_actions}/addresses ', 'Actions\ActionsController@saveAddresses');
+
+                Route::get('/{common_actions}/{subObjects}', 'Actions\ActionsController@relatedObjects');
+                Route::get('/{common_actions}', 'Actions\ActionsController@show');
+
+                Route::post('/', 'Actions\ActionsController@store');
+                Route::post('/{common_actions}/do/{action}', 'Actions\ActionsController@doAction');
+
+                Route::patch('/{common_actions}', 'Actions\ActionsController@update');
+                Route::delete('/{common_actions}', 'Actions\ActionsController@destroy');
+            }
+        );
+
         Route::prefix('available-actions')->group(
             function () {
                 Route::get('/', 'AvailableActions\AvailableActionsController@index');
@@ -508,9 +508,34 @@ Route::prefix('commons')->group(
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::post('/media/upload', 'Media\FileUploadController@upload');
 
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
     }
 );
+

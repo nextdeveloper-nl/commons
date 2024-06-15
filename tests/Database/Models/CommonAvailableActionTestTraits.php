@@ -62,6 +62,7 @@ trait CommonAvailableActionTestTraits
                 'description'  =>  'a',
                 'class'  =>  'a',
                 'input'  =>  'a',
+                'name'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -407,6 +408,25 @@ trait CommonAvailableActionTestTraits
             $request = new Request(
                 [
                 'input'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonAvailableActionQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonAvailableAction::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonavailableaction_event_name_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'name'  =>  'a'
                 ]
             );
 

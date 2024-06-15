@@ -5,9 +5,9 @@ namespace NextDeveloper\Commons\Http\Controllers\AvailableActions;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\AvailableActions\AvailableActionsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\AvailableActionsQueryFilter;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Services\AvailableActionsService;
 use NextDeveloper\Commons\Http\Requests\AvailableActions\AvailableActionsCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
@@ -106,6 +106,12 @@ class AvailableActionsController extends AbstractController
      */
     public function store(AvailableActionsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AvailableActionsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -115,12 +121,18 @@ class AvailableActionsController extends AbstractController
      * This method updates AvailableActions object on database.
      *
      * @param  $availableActionsId
-     * @param  CountryCreateRequest $request
+     * @param  AvailableActionsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($availableActionsId, AvailableActionsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AvailableActionsService::update($availableActionsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -130,7 +142,6 @@ class AvailableActionsController extends AbstractController
      * This method updates AvailableActions object on database.
      *
      * @param  $availableActionsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

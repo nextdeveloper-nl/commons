@@ -48,29 +48,49 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
 
-    public function isActive()
+    public function isActive($value)
     {
-        return $this->builder->where('is_active', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_active', $value);
     }
 
-    public function isLocalDomain()
+    public function isLocalDomain($value)
     {
-        return $this->builder->where('is_local_domain', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_local_domain', $value);
     }
 
-    public function isLocked()
+    public function isLocked($value)
     {
-        return $this->builder->where('is_locked', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_locked', $value);
     }
 
-    public function isSharedDomain()
+    public function isSharedDomain($value)
     {
-        return $this->builder->where('is_shared_domain', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_shared_domain', $value);
     }
 
-    public function isValidated()
+    public function isValidated($value)
     {
-        return $this->builder->where('is_validated', true);
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
+        return $this->builder->where('is_validated', $value);
     }
 
     public function createdAtStart($date)
@@ -113,6 +133,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

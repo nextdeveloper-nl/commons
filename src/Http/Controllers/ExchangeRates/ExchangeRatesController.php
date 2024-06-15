@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\ExchangeRates;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\ExchangeRates\ExchangeRatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ExchangeRatesQueryFilter;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
@@ -107,6 +106,12 @@ class ExchangeRatesController extends AbstractController
      */
     public function store(ExchangeRatesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = ExchangeRatesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class ExchangeRatesController extends AbstractController
      * This method updates ExchangeRates object on database.
      *
      * @param  $exchangeRatesId
-     * @param  CountryCreateRequest $request
+     * @param  ExchangeRatesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($exchangeRatesId, ExchangeRatesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = ExchangeRatesService::update($exchangeRatesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class ExchangeRatesController extends AbstractController
      * This method updates ExchangeRates object on database.
      *
      * @param  $exchangeRatesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

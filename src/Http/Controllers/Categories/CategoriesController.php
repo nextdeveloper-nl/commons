@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Categories;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Categories\CategoriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CategoriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Categories;
@@ -107,6 +106,12 @@ class CategoriesController extends AbstractController
      */
     public function store(CategoriesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CategoriesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CategoriesController extends AbstractController
      * This method updates Categories object on database.
      *
      * @param  $categoriesId
-     * @param  CountryCreateRequest $request
+     * @param  CategoriesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($categoriesId, CategoriesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CategoriesService::update($categoriesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CategoriesController extends AbstractController
      * This method updates Categories object on database.
      *
      * @param  $categoriesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

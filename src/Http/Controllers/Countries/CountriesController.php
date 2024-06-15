@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Countries;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Countries\CountriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CountriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Countries;
@@ -107,6 +106,12 @@ class CountriesController extends AbstractController
      */
     public function store(CountriesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CountriesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class CountriesController extends AbstractController
      * This method updates Countries object on database.
      *
      * @param  $countriesId
-     * @param  CountryCreateRequest $request
+     * @param  CountriesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($countriesId, CountriesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CountriesService::update($countriesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class CountriesController extends AbstractController
      * This method updates Countries object on database.
      *
      * @param  $countriesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

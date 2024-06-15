@@ -49,4 +49,5 @@ class CurrenciesQueryFilter extends AbstractQueryFilter
 
 
 
+
 }

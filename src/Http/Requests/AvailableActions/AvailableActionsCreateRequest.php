@@ -19,6 +19,7 @@ class AvailableActionsCreateRequest extends AbstractFormRequest
         'input' => 'nullable|string',
         'parameters' => 'required',
         'outputs' => 'nullable',
+        'name' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

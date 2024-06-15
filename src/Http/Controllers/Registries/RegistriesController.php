@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Registries;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\RegistriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Registries;
@@ -107,6 +106,12 @@ class RegistriesController extends AbstractController
      */
     public function store(RegistriesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = RegistriesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class RegistriesController extends AbstractController
      * This method updates Registries object on database.
      *
      * @param  $registriesId
-     * @param  CountryCreateRequest $request
+     * @param  RegistriesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($registriesId, RegistriesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = RegistriesService::update($registriesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class RegistriesController extends AbstractController
      * This method updates Registries object on database.
      *
      * @param  $registriesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

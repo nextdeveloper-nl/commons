@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Http\Controllers\Media;
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Http\Requests\Media\MediaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Media;
@@ -107,6 +106,12 @@ class MediaController extends AbstractController
      */
     public function store(MediaCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MediaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -116,12 +121,18 @@ class MediaController extends AbstractController
      * This method updates Media object on database.
      *
      * @param  $mediaId
-     * @param  CountryCreateRequest $request
+     * @param  MediaUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($mediaId, MediaUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MediaService::update($mediaId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -131,7 +142,6 @@ class MediaController extends AbstractController
      * This method updates Media object on database.
      *
      * @param  $mediaId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
