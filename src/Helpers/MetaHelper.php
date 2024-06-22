@@ -39,13 +39,24 @@ class MetaHelper
      * @param string $key The key of the metadata.
      * @return Meta|null The metadata object if found, null otherwise.
      */
-    public static function get(string $objectType, int $objectId, string $key): ?Meta
+    public static function get(string $objectType, int $objectId, string $key, $defaultValue = null): mixed
     {
-        return Meta::withoutGlobalScopes()
+        $meta = Meta::withoutGlobalScopes()
             ->where('object_type', $objectType)
             ->where('object_id', $objectId)
             ->where('key', $key)
             ->first();
+
+        if($meta)
+            return $meta->value;
+
+        if(!$meta && !is_null($defaultValue)) {
+            $meta = self::set($objectType, $objectId, $key, $defaultValue);
+
+            return $meta->value;
+        }
+
+        return null;
     }
 
     /**
@@ -57,7 +68,7 @@ class MetaHelper
      * @param string $key The key of the metadata.
      * @param array $value The value of the metadata as an array.
      */
-    public static function set(string $objectType, int $objectId, string $key, array $value)
+    public static function set(string $objectType, int $objectId, string $key, $value)
     {
         $model = Meta::withoutGlobalScopes()
             ->where('object_type', $objectType)
@@ -77,6 +88,8 @@ class MetaHelper
         }
 
         Events::fire("created:NextDeveloper\Commons\Meta", $model);
+
+        return $model;
     }
 
     /**

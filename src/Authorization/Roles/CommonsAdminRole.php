@@ -71,6 +71,7 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_disposable_emails:read',
             'common_domains:read',
             'common_domains:create',
+            'common_domains:update',
             'common_domains:delete',
             'common_exchange_rates:read',
             'common_languages:create',
