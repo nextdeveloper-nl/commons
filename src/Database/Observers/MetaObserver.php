@@ -32,10 +32,10 @@ class MetaObserver
      */
     public function creating(Model $model)
     {
-        throw_if(
-            !UserHelper::can('create', $model),
-            new NotAllowedException('You are not allowed to create this record')
-        );
+//        throw_if(
+//            !UserHelper::can('create', $model),
+//            new NotAllowedException('You are not allowed to create this record')
+//        );
 
         Events::fire('creating:NextDeveloper\Commons\Meta', $model);
     }
@@ -57,10 +57,10 @@ class MetaObserver
      */
     public function saving(Model $model)
     {
-        throw_if(
-            !UserHelper::can('save', $model),
-            new NotAllowedException('You are not allowed to save this record')
-        );
+//        throw_if(
+//            !UserHelper::can('save', $model),
+//            new NotAllowedException('You are not allowed to save this record')
+//        );
 
         Events::fire('saving:NextDeveloper\Commons\Meta', $model);
     }
@@ -81,10 +81,10 @@ class MetaObserver
      */
     public function updating(Model $model)
     {
-        throw_if(
-            !UserHelper::can('update', $model),
-            new NotAllowedException('You are not allowed to update this record')
-        );
+//        throw_if(
+//            !UserHelper::can('update', $model),
+//            new NotAllowedException('You are not allowed to update this record')
+//        );
 
         Events::fire('updating:NextDeveloper\Commons\Meta', $model);
     }
@@ -105,10 +105,10 @@ class MetaObserver
      */
     public function deleting(Model $model)
     {
-        throw_if(
-            !UserHelper::can('delete', $model),
-            new NotAllowedException('You are not allowed to delete this record')
-        );
+//        throw_if(
+//            !UserHelper::can('delete', $model),
+//            new NotAllowedException('You are not allowed to delete this record')
+//        );
 
         Events::fire('deleting:NextDeveloper\Commons\Meta', $model);
     }
@@ -130,10 +130,10 @@ class MetaObserver
      */
     public function restoring(Model $model)
     {
-        throw_if(
-            !UserHelper::can('restore', $model),
-            new NotAllowedException('You are not allowed to restore this record')
-        );
+//        throw_if(
+//            !UserHelper::can('restore', $model),
+//            new NotAllowedException('You are not allowed to restore this record')
+//        );
 
         Events::fire('restoring:NextDeveloper\Commons\Meta', $model);
     }
