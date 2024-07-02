@@ -34,6 +34,16 @@ class AbstractAction implements ShouldQueue
 
     private $latestTime;
 
+    /**
+     * @var int We are using this to store the user id of the action owner
+     */
+    private $userId;
+
+    /**
+     * @var int We are using this to store the account id of the action owner
+     */
+    private $accountId;
+
     public function __construct($params = null)
     {
         $this->createAction();
@@ -57,7 +67,8 @@ class AbstractAction implements ShouldQueue
             }
         }
 
-        $this->setUserAsThisActionOwner();
+        $this->userId = UserHelper::me()->id;
+        $this->accountId = UserHelper::currentAccount()->id;
     }
 
     public function getAction()
@@ -154,8 +165,8 @@ class AbstractAction implements ShouldQueue
 
     public function setUserAsThisActionOwner()
     {
-        UserHelper::setUserById($this->getUserId());
-        UserHelper::setCurrentAccountById($this->getAccountId());
+        UserHelper::setUserById($this->action->iam_user_id);
+        UserHelper::setCurrentAccountById($this->action->iam_account_id);
     }
 
     public function setProgress($percent, $completedAction) {
@@ -242,5 +253,13 @@ class AbstractAction implements ShouldQueue
             'progress'  =>  100,
             'runtime'   => $diff
         ]);
+    }
+
+    public function failed(\Exception $exception)
+    {
+        // Called when the job is failing...
+        Log::error("Action is failed with message: " . $exception->getMessage());
+        Log::error(json_encode($exception->getTrace()));
+
     }
 }
