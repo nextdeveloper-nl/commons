@@ -23,6 +23,12 @@ class StateHelper
     {
         $state = self::getState($obj, $stateName);
 
+        switch ($objectState) {
+            case 'warning':
+                $objectState = 'warn';
+                break;
+        }
+
         if($state) {
             $state->update([
                 'value' => $value,
