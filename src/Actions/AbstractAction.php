@@ -170,6 +170,10 @@ class AbstractAction implements ShouldQueue
     }
 
     public function setProgress($percent, $completedAction) {
+        //  We put this here to fix the action owner problem. But we need to create much more smart solution for this
+        //  in the next version of this module.
+        $this->setUserAsThisActionOwner();
+
         if(!$this->startTime) {
             $this->startTime = now();
         }
