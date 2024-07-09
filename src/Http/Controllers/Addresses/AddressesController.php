@@ -10,13 +10,16 @@ use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Services\AddressesService;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+
 class AddressesController extends AbstractController
 {
     private $model = Addresses::class;
 
     use Tags;
-    use Addresses;
+    use AddressesTrait;
+
     /**
      * This method returns the list of addresses.
      *

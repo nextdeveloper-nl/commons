@@ -37,6 +37,7 @@ class CacheHelper
         switch ($store) {
             case 'redis':
                 self::deleteRedisKeys($obj, $id);
+                self::deleteRedisKeys($obj . 'Perspective', $id);
                 break;
         }
 
