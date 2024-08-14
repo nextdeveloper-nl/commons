@@ -1,10 +1,16 @@
 <?php
 
 return [
-    'scopes'    =>  [
+    'scopes' => [
         'global' => [
             '\NextDeveloper\IAM\Database\Scopes\AuthorizationScope',
             '\NextDeveloper\Commons\Database\GlobalScopes\LimitScope',
+        ]
+    ],
+
+    'configuration' => [
+        'domains' => [
+            'allow_non_fqdn' => env('ALLOW_NON_FQDN', false),
         ]
     ],
 
@@ -24,9 +30,9 @@ return [
      *
      * Also dont forget to add taggables to the TagHelper while initiating your own packages.
      */
-    'taggable_objects'  =>  [
-        'common_domain'    =>  \NextDeveloper\Commons\Database\Models\Domains::class,
-        'common_media'     =>  \NextDeveloper\Commons\Database\Models\Media::class,
+    'taggable_objects' => [
+        'common_domain' => \NextDeveloper\Commons\Database\Models\Domains::class,
+        'common_media' => \NextDeveloper\Commons\Database\Models\Media::class,
     ],
 
     /**
@@ -38,20 +44,20 @@ return [
      *
      * You can also add more storage configurations to the 'cdn' array.
      */
-    'local'    =>  [
+    'local' => [
         //  This is the root for local uploads
-        'disk'      =>  env('LOCAL_STORAGE_DISK', 'public'),
+        'disk' => env('LOCAL_STORAGE_DISK', 'public'),
 
         //  This is the directory for local uploads
-        'directory' =>  env('LOCAL_STORAGE_DIRECTORY', 'media')
+        'directory' => env('LOCAL_STORAGE_DIRECTORY', 'media')
     ],
 
-    'cdn'   =>  [
-        'default'   =>  env('DEFAULT_CDN'),
-        'publitio'  =>  [
-            'api_key'       =>  env('PUBLITIO_API_KEY'),
-            'api_secret'    =>  env('PUBLITIO_API_SECRET'),
-            'domain'        =>  env('PUBLITIO_DOMAIN')
+    'cdn' => [
+        'default' => env('DEFAULT_CDN'),
+        'publitio' => [
+            'api_key' => env('PUBLITIO_API_KEY'),
+            'api_secret' => env('PUBLITIO_API_SECRET'),
+            'domain' => env('PUBLITIO_DOMAIN')
         ],
     ],
 ];

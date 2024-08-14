@@ -10,9 +10,11 @@
         "league/fractal": "*",
         "monolog/monolog": "*",
         "io-developer/php-whois": "^4.1",
-        "nextdeveloper/publitio": "*"
+        "nextdeveloper/publitio": "*",
+        "arubacao/tld-checker": "^1.2"
     },
     "require-dev": {
+        "phpunit/phpunit": "^10.5.30",
         "illuminate/support": "5.5.*",
         "illuminate/database": "5.5.*",
         "illuminate/validation": "5.5.*"
