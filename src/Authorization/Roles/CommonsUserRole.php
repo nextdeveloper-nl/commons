@@ -2,24 +2,28 @@
 
 namespace NextDeveloper\Commons\Authorization\Roles;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\CRM\Database\Models\AccountManagers;
 use NextDeveloper\IAM\Authorization\Roles\AbstractRole;
 use NextDeveloper\IAM\Authorization\Roles\IAuthorizationRole;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Helpers\UserHelper;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'commons-user';
 
-    public const LEVEL = 50;
+    public const LEVEL = 150;
 
     public const DESCRIPTION = 'Commons User';
 
-    public const DB_PREFIX = 'commons';
+    public const DB_PREFIX = 'common';
 
     /**
      * Applies basic member role sql for Eloquent
@@ -30,15 +34,56 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
-         */
-        $builder->whereIsNull('iam_user_id');
+        $isPublicExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_public');
+
+        // TODO: Implement apply() method.
+        $isAccountIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id');
+        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+
+        $where = [];
+
+        if($isAccountIdExists) {
+            $where[] = ['iam_account_id', UserHelper::currentAccount()->id];
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+        }
+
+        if($isUserIdExists) {
+            $where[] = ['iam_user_id', UserHelper::me()->id];
+            $builder->where('iam_user_id', UserHelper::me()->id);
+        }
+
+        //  We need to change this in the future because in the future if we try to implement NON-HTTP request, this will not work.
+        if(request()->getMethod() == 'GET') {
+            if($isPublicExists) {
+                $builder->where('is_public', true)
+                    ->orWhere($where);
+            }
+        }
+
+        $builder->where($where);
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(Users $users = null, Model $model)
     {
-        //return UserHelper::hasRole(self::NAME, $users);
+        $operation = $model->getTable();
+
+        switch (request()->getMethod()) {
+            case 'GET':
+                $operation .= ':read';
+            case 'POST':
+                $operation .= ':create';
+            case 'PUT':
+            case 'PATCH':
+            $operation .= ':update';
+            case 'DELETE':
+                $operation .= ':delete';
+        }
+
+        if(in_array($operation, $this->allowedOperations())) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getModule()
@@ -46,16 +91,23 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         return 'commons';
     }
 
+
     public function allowedOperations() :array
     {
         return [
             'common_action_logs:read',
+            'common_action_logs:create',
+            'common_action_logs:update',
             'common_actions:read',
             'common_actions:create',
+            'common_actions:update',
             'common_addresses:read',
             'common_categories:read',
             'common_cities:read',
             'common_comments:read',
+            'common_comments:create',
+            'common_comments:update',
+            'common_comments:delete',
             'common_countries:read',
             'common_country_states:read',
             'common_currencies:read',
@@ -80,9 +132,17 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_social_media:update',
             'common_social_media:delete',
             'common_states:read',
+            '!common_states:create',
+            '!common_states:update',
             'common_tags:read',
+            '!common_tags:create',
+            '!common_tags:update',
             'common_validatable:read',
-            'common_votes:read'
+            'common_validatable:create',
+            'common_validatable:update',
+            'common_votes:read',
+            'common_votes:create',
+            'common_votes:update',
         ];
     }
 
@@ -117,5 +177,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     public function getDbPrefix()
     {
         return self::DB_PREFIX;
+    }
+
+    public function checkRules(Users $users): bool
+    {
+        // TODO: Implement checkRules() method.
     }
 }

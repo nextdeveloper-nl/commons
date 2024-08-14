@@ -35,6 +35,6 @@ class CountriesTransformer extends AbstractCountriesTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

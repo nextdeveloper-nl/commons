@@ -35,6 +35,6 @@ class MetaTransformer extends AbstractMetaTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

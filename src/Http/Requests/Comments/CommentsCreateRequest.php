@@ -16,7 +16,6 @@ class CommentsCreateRequest extends AbstractFormRequest
             'body' => 'required|string',
         'object_id' => 'required',
         'object_type' => 'required|string',
-        'parent_id' => 'nullable|exists:parents,uuid|uuid',
         'tags' => '',
         ];
     }

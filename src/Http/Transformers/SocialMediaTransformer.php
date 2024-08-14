@@ -35,6 +35,6 @@ class SocialMediaTransformer extends AbstractSocialMediaTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

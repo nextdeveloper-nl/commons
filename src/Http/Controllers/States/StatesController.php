@@ -7,11 +7,16 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\States\StatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\StatesQueryFilter;
+use NextDeveloper\Commons\Database\Models\States;
 use NextDeveloper\Commons\Services\StatesService;
 use NextDeveloper\Commons\Http\Requests\States\StatesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class StatesController extends AbstractController
 {
+    private $model = States::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of states.
      *
@@ -27,6 +32,36 @@ class StatesController extends AbstractController
         $data = StatesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = StatesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = StatesService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +81,18 @@ class StatesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = StatesService::getSubObjects($ref, $subObject);
+        $objects = StatesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +106,12 @@ class StatesController extends AbstractController
      */
     public function store(StatesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +121,18 @@ class StatesController extends AbstractController
      * This method updates States object on database.
      *
      * @param  $statesId
-     * @param  CountryCreateRequest $request
+     * @param  StatesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($statesId, StatesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = StatesService::update($statesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +142,6 @@ class StatesController extends AbstractController
      * This method updates States object on database.
      *
      * @param  $statesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

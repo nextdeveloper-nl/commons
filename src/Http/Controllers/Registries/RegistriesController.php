@@ -7,11 +7,16 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\RegistriesQueryFilter;
+use NextDeveloper\Commons\Database\Models\Registries;
 use NextDeveloper\Commons\Services\RegistriesService;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class RegistriesController extends AbstractController
 {
+    private $model = Registries::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of registries.
      *
@@ -27,6 +32,36 @@ class RegistriesController extends AbstractController
         $data = RegistriesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = RegistriesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = RegistriesService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +81,18 @@ class RegistriesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = RegistriesService::getSubObjects($ref, $subObject);
+        $objects = RegistriesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +106,12 @@ class RegistriesController extends AbstractController
      */
     public function store(RegistriesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = RegistriesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +121,18 @@ class RegistriesController extends AbstractController
      * This method updates Registries object on database.
      *
      * @param  $registriesId
-     * @param  CountryCreateRequest $request
+     * @param  RegistriesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($registriesId, RegistriesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = RegistriesService::update($registriesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +142,6 @@ class RegistriesController extends AbstractController
      * This method updates Registries object on database.
      *
      * @param  $registriesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

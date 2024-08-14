@@ -7,11 +7,16 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Comments\CommentsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
+use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Services\CommentsService;
 use NextDeveloper\Commons\Http\Requests\Comments\CommentsCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class CommentsController extends AbstractController
 {
+    private $model = Comments::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of comments.
      *
@@ -27,6 +32,36 @@ class CommentsController extends AbstractController
         $data = CommentsService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = CommentsService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = CommentsService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +81,18 @@ class CommentsController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = CommentsService::getSubObjects($ref, $subObject);
+        $objects = CommentsService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +106,12 @@ class CommentsController extends AbstractController
      */
     public function store(CommentsCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CommentsService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +121,18 @@ class CommentsController extends AbstractController
      * This method updates Comments object on database.
      *
      * @param  $commentsId
-     * @param  CountryCreateRequest $request
+     * @param  CommentsUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($commentsId, CommentsUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = CommentsService::update($commentsId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +142,6 @@ class CommentsController extends AbstractController
      * This method updates Comments object on database.
      *
      * @param  $commentsId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

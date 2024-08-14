@@ -15,11 +15,11 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'commons-admin';
 
-    public const LEVEL = 50;
+    public const LEVEL = 100;
 
     public const DESCRIPTION = 'Commons Admin';
 
-    public const DB_PREFIX = 'commons';
+    public const DB_PREFIX = 'common';
 
     /**
      * Applies basic member role sql for Eloquent
@@ -30,14 +30,7 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
-         */
-        $ids = AccountManagers::withoutGlobalScopes()
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->pluck('crm_account_id');
-
-        $builder->whereIn('iam_account_id', $ids);
+        //  Returns everything about commons
     }
 
     public function checkPrivileges(Users $users = null)
@@ -54,7 +47,11 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
     {
         return [
             'common_action_logs:read',
+            'common_action_logs:create',
+            'common_action_logs:update',
             'common_actions:read',
+            'common_actions:create',
+            'common_actions:update',
             'common_addresses:read',
             'common_addresses:create',
             'common_addresses:update',
@@ -74,8 +71,10 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_disposable_emails:read',
             'common_domains:read',
             'common_domains:create',
+            'common_domains:update',
             'common_domains:delete',
             'common_exchange_rates:read',
+            'common_languages:create',
             'common_languages:read',
             'common_media:read',
             'common_media:create',
@@ -92,9 +91,21 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_social_media:update',
             'common_social_media:delete',
             'common_states:read',
+            //  When we have ! here, this means that dont check the policy. Just do it.
+            '!common_states:create',
+            '!common_states:update',
+            '!common_states:delete',
             'common_tags:read',
+            '!common_tags:create',
+            '!common_tags:update',
+            '!common_tags:delete',
             'common_validatable:read',
-            'common_votes:read'
+            '!common_validatable:create',
+            '!common_validatable:update',
+            'common_votes:read',
+            '!common_votes:create',
+            '!common_votes:update',
+            '!common_votes:delete'
         ];
     }
 
@@ -129,5 +140,10 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
     public function getDbPrefix()
     {
         return self::DB_PREFIX;
+    }
+
+    public function checkRules(Users $users): bool
+    {
+        // TODO: Implement checkRules() method.
     }
 }

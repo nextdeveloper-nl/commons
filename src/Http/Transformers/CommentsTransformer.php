@@ -35,6 +35,6 @@ class CommentsTransformer extends AbstractCommentsTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

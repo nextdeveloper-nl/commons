@@ -13,7 +13,7 @@ class StatesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'level' => 'required',
+            'object_states' => 'required',
         'name' => 'required|string',
         'value' => 'nullable|string',
         'reason' => 'nullable|string',

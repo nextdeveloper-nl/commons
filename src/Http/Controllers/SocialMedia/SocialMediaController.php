@@ -7,11 +7,16 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\SocialMediaQueryFilter;
+use NextDeveloper\Commons\Database\Models\SocialMedia;
 use NextDeveloper\Commons\Services\SocialMediaService;
 use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class SocialMediaController extends AbstractController
 {
+    private $model = SocialMedia::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of socialmedia.
      *
@@ -27,6 +32,36 @@ class SocialMediaController extends AbstractController
         $data = SocialMediaService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = SocialMediaService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = SocialMediaService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +81,18 @@ class SocialMediaController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = SocialMediaService::getSubObjects($ref, $subObject);
+        $objects = SocialMediaService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +106,12 @@ class SocialMediaController extends AbstractController
      */
     public function store(SocialMediaCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = SocialMediaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +121,18 @@ class SocialMediaController extends AbstractController
      * This method updates SocialMedia object on database.
      *
      * @param  $socialMediaId
-     * @param  CountryCreateRequest $request
+     * @param  SocialMediaUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($socialMediaId, SocialMediaUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = SocialMediaService::update($socialMediaId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +142,6 @@ class SocialMediaController extends AbstractController
      * This method updates SocialMedia object on database.
      *
      * @param  $socialMediaId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

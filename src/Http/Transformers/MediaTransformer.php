@@ -35,6 +35,9 @@ class MediaTransformer extends AbstractMediaTransformer {
             $transformed
         );
 
-        return parent::transform($model);
+        unset($transformed['object_id']);
+        unset($transformed['object_type']);
+
+        return $transformed;
     }
 }

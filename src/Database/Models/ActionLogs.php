@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Database\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\ActionLogsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -20,10 +21,12 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property $log
  * @property integer $runtime
  * @property \Carbon\Carbon $created_at
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
  */
 class ActionLogs extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
 
     public $timestamps = false;
@@ -40,6 +43,8 @@ class ActionLogs extends Model
             'common_action_id',
             'log',
             'runtime',
+            'iam_account_id',
+            'iam_user_id',
     ];
 
     /**
@@ -126,9 +131,6 @@ class ActionLogs extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
 
 
 

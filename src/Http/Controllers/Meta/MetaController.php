@@ -7,11 +7,16 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Meta\MetaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\MetaQueryFilter;
+use NextDeveloper\Commons\Database\Models\Meta;
 use NextDeveloper\Commons\Services\MetaService;
 use NextDeveloper\Commons\Http\Requests\Meta\MetaCreateRequest;
-
+use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
 class MetaController extends AbstractController
 {
+    private $model = Meta::class;
+
+    use Tags;
+    use Addresses;
     /**
      * This method returns the list of metas.
      *
@@ -27,6 +32,36 @@ class MetaController extends AbstractController
         $data = MetaService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = MetaService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = MetaService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +81,18 @@ class MetaController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = MetaService::getSubObjects($ref, $subObject);
+        $objects = MetaService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +106,12 @@ class MetaController extends AbstractController
      */
     public function store(MetaCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MetaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +121,18 @@ class MetaController extends AbstractController
      * This method updates Meta object on database.
      *
      * @param  $metaId
-     * @param  CountryCreateRequest $request
+     * @param  MetaUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($metaId, MetaUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MetaService::update($metaId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +142,6 @@ class MetaController extends AbstractController
      * This method updates Meta object on database.
      *
      * @param  $metaId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\DomainsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -18,7 +19,6 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $id
  * @property string $uuid
  * @property integer $iam_account_id
- * @property integer $iam_user_id
  * @property string $name
  * @property boolean $is_active
  * @property boolean $is_local_domain
@@ -33,7 +33,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Domains extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
 
@@ -49,7 +49,6 @@ class Domains extends Model
 
     protected $fillable = [
             'iam_account_id',
-            'iam_user_id',
             'name',
             'is_active',
             'is_local_domain',
@@ -152,5 +151,25 @@ class Domains extends Model
         }
     }
 
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

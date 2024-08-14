@@ -38,6 +38,6 @@ class ProfileTagsTransformer extends AbstractProfileTagsTransformer
             $transformed
         );
 
-        return parent::transform($model);
+        return $transformed;
     }
 }

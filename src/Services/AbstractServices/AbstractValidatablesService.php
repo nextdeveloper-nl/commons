@@ -9,10 +9,12 @@ use Illuminate\Support\Str;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Database\Models\Validatables;
 use NextDeveloper\Commons\Database\Filters\ValidatablesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
  * This class is responsible from managing the data for Validatables
@@ -27,6 +29,8 @@ class AbstractValidatablesService
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
+        $request = new Request();
+
         /**
         * Here we are adding null request since if filter is null, this means that this function is called from
         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
@@ -34,7 +38,7 @@ class AbstractValidatablesService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new ValidatablesQueryFilter(new Request());
+            $filter = new ValidatablesQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -57,11 +61,18 @@ class AbstractValidatablesService
 
         $model = Validatables::filter($filter);
 
-        if($model && $enablePaginate) {
-            return $model->paginate($perPage);
-        } else {
-            return $model->get();
+        if($enablePaginate) {
+            //  We are using this because we have been experiencing huge security problem when we use the paginate method.
+            //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
+            return new \Illuminate\Pagination\LengthAwarePaginator(
+                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->count(),
+                $perPage,
+                $request->get('page', 1)
+            );
         }
+
+        return $model->get();
     }
 
     public static function getAll()
@@ -78,6 +89,38 @@ class AbstractValidatablesService
     public static function getByRef($ref) : ?Validatables
     {
         return Validatables::findByRef($ref);
+    }
+
+    public static function getActions()
+    {
+        $model = Validatables::class;
+
+        $model = Str::remove('Database\\Models\\', $model);
+
+        $actions = AvailableActions::where('input', $model)
+            ->get();
+
+        return $actions;
+    }
+
+    /**
+     * This method initiates the related action with the given parameters.
+     */
+    public static function doAction($objectId, $action, ...$params)
+    {
+        $object = Validatables::where('uuid', $objectId)->first();
+
+        $action = '\\NextDeveloper\\Commons\\Actions\\Validatables\\' . Str::studly($action);
+
+        if(class_exists($action)) {
+            $action = new $action($object, $params);
+
+            dispatch($action);
+
+            return $action->getActionId();
+        }
+
+        return null;
     }
 
     /**
@@ -128,14 +171,6 @@ class AbstractValidatablesService
     public static function create(array $data)
     {
         
-        if(!array_key_exists('iam_account_id', $data)) {
-            $data['iam_account_id'] = UserHelper::currentAccount()->id;
-        }
-
-        if(!array_key_exists('iam_user_id', $data)) {
-            $data['iam_user_id']    = UserHelper::me()->id;
-        }
-
         try {
             $model = Validatables::create($data);
         } catch(\Exception $e) {
@@ -176,6 +211,13 @@ class AbstractValidatablesService
     {
         $model = Validatables::where('uuid', $id)->first();
 
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to update. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
+
         
         Events::fire('updating:NextDeveloper\Commons\Validatables', $model);
 
@@ -204,6 +246,13 @@ class AbstractValidatablesService
     public static function delete($id)
     {
         $model = Validatables::where('uuid', $id)->first();
+
+        if(!$model) {
+            throw new NotAllowedException(
+                'We cannot find the related object to delete. ' .
+                'Maybe you dont have the permission to update this object?'
+            );
+        }
 
         Events::fire('deleted:NextDeveloper\Commons\Validatables', $model);
 

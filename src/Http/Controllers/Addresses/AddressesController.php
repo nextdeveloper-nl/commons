@@ -7,11 +7,19 @@ use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
+use NextDeveloper\Commons\Database\Models\Addresses;
 use NextDeveloper\Commons\Services\AddressesService;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesCreateRequest;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
 
 class AddressesController extends AbstractController
 {
+    private $model = Addresses::class;
+
+    use Tags;
+    use AddressesTrait;
+
     /**
      * This method returns the list of addresses.
      *
@@ -27,6 +35,36 @@ class AddressesController extends AbstractController
         $data = AddressesService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This function returns the list of actions that can be performed on this object.
+     *
+     * @return void
+     */
+    public function getActions()
+    {
+        $data = AddressesService::getActions();
+
+        return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * Makes the related action to the object
+     *
+     * @param  $objectId
+     * @param  $action
+     * @return array
+     */
+    public function doAction($objectId, $action)
+    {
+        $actionId = AddressesService::doAction($objectId, $action, request()->all());
+
+        return $this->withArray(
+            [
+            'action_id' =>  $actionId
+            ]
+        );
     }
 
     /**
@@ -46,15 +84,18 @@ class AddressesController extends AbstractController
     }
 
     /**
-     * This method returns the list of sub objects the related object.
+     * This method returns the list of sub objects the related object. Sub object means an object which is preowned by
+     * this object.
+     *
+     * It can be tags, addresses, states etc.
      *
      * @param  $ref
      * @param  $subObject
      * @return void
      */
-    public function subObjects($ref, $subObject)
+    public function relatedObjects($ref, $subObject)
     {
-        $objects = AddressesService::getSubObjects($ref, $subObject);
+        $objects = AddressesService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
@@ -68,6 +109,12 @@ class AddressesController extends AbstractController
      */
     public function store(AddressesCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AddressesService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -77,12 +124,18 @@ class AddressesController extends AbstractController
      * This method updates Addresses object on database.
      *
      * @param  $addressesId
-     * @param  CountryCreateRequest $request
+     * @param  AddressesUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
     public function update($addressesId, AddressesUpdateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = AddressesService::update($addressesId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
@@ -92,7 +145,6 @@ class AddressesController extends AbstractController
      * This method updates Addresses object on database.
      *
      * @param  $addressesId
-     * @param  CountryCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */

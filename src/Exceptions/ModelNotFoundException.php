@@ -24,11 +24,12 @@ class ModelNotFoundException extends AbstractCommonsException
     protected $defaultMessage = 'Could not find the records you are looking for.';
 
     /**
+     * @param null $request
      * @param \Illuminate\Http\Request
      *
      * @return mixed
      */
-    public function render($request) {
+    public function render($request = null) {
         $message = $this->getMessage();
 
         if( str_contains( $message, $this->defaultMessage )

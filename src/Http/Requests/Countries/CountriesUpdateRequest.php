@@ -18,7 +18,6 @@ class CountriesUpdateRequest extends AbstractFormRequest
         'name' => 'nullable|string',
         'currency_code' => 'nullable|string',
         'phone_code' => 'nullable|string',
-        'vat_rate' => '',
         'continent_name' => 'nullable|string',
         'continent_code' => 'nullable|string',
         'geo_name_identity' => 'nullable|integer',

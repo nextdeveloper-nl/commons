@@ -14,11 +14,7 @@ class DomainsCreateRequest extends AbstractFormRequest
     {
         return [
             'name' => 'required|string',
-        'is_active' => 'boolean',
         'is_local_domain' => 'boolean',
-        'is_locked' => 'boolean',
-        'is_shared_domain' => 'boolean',
-        'is_validated' => 'boolean',
         'tags' => '',
         'description' => 'nullable|string',
         ];
