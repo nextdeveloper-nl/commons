@@ -39,7 +39,7 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        self::throw_if_domain_is_invalid($model);
+        self::throwIfDomainIsInvalid($model);
 
         Events::fire('creating:NextDeveloper\Commons\Domains', $model);
     }
@@ -66,7 +66,7 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        self::throw_if_domain_is_invalid($model);
+        self::throwIfDomainIsInvalid($model);
 
         Events::fire('saving:NextDeveloper\Commons\Domains', $model);
     }
@@ -92,7 +92,7 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to update this record')
         );
 
-        self::throw_if_domain_is_invalid($model);
+        self::throwIfDomainIsInvalid($model);
 
         Events::fire('updating:NextDeveloper\Commons\Domains', $model);
     }
@@ -160,7 +160,7 @@ class DomainsObserver
     /**
      * @throws DomainValidationException|Throwable
      */
-    private static function throw_if_domain_is_invalid(Model $model): void
+    private static function throwIfDomainIsInvalid(Model $model): void
     {
         /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $domain = $model->name;
