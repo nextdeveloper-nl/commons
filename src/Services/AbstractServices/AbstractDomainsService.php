@@ -2,19 +2,18 @@
 
 namespace NextDeveloper\Commons\Services\AbstractServices;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use NextDeveloper\IAM\Helpers\UserHelper;
-use NextDeveloper\Commons\Common\Cache\CacheHelper;
-use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Database\Models\Domains;
-use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Events\Services\Events;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * This class is responsible from managing the data for Domains
@@ -25,43 +24,43 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractDomainsService
 {
-    public static function get(DomainsQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(DomainsQueryFilter $filter = null, array $params = []): Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
         $request = new Request();
 
         /**
-        * Here we are adding null request since if filter is null, this means that this function is called from
-        * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
-        *
-        * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
-        */
-        if($filter == null) {
+         * Here we are adding null request since if filter is null, this means that this function is called from
+         * non http application. This is actually not I think its a correct way to handle this problem but it's a workaround.
+         *
+         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
+         */
+        if ($filter == null) {
             $filter = new DomainsQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
 
-        if($perPage == null) {
+        if ($perPage == null) {
             $perPage = 20;
         }
 
-        if(array_key_exists('per_page', $params)) {
+        if (array_key_exists('per_page', $params)) {
             $perPage = intval($params['per_page']);
 
-            if($perPage == 0) {
+            if ($perPage == 0) {
                 $perPage = 20;
             }
         }
 
-        if(array_key_exists('orderBy', $params)) {
+        if (array_key_exists('orderBy', $params)) {
             $filter->orderBy($params['orderBy']);
         }
 
         $model = Domains::filter($filter);
 
-        if($enablePaginate) {
+        if ($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
             //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
             return new \Illuminate\Pagination\LengthAwarePaginator(
@@ -86,7 +85,7 @@ class AbstractDomainsService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?Domains
+    public static function getByRef($ref): ?Domains
     {
         return Domains::findByRef($ref);
     }
@@ -112,7 +111,7 @@ class AbstractDomainsService
 
         $action = '\\NextDeveloper\\Commons\\Actions\\Domains\\' . Str::studly($action);
 
-        if(class_exists($action)) {
+        if (class_exists($action)) {
             $action = new $action($object, $params);
 
             dispatch($action);
@@ -129,7 +128,7 @@ class AbstractDomainsService
      * @param  $id
      * @return Domains|null
      */
-    public static function getById($id) : ?Domains
+    public static function getById($id): ?Domains
     {
         return Domains::where('id', $id)->first();
     }
@@ -147,11 +146,11 @@ class AbstractDomainsService
         try {
             $obj = Domains::where('uuid', $uuid)->first();
 
-            if(!$obj) {
+            if (!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
             }
 
-            if($obj) {
+            if ($obj) {
                 return $obj->$object;
             }
         } catch (\Exception $e) {
@@ -164,9 +163,9 @@ class AbstractDomainsService
      *
      * Throws an exception if stuck with any problem.
      *
-     * @param  array $data
+     * @param array $data
      * @return mixed
-     * @throw  Exception
+     * @throws  \Exception
      */
     public static function create(array $data)
     {
@@ -176,14 +175,14 @@ class AbstractDomainsService
                 $data['iam_account_id']
             );
         }
-            
-        if(!array_key_exists('iam_account_id', $data)) {
+
+        if (!array_key_exists('iam_account_id', $data)) {
             $data['iam_account_id'] = UserHelper::currentAccount()->id;
         }
-                        
+
         try {
             $model = Domains::create($data);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -195,12 +194,12 @@ class AbstractDomainsService
     /**
      * This function expects the ID inside the object.
      *
-     * @param  array $data
+     * @param array $data
      * @return Domains
      */
-    public static function updateRaw(array $data) : ?Domains
+    public static function updateRaw(array $data): ?Domains
     {
-        if(array_key_exists('id', $data)) {
+        if (array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
         }
 
@@ -213,15 +212,15 @@ class AbstractDomainsService
      * Throws an exception if stuck with any problem.
      *
      * @param
-     * @param  array $data
+     * @param array $data
      * @return mixed
-     * @throw  Exception
+     * @throws  \Exception
      */
     public static function update($id, array $data)
     {
         $model = Domains::where('uuid', $id)->first();
 
-        if(!$model) {
+        if (!$model) {
             throw new NotAllowedException(
                 'We cannot find the related object to update. ' .
                 'Maybe you dont have the permission to update this object?'
@@ -234,13 +233,13 @@ class AbstractDomainsService
                 $data['iam_account_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\Commons\Domains', $model);
 
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -255,15 +254,15 @@ class AbstractDomainsService
      * Throws an exception if stuck with any problem.
      *
      * @param
-     * @param  array $data
+     * @param array $data
      * @return mixed
-     * @throw  Exception
+     * @throws  \Exception
      */
     public static function delete($id)
     {
         $model = Domains::where('uuid', $id)->first();
 
-        if(!$model) {
+        if (!$model) {
             throw new NotAllowedException(
                 'We cannot find the related object to delete. ' .
                 'Maybe you dont have the permission to update this object?'
@@ -274,7 +273,7 @@ class AbstractDomainsService
 
         try {
             $model = $model->delete();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 

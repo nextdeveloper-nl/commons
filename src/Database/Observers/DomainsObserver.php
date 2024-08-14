@@ -3,10 +3,12 @@
 namespace NextDeveloper\Commons\Database\Observers;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use NextDeveloper\Commons\Exceptions\DomainValidationException;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
-use NextDeveloper\IAM\Helpers\UserHelper;
+use NextDeveloper\Commons\Helpers\DomainsHelper;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\IAM\Helpers\UserHelper;
+use Throwable;
 
 /**
  * Class DomainsObserver
@@ -37,6 +39,8 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
+        self::throw_if_domain_is_invalid($model);
+
         Events::fire('creating:NextDeveloper\Commons\Domains', $model);
     }
 
@@ -62,6 +66,8 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
+        self::throw_if_domain_is_invalid($model);
+
         Events::fire('saving:NextDeveloper\Commons\Domains', $model);
     }
 
@@ -85,6 +91,8 @@ class DomainsObserver
             !UserHelper::can('update', $model),
             new NotAllowedException('You are not allowed to update this record')
         );
+
+        self::throw_if_domain_is_invalid($model);
 
         Events::fire('updating:NextDeveloper\Commons\Domains', $model);
     }
@@ -148,4 +156,18 @@ class DomainsObserver
         Events::fire('restored:NextDeveloper\Commons\Domains', $model);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /**
+     * @throws DomainValidationException|Throwable
+     */
+    private static function throw_if_domain_is_invalid(Model $model): void
+    {
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        $domain = $model->name;
+
+        throw_unless(
+            DomainsHelper::allowNonFqdn() || DomainsHelper::isFQDN($domain),
+            new DomainValidationException($domain)
+        );
+    }
 }
