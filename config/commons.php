@@ -9,6 +9,9 @@ return [
     ],
 
     'configuration' => [
+        'actions' => [
+            'save_in_db' => env('ACTIONS_SAVE_IN_DB', true),
+        ],
         'domains' => [
             'allow_non_fqdn' => env('ALLOW_NON_FQDN', false),
         ]
