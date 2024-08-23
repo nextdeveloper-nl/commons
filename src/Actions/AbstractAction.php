@@ -259,12 +259,17 @@ class AbstractAction implements ShouldQueue
         ]);
     }
 
-    public function failed(\Exception $exception)
+    public function failed($exception)
     {
         $this->setFinishedWithError("In this job, we entered in an errored state.");
-        // Called when the job is failing...
-        Log::error("Action is failed with message: " . $exception->getMessage());
-        Log::error(json_encode($exception->getTrace()));
 
+        if(get_class($exception == 'Exception')) {
+            Log::error("Action is failed with message: " . $exception->getMessage());
+            Log::error(json_encode($exception->getTrace()));
+        }
+
+        if(get_class($exception == 'Error')) {
+            Log::error(var_dum($exception));
+        }
     }
 }
