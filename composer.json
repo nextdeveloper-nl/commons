@@ -8,10 +8,8 @@
     "require": {
         "php": ">=8.2.0",
         "league/fractal": "*",
-        "monolog/monolog": "*",
-        "io-developer/php-whois": "^4.1",
+        "monolog/monolog": "*", ,
         "nextdeveloper/publitio": "*",
-        "arubacao/tld-checker": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.5.30",
