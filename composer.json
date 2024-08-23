@@ -8,7 +8,7 @@
     "require": {
         "php": ">=8.2.0",
         "league/fractal": "*",
-        "monolog/monolog": "*", ,
+        "monolog/monolog": "*",
         "nextdeveloper/publitio": "*"
     },
     "require-dev": {
