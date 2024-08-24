@@ -184,6 +184,9 @@ class AbstractAction implements ShouldQueue
 
     public function setProgress($percent, $completedAction)
     {
+        if(ActionsHelper::logInFile())
+            Log::info('[ActionLog]' . $completedAction . ' with percent: ' . $percent);
+
         if (!ActionsHelper::saveInDb()) return;
 
         //  We put this here to fix the action owner problem. But we need to create much more smart solution for this
@@ -231,6 +234,9 @@ class AbstractAction implements ShouldQueue
 
     public function setFinishedWithError($log = 'Action failed')
     {
+        if(ActionsHelper::logInFile())
+            Log::error('[ActionLog][FAIL] ' . $log);
+
         if (!ActionsHelper::saveInDb()) return;
 
         $now = Carbon::now();
@@ -256,6 +262,9 @@ class AbstractAction implements ShouldQueue
 
     public function setFinished($log = 'Action finished')
     {
+        if(ActionsHelper::logInFile())
+            Log::info('[ActionLog] ' . $log);
+
         if (!ActionsHelper::saveInDb()) return;
 
         $now = Carbon::now();
