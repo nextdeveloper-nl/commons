@@ -24,7 +24,8 @@ trait SSHable
         $connection = $this->createSSHConnection();
 
         if(!$connection)
-            return null;
+            throw new \Exception('I cannot connect to the SSH you have provided. Check the IP and ' .
+                'the credentials, please.');
 
         $response = [];
 
