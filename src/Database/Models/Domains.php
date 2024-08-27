@@ -2,9 +2,11 @@
 
 namespace NextDeveloper\Commons\Database\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use NextDeveloper\Commons\Database\Casts\TextArray;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\DomainsObserver;
@@ -26,10 +28,11 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property boolean $is_shared_domain
  * @property boolean $is_validated
  * @property array $tags
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  * @property string $description
+ * @property bool $is_tld
  */
 class Domains extends Model
 {
@@ -43,81 +46,81 @@ class Domains extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'iam_account_id',
-            'name',
-            'is_active',
-            'is_local_domain',
-            'is_locked',
-            'is_shared_domain',
-            'is_validated',
-            'tags',
-            'description',
+        'iam_account_id',
+        'name',
+        'is_active',
+        'is_local_domain',
+        'is_locked',
+        'is_shared_domain',
+        'is_validated',
+        'tags',
+        'description',
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'is_active' => 'boolean',
-    'is_local_domain' => 'boolean',
-    'is_locked' => 'boolean',
-    'is_shared_domain' => 'boolean',
-    'is_validated' => 'boolean',
-    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
-    'description' => 'string',
+        'id' => 'integer',
+        'name' => 'string',
+        'is_active' => 'boolean',
+        'is_local_domain' => 'boolean',
+        'is_locked' => 'boolean',
+        'is_shared_domain' => 'boolean',
+        'is_validated' => 'boolean',
+        'tags' => TextArray::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'description' => 'string',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -134,9 +137,11 @@ class Domains extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_domains');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -144,32 +149,19 @@ class Domains extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function accounts(): HasMany
     {
         return $this->hasMany(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
