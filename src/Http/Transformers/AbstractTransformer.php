@@ -138,6 +138,11 @@ abstract class AbstractTransformer extends TransformerAbstract
         $this->setProperties();
     }
 
+    public function addInclude($include)
+    {
+        $this->availableIncludes[] = $include;
+    }
+
     /**
      * @param Scope $scope
      * @param mixed $data
