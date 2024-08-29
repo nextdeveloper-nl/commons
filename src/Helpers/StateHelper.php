@@ -57,4 +57,12 @@ class StateHelper
             ->where('name', $stateName)
             ->first();
     }
+
+    public static function clearStates($obj): void
+    {
+        States::withoutGlobalScope(AuthorizationScope::class)
+            ->where('object_type', get_class($obj))
+            ->where('object_id', $obj->id)
+            ->delete();
+    }
 }
