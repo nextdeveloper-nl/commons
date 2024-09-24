@@ -17,37 +17,37 @@ class CountriesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function code($value)
     {
         return $this->builder->where('code', 'like', '%' . $value . '%');
     }
-    
+
     public function locale($value)
     {
         return $this->builder->where('locale', 'like', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'like', '%' . $value . '%');
     }
-    
+
     public function phoneCode($value)
     {
         return $this->builder->where('phone_code', 'like', '%' . $value . '%');
     }
-    
+
     public function continentName($value)
     {
         return $this->builder->where('continent_name', 'like', '%' . $value . '%');
     }
-    
+
     public function continentCode($value)
     {
         return $this->builder->where('continent_code', 'like', '%' . $value . '%');
@@ -68,9 +68,7 @@ class CountriesQueryFilter extends AbstractQueryFilter
 
     public function isActive($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_active', $value);
     }

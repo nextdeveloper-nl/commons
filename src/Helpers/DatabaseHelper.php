@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Helpers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 class DatabaseHelper
 {

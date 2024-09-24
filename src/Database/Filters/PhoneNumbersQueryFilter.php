@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,22 +37,22 @@ class PhoneNumbersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function code($value)
     {
         return $this->builder->where('code', 'like', '%' . $value . '%');
     }
-    
+
     public function number($value)
     {
         return $this->builder->where('number', 'like', '%' . $value . '%');
@@ -60,9 +60,7 @@ class PhoneNumbersQueryFilter extends AbstractQueryFilter
 
     public function isActive($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_active', $value);
     }

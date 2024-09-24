@@ -17,12 +17,12 @@ class LanguagesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function nativeName($value)
     {
         return $this->builder->where('native_name', 'like', '%' . $value . '%');
@@ -30,18 +30,14 @@ class LanguagesQueryFilter extends AbstractQueryFilter
 
     public function isDefault($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_default', $value);
     }
 
     public function isActive($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_active', $value);
     }
