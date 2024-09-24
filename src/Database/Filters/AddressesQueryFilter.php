@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,47 +17,47 @@ class AddressesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function line1($value)
     {
         return $this->builder->where('line1', 'like', '%' . $value . '%');
     }
-    
+
     public function line2($value)
     {
         return $this->builder->where('line2', 'like', '%' . $value . '%');
     }
-    
+
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
-    
+
     public function state($value)
     {
         return $this->builder->where('state', 'like', '%' . $value . '%');
     }
-    
+
     public function stateCode($value)
     {
         return $this->builder->where('state_code', 'like', '%' . $value . '%');
     }
-    
+
     public function postcode($value)
     {
         return $this->builder->where('postcode', 'like', '%' . $value . '%');
     }
-    
+
     public function emailAddress($value)
     {
         return $this->builder->where('email_address', 'like', '%' . $value . '%');
@@ -65,9 +65,7 @@ class AddressesQueryFilter extends AbstractQueryFilter
 
     public function isInvoiceAddress($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
+
 
         return $this->builder->where('is_invoice_address', $value);
     }

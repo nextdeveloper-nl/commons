@@ -48,8 +48,9 @@ class CacheHelper
         $config = config('database.redis.cache');
 
         $r = new \Redis();
-        $r->connect($config['host'], $config['port']);
-        $r->auth(config('database.redis.cache.password'));
+        $r->pconnect($config['host'], $config['port'], 0,null, 0, 0, [
+            'auth'  =>  config('database.redis.cache.password')
+        ]);
         $r->select(config('database.redis.cache.database'));
 
         $it = null;

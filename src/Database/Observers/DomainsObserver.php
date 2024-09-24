@@ -39,7 +39,7 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        self::throwIfDomainIsInvalid($model);
+        //self::throwIfDomainIsInvalid($model);
 
         Events::fire('creating:NextDeveloper\Commons\Domains', $model);
     }
@@ -66,7 +66,7 @@ class DomainsObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        self::throwIfDomainIsInvalid($model);
+        //self::throwIfDomainIsInvalid($model);
 
         Events::fire('saving:NextDeveloper\Commons\Domains', $model);
     }
