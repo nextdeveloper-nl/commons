@@ -41,16 +41,20 @@ class MetaHelper
      */
     public static function get($object, string $key, $defaultValue = null): mixed
     {
+        if (!is_object($object))
+            throw new \Exception('You need to provide the actual object here. Because we are' .
+                ' looking at the database for the object record both using object name and id.');
+
         $meta = Meta::withoutGlobalScopes()
             ->where('object_type', get_class($object))
             ->where('object_id', $object->id)
             ->where('key', $key)
             ->first();
 
-        if($meta)
+        if ($meta)
             return $meta->value;
 
-        if(!is_null($defaultValue)) {
+        if (!is_null($defaultValue)) {
             $meta = self::set($object, $key, $defaultValue);
 
             return $meta->value;

@@ -35,6 +35,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     public function apply(Builder $builder, Model $model)
     {
         $isPublicExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_public');
+        $isActiveExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_active');
 
         // TODO: Implement apply() method.
         $isAccountIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id');
