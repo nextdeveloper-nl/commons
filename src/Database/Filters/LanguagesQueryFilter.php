@@ -37,8 +37,6 @@ class LanguagesQueryFilter extends AbstractQueryFilter
 
     public function isActive($value)
     {
-
-
         return $this->builder->where('is_active', $value);
     }
 

@@ -64,7 +64,7 @@ class AbstractAction implements ShouldQueue
 
         foreach ($this->allowedRoles as $role) {
             if (!UserHelper::hasRole($role)) {
-                throw new NotAllowedException('You dont have the right privilige and/or role to run this action.');
+                throw new NotAllowedException('You dont have the right privilege and/or role to run this action.');
             }
         }
 
