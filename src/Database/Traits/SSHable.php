@@ -35,10 +35,15 @@ trait SSHable
         foreach ($commands as $c) {
             $output = null;
             $error = '';
+
+            $weHaveError = false;
+
             try {
                 Log::debug(__METHOD__ . ' | Running command: ' . $c);
 
-                $output = trim($connection->read());
+                if(!$weHaveError)
+                    $output = trim($connection->read());
+
                 $connection->setTimeout(1);
 
                 $connection->write($c . "\n");
@@ -49,6 +54,9 @@ trait SSHable
 
                 Log::debug(__METHOD__ . ' | Result is: ' . $output);
             } catch (\Exception $e) {
+                //  If we reach here then this means that we don't have an error.
+                $weHaveError = true;
+
                 Log::error(__METHOD__ . ' | We got the error with this command: ' . $c);
                 Log::error(__METHOD__ . ' | Went into exception with error: ' . $e->getMessage());
             }
