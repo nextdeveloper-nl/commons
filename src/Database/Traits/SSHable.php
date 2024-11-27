@@ -44,7 +44,11 @@ trait SSHable
             $connection->write($c . "\n");
             $connection->setTimeout(1);
 
-            $output = $connection->read();
+            try {
+                $output = $connection->read();
+            } catch (\Exception $e) {
+                $output = $connection->getErrors();
+            }
             $connection->setTimeout(1);
 
             Log::debug(__METHOD__ . ' | Result is: ' . $output);
