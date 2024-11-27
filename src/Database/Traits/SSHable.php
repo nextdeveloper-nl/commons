@@ -34,7 +34,11 @@ trait SSHable
 
         foreach ($commands as $c) {
             Log::debug(__METHOD__ . ' | Running command: ' . $c);
-            $output = $connection->read();
+            try {
+                $output = trim($connection->read());
+            } catch (\Exception $e) {
+                $output = $connection->getErrors();
+            }
             $connection->setTimeout(1);
 
             $connection->write($c . "\n");
@@ -48,7 +52,7 @@ trait SSHable
             $error = $connection->getStdError();
 
             $response[] = [
-                'output'    =>  trim($output),
+                'output'    =>  $output,
                 'error'     =>  trim($error),
             ];
         }
