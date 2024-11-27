@@ -234,6 +234,11 @@ class AbstractAction implements ShouldQueue
 
     public function setFinishedWithError($log = 'Action failed')
     {
+        //  We put this here to fix the action owner problem. But we need to create much more smart solution for this
+        //  in the next version of this module.
+        $this->setUserAsThisActionOwner();
+        UserHelper::setUserById($this->getUserId());
+
         if(ActionsHelper::logInFile())
             Log::error('[ActionLog][FAIL] ' . $log);
 
