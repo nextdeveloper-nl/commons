@@ -246,7 +246,7 @@ class AbstractAction implements ShouldQueue
             Log::info('[ActionLog][ERROR]' . $log . ' / Diff: ' . $diff . 'ms');
         }
 
-        ActionLogs::create([
+        ActionLogs::createQuietly([
             'common_action_id' => $this->action->id,
             'log' => 'Error: ' . $log,
             'runtime' => $diff,
