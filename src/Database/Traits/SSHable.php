@@ -13,12 +13,49 @@ namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Helpers\StateHelper;
+use phpseclib3\Net\SSH2;
+
 /*
  * This trait creates SSH Connections
  */
 
 trait SSHable
 {
+    public function performMultipleSSHCommands($commands)
+    {
+        $ipAddr = $this->ip_addr;
+        $ipAddr = explode('/', $ipAddr);
+        $ipAddr = $ipAddr[0];
+
+        $connection = new SSH2($ipAddr, $this->ssh_port, 10);
+        $isLoggedIn = $connection->login($this->ssh_username, decrypt($this->ssh_password));
+
+        $response = [];
+
+        foreach ($commands as $c) {
+            Log::debug(__METHOD__ . ' | Running command: ' . $c);
+            $output = $connection->read();
+            $connection->setTimeout(1);
+
+            $connection->write($c . "\n");
+            $connection->setTimeout(1);
+
+            $output = $connection->read();
+            $connection->setTimeout(1);
+
+            Log::debug(__METHOD__ . ' | Result is: ' . $output);
+
+            $error = $connection->getStdError();
+
+            $response[] = [
+                'output'    =>  trim($output),
+                'error'     =>  trim($error),
+            ];
+        }
+
+        return $response;
+    }
+
     public function performSSHCommand($command)
     {
         $connection = $this->createSSHConnection();

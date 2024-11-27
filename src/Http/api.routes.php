@@ -508,34 +508,12 @@ Route::prefix('commons')->group(
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Route::post('/media/upload', 'Media\FileUploadController@upload');
 
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
+
+        Route::get('/storage/uploads/{file}', [\NextDeveloper\Commons\Http\Controllers\Media\FileUploadController::class, 'show']);
     }
 );
 
