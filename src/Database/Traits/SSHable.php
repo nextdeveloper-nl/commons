@@ -49,9 +49,8 @@ trait SSHable
 
                 Log::debug(__METHOD__ . ' | Result is: ' . $output);
             } catch (\Exception $e) {
+                Log::error(__METHOD__ . ' | We got the error with this command: ' . $c);
                 Log::error(__METHOD__ . ' | Went into exception with error: ' . $e->getMessage());
-                $output = $connection->getErrors();
-                $error = $connection->getStdError();
             }
 
             $response[] = [
