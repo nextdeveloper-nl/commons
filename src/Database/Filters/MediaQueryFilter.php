@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,37 +37,37 @@ class MediaQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
-    
+
     public function collectionName($value)
     {
         return $this->builder->where('collection_name', 'like', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function cdnUrl($value)
     {
         return $this->builder->where('cdn_url', 'like', '%' . $value . '%');
     }
-    
+
     public function fileName($value)
     {
         return $this->builder->where('file_name', 'like', '%' . $value . '%');
     }
-    
+
     public function mimeType($value)
     {
         return $this->builder->where('mime_type', 'like', '%' . $value . '%');
     }
-    
+
     public function disk($value)
     {
         return $this->builder->where('disk', 'like', '%' . $value . '%');
@@ -149,13 +149,9 @@ class MediaQueryFilter extends AbstractQueryFilter
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
-
-
-
-
-
-
-
-
+    public function objectId($value)
+    {
+        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+    }
 
 }

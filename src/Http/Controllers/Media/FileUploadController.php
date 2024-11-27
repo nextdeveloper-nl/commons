@@ -10,6 +10,10 @@ use Publitio\BadJSONResponse;
 
 class FileUploadController extends AbstractController
 {
+    public function show($file) {
+        return response()->file(storage_path($file));
+    }
+
     /**
      * This method created a Media object on a database.
      *

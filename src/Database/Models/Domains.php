@@ -166,6 +166,11 @@ class Domains extends Model
         return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Networks::class);
     }
 
+    public function posts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Blogs\Database\Models\Posts::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
