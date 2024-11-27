@@ -33,27 +33,26 @@ trait SSHable
         $response = [];
 
         foreach ($commands as $c) {
-            Log::debug(__METHOD__ . ' | Running command: ' . $c);
+            $output = null;
+            $error = '';
             try {
+                Log::debug(__METHOD__ . ' | Running command: ' . $c);
+
                 $output = trim($connection->read());
-            } catch (\Exception $e) {
-                $output = $connection->getErrors();
-            }
-            $connection->setTimeout(1);
+                $connection->setTimeout(1);
 
-            $connection->write($c . "\n");
-            $connection->setTimeout(1);
+                $connection->write($c . "\n");
+                $connection->setTimeout(1);
 
-            try {
                 $output = $connection->read();
+                $connection->setTimeout(1);
+
+                Log::debug(__METHOD__ . ' | Result is: ' . $output);
             } catch (\Exception $e) {
+                Log::error(__METHOD__ . ' | Went into exception with error: ' . $e->getMessage());
                 $output = $connection->getErrors();
+                $error = $connection->getStdError();
             }
-            $connection->setTimeout(1);
-
-            Log::debug(__METHOD__ . ' | Result is: ' . $output);
-
-            $error = $connection->getStdError();
 
             $response[] = [
                 'output'    =>  $output,
