@@ -82,17 +82,15 @@ trait SSHable
 
         if(!is_array($command))
             $command = [$command];
+        else
+            $command = implode(PHP_EOL, $command);
 
-        foreach ($command as $c) {
-            $out = '';
-            $error = '';
-            $this->ssh2Run($connection, $c, $out, $error);
+        $this->ssh2Run($connection, $command, $out, $error);
 
-            $response[] = [
-                'output'    =>  trim($out),
-                'error'     =>  trim($error)
-            ];
-        }
+        $response = [
+            'output'    =>  trim($out),
+            'error'     =>  trim($error)
+        ];
 
         return $response;
     }
