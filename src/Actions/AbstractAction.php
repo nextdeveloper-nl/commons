@@ -14,6 +14,7 @@ use NextDeveloper\Commons\Database\Models\ActionLogs;
 use NextDeveloper\Commons\Database\Models\Actions;
 use NextDeveloper\Commons\Exceptions\CannotValidateActionRequestException;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\Commons\Exceptions\NotFoundException;
 use NextDeveloper\Commons\Helpers\ActionsHelper;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
@@ -45,9 +46,9 @@ class AbstractAction implements ShouldQueue
      */
     private $accountId;
 
-    public function __construct($params = null)
+    public function __construct($params = null, $previous = null)
     {
-        $this->createAction();
+        $this->createAction($previous);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
         if ($params) {
@@ -98,12 +99,17 @@ class AbstractAction implements ShouldQueue
         return $this->action->uuid;
     }
 
-    private function createAction()
+    private function createAction($previous = null)
     {
         if (!ActionsHelper::saveInDb()) return;
 
         $class = get_class($this->model);
         $id = $this->model->id;
+
+        if($previous) {
+            UserHelper::setUserById($previous->getUserId());
+            UserHelper::setCurrentAccountById($previous->getAccountId());
+        }
 
         $this->action = Actions::create([
             'action' => get_class($this),
@@ -178,6 +184,11 @@ class AbstractAction implements ShouldQueue
 
     public function setUserAsThisActionOwner()
     {
+        //  We need to return because when action runs and there is no user attached to it, this part is creating error.
+        if(!$this->action)
+            throw new NotFoundException('Cannot run this action without a user. You need to provide a ' .
+                'user to run this action. Maybe you didnt initiate the action with setProgress(0...)?');
+
         UserHelper::setUserById($this->action->iam_user_id);
         UserHelper::setCurrentAccountById($this->action->iam_account_id);
     }

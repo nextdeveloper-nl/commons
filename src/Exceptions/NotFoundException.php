@@ -17,13 +17,10 @@ namespace  NextDeveloper\Commons\Exceptions;
 class NotFoundException extends AbstractCommonsException
 {
 
-    /**
-     * @param  \Illuminate\Http\Request
-     *
-     * @return mixed
-     */
-    public function render($request) {
-        return response()->api()->errorNotFound( $this->getMessage() ?: 'Requested object not found.' );
-    }
+    protected $defaultMessage = 'The object that you are looking is not in its place :/ weird yeah ?';
 
+    public function __construct($message, $code = 0, \Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }

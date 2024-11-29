@@ -80,9 +80,7 @@ trait SSHable
 
         $response = [];
 
-        if(!is_array($command))
-            $command = [$command];
-        else
+        if(is_array($command))
             $command = implode(PHP_EOL, $command);
 
         $this->ssh2Run($connection, $command, $out, $error);
@@ -99,6 +97,10 @@ trait SSHable
         $result=false;
         $out='';
         $err='';
+
+        if(is_array($cmd))
+            $cmd = implode(PHP_EOL, $cmd);
+
         $sshout=ssh2_exec($ssh2,$cmd);
 
         if($sshout){
