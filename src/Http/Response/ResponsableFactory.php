@@ -30,10 +30,14 @@ class ResponsableFactory {
             $returnType = 'Item';
             $returnObject = get_class($data);
         } else {
-            if(count($data) > 0)
-                $returnObject = get_class($data[0]);
-            else
+            if($data) {
+                if(count($data) > 0)
+                    $returnObject = get_class($data[0]);
+                else
+                    $returnObject = null;
+            } else {
                 $returnObject = null;
+            }
         }
 
         if(!$returnObject) {
@@ -41,6 +45,7 @@ class ResponsableFactory {
                 ' object or you may need to change your search filters.');
         }
 
+        
         $exploded = explode('\\', $returnObject);
 
         $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
