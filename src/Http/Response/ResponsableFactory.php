@@ -45,7 +45,7 @@ class ResponsableFactory {
                 ' object or you may need to change your search filters.');
         }
 
-        
+
         $exploded = explode('\\', $returnObject);
 
         $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
