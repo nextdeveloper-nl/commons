@@ -51,7 +51,7 @@ class AbstractAction implements ShouldQueue
         $this->createAction($previous);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
-        if ($params) {
+        if ($params && property_exists($this, 'PARAMS')) {
             if (array_key_exists(0, $params))
                 $params = $params[0];
 
