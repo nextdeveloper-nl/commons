@@ -35,15 +35,24 @@ trait UuidId {
      * @return mixed
      */
     public static function findByRef($ref) {
-        if ( ! is_null($data = static::whereRaw(static::getHashidsColumn().' = ?', [$ref])->first())) {
-            return $data;
+        try {
+            if ( ! is_null($data = static::whereRaw(static::getHashidsColumn().' = ?', [$ref])->first())) {
+                return $data;
+            }
+        } catch (\Exception $e) {
+           if($e->getCode() == '22P02') {
+               //   Here we are returning null because we don't want to tell our user to check weather the given
+               //   reference number or uuid is actual a reference number or uuid.
+               return null;
+           }
         }
 
-        $className = str_replace('_', ' ', Str::snake(Str::camel(class_basename(static::class))));
-
-        $message = sprintf('Could not find any %s', $className);
-
-        throw new \NextDeveloper\Commons\Exceptions\ModelNotFoundException($message);
+        return null;
+//        $className = str_replace('_', ' ', Str::snake(Str::camel(class_basename(static::class))));
+//
+//        $message = sprintf('Could not find any %s', $className);
+//
+//        throw new \NextDeveloper\Commons\Exceptions\ModelNotFoundException($message);
     }
 
     /**
