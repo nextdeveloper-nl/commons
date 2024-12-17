@@ -109,14 +109,19 @@ class AbstractAvailableActionsService
     {
         $object = AvailableActions::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\AvailableActions\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\AvailableActions')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -176,8 +181,6 @@ class AbstractAvailableActionsService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\AvailableActions', $model);
-
         return $model->fresh();
     }
 
@@ -218,16 +221,12 @@ class AbstractAvailableActionsService
         }
 
         
-        Events::fire('updating:NextDeveloper\Commons\AvailableActions', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\AvailableActions', $model);
 
         return $model->fresh();
     }
@@ -252,8 +251,6 @@ class AbstractAvailableActionsService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\AvailableActions', $model);
 
         try {
             $model = $model->delete();

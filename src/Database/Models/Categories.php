@@ -35,7 +35,6 @@ class Categories extends Model
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
-
     public $timestamps = true;
 
     protected $table = 'common_categories';
@@ -149,20 +148,16 @@ class Categories extends Model
         }
     }
 
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function categories() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Categories::class);
     }
-
-    public function courses() : \Illuminate\Database\Eloquent\Relations\HasMany
+    
+    public function domains() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\LMS\Database\Models\Courses::class);
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Domains::class);
     }
-
-    public function posts() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Blogs\Database\Models\Posts::class);
-    }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

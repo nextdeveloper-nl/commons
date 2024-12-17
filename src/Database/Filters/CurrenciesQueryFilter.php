@@ -22,12 +22,14 @@ class CurrenciesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('code', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
 
+    
     public function commonCountryId($value)
     {
             $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
@@ -37,7 +39,14 @@ class CurrenciesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonCountry
+    public function common_country_id($value)
+    {
+        return $this->commonCountry($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

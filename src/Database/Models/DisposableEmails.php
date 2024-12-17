@@ -28,7 +28,6 @@ class DisposableEmails extends Model
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
 
-
     public $timestamps = true;
 
     protected $table = 'common_disposable_emails';
@@ -128,7 +127,13 @@ class DisposableEmails extends Model
         }
     }
 
+    public function domains() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Domains::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
