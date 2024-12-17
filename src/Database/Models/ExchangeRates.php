@@ -28,7 +28,6 @@ class ExchangeRates extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
-
     public $timestamps = true;
 
     protected $table = 'common_exchange_rates';
@@ -132,7 +131,13 @@ class ExchangeRates extends Model
         }
     }
 
+    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

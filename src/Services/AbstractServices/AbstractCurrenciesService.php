@@ -110,14 +110,19 @@ class AbstractCurrenciesService
     {
         $object = Currencies::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\Currencies\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\Currencies')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -183,8 +188,6 @@ class AbstractCurrenciesService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\Currencies', $model);
-
         return $model->fresh();
     }
 
@@ -231,16 +234,12 @@ class AbstractCurrenciesService
             );
         }
     
-        Events::fire('updating:NextDeveloper\Commons\Currencies', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\Currencies', $model);
 
         return $model->fresh();
     }
@@ -265,8 +264,6 @@ class AbstractCurrenciesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\Currencies', $model);
 
         try {
             $model = $model->delete();

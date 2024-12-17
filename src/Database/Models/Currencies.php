@@ -25,7 +25,6 @@ class Currencies extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
-
     public $timestamps = false;
 
     protected $table = 'common_currencies';
@@ -124,17 +123,13 @@ class Currencies extends Model
         }
     }
 
-    public function invoiceItems() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\Accounting\Database\Models\InvoiceItems::class);
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
     }
-
-    public function transactions() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Accounting\Database\Models\Transactions::class);
-    }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

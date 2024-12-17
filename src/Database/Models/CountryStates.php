@@ -30,7 +30,6 @@ class CountryStates extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
-
     public $timestamps = false;
 
     protected $table = 'common_country_states';
@@ -140,6 +139,7 @@ class CountryStates extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

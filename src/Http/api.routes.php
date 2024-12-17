@@ -359,27 +359,6 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('validatable')->group(
-            function () {
-                Route::get('/', 'Validatable\ValidatableController@index');
-                Route::get('/actions', 'Validatable\ValidatableController@getActions');
-
-                Route::get('{common_validatable}/tags ', 'Validatable\ValidatableController@tags');
-                Route::post('{common_validatable}/tags ', 'Validatable\ValidatableController@saveTags');
-                Route::get('{common_validatable}/addresses ', 'Validatable\ValidatableController@addresses');
-                Route::post('{common_validatable}/addresses ', 'Validatable\ValidatableController@saveAddresses');
-
-                Route::get('/{common_validatable}/{subObjects}', 'Validatable\ValidatableController@relatedObjects');
-                Route::get('/{common_validatable}', 'Validatable\ValidatableController@show');
-
-                Route::post('/', 'Validatable\ValidatableController@store');
-                Route::post('/{common_validatable}/do/{action}', 'Validatable\ValidatableController@doAction');
-
-                Route::patch('/{common_validatable}', 'Validatable\ValidatableController@update');
-                Route::delete('/{common_validatable}', 'Validatable\ValidatableController@destroy');
-            }
-        );
-
         Route::prefix('phone-numbers')->group(
             function () {
                 Route::get('/', 'PhoneNumbers\PhoneNumbersController@index');
@@ -485,6 +464,48 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('validatable')->group(
+            function () {
+                Route::get('/', 'Validatable\ValidatableController@index');
+                Route::get('/actions', 'Validatable\ValidatableController@getActions');
+
+                Route::get('{common_validatable}/tags ', 'Validatable\ValidatableController@tags');
+                Route::post('{common_validatable}/tags ', 'Validatable\ValidatableController@saveTags');
+                Route::get('{common_validatable}/addresses ', 'Validatable\ValidatableController@addresses');
+                Route::post('{common_validatable}/addresses ', 'Validatable\ValidatableController@saveAddresses');
+
+                Route::get('/{common_validatable}/{subObjects}', 'Validatable\ValidatableController@relatedObjects');
+                Route::get('/{common_validatable}', 'Validatable\ValidatableController@show');
+
+                Route::post('/', 'Validatable\ValidatableController@store');
+                Route::post('/{common_validatable}/do/{action}', 'Validatable\ValidatableController@doAction');
+
+                Route::patch('/{common_validatable}', 'Validatable\ValidatableController@update');
+                Route::delete('/{common_validatable}', 'Validatable\ValidatableController@destroy');
+            }
+        );
+
+        Route::prefix('keywords')->group(
+            function () {
+                Route::get('/', 'Keywords\KeywordsController@index');
+                Route::get('/actions', 'Keywords\KeywordsController@getActions');
+
+                Route::get('{common_keywords}/tags ', 'Keywords\KeywordsController@tags');
+                Route::post('{common_keywords}/tags ', 'Keywords\KeywordsController@saveTags');
+                Route::get('{common_keywords}/addresses ', 'Keywords\KeywordsController@addresses');
+                Route::post('{common_keywords}/addresses ', 'Keywords\KeywordsController@saveAddresses');
+
+                Route::get('/{common_keywords}/{subObjects}', 'Keywords\KeywordsController@relatedObjects');
+                Route::get('/{common_keywords}', 'Keywords\KeywordsController@show');
+
+                Route::post('/', 'Keywords\KeywordsController@store');
+                Route::post('/{common_keywords}/do/{action}', 'Keywords\KeywordsController@doAction');
+
+                Route::patch('/{common_keywords}', 'Keywords\KeywordsController@update');
+                Route::delete('/{common_keywords}', 'Keywords\KeywordsController@destroy');
+            }
+        );
+
         Route::prefix('actions-perspective')->group(
             function () {
                 Route::get('/', 'ActionsPerspective\ActionsPerspectiveController@index');
@@ -508,6 +529,31 @@ Route::prefix('commons')->group(
 
         // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::post('/media/upload', 'Media\FileUploadController@upload');
 
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
@@ -516,4 +562,5 @@ Route::prefix('commons')->group(
         Route::get('/storage/uploads/{file}', [\NextDeveloper\Commons\Http\Controllers\Media\FileUploadController::class, 'show']);
     }
 );
+
 
