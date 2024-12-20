@@ -20,4 +20,9 @@ class CurrenciesService extends AbstractCurrenciesService
     {
         return Currencies::where('code', 'USD')->first();
     }
+
+    public static function getCurrencyById($id)
+    {
+        return Currencies::where('id', $id)->first();
+    }
 }
