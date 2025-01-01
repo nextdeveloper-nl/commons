@@ -26,9 +26,8 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
 class Keywords extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates;
-    use SoftDeletes;
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $table = 'common_keywords';
 

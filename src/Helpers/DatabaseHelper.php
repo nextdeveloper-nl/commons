@@ -37,7 +37,11 @@ class DatabaseHelper
 
         if($isUuid) {
             $obj = $obj::findByUuid($uuid);
-            return $obj->id;
+
+            if($obj)
+                return $obj->id;
 		}
+
+        return null;
     }
 }
