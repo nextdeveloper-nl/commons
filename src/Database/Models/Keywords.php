@@ -31,7 +31,6 @@ class Keywords extends Model
 
     protected $table = 'common_keywords';
 
-
     /**
      @var array
      */
