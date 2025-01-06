@@ -32,6 +32,9 @@ class AbstractAction implements ShouldQueue
 
     public $nodeId;
 
+    protected $params = null;
+    protected $previous = null;
+
     private $startTime;
 
     private $latestTime;
@@ -73,6 +76,8 @@ class AbstractAction implements ShouldQueue
 
         $this->userId = UserHelper::me()->id;
         $this->accountId = UserHelper::currentAccount()->id;
+        $this->params = $params;
+        $this->previous = $previous;
     }
 
     public function getAction()
