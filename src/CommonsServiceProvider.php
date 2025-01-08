@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons;
 
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         $this->bootEvents();
         $this->bootLogger();
         $this->bootMacros();
+        $this->bootSchedule();
     }
 
     public function bootMacros() {
@@ -139,7 +141,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
     protected function registerCommands() {
         if ($this->app->runningInConsole()) {
             $this->commands([
-
+                Console\Commands\FetchExchangeRateCommand::class,
             ]);
         }
     }
@@ -162,4 +164,22 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         return $isSuccessfull;
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    protected function bootSchedule(): void
+    {
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule->command('common:fetch-exchange-rate')
+                ->cron(config('commons.exchange_rate.schedule.cron'))
+                ->when(function () {
+                    return config('commons.exchange_rate.schedule.enabled');
+                })
+                ->before(function () {
+                    logger()->info('Fetches Exchange Rates starting...');
+                })
+                ->after(function () {
+                    logger()->info('Fetches Exchange Rates ended.');
+                });
+        });
+    }
 }
