@@ -64,5 +64,13 @@ return [
             'domain' => env('PUBLITIO_DOMAIN')
         ],
     ],
+
+    'exchange_rate' => [
+        'url'       => env('COMMON_EXCHANGE_RATE_URL', 'http://www.tcmb.gov.tr/kurlar/today.xml'),
+        'schedule'  => [
+            'enabled'   => env('COMMON_EXCHANGE_RATE_SCHEDULE_ENABLED', false),
+            'cron'      => env('COMMON_EXCHANGE_RATE_SCHEDULE_CRON', '0 * * * *'), // Every hour
+        ]
+    ],
 ];
 
