@@ -464,6 +464,27 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('external-services')->group(
+            function () {
+                Route::get('/', 'ExternalServices\ExternalServicesController@index');
+                Route::get('/actions', 'ExternalServices\ExternalServicesController@getActions');
+
+                Route::get('{common_external_services}/tags ', 'ExternalServices\ExternalServicesController@tags');
+                Route::post('{common_external_services}/tags ', 'ExternalServices\ExternalServicesController@saveTags');
+                Route::get('{common_external_services}/addresses ', 'ExternalServices\ExternalServicesController@addresses');
+                Route::post('{common_external_services}/addresses ', 'ExternalServices\ExternalServicesController@saveAddresses');
+
+                Route::get('/{common_external_services}/{subObjects}', 'ExternalServices\ExternalServicesController@relatedObjects');
+                Route::get('/{common_external_services}', 'ExternalServices\ExternalServicesController@show');
+
+                Route::post('/', 'ExternalServices\ExternalServicesController@store');
+                Route::post('/{common_external_services}/do/{action}', 'ExternalServices\ExternalServicesController@doAction');
+
+                Route::patch('/{common_external_services}', 'ExternalServices\ExternalServicesController@update');
+                Route::delete('/{common_external_services}', 'ExternalServices\ExternalServicesController@destroy');
+            }
+        );
+
         Route::prefix('validatable')->group(
             function () {
                 Route::get('/', 'Validatable\ValidatableController@index');
