@@ -43,80 +43,82 @@ class ExternalServices extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'code',
-            'name',
-            'description',
-            'configuration',
-            'token',
-            'refresh_token',
-            'is_alive',
-            'iam_account_id',
-            'iam_user_id',
+        'code',
+        'name',
+        'description',
+        'configuration',
+        'token',
+        'refresh_token',
+        'is_alive',
+        'iam_account_id',
+        'iam_user_id',
+        'service_owner'
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'code' => 'string',
-    'name' => 'string',
-    'description' => 'string',
-    'configuration' => 'array',
-    'token' => 'string',
-    'refresh_token' => 'string',
-    'is_alive' => 'boolean',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+        'id' => 'integer',
+        'code' => 'string',
+        'name' => 'string',
+        'description' => 'string',
+        'configuration' => 'array',
+        'service_owner' => 'array',
+        'token' => 'string',
+        'refresh_token' => 'string',
+        'is_alive' => 'boolean',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -133,9 +135,11 @@ class ExternalServices extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_external_services');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -143,7 +147,7 @@ class ExternalServices extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
