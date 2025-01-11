@@ -581,6 +581,12 @@ Route::prefix('commons')->group(
         Route::post('/tags/object', 'Taggables\ObjectTagsController@store');
 
         Route::get('/storage/uploads/{file}', [\NextDeveloper\Commons\Http\Controllers\Media\FileUploadController::class, 'show']);
+
+        Route::prefix('available-external-services')->group(
+            function () {
+                Route::get('/', 'ExternalServices\ExternalServicesController@getAvailableServices');
+            }
+        );
     }
 );
 

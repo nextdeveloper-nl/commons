@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Database\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,9 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @package  NextDeveloper\Commons\Database\Models
  * @property integer $id
  * @property string $uuid
+ * @property string $code
  * @property string $name
+ * @property string $description
  * @property $configuration
  * @property string $token
  * @property string $refresh_token
@@ -45,7 +48,9 @@ class ExternalServices extends Model
     protected $guarded = [];
 
     protected $fillable = [
+            'code',
             'name',
+            'description',
             'configuration',
             'token',
             'refresh_token',
@@ -75,7 +80,9 @@ class ExternalServices extends Model
      */
     protected $casts = [
     'id' => 'integer',
+    'code' => 'string',
     'name' => 'string',
+    'description' => 'string',
     'configuration' => 'array',
     'token' => 'string',
     'refresh_token' => 'string',
@@ -144,4 +151,12 @@ class ExternalServices extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    public function token(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => encrypt($value),
+        );
+    }
+
 }

@@ -13,7 +13,9 @@ class ExternalServicesUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string',
+            'code' => 'nullable|string',
+        'name' => 'nullable|string',
+        'description' => 'nullable|string',
         'configuration' => 'nullable',
         'token' => 'nullable|string',
         'refresh_token' => 'nullable|string',
