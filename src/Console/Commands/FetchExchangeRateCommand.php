@@ -6,6 +6,9 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
+use NextDeveloper\Commons\Services\ExchangeRatesService;
+use NextDeveloper\Events\Services\Events;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class FetchExchangeRateCommand
@@ -20,7 +23,7 @@ class FetchExchangeRateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'common:fetch-exchange-rate';
+    protected $signature = 'nextdeveloper:fetch-exchange-rate';
 
     /**
      * The console command description.
@@ -69,6 +72,14 @@ class FetchExchangeRateCommand extends Command
      */
     public function handle(): void
     {
+        if(!config('leo.current_user_id') || !config('leo.current_account_id')) {
+            $this->error('We need a user to run this service. Please set CURRENT_USER_ID and CURRENT_ACCOUNT_ID variables.');
+        }
+
+        UserHelper::setUserById(config('leo.current_user_id'));
+        UserHelper::setCurrentAccountById(config('leo.current_account_id'));
+
+        $this->line('Starting to fetch currencies and exchange rates.');
         // Fetch all countries from the database
         $countries = Countries::query()
             ->withoutGlobalScopes()
@@ -86,9 +97,19 @@ class FetchExchangeRateCommand extends Command
             $associatedCountry = $countries->firstWhere('currency_code', $currencyCode);
 
             if ($associatedCountry) {
-                $this->updateOrCreateExchangeRate($associatedCountry->id, $currencyCode, $forexRate);
+                $rate = ExchangeRates::create([
+                    'common_country_id' => $associatedCountry->id,
+                    'reference_currency_code' => $currencyCode,
+                    'local_currency_code'  =>    'TRY',
+                    'source'            => 'TCMB',
+                    'rate'              => $forexRate,
+                ]);
+
+                Events::fire('created:NextDeveloper\Commons\ExchangeRate', $rate);
             }
         }
+
+        $this->line('Finished fetching currencies and exchange rates.');
     }
 
     /**
@@ -114,40 +135,5 @@ class FetchExchangeRateCommand extends Command
                 return [];
             }
         )->wait(); // Wait for the Promise to resolve/reject and return processed data
-    }
-
-    /**
-     * Update or create an exchange rate record in the database.
-     *
-     * @param int $countryId The ID of the country associated with the currency.
-     * @param string $currencyCode The currency code (ISO 4217 format).
-     * @param float $rate The exchange rate for the currency.
-     *
-     * @return void
-     */
-    private function updateOrCreateExchangeRate(int $countryId, string $currencyCode, float $rate): void
-    {
-        // Attempt to find an existing exchange rate record
-        $exchangeRate = ExchangeRates::query()
-            ->withoutGlobalScopes()
-            ->where('common_country_id', $countryId)
-            ->where('code', $currencyCode)
-            ->first();
-
-        // Update the record if it exists, otherwise create a new one
-        if ($exchangeRate) {
-            $exchangeRate->updateQuietly([
-                'rate'          => $rate,
-                'last_modified' => now(),
-            ]);
-        } else {
-            ExchangeRates::query()
-                ->forceCreateQuietly([
-                    'common_country_id' => $countryId,
-                    'code'              => $currencyCode,
-                    'rate'              => $rate,
-                    'last_modified'     => now(),
-                ]);
-        }
     }
 }
