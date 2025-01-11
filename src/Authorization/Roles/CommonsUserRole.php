@@ -148,6 +148,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_votes:read',
             'common_votes:create',
             'common_votes:update',
+            'common_external_services:create',
+            'common_external_services:update',
+            'common_external_services:delete',
+            'common_external_services:read',
         ];
     }
 

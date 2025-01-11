@@ -58,7 +58,9 @@ trait CommonExternalServiceTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonexternalservice', [
             'form_params'   =>  [
+                'code'  =>  'a',
                 'name'  =>  'a',
+                'description'  =>  'a',
                 'token'  =>  'a',
                 'refresh_token'  =>  'a',
                             ],
@@ -343,12 +345,50 @@ trait CommonExternalServiceTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_commonexternalservice_event_code_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'code'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonExternalServiceQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonExternalService::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_commonexternalservice_event_name_filter()
     {
         try {
             $request = new Request(
                 [
                 'name'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonExternalServiceQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonExternalService::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonexternalservice_event_description_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'description'  =>  'a'
                 ]
             );
 

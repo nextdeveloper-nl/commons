@@ -13,7 +13,9 @@ class ExternalServicesCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'code' => 'nullable|string',
+        'name' => 'required|string',
+        'description' => 'nullable|string',
         'configuration' => 'nullable',
         'token' => 'required|string',
         'refresh_token' => 'nullable|string',

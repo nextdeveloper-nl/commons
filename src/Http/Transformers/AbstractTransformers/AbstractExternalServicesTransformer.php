@@ -60,7 +60,9 @@ class AbstractExternalServicesTransformer extends AbstractTransformer
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
+            'code'  =>  $model->code,
             'name'  =>  $model->name,
+            'description'  =>  $model->description,
             'configuration'  =>  $model->configuration,
             'token'  =>  $model->token,
             'refresh_token'  =>  $model->refresh_token,

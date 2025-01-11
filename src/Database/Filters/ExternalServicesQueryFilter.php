@@ -18,9 +18,19 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
      */
     protected $builder;
     
+    public function code($value)
+    {
+        return $this->builder->where('code', 'like', '%' . $value . '%');
+    }
+    
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
+    }
+    
+    public function description($value)
+    {
+        return $this->builder->where('description', 'like', '%' . $value . '%');
     }
     
     public function token($value)
