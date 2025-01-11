@@ -157,6 +157,6 @@ class ExternalServicesController extends AbstractController
     public function getAvailableServices()
     {
         $services = ExternalServicesService::availableService();
-        return $this->withArray($services);
+        return $this->withArray(['data' => $services]);
     }
 }
