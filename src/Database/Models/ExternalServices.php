@@ -85,7 +85,7 @@ class ExternalServices extends Model
         'name' => 'string',
         'description' => 'string',
         'configuration' => 'array',
-        'service_owner' => 'array',
+        'service_owner' => 'string',
         'token' => 'string',
         'refresh_token' => 'string',
         'is_alive' => 'boolean',
