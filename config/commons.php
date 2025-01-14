@@ -100,7 +100,7 @@ return [
             'status' => env('GOOGLE_SHEET_SERVICE_STATUS', false),
             'scopes' => [
                 'https://www.googleapis.com/auth/spreadsheets',
-                'https://www.googleapis.com/auth/drive',
+                //'https://www.googleapis.com/auth/drive',
             ],
             'fields' => [
                 'spreadsheet_id' => [
@@ -117,8 +117,8 @@ return [
             'description' => 'Google Calendar is a time-management and scheduling calendar service developed by Google.',
             'status' => env('GOOGLE_CALENDAR_SERVICE_STATUS', false),
             'scopes' => [
-                'https://www.googleapis.com/auth/calendar',
-                'https://www.googleapis.com/auth/calendar.events',
+                //'https://www.googleapis.com/auth/calendar',
+                //'https://www.googleapis.com/auth/calendar.events',
                 'https://www.googleapis.com/auth/calendar.readonly',
             ],
            ],
@@ -145,7 +145,7 @@ return [
             'scopes' => [
                 'https://www.googleapis.com/auth/gmail.readonly',
                 'https://www.googleapis.com/auth/gmail.send',
-                'https://www.googleapis.com/auth/gmail.compose',
+                //'https://www.googleapis.com/auth/gmail.compose',
             ],
         ],
     ],
