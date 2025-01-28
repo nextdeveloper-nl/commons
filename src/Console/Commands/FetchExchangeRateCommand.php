@@ -97,15 +97,17 @@ class FetchExchangeRateCommand extends Command
             $associatedCountry = $countries->firstWhere('currency_code', $currencyCode);
 
             if ($associatedCountry) {
-                $rate = ExchangeRates::create([
-                    'common_country_id' => $associatedCountry->id,
-                    'reference_currency_code' => $currencyCode,
-                    'local_currency_code'  =>    'TRY',
-                    'source'            => 'TCMB',
-                    'rate'              => 1 / $forexRate,
-                ]);
+                ExchangeRates::withoutEvents(function() use ($associatedCountry, $currencyCode, $forexRate) {
+                    $rate = ExchangeRates::create([
+                        'common_country_id' => $associatedCountry->id,
+                        'reference_currency_code' => $currencyCode,
+                        'local_currency_code'  =>    'TRY',
+                        'source'            => 'TCMB',
+                        'rate'              => 1 / $forexRate,
+                    ]);
 
-                Events::fire('created:NextDeveloper\Commons\ExchangeRate', $rate);
+                    Events::fire('created:NextDeveloper\Commons\ExchangeRate', $rate);
+                });
             }
         }
 
