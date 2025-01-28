@@ -102,7 +102,7 @@ class FetchExchangeRateCommand extends Command
                     'reference_currency_code' => $currencyCode,
                     'local_currency_code'  =>    'TRY',
                     'source'            => 'TCMB',
-                    'rate'              => $forexRate,
+                    'rate'              => 1 / $forexRate,
                 ]);
 
                 Events::fire('created:NextDeveloper\Commons\ExchangeRate', $rate);
