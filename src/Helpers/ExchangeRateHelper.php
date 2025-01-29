@@ -30,6 +30,9 @@ class ExchangeRateHelper
     {
         Log::info(__METHOD__. '| Trying to get latest exchange rate from ' . $fromCurrencyCode . ' to ' . $toCurrencyCode);
 
+        if($fromCurrencyCode == $toCurrencyCode)
+            return 1;
+
         $rate = ExchangeRates::where('local_currency_code', strtoupper($fromCurrencyCode))
             ->where('reference_currency_code', strtoupper($toCurrencyCode))
             ->orderBy('id', 'desc')
