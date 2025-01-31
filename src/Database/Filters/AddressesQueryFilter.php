@@ -22,56 +22,82 @@ class AddressesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('object_type', 'like', '%' . $value . '%');
     }
-    
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
+        
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function line1($value)
     {
         return $this->builder->where('line1', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function line2($value)
     {
         return $this->builder->where('line2', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function city($value)
     {
         return $this->builder->where('city', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function state($value)
     {
         return $this->builder->where('state', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function stateCode($value)
     {
         return $this->builder->where('state_code', 'like', '%' . $value . '%');
     }
-    
+
+        //  This is an alias function of stateCode
+    public function state_code($value)
+    {
+        return $this->stateCode($value);
+    }
+        
     public function postcode($value)
     {
         return $this->builder->where('postcode', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function emailAddress($value)
     {
         return $this->builder->where('email_address', 'like', '%' . $value . '%');
     }
 
+        //  This is an alias function of emailAddress
+    public function email_address($value)
+    {
+        return $this->emailAddress($value);
+    }
+    
     public function isInvoiceAddress($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
-
         return $this->builder->where('is_invoice_address', $value);
     }
 
+        //  This is an alias function of isInvoiceAddress
+    public function is_invoice_address($value)
+    {
+        return $this->isInvoiceAddress($value);
+    }
+     
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -80,6 +106,18 @@ class AddressesQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -92,6 +130,18 @@ class AddressesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -100,6 +150,18 @@ class AddressesQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function commonCountryId($value)
@@ -111,6 +173,12 @@ class AddressesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonCountry
+    public function common_country_id($value)
+    {
+        return $this->commonCountry($value);
+    }
+    
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -120,7 +188,9 @@ class AddressesQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

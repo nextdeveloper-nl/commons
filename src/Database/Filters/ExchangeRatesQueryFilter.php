@@ -23,6 +23,7 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('code', 'like', '%' . $value . '%');
     }
 
+    
     public function lastModifiedStart($date)
     {
         return $this->builder->where('last_modified', '>=', $date);
@@ -31,6 +32,18 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     public function lastModifiedEnd($date)
     {
         return $this->builder->where('last_modified', '<=', $date);
+    }
+
+    //  This is an alias function of lastModified
+    public function last_modified_start($value)
+    {
+        return $this->lastModifiedStart($value);
+    }
+
+    //  This is an alias function of lastModified
+    public function last_modified_end($value)
+    {
+        return $this->lastModifiedEnd($value);
     }
 
     public function createdAtStart($date)
@@ -43,6 +56,18 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('created_at', '<=', $date);
     }
 
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
+    }
+
     public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
@@ -51,6 +76,18 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
     }
 
     public function commonCountryId($value)
@@ -62,7 +99,14 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonCountry
+    public function common_country_id($value)
+    {
+        return $this->commonCountry($value);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

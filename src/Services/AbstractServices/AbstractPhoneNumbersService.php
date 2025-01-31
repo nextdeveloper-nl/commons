@@ -110,14 +110,19 @@ class AbstractPhoneNumbersService
     {
         $object = PhoneNumbers::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\PhoneNumbers\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\PhoneNumbers')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -183,8 +188,6 @@ class AbstractPhoneNumbersService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\PhoneNumbers', $model);
-
         return $model->fresh();
     }
 
@@ -231,16 +234,12 @@ class AbstractPhoneNumbersService
             );
         }
     
-        Events::fire('updating:NextDeveloper\Commons\PhoneNumbers', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\PhoneNumbers', $model);
 
         return $model->fresh();
     }
@@ -265,8 +264,6 @@ class AbstractPhoneNumbersService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\PhoneNumbers', $model);
 
         try {
             $model = $model->delete();

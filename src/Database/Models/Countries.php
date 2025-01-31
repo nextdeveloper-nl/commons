@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Database\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\CountriesObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -30,8 +31,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Countries extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
     public $timestamps = false;
 
@@ -146,7 +146,38 @@ class Countries extends Model
         }
     }
 
+    public function cities() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Cities::class);
+    }
+
+    public function currencies() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Currencies::class);
+    }
+
+    public function addresses() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Addresses::class);
+    }
+
+    public function exchangeRates() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\ExchangeRates::class);
+    }
+
+    public function phoneNumbers() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\PhoneNumbers::class);
+    }
+
+    public function paymentGateways() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Accounting\Database\Models\PaymentGateways::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

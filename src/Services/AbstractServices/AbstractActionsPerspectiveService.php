@@ -110,14 +110,19 @@ class AbstractActionsPerspectiveService
     {
         $object = ActionsPerspective::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\ActionsPerspective\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\ActionsPerspective')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -197,8 +202,6 @@ class AbstractActionsPerspectiveService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\ActionsPerspective', $model);
-
         return $model->fresh();
     }
 
@@ -251,16 +254,12 @@ class AbstractActionsPerspectiveService
             );
         }
     
-        Events::fire('updating:NextDeveloper\Commons\ActionsPerspective', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\ActionsPerspective', $model);
 
         return $model->fresh();
     }
@@ -285,8 +284,6 @@ class AbstractActionsPerspectiveService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\ActionsPerspective', $model);
 
         try {
             $model = $model->delete();

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
+use NextDeveloper\Commons\Database\Models\Media;
 use NextDeveloper\Commons\Exceptions\CannotCreateModelException;
 use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractMediaService;
@@ -22,7 +24,16 @@ class MediaService extends AbstractMediaService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function get(MediaQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        $items = parent::get($filter, $params);
 
+        $media = Media::orderBy('id', 'desc')->get();
+
+        $items->merge($media);
+
+        return $items;
+    }
 
     /**
      * This method creates a new media. It also uploads the file to the CDN.

@@ -23,6 +23,12 @@ class StateHelper
     {
         $state = self::getState($obj, $stateName);
 
+        switch ($objectState) {
+            case 'warning':
+                $objectState = 'warn';
+                break;
+        }
+
         if($state) {
             $state->update([
                 'value' => $value,
@@ -50,5 +56,13 @@ class StateHelper
             ->where('object_id', $obj->id)
             ->where('name', $stateName)
             ->first();
+    }
+
+    public static function clearStates($obj): void
+    {
+        States::withoutGlobalScope(AuthorizationScope::class)
+            ->where('object_type', get_class($obj))
+            ->where('object_id', $obj->id)
+            ->delete();
     }
 }

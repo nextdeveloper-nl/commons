@@ -30,16 +30,21 @@ class ResponsableFactory {
             $returnType = 'Item';
             $returnObject = get_class($data);
         } else {
-            if(count($data) > 0)
-                $returnObject = get_class($data[0]);
-            else
+            if($data) {
+                if(count($data) > 0)
+                    $returnObject = get_class($data[0]);
+                else
+                    $returnObject = null;
+            } else {
                 $returnObject = null;
+            }
         }
 
         if(!$returnObject) {
             return $controller->errorNotFound('Cannot find the object you are looking for. We may not have that' .
                 ' object or you may need to change your search filters.');
         }
+
 
         $exploded = explode('\\', $returnObject);
 

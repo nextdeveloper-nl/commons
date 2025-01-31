@@ -9,7 +9,6 @@
         "php": ">=8.2.0",
         "league/fractal": "*",
         "monolog/monolog": "*",
-        "io-developer/php-whois": "^4.1",
         "nextdeveloper/publitio": "*"
     },
     "require-dev": {

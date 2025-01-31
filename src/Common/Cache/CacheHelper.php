@@ -37,6 +37,7 @@ class CacheHelper
         switch ($store) {
             case 'redis':
                 self::deleteRedisKeys($obj, $id);
+                self::deleteRedisKeys($obj . 'Perspective', $id);
                 break;
         }
 
@@ -45,10 +46,12 @@ class CacheHelper
 
     private static function deleteRedisKeys($obj, $id) {
         $config = config('database.redis.cache');
+
         $r = new \Redis();
-        $r->connect($config['host'], $config['port']);
-        $r->auth(env('REDIS_PASSWORD'));
-        $r->select(1);
+        $r->pconnect($config['host'], $config['port'], 0,null, 0, 0, [
+            'auth'  =>  config('database.redis.cache.password')
+        ]);
+        $r->select(config('database.redis.cache.database'));
 
         $it = null;
 

@@ -35,6 +35,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     public function apply(Builder $builder, Model $model)
     {
         $isPublicExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_public');
+        $isActiveExists = DatabaseHelper::isColumnExists($model->getTable(), 'is_active');
 
         // TODO: Implement apply() method.
         $isAccountIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id');
@@ -112,6 +113,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_country_states:read',
             'common_currencies:read',
             'common_disposable_emails:read',
+            'common_keywords:read',
+            'common_keywords:create',
+            'common_keywords:update',
+            'common_keywords:delete',
             'common_domains:read',
             'common_domains:create',
             'common_domains:delete',
@@ -143,6 +148,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_votes:read',
             'common_votes:create',
             'common_votes:update',
+            'common_external_services:create',
+            'common_external_services:update',
+            'common_external_services:delete',
+            'common_external_services:read',
         ];
     }
 

@@ -22,31 +22,43 @@ class LanguagesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
+        
     public function nativeName($value)
     {
         return $this->builder->where('native_name', 'like', '%' . $value . '%');
     }
 
+        //  This is an alias function of nativeName
+    public function native_name($value)
+    {
+        return $this->nativeName($value);
+    }
+    
     public function isDefault($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
-
         return $this->builder->where('is_default', $value);
     }
 
+        //  This is an alias function of isDefault
+    public function is_default($value)
+    {
+        return $this->isDefault($value);
+    }
+     
     public function isActive($value)
     {
-        if(!is_bool($value)) {
-            $value = false;
-        }
-
         return $this->builder->where('is_active', $value);
     }
 
+        //  This is an alias function of isActive
+    public function is_active($value)
+    {
+        return $this->isActive($value);
+    }
+     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

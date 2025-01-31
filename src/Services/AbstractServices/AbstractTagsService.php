@@ -110,14 +110,19 @@ class AbstractTagsService
     {
         $object = Tags::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\Tags\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\Tags')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -187,8 +192,6 @@ class AbstractTagsService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\Tags', $model);
-
         return $model->fresh();
     }
 
@@ -235,16 +238,12 @@ class AbstractTagsService
             );
         }
     
-        Events::fire('updating:NextDeveloper\Commons\Tags', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\Tags', $model);
 
         return $model->fresh();
     }
@@ -269,8 +268,6 @@ class AbstractTagsService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\Tags', $model);
 
         try {
             $model = $model->delete();

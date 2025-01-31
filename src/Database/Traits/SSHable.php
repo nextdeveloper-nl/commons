@@ -13,34 +13,82 @@ namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Helpers\StateHelper;
+use phpseclib3\Net\SSH2;
+
 /*
  * This trait creates SSH Connections
  */
 
 trait SSHable
 {
+    public function performMultipleSSHCommands($commands)
+    {
+        $ipAddr = $this->ip_addr;
+        $ipAddr = explode('/', $ipAddr);
+        $ipAddr = $ipAddr[0];
+
+        $connection = new SSH2($ipAddr, $this->ssh_port, 10);
+        $isLoggedIn = $connection->login($this->ssh_username, decrypt($this->ssh_password));
+
+        $response = [];
+
+        foreach ($commands as $c) {
+            $output = null;
+            $error = '';
+
+            $weHaveError = false;
+
+            try {
+                Log::debug(__METHOD__ . ' | Running command: ' . $c);
+
+                if(!$weHaveError)
+                    $output = trim($connection->read());
+
+                $connection->setTimeout(1);
+
+                $connection->write($c . "\n");
+                $connection->setTimeout(1);
+
+                $output = $connection->read();
+                $connection->setTimeout(1);
+
+                Log::debug(__METHOD__ . ' | Result is: ' . $output);
+            } catch (\Exception $e) {
+                //  If we reach here then this means that we don't have an error.
+                $weHaveError = true;
+
+                Log::error(__METHOD__ . ' | We got the error with this command: ' . $c);
+                Log::error(__METHOD__ . ' | Went into exception with error: ' . $e->getMessage());
+            }
+
+            $response[] = [
+                'output'    =>  $output,
+                'error'     =>  trim($error),
+            ];
+        }
+
+        return $response;
+    }
+
     public function performSSHCommand($command)
     {
         $connection = $this->createSSHConnection();
 
         if(!$connection)
-            return null;
+            throw new \Exception('I cannot connect to the SSH you have provided. Check the ' .
+                'IP (' . $this->ip_v4 . ') and the credentials, please.');
 
         $response = [];
 
-        if(!is_array($command))
-            $command = [$command];
+        if(is_array($command))
+            $command = implode(PHP_EOL, $command);
 
-        foreach ($command as $c) {
-            $out = '';
-            $error = '';
-            $this->ssh2Run($connection, $c, $out, $error);
+        $this->ssh2Run($connection, $command, $out, $error);
 
-            $response[] = [
-                'output'    =>  trim($out),
-                'error'     =>  trim($error)
-            ];
-        }
+        $response = [
+            'output'    =>  trim($out),
+            'error'     =>  trim($error)
+        ];
 
         return $response;
     }
@@ -49,6 +97,10 @@ trait SSHable
         $result=false;
         $out='';
         $err='';
+
+        if(is_array($cmd))
+            $cmd = implode(PHP_EOL, $cmd);
+
         $sshout=ssh2_exec($ssh2,$cmd);
 
         if($sshout){

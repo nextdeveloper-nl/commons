@@ -110,14 +110,19 @@ class AbstractCountriesService
     {
         $object = Countries::where('uuid', $objectId)->first();
 
-        $action = '\\NextDeveloper\\Commons\\Actions\\Countries\\' . Str::studly($action);
+        $action = AvailableActions::where('name', $action)
+            ->where('input', 'NextDeveloper\Commons\Countries')
+            ->first();
 
-        if(class_exists($action)) {
-            $action = new $action($object, $params);
+        $class = $action->class;
+
+        if(class_exists($class)) {
+            $action = new $class($object, $params);
+            $actionId = $action->getActionId();
 
             dispatch($action);
 
-            return $action->getActionId();
+            return $actionId;
         }
 
         return null;
@@ -177,8 +182,6 @@ class AbstractCountriesService
             throw $e;
         }
 
-        Events::fire('created:NextDeveloper\Commons\Countries', $model);
-
         return $model->fresh();
     }
 
@@ -219,16 +222,12 @@ class AbstractCountriesService
         }
 
         
-        Events::fire('updating:NextDeveloper\Commons\Countries', $model);
-
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
         } catch(\Exception $e) {
             throw $e;
         }
-
-        Events::fire('updated:NextDeveloper\Commons\Countries', $model);
 
         return $model->fresh();
     }
@@ -253,8 +252,6 @@ class AbstractCountriesService
                 'Maybe you dont have the permission to update this object?'
             );
         }
-
-        Events::fire('deleted:NextDeveloper\Commons\Countries', $model);
 
         try {
             $model = $model->delete();

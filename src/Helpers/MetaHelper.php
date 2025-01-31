@@ -34,24 +34,28 @@ class MetaHelper
     /**
      * Get the value of a specific metadata key associated with an object.
      *
-     * @param string $objectType The type of the object.
-     * @param int $objectId The ID of the object.
+     * @param $object
      * @param string $key The key of the metadata.
+     * @param null $defaultValue
      * @return Meta|null The metadata object if found, null otherwise.
      */
-    public static function get(string $objectType, int $objectId, string $key, $defaultValue = null): mixed
+    public static function get($object, string $key, $defaultValue = null): mixed
     {
+        if (!is_object($object))
+            throw new \Exception('You need to provide the actual object here. Because we are' .
+                ' looking at the database for the object record both using object name and id.');
+
         $meta = Meta::withoutGlobalScopes()
-            ->where('object_type', $objectType)
-            ->where('object_id', $objectId)
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
             ->where('key', $key)
             ->first();
 
-        if($meta)
+        if ($meta)
             return $meta->value;
 
-        if(!$meta && !is_null($defaultValue)) {
-            $meta = self::set($objectType, $objectId, $key, $defaultValue);
+        if (!is_null($defaultValue)) {
+            $meta = self::set($object, $key, $defaultValue);
 
             return $meta->value;
         }
@@ -63,25 +67,25 @@ class MetaHelper
      * Set a metadata key-value pair for a specific object.
      * If the metadata already exists, it will be updated with the new value.
      *
-     * @param string $objectType The type of the object.
-     * @param int $objectId The ID of the object.
+     * @param $object
      * @param string $key The key of the metadata.
      * @param array $value The value of the metadata as an array.
+     * @return Meta
      */
-    public static function set(string $objectType, int $objectId, string $key, $value)
+    public static function set($object, string $key, $value): Meta
     {
-        $model = Meta::withoutGlobalScopes()
-            ->where('object_type', $objectType)
-            ->where('object_id', $objectId)
+        $meta = Meta::withoutGlobalScopes()
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
             ->where('key', $key)
             ->first();
 
-        if ($model) {
-            self::update($objectType, $objectId, $key, $value);
+        if ($meta) {
+            self::update($object, $key, $value);
         } else {
             $model = Meta::create([
-                'object_type' => $objectType,
-                'object_id' => $objectId,
+                'object_type' => get_class($object),
+                'object_id' => $object->id,
                 'key' => $key,
                 'value' => $value
             ]);
@@ -95,23 +99,22 @@ class MetaHelper
     /**
      * Update the value of a metadata key associated with an object.
      *
-     * @param string $objectType The type of the object.
-     * @param int $objectId The ID of the object.
+     * @param $object
      * @param string $key The key of the metadata.
      * @param array $value The new value of the metadata as an array.
      */
-    public static function update(string $objectType, int $objectId, string $key, array $value)
+    public static function update($object, string $key, array $value): void
     {
-        $model = Meta::withoutGlobalScopes()
-            ->where('object_type', $objectType)
-            ->where('object_id', $objectId)
+        $meta = Meta::withoutGlobalScopes()
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
             ->where('key', $key)
             ->first();
 
-        if ($model) {
-            $model->update(['value' => $value]);
+        if ($meta) {
+            $meta->update(['value' => $value]);
 
-            Events::fire("updated:NextDeveloper\Commons\Meta", $model);
+            Events::fire("updated:NextDeveloper\Commons\Meta", $meta);
         }
     }
 
@@ -119,23 +122,23 @@ class MetaHelper
     /**
      * Delete a specific metadata key associated with an object.
      *
-     * @param string $objectType The type of the object.
-     * @param int $objectId The ID of the object.
+     * @param $object
      * @param string $key The key of the metadata to delete.
      * @return void
      */
-    public static function delete(string $objectType, int $objectId, string $key): void
+    public static function delete($object, string $key): void
     {
-        $model = Meta::withoutGlobalScopes()
-            ->where('object_type', $objectType)
-            ->where('object_id', $objectId)
+        $meta = Meta::withoutGlobalScopes()
+            ->where('object_type', get_class($object))
+            ->where('object_id', $object->id)
             ->where('key', $key)
             ->first();
 
-        if ($model) {
-            $model->delete();
 
-            Events::fire("deleted:NextDeveloper\Commons\Meta", $model);
+        if ($meta) {
+            $meta->delete();
+
+            Events::fire("deleted:NextDeveloper\Commons\Meta", $meta);
         }
 
     }

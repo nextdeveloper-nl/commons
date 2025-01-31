@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Database\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\ActionLogsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
@@ -25,8 +26,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class ActionLogs extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
 
     public $timestamps = false;
 
@@ -129,7 +129,23 @@ class ActionLogs extends Model
         }
     }
 
+    public function actions() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Actions::class);
+    }
+    
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+    
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

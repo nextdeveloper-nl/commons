@@ -2,14 +2,18 @@
 
 namespace NextDeveloper\Commons\Database\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use NextDeveloper\Commons\Database\Casts\TextArray;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\Commons\Database\Observers\DomainsObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * Domains model.
@@ -29,12 +33,12 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property string $description
+ * @property boolean $is_tld
  */
 class Domains extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates;
     use SoftDeletes;
-
 
     public $timestamps = true;
 
@@ -56,6 +60,7 @@ class Domains extends Model
             'is_validated',
             'tags',
             'description',
+            'is_tld',
     ];
 
     /**
@@ -90,6 +95,7 @@ class Domains extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'description' => 'string',
+    'is_tld' => 'boolean',
     ];
 
     /**
@@ -150,19 +156,27 @@ class Domains extends Model
         }
     }
 
+    public function categories() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class);
+    }
+
+    public function disposableEmails() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\DisposableEmails::class);
+    }
+
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+    
+    public function networks() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Networks::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
