@@ -3,10 +3,17 @@
 namespace NextDeveloper\Commons\Helpers;
 
 use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Database\Models\Countries;
+use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
 
 class ExchangeRateHelper
 {
+    public static function getCurrencyFromId($currency)
+    {
+        return Currencies::where('id', $currency)->first();
+    }
+
     /**
      * @param $fromCurrencyCode
      * @param $toCurrencyCode
