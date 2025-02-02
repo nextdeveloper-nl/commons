@@ -25,9 +25,9 @@ class SlugHelper
     public static function generate(string $slug, string $class = null): string
     {
         $slug = self::replaceSpecialCharacters($slug);
-        $slug = strtolower($slug);
-        $slug = preg_replace('/[^a-z0-9]/', '-', $slug);
-        $slug = preg_replace('/-+/', '-', $slug);
+        $slug = mb_strtolower($slug, 'UTF-8');
+        $slug = preg_replace('/[^\p{Arabic}a-z0-9_\s-]/u', '-', $slug);
+        $slug = preg_replace('/[\s-]+/', '-', $slug);
         $slug = trim($slug, '-');
 
         // If the class is not provided or does not exist, return the slug as is
@@ -60,12 +60,19 @@ class SlugHelper
      */
     private static function replaceSpecialCharacters(string $text): string
     {
-        $search = ['ä', 'æ', 'ǽ', 'ö', 'œ', 'ü', 'Ä', 'Ü', 'Ö', 'ß', 'ç', 'Ç', 'ğ', 'Ğ', 'ı', 'İ', 'ş', 'Ş', 'ö', 'Ö', 'ü', 'Ü'];
-        $replace = ['a', 'ae', 'ae', 'o', 'oe', 'u', 'Ae', 'Ue', 'Oe', 'ss', 'c', 'C', 'g', 'G', 'i', 'I', 's', 'S', 'o', 'O', 'u', 'U'];
+        $search = [
+            'ä', 'æ', 'ǽ', 'ö', 'œ', 'ü', 'Ä', 'Ü', 'Ö', 'ß', 'ç', 'Ç', 'ğ', 'Ğ',
+            'ı', 'İ', 'ş', 'Ş', 'ñ', 'Ñ', 'á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í',
+            'Ó', 'Ú', 'â', 'ê', 'î', 'ô', 'û', 'Â', 'Ê', 'Î', 'Ô', 'Û'
+        ];
+
+        $replace = [
+            'a', 'ae', 'ae', 'o', 'oe', 'u', 'Ae', 'Ue', 'Oe', 'ss', 'c', 'C', 'g',
+            'G', 'i', 'I', 's', 'S', 'n', 'N', 'a', 'e', 'i', 'o', 'u', 'A', 'E',
+            'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'
+        ];
 
         $text = str_replace($search, $replace, $text);
-        $text = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
-
         return $text;
     }
 }
