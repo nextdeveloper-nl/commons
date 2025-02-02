@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Helpers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Models\Currencies;
@@ -22,9 +23,21 @@ class ExchangeRateHelper
      */
     public static function convert($fromCurrencyCode, $toCurrencyCode, $amount = 1, $date = null) : float
     {
+        if($amount == 0)
+            return 0;
+
         Log::info(__METHOD__ . '| Converting ' . $amount . ' ' . $fromCurrencyCode . ' to ' . $toCurrencyCode);
 
-        $latestExchangeRate = self::getLatestRate($fromCurrencyCode, $toCurrencyCode);
+        $cacheKey = 'latest_exchange_rate_' . $fromCurrencyCode . '_' . $toCurrencyCode;
+
+        $latestExchangeRate = Cache::get($cacheKey);
+
+        if(!$latestExchangeRate)
+            $latestExchangeRate = self::getLatestRate($fromCurrencyCode, $toCurrencyCode);
+
+        Log::info(__METHOD__ . ' | Latest exchange rate from ' . $fromCurrencyCode . ' to ' . $toCurrencyCode . ' is: ' . $latestExchangeRate);
+
+        Cache::put($cacheKey, $latestExchangeRate, now()->addMinutes(10));
 
         $converted = $amount * $latestExchangeRate;
 
