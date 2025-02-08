@@ -29,7 +29,13 @@ class Publitio
     {
 
         $publitio = self::connection();
-        $uploadToPublitio = $publitio->uploadFile(file: fopen($file, 'r'), args: $options);
+
+        // check if file is an url
+        if (filter_var($file, FILTER_VALIDATE_URL)) {
+            $uploadToPublitio = $publitio->uploadRemoteFile(remote_url: $file, args: $options);
+        }else {
+            $uploadToPublitio = $publitio->uploadFile(file: fopen($file, 'r'), args: $options);
+        }
 
         // Check if upload was successful and return data
         if (isset($uploadToPublitio->success) && $uploadToPublitio->success) {
