@@ -65,10 +65,10 @@ class AbstractKeywordsService
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
             //  The reason was, when the pagination method was using, somehow paginate was discarding all the filters.
             return new \Illuminate\Pagination\LengthAwarePaginator(
-                $model->skip(($request->get('page', 1) - 1) * $perPage)->take($perPage)->get(),
+                $model->skip(((array_key_exists('page', $params) ? $params['page'] : 1) - 1) * $perPage)->take($perPage)->get(),
                 $model->count(),
                 $perPage,
-                $request->get('page', 1)
+                request()->get('page', 1)
             );
         }
 
@@ -175,7 +175,7 @@ class AbstractKeywordsService
      */
     public static function create(array $data)
     {
-        
+
         try {
             $model = Keywords::create($data);
         } catch(\Exception $e) {
@@ -221,7 +221,7 @@ class AbstractKeywordsService
             );
         }
 
-        
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
