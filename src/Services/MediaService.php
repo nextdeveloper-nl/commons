@@ -133,6 +133,14 @@ class MediaService extends AbstractMediaService
             throw new CannotCreateModelException('File field is required');
         }
 
+        // check if is already an url
+        if (filter_var($data['file'], FILTER_VALIDATE_URL)) {
+            // check file name from url
+            $fileName = basename($data['file']);
+            $data['file_name'] = $fileName;
+            return $data;
+        }
+
         $file       = $data['file'];
         $fileName   = $file->getClientOriginalName();
         $directory  = storage_path('tmp');
