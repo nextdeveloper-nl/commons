@@ -78,6 +78,18 @@ class AbstractAction implements ShouldQueue
         $this->accountId = UserHelper::currentAccount()->id;
         $this->params = $params;
         $this->previous = $previous;
+
+        return $this;
+    }
+
+    public function runAsAdministrator()
+    {
+        $this->action->update([
+            'iam_user_id'       => config('leo.current_user_id'),
+            'iam_account_id'    => config('leo.current_account_id')
+        ]);
+
+        return $this;
     }
 
     public function getAction()
