@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCurrenciesService;
 use NextDeveloper\IAM\Database\Models\Accounts;
@@ -26,12 +27,24 @@ class CurrenciesService extends AbstractCurrenciesService
 
     public static function getCurrecyByCode($code)
     {
-        return Currencies::where('code', $code)->first();
+        if(Cache::has('currency_' . $code))
+            return Cache::get('currency_' . $code);
+
+        $currency = Currencies::where('code', $code)->first();
+
+        Cache::set('currency_' . $code, $currency);
+
+        return $currency;
     }
 
     public static function getCurrencyById($id)
     {
+        if(Cache::has('currency_' . $id))
+            return Cache::get('currency_' . $id);
+
         $currency = Currencies::where('id', $id)->first();
+
+        Cache::set('currency_' . $id, $currency);
 
         if($currency)
             return $currency;
