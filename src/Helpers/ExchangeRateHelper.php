@@ -28,16 +28,9 @@ class ExchangeRateHelper
 
         Log::info(__METHOD__ . '| Converting ' . $amount . ' ' . $fromCurrencyCode . ' to ' . $toCurrencyCode);
 
-        $cacheKey = 'latest_exchange_rate_' . $fromCurrencyCode . '_' . $toCurrencyCode;
-
-        $latestExchangeRate = Cache::get($cacheKey);
-
-        if(!$latestExchangeRate)
-            $latestExchangeRate = self::getLatestRate($fromCurrencyCode, $toCurrencyCode);
+        $latestExchangeRate = self::getLatestRate($fromCurrencyCode, $toCurrencyCode);
 
         Log::info(__METHOD__ . ' | Latest exchange rate from ' . $fromCurrencyCode . ' to ' . $toCurrencyCode . ' is: ' . $latestExchangeRate);
-
-        Cache::put($cacheKey, $latestExchangeRate, now()->addMinutes(10));
 
         $converted = $amount * $latestExchangeRate;
 
@@ -49,6 +42,13 @@ class ExchangeRateHelper
     public static function getLatestRate($fromCurrencyCode, $toCurrencyCode) : float
     {
         Log::info(__METHOD__. '| Trying to get latest exchange rate from ' . $fromCurrencyCode . ' to ' . $toCurrencyCode);
+
+        $cacheKey = 'latest_exchange_rate_' . $fromCurrencyCode . '_' . $toCurrencyCode;
+
+        if(Cache::has($cacheKey)) {
+            Log::info(__METHOD__ . '| Found exchange rate in cache');
+            return Cache::get($cacheKey);
+        }
 
         if($fromCurrencyCode == $toCurrencyCode)
             return 1;
@@ -66,6 +66,8 @@ class ExchangeRateHelper
             ->where('reference_currency_code', strtoupper($fromCurrencyCode))
             ->orderBy('id', 'desc')
             ->first();
+
+        Cache::set($cacheKey, 1 / $rate->rate, 60 * 60);
 
         return 1 / $rate->rate;
     }
