@@ -84,6 +84,8 @@ class AbstractAction implements ShouldQueue
 
     public function runAsAdministrator()
     {
+        Log::info('[ActionLog] Running as administrator in action: ' . get_class($this));
+
         $this->action->update([
             'iam_user_id'       => config('leo.current_user_id'),
             'iam_account_id'    => config('leo.current_account_id')
