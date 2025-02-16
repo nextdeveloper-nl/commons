@@ -11,13 +11,8 @@
 
 namespace NextDeveloper\Commons\Database\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\DB;
-use NextDeveloper\Commons\Database\Models\States;
-use  NextDeveloper\Commons\Exceptions\InvalidState;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use App\Helpers\ObjectHelper;
+use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
@@ -30,14 +25,17 @@ trait RunAsAdministrator
         $user = UserHelper::getLeoOwner();
         $account = UserHelper::getLeoOwnerAccount();
 
-        $currentUser = UserHelper::me();
-        $currentAccount = UserHelper::currentAccount();
-
         $data['iam_user_id'] = $user->id;
         $data['iam_account_id'] = $account->id;
 
         UserHelper::setAdminAsCurrentUser();
-        $obj = self::create($data);
+
+        $obj = self::withoutEvents(function () use ($data) {
+            $obj = self::create($data);
+            Events::fire('created:' . ObjectHelper::getPublicObjectName($this) , $obj);
+            return $obj;
+        });
+
         UserHelper::setCurrentUserAndAccount($user, $account);
 
         return $obj;
