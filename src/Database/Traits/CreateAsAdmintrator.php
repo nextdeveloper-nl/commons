@@ -26,13 +26,13 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  */
 trait CreateAsAdmintrator
 {
-    public function createAsAdministrator($data) {
+    public static function createAsAdministrator($data) {
         $user = UserHelper::getLeoOwner();
         $account = UserHelper::getLeoOwnerAccount();
 
         $data['iam_user_id'] = $user->id;
         $data['iam_account_id'] = $account->id;
 
-        return $this->create($data);
+        return self::create($data);
     }
 }
