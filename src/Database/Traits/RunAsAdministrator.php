@@ -24,15 +24,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  * Trait HasStates
  * @package  NextDeveloper\Commons\Database\Traits
  */
-trait CreateAsAdmintrator
+trait RunAsAdministrator
 {
     public static function createAsAdministrator($data) {
         $user = UserHelper::getLeoOwner();
         $account = UserHelper::getLeoOwnerAccount();
 
+        $currentUser = UserHelper::me();
+        $currentAccount = UserHelper::currentAccount();
+
         $data['iam_user_id'] = $user->id;
         $data['iam_account_id'] = $account->id;
 
-        return self::create($data);
+        UserHelper::setAdminAsCurrentUser();
+        $obj = self::create($data);
+        UserHelper::setCurrentUserAndAccount($user, $account);
+
+        return $obj;
     }
 }
