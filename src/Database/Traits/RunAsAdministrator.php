@@ -22,11 +22,11 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 trait RunAsAdministrator
 {
     public static function createAsAdministrator($data) {
-        $user = UserHelper::getLeoOwner();
-        $account = UserHelper::getLeoOwnerAccount();
+        $user = UserHelper::me();
+        $account = UserHelper::currentAccount();
 
-        $data['iam_user_id'] = $user->id;
-        $data['iam_account_id'] = $account->id;
+        $data['iam_user_id'] = UserHelper::getLeoOwner()->id;
+        $data['iam_account_id'] = UserHelper::getLeoOwnerAccount()->id;
 
         UserHelper::setAdminAsCurrentUser();
 
@@ -43,8 +43,8 @@ trait RunAsAdministrator
 
     public function updateAsAdministrator($data)
     {
-        $user = UserHelper::getLeoOwner();
-        $account = UserHelper::getLeoOwnerAccount();
+        $user = UserHelper::me();
+        $account = UserHelper::currentAccount();
 
         UserHelper::setAdminAsCurrentUser();
 
