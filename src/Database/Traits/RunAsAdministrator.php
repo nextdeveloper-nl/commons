@@ -40,4 +40,18 @@ trait RunAsAdministrator
 
         return $obj;
     }
+
+    public function updateAsAdministrator($data)
+    {
+        $user = UserHelper::getLeoOwner();
+        $account = UserHelper::getLeoOwnerAccount();
+
+        UserHelper::setAdminAsCurrentUser();
+
+        $obj = parent::update($data);
+
+        UserHelper::setCurrentUserAndAccount($user, $account);
+
+        return $obj;
+    }
 }
