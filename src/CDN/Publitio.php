@@ -57,7 +57,7 @@ class Publitio
             ];
 
             // Delete the file if it is not an url
-            if(!Str::contains($file, 'http://')) {
+            if(!Str::contains($file, 'http://' || !Str::contains($file, 'https://'))) {
                 unlink($file);
             }
 
