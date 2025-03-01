@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\CDN;
 
+use Illuminate\Support\Str;
 use Publitio\API;
 use Publitio\BadJSONResponse;
 
@@ -54,7 +55,12 @@ class Publitio
                     'created_at'    => $uploadToPublitio->created_at,
                 ],
             ];
-            unlink($file);
+
+            // Delete the file if it is not an url
+            if(!Str::contains($file, 'http://')) {
+                unlink($file);
+            }
+
             return $data;
         }
 
