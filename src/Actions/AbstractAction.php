@@ -204,9 +204,14 @@ class AbstractAction implements ShouldQueue
     public function setUserAsThisActionOwner()
     {
         //  We need to return because when action runs and there is no user attached to it, this part is creating error.
-        if(!$this->action)
-            throw new NotFoundException('Cannot run this action without a user. You need to provide a ' .
-                'user to run this action. Maybe you didnt initiate the action with setProgress(0...)?');
+        if(!$this->action) {
+            if(!UserHelper::me())
+                throw new NotFoundException('Cannot run this function without an action model. Seems like ' .
+                    'you are not saving this action, also you dont have a user preset. Are you trying to run this ' .
+                    'action ad admin maybe ?');
+
+            return;
+        }
 
         UserHelper::setUserById($this->action->iam_user_id);
         UserHelper::setCurrentAccountById($this->action->iam_account_id);
