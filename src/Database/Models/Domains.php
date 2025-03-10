@@ -34,13 +34,19 @@ use Illuminate\Notifications\Notifiable;
  * @property \Carbon\Carbon $deleted_at
  * @property string $description
  * @property boolean $is_tld
+ * @property integer $common_country_id
  */
 class Domains extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
     use SoftDeletes;
 
+
     public $timestamps = true;
+
+
+
 
     protected $table = 'common_domains';
 
@@ -61,6 +67,7 @@ class Domains extends Model
             'tags',
             'description',
             'is_tld',
+            'common_country_id',
     ];
 
     /**
@@ -96,6 +103,7 @@ class Domains extends Model
     'deleted_at' => 'datetime',
     'description' => 'string',
     'is_tld' => 'boolean',
+    'common_country_id' => 'integer',
     ];
 
     /**
@@ -156,32 +164,9 @@ class Domains extends Model
         }
     }
 
-    public function categories() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Categories::class);
-    }
-
-    public function disposableEmails() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\DisposableEmails::class);
-    }
-
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-    
-    public function networks() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Networks::class);
-    }
-
-    public function posts() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Blogs\Database\Models\Posts::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

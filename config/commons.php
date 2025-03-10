@@ -73,6 +73,13 @@ return [
         ]
     ],
 
+    'task_scheduler' => [
+        'schedule' => [
+            'enabled'   => env('COMMON_TASK_SCHEDULER_ENABLED', false),
+            'cron'      => env('COMMON_TASK_SCHEDULER_CRON', '0 * * * *'), // Every hour
+        ]
+    ],
+
 
 
     /*

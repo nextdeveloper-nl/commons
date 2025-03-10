@@ -18,88 +18,93 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  * @property integer $id
  * @property string $uuid
  * @property integer $common_country_id
- * @property string $code
+ * @property string $reference_currency_code
  * @property $rate
- * @property \Carbon\Carbon $last_modified
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $source
+ * @property string $local_currency_code
  */
 class ExchangeRates extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
+
 
     public $timestamps = true;
+
+
+
 
     protected $table = 'common_exchange_rates';
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'common_country_id',
-        'reference_currency_code',
-        'source',
-        'local_currency_code',
-        'rate',
+            'common_country_id',
+            'reference_currency_code',
+            'rate',
+            'source',
+            'local_currency_code',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'common_country_id' => 'integer',
-        'reference_currency_code' => 'string',
-        'local_currency_code' => 'string',
-        'source' => 'string',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    'id' => 'integer',
+    'common_country_id' => 'integer',
+    'reference_currency_code' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'source' => 'string',
+    'local_currency_code' => 'string',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'last_modified',
-        'created_at',
-        'updated_at',
+    'created_at',
+    'updated_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -116,11 +121,9 @@ class ExchangeRates extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_exchange_rates');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -128,19 +131,16 @@ class ExchangeRates extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function countries(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 }
