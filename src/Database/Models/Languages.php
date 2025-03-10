@@ -30,9 +30,14 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Languages extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
+
 
     public $timestamps = false;
+
+
+
 
     protected $table = 'common_languages';
 
@@ -139,6 +144,8 @@ class Languages extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

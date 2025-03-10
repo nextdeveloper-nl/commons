@@ -58,8 +58,9 @@ trait CommonExchangeRateTestTraits
         $response = $this->http->request(
             'POST', '/commons/commonexchangerate', [
             'form_params'   =>  [
-                'code'  =>  'a',
-                    'last_modified'  =>  now(),
+                'reference_currency_code'  =>  'a',
+                'source'  =>  'a',
+                'local_currency_code'  =>  'a',
                         ],
                 ['http_errors' => false]
             ]
@@ -342,12 +343,12 @@ trait CommonExchangeRateTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonexchangerate_event_code_filter()
+    public function test_commonexchangerate_event_reference_currency_code_filter()
     {
         try {
             $request = new Request(
                 [
-                'code'  =>  'a'
+                'reference_currency_code'  =>  'a'
                 ]
             );
 
@@ -361,12 +362,31 @@ trait CommonExchangeRateTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonexchangerate_event_last_modified_filter_start()
+    public function test_commonexchangerate_event_source_filter()
     {
         try {
             $request = new Request(
                 [
-                'last_modifiedStart'  =>  now()
+                'source'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonExchangeRateQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonExchangeRate::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonexchangerate_event_local_currency_code_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'local_currency_code'  =>  'a'
                 ]
             );
 
@@ -418,25 +438,6 @@ trait CommonExchangeRateTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commonexchangerate_event_last_modified_filter_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'last_modifiedEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonExchangeRateQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonExchangeRate::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_commonexchangerate_event_created_at_filter_end()
     {
         try {
@@ -462,26 +463,6 @@ trait CommonExchangeRateTestTraits
             $request = new Request(
                 [
                 'updated_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonExchangeRateQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonExchangeRate::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonexchangerate_event_last_modified_filter_start_and_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'last_modifiedStart'  =>  now(),
-                'last_modifiedEnd'  =>  now()
                 ]
             );
 

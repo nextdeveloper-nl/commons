@@ -14,9 +14,10 @@ class ExchangeRatesCreateRequest extends AbstractFormRequest
     {
         return [
             'common_country_id' => 'required|exists:common_countries,uuid|uuid',
-        'code' => 'required|string',
+        'reference_currency_code' => 'required|string',
         'rate' => 'required',
-        'last_modified' => 'nullable|date',
+        'source' => 'nullable|string',
+        'local_currency_code' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

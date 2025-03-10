@@ -28,9 +28,14 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class CountryStates extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, CleanCache, Taggable;
+    use UuidId;
+
 
     public $timestamps = false;
+
+
+
 
     protected $table = 'common_country_states';
 
@@ -139,6 +144,8 @@ class CountryStates extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 
