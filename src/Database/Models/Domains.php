@@ -181,6 +181,36 @@ class Domains extends Model
         return $this->hasMany(\NextDeveloper\Blogs\Database\Models\Posts::class);
     }
 
+    public function domainsDns() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainsDns::class);
+    }
+
+    public function domains() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\Domains::class);
+    }
+
+    public function domainsIps() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainsIps::class);
+    }
+
+    public function emailAddresses() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\EmailAddresses::class);
+    }
+
+    public function domainReports() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainReports::class);
+    }
+
+    public function websiteContents() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\WebsiteContents::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
