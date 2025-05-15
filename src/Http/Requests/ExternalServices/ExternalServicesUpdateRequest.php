@@ -20,6 +20,7 @@ class ExternalServicesUpdateRequest extends AbstractFormRequest
         'token' => 'nullable|string',
         'refresh_token' => 'nullable|string',
         'is_alive' => 'nullable|boolean',
+        'service_owner' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
