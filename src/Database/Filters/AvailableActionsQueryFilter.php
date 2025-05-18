@@ -17,30 +17,30 @@ class AvailableActionsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function action($value)
     {
-        return $this->builder->where('action', 'like', '%' . $value . '%');
+        return $this->builder->where('action', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function class($value)
     {
-        return $this->builder->where('class', 'like', '%' . $value . '%');
+        return $this->builder->where('class', 'ilike', '%' . $value . '%');
     }
-    
+
     public function input($value)
     {
-        return $this->builder->where('input', 'like', '%' . $value . '%');
+        return $this->builder->where('input', 'ilike', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
     public function createdAtStart($date)
@@ -74,17 +74,5 @@ class AvailableActionsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

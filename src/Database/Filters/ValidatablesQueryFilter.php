@@ -17,15 +17,27 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
-    
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
+
     public function validationCode($value)
     {
-        return $this->builder->where('validation_code', 'like', '%' . $value . '%');
+        return $this->builder->where('validation_code', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of validationCode
+    public function validation_code($value)
+    {
+        return $this->validationCode($value);
     }
 
     public function isUsed($value)
@@ -35,6 +47,12 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('is_used', $value);
+    }
+
+        //  This is an alias function of isUsed
+    public function is_used($value)
+    {
+        return $this->isUsed($value);
     }
 
     public function createdAtStart($date)
@@ -68,17 +86,5 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

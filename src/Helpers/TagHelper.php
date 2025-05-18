@@ -80,7 +80,7 @@ class TagHelper
 
         // Get the tag object
         $tagObj = Tags::withoutGlobalScope(AuthorizationScope::class)
-            ->where('name', 'like', $tag)
+            ->where('name', 'ilike', $tag)
             ->first();
 
         // If the tag does not exist, create it

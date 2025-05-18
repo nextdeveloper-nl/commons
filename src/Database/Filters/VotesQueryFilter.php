@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,10 +17,16 @@ class VotesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+    }
+
+    //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
     }
 
     public function value($value)
@@ -68,25 +74,12 @@ class VotesQueryFilter extends AbstractQueryFilter
 
     public function iamUserId($value)
     {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+        $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
 
-        if($iamUser) {
+        if ($iamUser) {
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

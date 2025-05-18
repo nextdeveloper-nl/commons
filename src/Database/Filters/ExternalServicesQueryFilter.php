@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,30 +17,30 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function code($value)
     {
-        return $this->builder->where('code', 'like', '%' . $value . '%');
+        return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function token($value)
     {
-        return $this->builder->where('token', 'like', '%' . $value . '%');
+        return $this->builder->where('token', 'ilike', '%' . $value . '%');
     }
-    
+
     public function refreshToken($value)
     {
-        return $this->builder->where('refresh_token', 'like', '%' . $value . '%');
+        return $this->builder->where('refresh_token', 'ilike', '%' . $value . '%');
     }
     
     public function serviceOwner($value)

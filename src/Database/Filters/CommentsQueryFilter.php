@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,15 +37,21 @@ class CommentsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function body($value)
     {
-        return $this->builder->where('body', 'like', '%' . $value . '%');
+        return $this->builder->where('body', 'ilike', '%' . $value . '%');
     }
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
     }
 
     public function createdAtStart($date)
@@ -92,18 +98,11 @@ class CommentsQueryFilter extends AbstractQueryFilter
             return $this->builder->where('parent_id', '=', $value);
     }
 
+        //  This is an alias function of parent
+    public function parent_id($value)
+    {
+        return $this->parent($value);
+    }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

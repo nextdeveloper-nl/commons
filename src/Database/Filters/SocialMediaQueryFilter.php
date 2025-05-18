@@ -37,15 +37,27 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
-    
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
+
     public function profileUrl($value)
     {
-        return $this->builder->where('profile_url', 'like', '%' . $value . '%');
+        return $this->builder->where('profile_url', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of profileUrl
+    public function profile_url($value)
+    {
+        return $this->profileUrl($value);
     }
 
     public function createdAtStart($date)
@@ -79,17 +91,5 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

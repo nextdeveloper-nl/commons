@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,25 +17,25 @@ class CategoriesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function slug($value)
     {
-        return $this->builder->where('slug', 'like', '%' . $value . '%');
+        return $this->builder->where('slug', 'ilike', '%' . $value . '%');
     }
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
-    
+
     public function url($value)
     {
-        return $this->builder->where('url', 'like', '%' . $value . '%');
+        return $this->builder->where('url', 'ilike', '%' . $value . '%');
     }
 
     public function position($value)
@@ -58,6 +58,12 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('is_active', $value);
+    }
+
+        //  This is an alias function of isActive
+    public function is_active($value)
+    {
+        return $this->isActive($value);
     }
 
     public function createdAtStart($date)
@@ -99,6 +105,12 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonDomain
+    public function common_domain_id($value)
+    {
+        return $this->commonDomain($value);
+    }
+
     public function commonCategoryId($value)
     {
             $commonCategory = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
@@ -108,18 +120,11 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         }
     }
 
+        //  This is an alias function of commonCategory
+    public function common_category_id($value)
+    {
+        return $this->commonCategory($value);
+    }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

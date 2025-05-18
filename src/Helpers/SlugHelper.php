@@ -37,7 +37,7 @@ class SlugHelper
 
         // Ensure that the slug is unique
         $count = $class::withoutGlobalScopes()
-            ->where('slug', 'like', $slug . '%')
+            ->where('slug', 'ilike', $slug . '%')
             ->count();
 
         if ($count > 0) {

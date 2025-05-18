@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,15 +36,15 @@ class DomainsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
     public function isActive($value)
@@ -57,6 +56,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_active', $value);
     }
 
+        //  This is an alias function of isActive
+    public function is_active($value)
+    {
+        return $this->isActive($value);
+    }
+
     public function isLocalDomain($value)
     {
         if(!is_bool($value)) {
@@ -64,6 +69,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('is_local_domain', $value);
+    }
+
+        //  This is an alias function of isLocalDomain
+    public function is_local_domain($value)
+    {
+        return $this->isLocalDomain($value);
     }
 
     public function isLocked($value)
@@ -75,6 +86,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_locked', $value);
     }
 
+        //  This is an alias function of isLocked
+    public function is_locked($value)
+    {
+        return $this->isLocked($value);
+    }
+
     public function isSharedDomain($value)
     {
         if(!is_bool($value)) {
@@ -82,6 +99,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('is_shared_domain', $value);
+    }
+
+        //  This is an alias function of isSharedDomain
+    public function is_shared_domain($value)
+    {
+        return $this->isSharedDomain($value);
     }
 
     public function isValidated($value)
@@ -93,6 +116,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_validated', $value);
     }
 
+        //  This is an alias function of isValidated
+    public function is_validated($value)
+    {
+        return $this->isValidated($value);
+    }
+
     public function isTld($value)
     {
         if(!is_bool($value)) {
@@ -100,6 +129,12 @@ class DomainsQueryFilter extends AbstractQueryFilter
         }
 
         return $this->builder->where('is_tld', $value);
+    }
+
+        //  This is an alias function of isTld
+    public function is_tld($value)
+    {
+        return $this->isTld($value);
     }
 
     public function createdAtStart($date)
@@ -151,17 +186,5 @@ class DomainsQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
