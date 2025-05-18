@@ -23,24 +23,20 @@ class CountriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
 
-
     public function locale($value)
     {
         return $this->builder->where('locale', 'ilike', '%' . $value . '%');
     }
-
 
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-
     public function currencyCode($value)
     {
         return $this->builder->where('currency_code', 'ilike', '%' . $value . '%');
     }
-
         //  This is an alias function of currencyCode
     public function currency_code($value)
     {
@@ -51,7 +47,6 @@ class CountriesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('phone_code', 'ilike', '%' . $value . '%');
     }
-
         //  This is an alias function of phoneCode
     public function phone_code($value)
     {
@@ -101,6 +96,10 @@ class CountriesQueryFilter extends AbstractQueryFilter
 
     public function isActive($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_active', $value);
     }
 
@@ -111,15 +110,5 @@ class CountriesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 
 }

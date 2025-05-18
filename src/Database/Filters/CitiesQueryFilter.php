@@ -23,18 +23,15 @@ class CitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
 
-
     public function locale($value)
     {
         return $this->builder->where('locale', 'ilike', '%' . $value . '%');
     }
 
-
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
-
 
     public function phoneCode($value)
     {
@@ -60,6 +57,7 @@ class CitiesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('geo_name_identitiy', $operator, $value);
     }
 
+
         //  This is an alias function of geoNameIdentitiy
     public function geo_name_identitiy($value)
     {
@@ -68,6 +66,10 @@ class CitiesQueryFilter extends AbstractQueryFilter
 
     public function isActive($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_active', $value);
     }
 
@@ -91,20 +93,6 @@ class CitiesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

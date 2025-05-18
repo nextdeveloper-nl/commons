@@ -5,7 +5,6 @@ namespace NextDeveloper\Commons\Database\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 
-
 /**
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
@@ -43,15 +42,17 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-
     public function isActive($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_active', $value);
     }
 
@@ -63,6 +64,10 @@ class DomainsQueryFilter extends AbstractQueryFilter
 
     public function isLocalDomain($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_local_domain', $value);
     }
 
@@ -74,6 +79,10 @@ class DomainsQueryFilter extends AbstractQueryFilter
 
     public function isLocked($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_locked', $value);
     }
 
@@ -85,6 +94,10 @@ class DomainsQueryFilter extends AbstractQueryFilter
 
     public function isSharedDomain($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_shared_domain', $value);
     }
 
@@ -96,6 +109,10 @@ class DomainsQueryFilter extends AbstractQueryFilter
 
     public function isValidated($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_validated', $value);
     }
 
@@ -107,6 +124,10 @@ class DomainsQueryFilter extends AbstractQueryFilter
 
     public function isTld($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_tld', $value);
     }
 
@@ -126,18 +147,6 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('created_at', '<=', $date);
     }
 
-    //  This is an alias function of createdAt
-    public function created_at_start($value)
-    {
-        return $this->createdAtStart($value);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_end($value)
-    {
-        return $this->createdAtEnd($value);
-    }
-
     public function updatedAtStart($date)
     {
         return $this->builder->where('updated_at', '>=', $date);
@@ -146,18 +155,6 @@ class DomainsQueryFilter extends AbstractQueryFilter
     public function updatedAtEnd($date)
     {
         return $this->builder->where('updated_at', '<=', $date);
-    }
-
-    //  This is an alias function of updatedAt
-    public function updated_at_start($value)
-    {
-        return $this->updatedAtStart($value);
-    }
-
-    //  This is an alias function of updatedAt
-    public function updated_at_end($value)
-    {
-        return $this->updatedAtEnd($value);
     }
 
     public function deletedAtStart($date)
@@ -170,18 +167,6 @@ class DomainsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('deleted_at', '<=', $date);
     }
 
-    //  This is an alias function of deletedAt
-    public function deleted_at_start($value)
-    {
-        return $this->deletedAtStart($value);
-    }
-
-    //  This is an alias function of deletedAt
-    public function deleted_at_end($value)
-    {
-        return $this->deletedAtEnd($value);
-    }
-
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -191,17 +176,15 @@ class DomainsQueryFilter extends AbstractQueryFilter
         }
     }
 
+    public function commonCountryId($value)
+    {
+            $commonCountry = \NextDeveloper\Commons\Database\Models\Countries::where('uuid', $value)->first();
+
+        if($commonCountry) {
+            return $this->builder->where('common_country_id', '=', $commonCountry->id);
+        }
+    }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 
 }

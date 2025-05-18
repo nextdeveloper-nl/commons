@@ -124,6 +124,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\Commands\FetchExchangeRateCommand::class,
+                Console\Commands\TaskSchedulerActionCommand::class,
             ]);
         }
     }
@@ -161,6 +162,18 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                 })
                 ->after(function () {
                     logger()->info('Fetches Exchange Rates ended.');
+                });
+
+            $schedule->command('common:task-scheduler-action')
+                ->cron(config('commons.task_scheduler.schedule.cron'))
+                ->when(function () {
+                    return config('commons.task_scheduler.schedule.enabled');
+                })
+                ->before(function () {
+                    logger()->info('Task Scheduler starting...');
+                })
+                ->after(function () {
+                    logger()->info('Task Scheduler ended.');
                 });
         });
     }

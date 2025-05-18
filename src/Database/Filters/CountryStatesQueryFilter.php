@@ -23,33 +23,32 @@ class CountryStatesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-
     public function code($value)
     {
         return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
-
 
     public function latitude($value)
     {
         return $this->builder->where('latitude', 'ilike', '%' . $value . '%');
     }
 
-
     public function longitude($value)
     {
         return $this->builder->where('longitude', 'ilike', '%' . $value . '%');
     }
-
 
     public function type($value)
     {
         return $this->builder->where('type', 'ilike', '%' . $value . '%');
     }
 
-
     public function isActive($value)
     {
+        if(!is_bool($value)) {
+            $value = false;
+        }
+
         return $this->builder->where('is_active', $value);
     }
 
@@ -75,15 +74,5 @@ class CountryStatesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 
 }

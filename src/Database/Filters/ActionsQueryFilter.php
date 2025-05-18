@@ -43,11 +43,11 @@ class ActionsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('action', 'ilike', '%' . $value . '%');
     }
 
-
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
+
 
         //  This is an alias function of objectType
     public function object_type($value)
@@ -68,7 +68,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('progress', $operator, $value);
     }
 
-
     public function runtime($value)
     {
         $operator = substr($value, 0, 1);
@@ -82,7 +81,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('runtime', $operator, $value);
     }
 
-
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -91,18 +89,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_start($value)
-    {
-        return $this->createdAtStart($value);
-    }
-
-    //  This is an alias function of createdAt
-    public function created_at_end($value)
-    {
-        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -115,18 +101,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
-    //  This is an alias function of updatedAt
-    public function updated_at_start($value)
-    {
-        return $this->updatedAtStart($value);
-    }
-
-    //  This is an alias function of updatedAt
-    public function updated_at_end($value)
-    {
-        return $this->updatedAtEnd($value);
-    }
-
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -135,7 +109,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
             return $this->builder->where('iam_user_id', '=', $iamUser->id);
         }
     }
-
 
     public function iamAccountId($value)
     {
@@ -146,17 +119,6 @@ class ActionsQueryFilter extends AbstractQueryFilter
         }
     }
 
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 
 }

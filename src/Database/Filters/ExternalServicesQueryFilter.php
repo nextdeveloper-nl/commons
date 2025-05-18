@@ -42,6 +42,11 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('refresh_token', 'ilike', '%' . $value . '%');
     }
+    
+    public function serviceOwner($value)
+    {
+        return $this->builder->where('service_owner', 'like', '%' . $value . '%');
+    }
 
     public function isAlive($value)
     {
@@ -101,4 +106,6 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 }

@@ -63,6 +63,7 @@ trait CommonExternalServiceTestTraits
                 'description'  =>  'a',
                 'token'  =>  'a',
                 'refresh_token'  =>  'a',
+                'service_owner'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -427,6 +428,25 @@ trait CommonExternalServiceTestTraits
             $request = new Request(
                 [
                 'refresh_token'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonExternalServiceQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonExternalService::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonexternalservice_event_service_owner_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'service_owner'  =>  'a'
                 ]
             );
 

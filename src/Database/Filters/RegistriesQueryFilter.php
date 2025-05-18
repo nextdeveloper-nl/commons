@@ -23,17 +23,6 @@ class RegistriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('key', 'ilike', '%' . $value . '%');
     }
 
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-
-
-
-
-
-
-
-
-
 
 }
