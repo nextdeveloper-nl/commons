@@ -37,7 +37,7 @@ class TagsService extends AbstractTagsService
     }
 
     public static function getOrCreate($tag) {
-        $obj = Tags::where('name', 'like', $tag)->first();
+        $obj = Tags::where('name', 'ilike', $tag)->first();
 
         if(!$obj) {
             $obj = self::create([

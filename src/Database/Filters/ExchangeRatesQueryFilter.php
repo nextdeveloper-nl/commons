@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,13 +17,13 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function code($value)
     {
-        return $this->builder->where('code', 'like', '%' . $value . '%');
+        return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function lastModifiedStart($date)
     {
         return $this->builder->where('last_modified', '>=', $date);
@@ -104,7 +104,7 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

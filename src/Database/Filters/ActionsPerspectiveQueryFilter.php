@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,16 +17,16 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function action($value)
     {
-        return $this->builder->where('action', 'like', '%' . $value . '%');
+        return $this->builder->where('action', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of objectType
@@ -34,7 +34,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-    
+
     public function progress($value)
     {
         $operator = substr($value, 0, 1);
@@ -48,7 +48,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('progress', $operator, $value);
     }
 
-    
+
     public function runtime($value)
     {
         $operator = substr($value, 0, 1);
@@ -62,7 +62,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
         return $this->builder->where('runtime', $operator, $value);
     }
 
-    
+
     public function subactionRuntime($value)
     {
         $operator = substr($value, 0, 1);
@@ -81,7 +81,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
     {
         return $this->subactionRuntime($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -135,7 +135,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamAccountId($value)
     {
             $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
@@ -145,7 +145,7 @@ class ActionsPerspectiveQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

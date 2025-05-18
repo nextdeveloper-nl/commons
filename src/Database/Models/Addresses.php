@@ -37,7 +37,7 @@ use NextDeveloper\Commons\Database\Traits\Taggable;
  */
 class Addresses extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates;
+    use Filterable, UuidId, CleanCache, Taggable;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -86,22 +86,22 @@ class Addresses extends Model
      @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'object_id' => 'integer',
-    'object_type' => 'string',
-    'name' => 'string',
-    'line1' => 'string',
-    'line2' => 'string',
-    'city' => 'string',
-    'state' => 'string',
-    'state_code' => 'string',
-    'postcode' => 'string',
-    'is_invoice_address' => 'boolean',
-    'common_country_id' => 'integer',
-    'email_address' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
+        'id' => 'integer',
+        'object_id' => 'integer',
+        'object_type' => 'string',
+        'name' => 'string',
+        'line1' => 'string',
+        'line2' => 'string',
+        'city' => 'string',
+        'state' => 'string',
+        'state_code' => 'string',
+        'postcode' => 'string',
+        'is_invoice_address' => 'boolean',
+        'common_country_id' => 'integer',
+        'email_address' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
@@ -166,12 +166,12 @@ class Addresses extends Model
     {
         return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
     }
-    
+
     public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
 

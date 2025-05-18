@@ -17,28 +17,28 @@ class StatesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function value($value)
     {
-        return $this->builder->where('value', 'like', '%' . $value . '%');
+        return $this->builder->where('value', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function reason($value)
     {
-        return $this->builder->where('reason', 'like', '%' . $value . '%');
+        return $this->builder->where('reason', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of objectType
@@ -46,7 +46,7 @@ class StatesQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);

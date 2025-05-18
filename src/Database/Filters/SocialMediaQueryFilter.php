@@ -37,10 +37,10 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of objectType
@@ -48,10 +48,10 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-        
+
     public function profileUrl($value)
     {
-        return $this->builder->where('profile_url', 'like', '%' . $value . '%');
+        return $this->builder->where('profile_url', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of profileUrl
@@ -59,7 +59,7 @@ class SocialMediaQueryFilter extends AbstractQueryFilter
     {
         return $this->profileUrl($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);

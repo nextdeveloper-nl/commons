@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,19 +37,19 @@ class DomainsQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
-        return $this->builder->where('description', 'like', '%' . $value . '%');
+        return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function isActive($value)
     {
         return $this->builder->where('is_active', $value);
@@ -60,7 +60,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isActive($value);
     }
-     
+
     public function isLocalDomain($value)
     {
         return $this->builder->where('is_local_domain', $value);
@@ -71,7 +71,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isLocalDomain($value);
     }
-     
+
     public function isLocked($value)
     {
         return $this->builder->where('is_locked', $value);
@@ -82,7 +82,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isLocked($value);
     }
-     
+
     public function isSharedDomain($value)
     {
         return $this->builder->where('is_shared_domain', $value);
@@ -93,7 +93,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isSharedDomain($value);
     }
-     
+
     public function isValidated($value)
     {
         return $this->builder->where('is_validated', $value);
@@ -104,7 +104,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isValidated($value);
     }
-     
+
     public function isTld($value)
     {
         return $this->builder->where('is_tld', $value);
@@ -115,7 +115,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
     {
         return $this->isTld($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -191,7 +191,7 @@ class DomainsQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

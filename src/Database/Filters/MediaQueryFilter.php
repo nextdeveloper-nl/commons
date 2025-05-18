@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -37,10 +37,10 @@ class MediaQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of objectType
@@ -48,10 +48,10 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-        
+
     public function collectionName($value)
     {
-        return $this->builder->where('collection_name', 'like', '%' . $value . '%');
+        return $this->builder->where('collection_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of collectionName
@@ -59,16 +59,16 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->collectionName($value);
     }
-        
+
     public function name($value)
     {
-        return $this->builder->where('name', 'like', '%' . $value . '%');
+        return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function cdnUrl($value)
     {
-        return $this->builder->where('cdn_url', 'like', '%' . $value . '%');
+        return $this->builder->where('cdn_url', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of cdnUrl
@@ -76,10 +76,10 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->cdnUrl($value);
     }
-        
+
     public function fileName($value)
     {
-        return $this->builder->where('file_name', 'like', '%' . $value . '%');
+        return $this->builder->where('file_name', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of fileName
@@ -87,10 +87,10 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->fileName($value);
     }
-        
+
     public function mimeType($value)
     {
-        return $this->builder->where('mime_type', 'like', '%' . $value . '%');
+        return $this->builder->where('mime_type', 'ilike', '%' . $value . '%');
     }
 
         //  This is an alias function of mimeType
@@ -98,13 +98,13 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->mimeType($value);
     }
-        
+
     public function disk($value)
     {
-        return $this->builder->where('disk', 'like', '%' . $value . '%');
+        return $this->builder->where('disk', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function size($value)
     {
         $operator = substr($value, 0, 1);
@@ -118,7 +118,7 @@ class MediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('size', $operator, $value);
     }
 
-    
+
     public function orderColumn($value)
     {
         $operator = substr($value, 0, 1);
@@ -137,7 +137,7 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->orderColumn($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -213,7 +213,7 @@ class MediaQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -223,12 +223,12 @@ class MediaQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public function objectId($value)
     {
-        return $this->builder->where('object_type', 'like', '%' . $value . '%');
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
 
 

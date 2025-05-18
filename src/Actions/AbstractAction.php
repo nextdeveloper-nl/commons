@@ -286,18 +286,21 @@ class AbstractAction implements ShouldQueue
             Log::info('[ActionLog][ERROR]' . $log . ' / Diff: ' . $diff . 'ms');
         }
 
-//        try {
-////            ActionLogs::createQuietly([
-////                'common_action_id' => $this->action->id,
-////                'log' => 'Error: ' . $log,
-////                'runtime' => $diff,
-////                'iam_account_id' => $this->getAccountId(),
-////                'iam_user_id' => $this->getUserId()
-////            ]);
-//        } catch (\Exception $e) {
-//            Log::error(__METHOD__ . ' | I cannot create action log. And the reason is; ' . $e->getMessage());
-//            Log::error($e->getTraceAsString());
-//        }
+        try {
+            $actionModel = new ActionLogs();
+            $actionModel->unsetEventDispatcher();
+
+            $actionModel->create([
+                'common_action_id' => $this->action->id,
+                'log' => 'Error: ' . $log,
+                'runtime' => $diff,
+                'iam_account_id' => $this->getAccountId(),
+                'iam_user_id' => $this->getUserId()
+            ]);
+        } catch (\Exception $e) {
+            Log::error(__METHOD__ . ' | I cannot create action log. And the reason is; ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+        }
 
         $this->action->update([
             'progress' => -1,
