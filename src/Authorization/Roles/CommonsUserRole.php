@@ -102,16 +102,27 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_actions:read',
             'common_actions:create',
             'common_actions:update',
+
             'common_addresses:read',
+            'common_addresses:create',
+            'common_addresses:update',
+            'common_addresses:delete',
+
             'common_categories:read',
+
             'common_cities:read',
+
             'common_comments:read',
             'common_comments:create',
             'common_comments:update',
             'common_comments:delete',
+
             'common_countries:read',
+
             'common_country_states:read',
+
             'common_currencies:read',
+
             'common_disposable_emails:read',
             'common_keywords:read',
             'common_keywords:create',
