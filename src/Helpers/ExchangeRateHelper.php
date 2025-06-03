@@ -15,6 +15,14 @@ class ExchangeRateHelper
         return Currencies::where('id', $currency)->first();
     }
 
+    public static function convertById($fromCurrencyCode, $toCurrencyCode, $amount = 1, $date = null) : float
+    {
+        $currencyFrom = Currencies::where('id', $fromCurrencyCode)->first();
+        $currencyTo = Currencies::where('id', $toCurrencyCode)->first();
+
+        return self::convert($currencyFrom->code, $currencyTo->code, $amount, $date);
+    }
+
     /**
      * @param $fromCurrencyCode
      * @param $toCurrencyCode
@@ -37,6 +45,14 @@ class ExchangeRateHelper
         Log::info(__METHOD__ . '| Converted ' . $amount . ' ' . $fromCurrencyCode . ' to ' . $converted . ' ' . $toCurrencyCode);
 
         return $converted;
+    }
+
+    public static function getLatestRateById($fromCurrencyId, $toCurrencyId)
+    {
+        $currencyFrom = Currencies::where('id', $fromCurrencyId)->first();
+        $currencyTo = Currencies::where('id', $toCurrencyId)->first();
+
+        return self::getLatestRate($currencyFrom->code, $currencyTo->code);
     }
 
     public static function getLatestRate($fromCurrencyCode, $toCurrencyCode) : float
