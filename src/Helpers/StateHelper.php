@@ -58,6 +58,15 @@ class StateHelper
             ->first();
     }
 
+    public static function deleteState($obj, $stateName): void
+    {
+        $state = self::getState($obj, $stateName);
+        
+        if($state) {
+            $state->delete();
+        }
+    }
+
     public static function clearStates($obj): void
     {
         States::withoutGlobalScope(AuthorizationScope::class)
