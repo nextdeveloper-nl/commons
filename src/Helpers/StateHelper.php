@@ -61,7 +61,7 @@ class StateHelper
     public static function deleteState($obj, $stateName): void
     {
         $state = self::getState($obj, $stateName);
-        
+
         if($state) {
             $state->delete();
         }
