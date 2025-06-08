@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
+use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 
 class ExchangeRateHelper
 {
@@ -19,6 +20,9 @@ class ExchangeRateHelper
     {
         $currencyFrom = Currencies::where('id', $fromCurrencyCode)->first();
         $currencyTo = Currencies::where('id', $toCurrencyCode)->first();
+
+        if(!$currencyFrom) throw new ModelNotFoundException('Currency not found with id: ' . $fromCurrencyCode);
+        if(!$currencyTo) throw new ModelNotFoundException('Currency not found with id: ' . $toCurrencyCode);
 
         return self::convert($currencyFrom->code, $currencyTo->code, $amount, $date);
     }
@@ -51,6 +55,9 @@ class ExchangeRateHelper
     {
         $currencyFrom = Currencies::where('id', $fromCurrencyId)->first();
         $currencyTo = Currencies::where('id', $toCurrencyId)->first();
+
+        if(!$currencyFrom) throw new ModelNotFoundException('Currency not found with id: ' . $fromCurrencyId);
+        if(!$currencyTo) throw new ModelNotFoundException('Currency not found with id: ' . $toCurrencyId);
 
         return self::getLatestRate($currencyFrom->code, $currencyTo->code);
     }
