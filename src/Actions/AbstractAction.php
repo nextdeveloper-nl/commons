@@ -74,13 +74,9 @@ class AbstractAction implements ShouldQueue
 
         if (!ActionsHelper::saveInDb()) return;
 
-        if($runAsObjectOwner) {
-            $this->userId = $this->model->iam_user_id;
-            $this->accountId = $this->model->iam_account_id;
-        } else {
-            $this->userId = UserHelper::me()->id;
-            $this->accountId = UserHelper::currentAccount()->id;
-        }
+        $this->userId = UserHelper::me() ? UserHelper::me()->id : null;
+        $this->accountId = UserHelper::currentAccount() ? UserHelper::currentAccount()->id : null;
+
         $this->params = $params;
         $this->previous = $previous;
 
