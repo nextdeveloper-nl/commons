@@ -57,6 +57,9 @@ class CacheHelper
 
         while( $it !== 0 ) {
             foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*') as $k) {
+                // Logging the deleted key
+                \Log::debug(__METHOD__ . '| Deleting cache key: ' . $k);
+
                 $r->del($k);
             }
         }
