@@ -27,4 +27,10 @@ trait CleanCache
             CacheHelper::deleteKeys($explodedModel[count($explodedModel) - 1], $model->uuid);
         });
     }
+
+    public function cleanCache()
+    {
+        $explodedModel = explode('\\', get_class($this));
+        CacheHelper::deleteKeys($explodedModel[count($explodedModel) - 1], $this->uuid);
+    }
 }
