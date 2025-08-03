@@ -49,9 +49,9 @@ class AbstractAction implements ShouldQueue
      */
     private $accountId;
 
-    public function __construct($params = null, $previous = null, $runAsObjectOwner = false)
+    public function __construct($params = null, $previous = null)
     {
-        $this->createAction($previous, $runAsObjectOwner);
+        $this->createAction($previous);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
         if ($params && property_exists($this, 'PARAMS')) {
