@@ -56,6 +56,11 @@ class CacheHelper
         $it = null;
 
         while( $it !== 0 ) {
+            //  Sample pattern is like this;
+            //  'App\\Database\\Models\\Partnership:1' and 'App\\Database\\Models\\PartnershipPerspective:1'
+
+            //  This part is working correct, if there is a bug, look at elsewhere.
+
             // Scanning through the keys that match the pattern
             foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*') as $k) {
                 $r->del($k);
