@@ -2,12 +2,11 @@
 
 namespace NextDeveloper\Commons\Http\Traits;
 
-use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesCreateRequest;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
-use NextDeveloper\Commons\Services\AddressesService;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Services\AddressesService;
 
 trait Addresses
 {

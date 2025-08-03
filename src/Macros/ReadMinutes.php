@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons\Macros;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Stringable;
 
 /**
  * This code is partially taken from https://github.com/victoryoalli/laravel-string-macros

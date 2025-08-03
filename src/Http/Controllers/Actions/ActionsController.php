@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Actions;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Actions\ActionsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Actions;
-use NextDeveloper\Commons\Services\ActionsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Actions\ActionsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Actions\ActionsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\ActionsService;
+
 class ActionsController extends AbstractController
 {
     private $model = Actions::class;

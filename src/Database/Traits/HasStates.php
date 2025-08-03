@@ -11,13 +11,8 @@
 
 namespace NextDeveloper\Commons\Database\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\DB;
-use NextDeveloper\Commons\Database\Models\States;
-use  NextDeveloper\Commons\Exceptions\InvalidState;
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\Commons\Exceptions\InvalidState;
 
 /**
  * Trait HasStates

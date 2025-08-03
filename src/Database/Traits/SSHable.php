@@ -13,6 +13,7 @@ namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Helpers\StateHelper;
+use NextDeveloper\IAAS\Exceptions\CannotConnectWithSshException;
 use phpseclib3\Net\SSH2;
 
 /*
@@ -75,7 +76,7 @@ trait SSHable
         $connection = $this->createSSHConnection();
 
         if(!$connection)
-            throw new \Exception('I cannot connect to the SSH you have provided. Check the ' .
+            throw new CannotConnectWithSshException('I cannot connect to the SSH you have provided. Check the ' .
                 'IP (' . $this->ip_v4 . ') and the credentials, please.');
 
         $response = [];

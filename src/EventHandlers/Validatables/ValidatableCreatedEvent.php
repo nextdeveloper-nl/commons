@@ -2,8 +2,8 @@
 
 namespace NextDeveloper\Commons\EventHandlers\Validatables;
 
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * Class CommonValidatableCreatedEvent

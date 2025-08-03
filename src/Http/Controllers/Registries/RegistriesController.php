@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Registries;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Registries\RegistriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\RegistriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Registries;
-use NextDeveloper\Commons\Services\RegistriesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Registries\RegistriesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Registries\RegistriesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\RegistriesService;
+
 class RegistriesController extends AbstractController
 {
     private $model = Registries::class;

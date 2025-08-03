@@ -2,14 +2,13 @@
 
 namespace NextDeveloper\Commons\Tests\Database\Models;
 
-use Tests\TestCase;
 use GuzzleHttp\Client;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Database\Filters\CommonCreditCardQueryFilter;
-use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonCreditCardService;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
+use NextDeveloper\Commons\Database\Filters\CommonCreditCardQueryFilter;
+use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonCreditCardService;
 
 trait CommonCreditCardTestTraits
 {

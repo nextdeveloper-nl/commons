@@ -2,14 +2,14 @@
 
 namespace NextDeveloper\Commons\Jobs\Domains\Validations;
 
+use Illuminate\Support\Facades\Log;
 use Iodev\Whois\Exceptions\ConnectionException;
 use Iodev\Whois\Exceptions\ServerMismatchException;
 use Iodev\Whois\Exceptions\WhoisException;
+use Iodev\Whois\Factory;
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Validatables;
-use Illuminate\Support\Facades\Log;
-use Iodev\Whois\Factory;
 
 
 /**
@@ -77,7 +77,7 @@ class ValidateReachability extends AbstractAction
         // If domain is registered and reachable, generate and store a token
 
         if($this->validatable['validation_data']['is_reachable']){
-            
+
             $this->model->update([
                 'is_reachable' => true,
             ]);
@@ -150,7 +150,7 @@ class ValidateReachability extends AbstractAction
         curl_close($ch);
 
         Log::info("[Commons\Action\ValidateReachability@checkDomainIsReachable] Domain validation application created a log. Validating if ".$url." is reachable and the HTTP Code is ".$httpCode. "time: ".date('Y-m-d H:i:s'));
-        
+
         if ($httpCode === 200) {
             // Domain is reachable
             $this->validatable->update([

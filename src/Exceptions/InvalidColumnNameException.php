@@ -10,8 +10,6 @@
 
 namespace NextDeveloper\Commons\Exceptions;
 
-use Illuminate\Http\Response;
-
 /**
  * Class InvalidColumnNameException.
  *

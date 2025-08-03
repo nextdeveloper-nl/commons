@@ -2,8 +2,8 @@
 
 namespace NextDeveloper\Commons\EventHandlers\PhoneNumbersUpdatingEvent;
 
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * Class PhoneNumbersUpdatingEvent

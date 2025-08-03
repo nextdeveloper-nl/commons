@@ -11,7 +11,6 @@
 namespace NextDeveloper\Commons\Database\Traits;
 
 use App\Services\Events;
-use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 
 /**
  * Trait Filterable

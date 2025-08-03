@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\ActionLogs;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\ActionLogs\ActionLogsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionLogsQueryFilter;
 use NextDeveloper\Commons\Database\Models\ActionLogs;
-use NextDeveloper\Commons\Services\ActionLogsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\ActionLogs\ActionLogsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\ActionLogs\ActionLogsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\ActionLogsService;
+
 class ActionLogsController extends AbstractController
 {
     private $model = ActionLogs::class;

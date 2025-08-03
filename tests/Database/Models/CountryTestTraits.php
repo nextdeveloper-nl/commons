@@ -2,14 +2,13 @@
 
 namespace NextDeveloper\Commons\Tests\Database\Models;
 
-use Tests\TestCase;
 use GuzzleHttp\Client;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
-use NextDeveloper\Commons\Services\AbstractServices\AbstractCountryService;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
+use NextDeveloper\Commons\Database\Filters\CountryQueryFilter;
+use NextDeveloper\Commons\Services\AbstractServices\AbstractCountryService;
 
 trait CountryTestTraits
 {

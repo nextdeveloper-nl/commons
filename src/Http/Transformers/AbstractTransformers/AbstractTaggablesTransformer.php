@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons\Http\Transformers\AbstractTransformers;
 
 use NextDeveloper\Commons\Database\Models\Taggables;
-use NextDeveloper\Commons\Helpers\TagHelper;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 
 /**
@@ -22,7 +21,7 @@ class AbstractTaggablesTransformer extends AbstractTransformer
     public function transform(Taggables $model)
     {
                         $commonTagsId = \NextDeveloper\Commons\Database\Models\Tags::where('id', $model->common_tags_id)->first();
-        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

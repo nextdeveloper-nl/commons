@@ -3,15 +3,15 @@
 namespace NextDeveloper\Commons\Http\Controllers\Addresses;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Addresses\AddressesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\AddressesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Addresses;
-use NextDeveloper\Commons\Services\AddressesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Addresses\AddressesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Http\Requests\Addresses\AddressesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\AddressesService;
 
 class AddressesController extends AbstractController
 {

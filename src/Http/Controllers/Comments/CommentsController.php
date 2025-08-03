@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Comments;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Comments\CommentsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Comments;
-use NextDeveloper\Commons\Services\CommentsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Comments\CommentsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Comments\CommentsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\CommentsService;
+
 class CommentsController extends AbstractController
 {
     private $model = Comments::class;

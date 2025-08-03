@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Currencies;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Currencies\CurrenciesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CurrenciesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Currencies;
-use NextDeveloper\Commons\Services\CurrenciesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Currencies\CurrenciesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Currencies\CurrenciesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\CurrenciesService;
+
 class CurrenciesController extends AbstractController
 {
     private $model = Currencies::class;

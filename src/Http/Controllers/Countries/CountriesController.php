@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Countries;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Countries\CountriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CountriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Countries;
-use NextDeveloper\Commons\Services\CountriesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Countries\CountriesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Countries\CountriesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\CountriesService;
+
 class CountriesController extends AbstractController
 {
     private $model = Countries::class;

@@ -1,12 +1,11 @@
 <?php
 namespace NextDeveloper\Commons\Console\Commands;
 
-use Illuminate\Console\Command;
 use GuzzleHttp\Client;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
-use NextDeveloper\Commons\Services\ExchangeRatesService;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\IAM\Helpers\UserHelper;
 

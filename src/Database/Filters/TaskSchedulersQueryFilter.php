@@ -3,8 +3,7 @@
 namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,22 +16,22 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'like', '%' . $value . '%');
     }
-    
+
     public function description($value)
     {
         return $this->builder->where('description', 'like', '%' . $value . '%');
     }
-    
+
     public function objectName($value)
     {
         return $this->builder->where('object_name', 'like', '%' . $value . '%');
     }
-    
+
     public function output($value)
     {
         return $this->builder->where('output', 'like', '%' . $value . '%');

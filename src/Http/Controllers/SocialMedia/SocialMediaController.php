@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\SocialMedia;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\SocialMediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\SocialMedia;
-use NextDeveloper\Commons\Services\SocialMediaService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\SocialMedia\SocialMediaUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\SocialMediaService;
+
 class SocialMediaController extends AbstractController
 {
     private $model = SocialMedia::class;

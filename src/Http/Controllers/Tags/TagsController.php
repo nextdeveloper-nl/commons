@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Tags;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Tags\TagsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\TagsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Tags;
-use NextDeveloper\Commons\Services\TagsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Tags\TagsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\TagsService;
+
 class TagsController extends AbstractController
 {
     private $model = Tags::class;

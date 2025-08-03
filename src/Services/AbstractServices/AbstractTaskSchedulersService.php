@@ -2,19 +2,17 @@
 
 namespace NextDeveloper\Commons\Services\AbstractServices;
 
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use NextDeveloper\IAM\Helpers\UserHelper;
-use NextDeveloper\Commons\Common\Cache\CacheHelper;
-use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Commons\Database\Filters\TaskSchedulersQueryFilter;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Database\Models\TaskSchedulers;
-use NextDeveloper\Commons\Database\Filters\TaskSchedulersQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
-use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
+use NextDeveloper\Commons\Helpers\DatabaseHelper;
+use NextDeveloper\Events\Services\Events;
 
 /**
  * This class is responsible from managing the data for TaskSchedulers
@@ -134,7 +132,7 @@ class AbstractTaskSchedulersService
         return TaskSchedulers::where('id', $id)->first();
     }
 
-    
+
     /**
      * This method returns the sub objects of the related models
      *
@@ -177,7 +175,7 @@ class AbstractTaskSchedulersService
                 $data['common_available_action_id']
             );
         }
-                        
+
         try {
             $model = TaskSchedulers::create($data);
         } catch(\Exception $e) {
@@ -231,7 +229,7 @@ class AbstractTaskSchedulersService
                 $data['common_available_action_id']
             );
         }
-    
+
         Events::fire('updating:NextDeveloper\Commons\TaskSchedulers', $model);
 
         try {
