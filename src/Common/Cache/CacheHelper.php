@@ -56,6 +56,10 @@ class CacheHelper
         $it = null;
 
         while( $it !== 0 ) {
+            //  Log the debug key
+            \Log::debug(__METHOD__ . '| Scanning for keys with pattern: *' . self::getKey($obj, $id) . '*');
+
+            // Scanning through the keys that match the pattern
             foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*') as $k) {
                 // Logging the deleted key
                 \Log::debug(__METHOD__ . '| Deleting cache key: ' . $k);
