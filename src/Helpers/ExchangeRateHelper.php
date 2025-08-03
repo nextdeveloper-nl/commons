@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Helpers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use NextDeveloper\Commons\Database\Models\Countries;
 use NextDeveloper\Commons\Database\Models\Currencies;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;

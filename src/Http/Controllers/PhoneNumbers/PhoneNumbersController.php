@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\PhoneNumbers;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\PhoneNumbers\PhoneNumbersUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\PhoneNumbersQueryFilter;
 use NextDeveloper\Commons\Database\Models\PhoneNumbers;
-use NextDeveloper\Commons\Services\PhoneNumbersService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\PhoneNumbers\PhoneNumbersCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\PhoneNumbers\PhoneNumbersUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\PhoneNumbersService;
+
 class PhoneNumbersController extends AbstractController
 {
     private $model = PhoneNumbers::class;

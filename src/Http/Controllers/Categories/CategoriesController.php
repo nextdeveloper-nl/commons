@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Categories;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Categories\CategoriesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CategoriesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Categories;
-use NextDeveloper\Commons\Services\CategoriesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Categories\CategoriesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Categories\CategoriesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\CategoriesService;
+
 class CategoriesController extends AbstractController
 {
     private $model = Categories::class;

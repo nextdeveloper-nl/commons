@@ -2,8 +2,8 @@
 
 namespace NextDeveloper\Commons\EventHandlers\ActionLogsDeletingEvent;
 
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * Class ActionLogsDeletingEvent

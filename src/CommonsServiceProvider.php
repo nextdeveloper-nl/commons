@@ -2,14 +2,9 @@
 
 namespace NextDeveloper\Commons;
 
-use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use NextDeveloper\Commons\AbstractServiceProvider;
 use NextDeveloper\Commons\Macros\Acronym;
 
 /**

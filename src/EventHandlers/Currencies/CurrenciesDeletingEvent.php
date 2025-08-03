@@ -2,8 +2,8 @@
 
 namespace NextDeveloper\Commons\EventHandlers\CurrenciesDeletingEvent;
 
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
 /**
  * Class CurrenciesDeletingEvent

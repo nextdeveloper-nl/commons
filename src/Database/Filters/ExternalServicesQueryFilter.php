@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 
 
 /**
@@ -42,7 +41,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     {
         return $this->builder->where('refresh_token', 'ilike', '%' . $value . '%');
     }
-    
+
     public function serviceOwner($value)
     {
         return $this->builder->where('service_owner', 'like', '%' . $value . '%');

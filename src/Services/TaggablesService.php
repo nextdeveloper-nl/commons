@@ -3,14 +3,11 @@
 namespace NextDeveloper\Commons\Services;
 
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
-use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Taggables;
 use NextDeveloper\Commons\Database\Models\Tags;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Commons\Helpers\TagHelper;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractTaggablesService;
-use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
 * This class is responsible from managing the data for Taggables

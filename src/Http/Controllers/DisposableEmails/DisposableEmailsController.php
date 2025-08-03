@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\DisposableEmails;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DisposableEmailsQueryFilter;
 use NextDeveloper\Commons\Database\Models\DisposableEmails;
-use NextDeveloper\Commons\Services\DisposableEmailsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\DisposableEmails\DisposableEmailsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\DisposableEmailsService;
+
 class DisposableEmailsController extends AbstractController
 {
     private $model = DisposableEmails::class;

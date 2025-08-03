@@ -11,14 +11,14 @@
 namespace NextDeveloper\Commons\Http\Transformers;
 
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Resources\MergeValue;
 use Illuminate\Http\Resources\MissingValue;
 use Illuminate\Http\Resources\PotentiallyMissing;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use League\Fractal\ParamBag;
 use League\Fractal\Scope;
 use League\Fractal\TransformerAbstract;
-use League\Fractal\ParamBag;
 
 /**
  * Class AbstractTransformer

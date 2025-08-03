@@ -2,18 +2,13 @@
 
 namespace NextDeveloper\Commons\Database\Models;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
-use NextDeveloper\Commons\Database\Casts\TextArray;
-use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Commons\Database\Traits\HasStates;
-use NextDeveloper\Commons\Database\Observers\DomainsObserver;
-use NextDeveloper\Commons\Database\Traits\UuidId;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
+use NextDeveloper\Commons\Database\Observers\DomainsObserver;
+use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
-use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\UuidId;
 
 /**
  * Domains model.

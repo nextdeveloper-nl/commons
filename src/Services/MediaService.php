@@ -5,11 +5,10 @@ namespace NextDeveloper\Commons\Services;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
+use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Media;
 use NextDeveloper\Commons\Exceptions\CannotCreateModelException;
-use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractMediaService;
 use Publitio\BadJSONResponse;
 

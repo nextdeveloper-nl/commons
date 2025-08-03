@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Cities;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Cities\CitiesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\CitiesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Cities;
-use NextDeveloper\Commons\Services\CitiesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Cities\CitiesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Cities\CitiesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\CitiesService;
+
 class CitiesController extends AbstractController
 {
     private $model = Cities::class;

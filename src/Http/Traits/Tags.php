@@ -4,10 +4,8 @@ namespace NextDeveloper\Commons\Http\Traits;
 
 use NextDeveloper\Commons\Database\Models\ViewTags;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
-use NextDeveloper\Commons\Services\TaggablesService;
-use NextDeveloper\Commons\Services\TagsService;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use Psy\Util\Str;
+use NextDeveloper\Commons\Services\TaggablesService;
 
 trait Tags
 {

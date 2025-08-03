@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Votes;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Votes\VotesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\VotesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Votes;
-use NextDeveloper\Commons\Services\VotesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Votes\VotesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Votes\VotesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\VotesService;
+
 class VotesController extends AbstractController
 {
     private $model = Votes::class;

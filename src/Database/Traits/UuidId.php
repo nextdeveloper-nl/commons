@@ -12,7 +12,6 @@
 namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Str;
 
 /**
  * Trait UuidId.

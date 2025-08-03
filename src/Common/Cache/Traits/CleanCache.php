@@ -3,7 +3,6 @@
 namespace NextDeveloper\Commons\Common\Cache\Traits;
 
 
-use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 
 /**

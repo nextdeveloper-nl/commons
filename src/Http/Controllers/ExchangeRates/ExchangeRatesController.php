@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\ExchangeRates;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\ExchangeRates\ExchangeRatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ExchangeRatesQueryFilter;
 use NextDeveloper\Commons\Database\Models\ExchangeRates;
-use NextDeveloper\Commons\Services\ExchangeRatesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\ExchangeRates\ExchangeRatesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\ExchangeRates\ExchangeRatesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\ExchangeRatesService;
+
 class ExchangeRatesController extends AbstractController
 {
     private $model = ExchangeRates::class;

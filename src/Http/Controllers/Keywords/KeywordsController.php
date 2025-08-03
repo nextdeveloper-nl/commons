@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Keywords;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Keywords\KeywordsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\KeywordsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Keywords;
-use NextDeveloper\Commons\Services\KeywordsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Keywords\KeywordsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Requests\Keywords\KeywordsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
+use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;
+use NextDeveloper\Commons\Services\KeywordsService;
+
 class KeywordsController extends AbstractController
 {
     private $model = Keywords::class;

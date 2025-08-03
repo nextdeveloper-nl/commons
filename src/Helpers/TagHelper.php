@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\Commons\Helpers;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use NextDeveloper\Commons\Database\Models\Tags;

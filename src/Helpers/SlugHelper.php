@@ -2,8 +2,6 @@
 
 namespace NextDeveloper\Commons\Helpers;
 
-use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
-
 /**
  * Class SlugHelper
  *

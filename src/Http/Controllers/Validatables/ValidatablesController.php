@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Validatables;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Validatables\ValidatablesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ValidatablesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Validatables;
-use NextDeveloper\Commons\Services\ValidatablesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Validatables\ValidatablesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Validatables\ValidatablesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\ValidatablesService;
+
 class ValidatablesController extends AbstractController
 {
     private $model = Validatables::class;

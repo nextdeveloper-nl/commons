@@ -49,9 +49,9 @@ class AbstractAction implements ShouldQueue
      */
     private $accountId;
 
-    public function __construct($params = null, $previous = null)
+    public function __construct($params = null, $previous = null, $runAsObjectOwner = false)
     {
-        $this->createAction($previous);
+        $this->createAction($previous, $runAsObjectOwner);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
         if ($params && property_exists($this, 'PARAMS')) {
@@ -74,8 +74,13 @@ class AbstractAction implements ShouldQueue
 
         if (!ActionsHelper::saveInDb()) return;
 
-        $this->userId = UserHelper::me()->id;
-        $this->accountId = UserHelper::currentAccount()->id;
+        if($runAsObjectOwner) {
+            $this->userId = $this->model->iam_user_id;
+            $this->accountId = $this->model->iam_account_id;
+        } else {
+            $this->userId = UserHelper::me()->id;
+            $this->accountId = UserHelper::currentAccount()->id;
+        }
         $this->params = $params;
         $this->previous = $previous;
 
@@ -118,7 +123,7 @@ class AbstractAction implements ShouldQueue
         return $this->action->uuid;
     }
 
-    private function createAction($previous = null)
+    private function createAction($previous = null, $runAsObjectOwner = false)
     {
         if (!ActionsHelper::saveInDb()) return;
 
@@ -128,6 +133,11 @@ class AbstractAction implements ShouldQueue
         if($previous) {
             UserHelper::setUserById($previous->getUserId());
             UserHelper::setCurrentAccountById($previous->getAccountId());
+        }
+
+        if($runAsObjectOwner) {
+            $this->userId = $this->model->iam_user_id;
+            $this->accountId = $this->model->iam_account_id;
         }
 
         $this->action = Actions::create([
@@ -145,6 +155,9 @@ class AbstractAction implements ShouldQueue
 
     public function getUserId()
     {
+        if($this->userId)
+            return $this->userId;
+
         if (UserHelper::me()) {
             return UserHelper::me()->id;
         }
@@ -164,6 +177,9 @@ class AbstractAction implements ShouldQueue
 
     public function getAccountId()
     {
+        if($this->accountId)
+            return $this->accountId;
+
         if (UserHelper::me()) {
             return UserHelper::currentAccount()->id;
         }

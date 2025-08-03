@@ -11,8 +11,6 @@
 namespace  NextDeveloper\Commons\Exceptions;
 
 
-use NextDeveloper\Commons\Http\Traits\Responsable;
-
 /**
  * Class ModelNotFoundException
  * @package  NextDeveloper\Commons\Exceptions

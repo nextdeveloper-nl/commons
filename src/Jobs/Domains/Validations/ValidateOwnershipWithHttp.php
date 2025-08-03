@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Jobs\Domains\Validations;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\Models\Domains;
-use Illuminate\Http\Request;
 
 /**
  * This action validates the domain by using http(s) protocol. It will check if the domain is ownership by
@@ -18,7 +17,7 @@ class ValidateOwnershipWithHttp extends AbstractAction
      * @todo: Write comments
      *
      * @param Domains $domain
-     * 
+     *
      */
     public function __construct(Domains $domain)
     {

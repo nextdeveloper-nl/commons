@@ -2,14 +2,13 @@
 
 namespace NextDeveloper\Commons\Tests\Database\Models;
 
-use Tests\TestCase;
 use GuzzleHttp\Client;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Database\Filters\CategoryQueryFilter;
-use NextDeveloper\Commons\Services\AbstractServices\AbstractCategoryService;
+use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
+use NextDeveloper\Commons\Database\Filters\CategoryQueryFilter;
+use NextDeveloper\Commons\Services\AbstractServices\AbstractCategoryService;
 
 trait CategoryTestTraits
 {

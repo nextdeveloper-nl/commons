@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Meta;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Meta\MetaUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\MetaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Meta;
-use NextDeveloper\Commons\Services\MetaService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Meta\MetaCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Meta\MetaUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\MetaService;
+
 class MetaController extends AbstractController
 {
     private $model = Meta::class;

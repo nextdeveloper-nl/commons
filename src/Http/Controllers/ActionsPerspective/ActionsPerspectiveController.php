@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\ActionsPerspective;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\ActionsPerspective\ActionsPerspectiveUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\ActionsPerspectiveQueryFilter;
 use NextDeveloper\Commons\Database\Models\ActionsPerspective;
-use NextDeveloper\Commons\Services\ActionsPerspectiveService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\ActionsPerspective\ActionsPerspectiveCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\ActionsPerspective\ActionsPerspectiveUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\ActionsPerspectiveService;
+
 class ActionsPerspectiveController extends AbstractController
 {
     private $model = ActionsPerspective::class;

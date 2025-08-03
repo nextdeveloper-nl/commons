@@ -2,10 +2,9 @@
 
 namespace NextDeveloper\Commons\Middlewares\Localization;
 
+use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use NextDeveloper\IAM\Helpers\UserHelper;
-use Closure;
 
 class SetLocale
 {

@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Languages;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Languages\LanguagesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\LanguagesQueryFilter;
 use NextDeveloper\Commons\Database\Models\Languages;
-use NextDeveloper\Commons\Services\LanguagesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Languages\LanguagesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Languages\LanguagesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\LanguagesService;
+
 class LanguagesController extends AbstractController
 {
     private $model = Languages::class;

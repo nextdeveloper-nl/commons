@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\Domains;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\Domains\DomainsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\DomainsQueryFilter;
 use NextDeveloper\Commons\Database\Models\Domains;
-use NextDeveloper\Commons\Services\DomainsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\Domains\DomainsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\Domains\DomainsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\DomainsService;
+
 class DomainsController extends AbstractController
 {
     private $model = Domains::class;

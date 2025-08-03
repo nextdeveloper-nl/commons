@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Taggables;
 use NextDeveloper\Commons\Helpers\TagHelper;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractTaggablesTransformer;
 
 /**

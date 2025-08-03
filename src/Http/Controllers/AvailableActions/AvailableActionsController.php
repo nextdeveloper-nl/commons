@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\AvailableActions;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\AvailableActions\AvailableActionsUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\AvailableActionsQueryFilter;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\Commons\Services\AvailableActionsService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\AvailableActions\AvailableActionsCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\AvailableActions\AvailableActionsUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\AvailableActionsService;
+
 class AvailableActionsController extends AbstractController
 {
     private $model = AvailableActions::class;

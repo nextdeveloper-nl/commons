@@ -3,14 +3,16 @@
 namespace NextDeveloper\Commons\Http\Controllers\States;
 
 use Illuminate\Http\Request;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
-use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\States\StatesUpdateRequest;
 use NextDeveloper\Commons\Database\Filters\StatesQueryFilter;
 use NextDeveloper\Commons\Database\Models\States;
-use NextDeveloper\Commons\Services\StatesService;
+use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Requests\States\StatesCreateRequest;
-use NextDeveloper\Commons\Http\Traits\Tags;use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Requests\States\StatesUpdateRequest;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
+use NextDeveloper\Commons\Http\Traits\Addresses;
+use NextDeveloper\Commons\Http\Traits\Tags;
+use NextDeveloper\Commons\Services\StatesService;
+
 class StatesController extends AbstractController
 {
     private $model = States::class;
