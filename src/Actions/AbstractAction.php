@@ -49,9 +49,9 @@ class AbstractAction implements ShouldQueue
      */
     private $accountId;
 
-    public function __construct($params = null, $previous = null, $runAsObjectOwner = false)
+    public function __construct($params = null, $previous = null)
     {
-        $this->createAction($previous, $runAsObjectOwner);
+        $this->createAction($previous);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
         if ($params && property_exists($this, 'PARAMS')) {
@@ -123,7 +123,7 @@ class AbstractAction implements ShouldQueue
         return $this->action->uuid;
     }
 
-    private function createAction($previous = null, $runAsObjectOwner = false)
+    private function createAction($previous = null)
     {
         if (!ActionsHelper::saveInDb()) return;
 
@@ -133,11 +133,6 @@ class AbstractAction implements ShouldQueue
         if($previous) {
             UserHelper::setUserById($previous->getUserId());
             UserHelper::setCurrentAccountById($previous->getAccountId());
-        }
-
-        if($runAsObjectOwner) {
-            $this->userId = $this->model->iam_user_id;
-            $this->accountId = $this->model->iam_account_id;
         }
 
         $this->action = Actions::create([
@@ -155,15 +150,8 @@ class AbstractAction implements ShouldQueue
 
     public function getUserId()
     {
-        if($this->userId)
-            return $this->userId;
-
         if (UserHelper::me()) {
             return UserHelper::me()->id;
-        }
-
-        if (property_exists($this->model, 'iam_user_id')) {
-            return $this->model->iam_user_id;
         }
 
         if ($this->action) {
@@ -172,26 +160,27 @@ class AbstractAction implements ShouldQueue
             }
         }
 
+        if (property_exists($this->model, 'iam_user_id')) {
+            return $this->model->iam_user_id;
+        }
+
         return null;
     }
 
     public function getAccountId()
     {
-        if($this->accountId)
-            return $this->accountId;
-
         if (UserHelper::me()) {
             return UserHelper::currentAccount()->id;
-        }
-
-        if (property_exists($this->model, 'iam_account_id')) {
-            return $this->model->iam_account_id;
         }
 
         if ($this->action) {
             if ($this->action->iam_account_id) {
                 return $this->model->iam_account_id;
             }
+        }
+
+        if (property_exists($this->model, 'iam_account_id')) {
+            return $this->model->iam_account_id;
         }
 
         return null;
