@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Database\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
+use NextDeveloper\Commons\Database\Observers\TagsObserver;
 use NextDeveloper\Commons\Database\Observers\ViewTagsObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\HasStates;
@@ -22,7 +23,7 @@ class ViewTags extends Model
 
     public $timestamps = false;
 
-    protected $table = 'common_view_tags';
+    protected $table = 'common_tags';
 
 
     /**
@@ -88,7 +89,7 @@ class ViewTags extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(ViewTagsObserver::class);
+        parent::observe(TagsObserver::class);
 
         self::registerScopes();
     }
