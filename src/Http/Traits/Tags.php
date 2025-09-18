@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\Commons\Http\Traits;
 
-use NextDeveloper\Commons\Database\Models\ViewTags;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsAttachRequest;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Services\TaggablesService;
@@ -16,14 +15,13 @@ trait Tags
      * @return mixed|null
      */
     public function tags($objectId) {
-        $obj = app($this->model)->where('uuid', $objectId)->first();
+        $obj = app($this->model)->where('uuid', $objectId)->first()->toArray();
 
-        $tags = ViewTags::where([
-            'object_type'   =>  $this->model,
-            'object_id'     =>  $obj->id
-        ])->get();
+        if(!in_array('tags', array_keys($obj))) {
+            $obj['tags'] = [];
+        }
 
-        return ResponsableFactory::makeResponse($this, $tags);
+        return ResponsableFactory::makeResponse($this, $obj['tags']);
     }
 
     /**
@@ -33,7 +31,7 @@ trait Tags
      * @param TagsAttachRequest $request
      * @return void
      */
-    public function saveTags($objectId, TagsAttachRequest $request) {
+    public function tag($objectId, TagsAttachRequest $request) {
         $validRequest = $request->validated();
         $tags = $validRequest['tags'];
 
