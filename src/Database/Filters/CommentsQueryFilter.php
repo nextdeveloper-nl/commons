@@ -63,7 +63,7 @@ class CommentsQueryFilter extends AbstractQueryFilter
 
         $value = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
 
-        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+        return $this->builder->where('object_type', '=', $value);
     }
 
         //  This is an alias function of objectType
