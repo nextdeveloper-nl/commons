@@ -63,6 +63,7 @@ class AbstractCommentsTransformer extends AbstractTransformer
                 'iam_user_id' => $iamUserId ? $iamUserId->uuid : null,
                 'object_id' => $model->object_id,
                 'object_type' => $model->object_type,
+                'object_uuid' => $model->object_uuid,
                 'parent_id' => $parentId ? $parentId->uuid : null,
                 'tags' => $model->tags,
                 'created_at' => $model->created_at,

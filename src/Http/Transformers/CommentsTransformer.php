@@ -24,15 +24,18 @@ class CommentsTransformer extends AbstractCommentsTransformer {
             CacheHelper::getKey('Comments', $model->uuid, 'Transformed')
         );
 
-        if($transformed)
-            return $transformed;
+//        if($transformed)
+//            return $transformed;
 
         $transformed = parent::transform($model);
 
         $objectType = $transformed['object_type'];
         $objectType = explode('\\', $objectType);
 
-        $transformed['object_type'] = $objectType[0] . '\\' . $objectType[1] . '\\' . $objectType[3];
+        $transformed['object_id'] = $transformed['object_uuid'];
+        $transformed['object_type'] = $objectType[0] . '\\' . $objectType[1] . '\\' . $objectType[4];
+
+        unset($transformed['object_uuid']);
 
         Cache::set(
             CacheHelper::getKey('Comments', $model->uuid, 'Transformed'),

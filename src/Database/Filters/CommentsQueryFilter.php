@@ -42,9 +42,28 @@ class CommentsQueryFilter extends AbstractQueryFilter
         return $this->builder->where('body', 'ilike', '%' . $value . '%');
     }
 
+    public function object_id($value)
+    {
+        return $this->builder->where('object_uuid', '=', $value);
+    }
+
+    public function objectId($value)
+    {
+        return $this->object_id($value);
+    }
+
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+        $exploded = explode('\\', $value);
+
+        if(count($exploded) != 3) {
+            //  We need to search by suffix
+            throw new \Exception('Invalid object type');
+        }
+
+        $value = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
+
+        return $this->builder->where('object_type', '=', $value);
     }
 
         //  This is an alias function of objectType
