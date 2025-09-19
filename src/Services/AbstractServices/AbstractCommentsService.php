@@ -74,6 +74,8 @@ class AbstractCommentsService
             );
         }
 
+        dd($model->toRawSql(), $filter->filters());
+
         return $model->get();
     }
 
