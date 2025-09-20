@@ -16,7 +16,7 @@ return [
         'domains' => [
             'allow_non_fqdn' => env('ALLOW_NON_FQDN', false),
         ],
-        'system_user_email'   =>  'leo@plusclouds.com'
+        'system_user_email'   =>  env('SYSTEM_USER_EMAIL', 'leo@plusclouds.com'),
     ],
 
     /**
