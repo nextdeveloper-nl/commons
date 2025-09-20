@@ -2,7 +2,10 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use NextDeveloper\Commons\Database\Filters\CommentsQueryFilter;
+use NextDeveloper\Commons\Database\Models\Comments;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommentsService;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
@@ -16,6 +19,20 @@ class CommentsService extends AbstractCommentsService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    public static function get(CommentsQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        $object = request()->get('objectType');
+
+        $object = explode('\\', $object);
+        $object = $object[0] . '\\' . $object[1] . '\\Database\\Models\\' . $object[2];
+
+        $comments = Comments::withoutGlobalScope(AuthorizationScope::class)
+            ->where('object_type', $object)
+            ->where('object_uuid', request()->get('objectId'))
+            ->paginate();
+
+        return $comments;
+    }
 
     public static function create(array $data)
     {
