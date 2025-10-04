@@ -29,6 +29,7 @@ class CommentsService extends AbstractCommentsService
         $comments = Comments::withoutGlobalScope(AuthorizationScope::class)
             ->where('object_type', $object)
             ->where('object_uuid', request()->get('objectId'))
+            ->orderByDesc('created_at')
             ->paginate();
 
         return $comments;
