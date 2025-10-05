@@ -54,14 +54,11 @@ class AbstractKeywordsTransformer extends AbstractTransformer
      */
     public function transform(Keywords $model)
     {
-
+            
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
             'name'  =>  $model->name,
-            'created_at'  =>  $model->created_at,
-            'updated_at'  =>  $model->updated_at,
-            'deleted_at'  =>  $model->deleted_at,
             ]
         );
     }
@@ -150,5 +147,6 @@ class AbstractKeywordsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

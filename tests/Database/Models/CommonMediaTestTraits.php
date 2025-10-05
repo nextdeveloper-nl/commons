@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use NextDeveloper\Commons\Database\Filters\CommonMediaQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonMediaService;
+use Tests\TestCase;
 
 trait CommonMediaTestTraits
 {
@@ -693,4 +694,5 @@ trait CommonMediaTestTraits
         $this->assertTrue(true);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

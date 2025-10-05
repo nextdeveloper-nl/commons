@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use NextDeveloper\Commons\Database\Filters\CommonCommentQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonCommentService;
+use Tests\TestCase;
 
 trait CommonCommentTestTraits
 {
@@ -553,4 +554,5 @@ trait CommonCommentTestTraits
         $this->assertTrue(true);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

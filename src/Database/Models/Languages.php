@@ -8,6 +8,9 @@ use NextDeveloper\Commons\Database\Observers\LanguagesObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Languages model.
@@ -28,14 +31,9 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Languages extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = false;
-
-
-
 
     protected $table = 'common_languages';
 
@@ -142,6 +140,7 @@ class Languages extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

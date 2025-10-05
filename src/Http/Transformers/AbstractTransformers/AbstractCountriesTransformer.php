@@ -54,7 +54,7 @@ class AbstractCountriesTransformer extends AbstractTransformer
      */
     public function transform(Countries $model)
     {
-
+            
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -157,6 +157,7 @@ class AbstractCountriesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

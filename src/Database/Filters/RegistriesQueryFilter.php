@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
 
 
 /**
@@ -16,12 +17,14 @@ class RegistriesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function key($value)
     {
         return $this->builder->where('key', 'ilike', '%' . $value . '%');
     }
 
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 }

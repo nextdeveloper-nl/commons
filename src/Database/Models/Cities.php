@@ -8,6 +8,9 @@ use NextDeveloper\Commons\Database\Observers\CitiesObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Cities model.
@@ -26,14 +29,9 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Cities extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = false;
-
-
-
 
     protected $table = 'common_cities';
 
@@ -141,12 +139,13 @@ class Cities extends Model
         }
     }
 
-    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Accounts::class);
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

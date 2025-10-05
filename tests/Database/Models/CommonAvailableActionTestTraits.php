@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use NextDeveloper\Commons\Database\Filters\CommonAvailableActionQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonAvailableActionService;
+use Tests\TestCase;
 
 trait CommonAvailableActionTestTraits
 {
@@ -613,4 +614,5 @@ trait CommonAvailableActionTestTraits
         $this->assertTrue(true);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -115,7 +115,12 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_votes:read',
             '!common_votes:create',
             '!common_votes:update',
-            '!common_votes:delete'
+            '!common_votes:delete',
+
+            'common_task_schedulers:read',
+            'common_task_schedulers:create',
+            'common_task_schedulers:update',
+            'common_task_schedulers:delete',
         ];
     }
 

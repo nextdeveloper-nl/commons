@@ -9,6 +9,9 @@ use NextDeveloper\Commons\Database\Observers\CategoriesObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Categories model.
@@ -30,15 +33,10 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Categories extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'common_categories';
 
@@ -151,12 +149,18 @@ class Categories extends Model
         }
     }
 
-    public function products() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function categories() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(\NextDeveloper\Marketplace\Database\Models\Products::class);
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Categories::class);
     }
-
+    
+    public function domains() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Domains::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

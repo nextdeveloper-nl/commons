@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Http\Transformers;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\TaskSchedulers;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractTaskSchedulersTransformer;
@@ -27,10 +28,22 @@ class TaskSchedulersTransformer extends AbstractTaskSchedulersTransformer
         );
 
         if($transformed) {
-            return $transformed;
+            //return $transformed;
         }
 
         $transformed = parent::transform($model);
+
+        $object = $model->object_type;
+
+        if($object) {
+            $object = app($object)->where('id', $model->object_id)->first();
+
+            $transformed['object_type'] = Str::replace('\Database\Models', '', get_class($object));
+            $transformed['object_id'] = $object->uuid;
+        } else {
+            $transformed['object_type'] = null;
+            $transformed['object_id'] = null;
+        }
 
         Cache::set(
             CacheHelper::getKey('TaskSchedulers', $model->uuid, 'Transformed'),

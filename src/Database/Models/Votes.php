@@ -9,6 +9,9 @@ use NextDeveloper\Commons\Database\Observers\VotesObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Votes model.
@@ -26,15 +29,10 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Votes extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
     use SoftDeletes;
 
-
     public $timestamps = true;
-
-
-
 
     protected $table = 'common_votes';
 
@@ -138,7 +136,13 @@ class Votes extends Model
         }
     }
 
+    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

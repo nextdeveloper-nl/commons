@@ -92,6 +92,8 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     public function allowedOperations() :array
     {
         return [
+            'common_available_actions:read',
+
             'common_action_logs:read',
             'common_action_logs:create',
             'common_action_logs:update',
@@ -159,6 +161,11 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_external_services:update',
             'common_external_services:delete',
             'common_external_services:read',
+
+            'common_task_schedulers:read',
+            'common_task_schedulers:create',
+            'common_task_schedulers:update',
+            'common_task_schedulers:delete',
         ];
     }
 
