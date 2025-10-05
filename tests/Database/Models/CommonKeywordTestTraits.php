@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use NextDeveloper\Commons\Database\Filters\CommonKeywordQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonKeywordService;
+use Tests\TestCase;
 
 trait CommonKeywordTestTraits
 {
@@ -58,7 +59,7 @@ trait CommonKeywordTestTraits
             'POST', '/commons/commonkeyword', [
             'form_params'   =>  [
                 'name'  =>  'a',
-                            ],
+                ],
                 ['http_errors' => false]
             ]
         );
@@ -358,179 +359,6 @@ trait CommonKeywordTestTraits
 
         $this->assertTrue(true);
     }
-
-    public function test_commonkeyword_event_created_at_filter_start()
-    {
-        try {
-            $request = new Request(
-                [
-                'created_atStart'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_updated_at_filter_start()
-    {
-        try {
-            $request = new Request(
-                [
-                'updated_atStart'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_deleted_at_filter_start()
-    {
-        try {
-            $request = new Request(
-                [
-                'deleted_atStart'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_created_at_filter_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'created_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_updated_at_filter_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'updated_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_deleted_at_filter_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'deleted_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_created_at_filter_start_and_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'created_atStart'  =>  now(),
-                'created_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_updated_at_filter_start_and_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'updated_atStart'  =>  now(),
-                'updated_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commonkeyword_event_deleted_at_filter_start_and_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'deleted_atStart'  =>  now(),
-                'deleted_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonKeywordQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonKeyword::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

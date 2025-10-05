@@ -53,7 +53,7 @@ class AbstractMetaTransformer extends AbstractTransformer
      */
     public function transform(Meta $model)
     {
-
+            
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -149,6 +149,7 @@ class AbstractMetaTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 

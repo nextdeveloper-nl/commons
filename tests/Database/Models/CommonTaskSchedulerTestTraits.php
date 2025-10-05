@@ -9,6 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use League\Fractal\Resource\Collection;
 use NextDeveloper\Commons\Database\Filters\CommonTaskSchedulerQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractCommonTaskSchedulerService;
+use Tests\TestCase;
 
 trait CommonTaskSchedulerTestTraits
 {
@@ -59,11 +60,12 @@ trait CommonTaskSchedulerTestTraits
             'form_params'   =>  [
                 'name'  =>  'a',
                 'description'  =>  'a',
-                'object_name'  =>  'a',
-                'output'  =>  'a',
+                'schedule_type'  =>  'a',
+                'object_type'  =>  'a',
+                'day_of_month'  =>  '1',
+                'day_of_week'  =>  '1',
                     'next_run'  =>  now(),
-                            'last_run'  =>  now(),
-                ],
+                        ],
                 ['http_errors' => false]
             ]
         );
@@ -383,12 +385,12 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_object_name_filter()
+    public function test_commontaskscheduler_event_schedule_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'object_name'  =>  'a'
+                'schedule_type'  =>  'a'
                 ]
             );
 
@@ -402,12 +404,50 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_output_filter()
+    public function test_commontaskscheduler_event_object_type_filter()
     {
         try {
             $request = new Request(
                 [
-                'output'  =>  'a'
+                'object_type'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_day_of_month_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'day_of_month'  =>  '1'
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_day_of_week_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'day_of_week'  =>  '1'
                 ]
             );
 
@@ -478,25 +518,6 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_last_run_filter_start()
-    {
-        try {
-            $request = new Request(
-                [
-                'last_runStart'  =>  now()
-                ]
-            );
-
-            $filter = new CommonTaskSchedulerQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
     public function test_commontaskscheduler_event_next_run_filter_end()
     {
         try {
@@ -541,25 +562,6 @@ trait CommonTaskSchedulerTestTraits
             $request = new Request(
                 [
                 'updated_atEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonTaskSchedulerQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
-
-    public function test_commontaskscheduler_event_last_run_filter_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'last_runEnd'  =>  now()
                 ]
             );
 
@@ -632,25 +634,6 @@ trait CommonTaskSchedulerTestTraits
 
         $this->assertTrue(true);
     }
-
-    public function test_commontaskscheduler_event_last_run_filter_start_and_end()
-    {
-        try {
-            $request = new Request(
-                [
-                'last_runStart'  =>  now(),
-                'last_runEnd'  =>  now()
-                ]
-            );
-
-            $filter = new CommonTaskSchedulerQueryFilter($request);
-
-            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
-        } catch (\Exception $e) {
-            $this->assertFalse(false, $e->getMessage());
-        }
-
-        $this->assertTrue(true);
-    }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

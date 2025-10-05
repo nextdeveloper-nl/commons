@@ -9,6 +9,9 @@ use NextDeveloper\Commons\Database\Observers\KeywordsObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Keywords model.
@@ -17,21 +20,12 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  * @property integer $id
  * @property string $uuid
  * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
  */
 class Keywords extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
-    use SoftDeletes;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
-
-    public $timestamps = true;
-
-
-
+    public $timestamps = false;
 
     protected $table = 'common_keywords';
 
@@ -67,9 +61,6 @@ class Keywords extends Model
     protected $casts = [
     'id' => 'integer',
     'name' => 'string',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'deleted_at' => 'datetime',
     ];
 
     /**
@@ -78,9 +69,7 @@ class Keywords extends Model
      @var array
      */
     protected $dates = [
-    'created_at',
-    'updated_at',
-    'deleted_at',
+
     ];
 
     /**
@@ -130,12 +119,8 @@ class Keywords extends Model
         }
     }
 
-    public function domainsKeywords() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\DomainsKeywords::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

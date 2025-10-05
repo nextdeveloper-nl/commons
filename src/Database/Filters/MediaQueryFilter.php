@@ -3,7 +3,8 @@
 namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-
+use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
+        
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -36,7 +37,7 @@ class MediaQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
@@ -47,7 +48,7 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-
+        
     public function collectionName($value)
     {
         return $this->builder->where('collection_name', 'ilike', '%' . $value . '%');
@@ -58,12 +59,13 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->collectionName($value);
     }
-
+        
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
+        
     public function cdnUrl($value)
     {
         return $this->builder->where('cdn_url', 'ilike', '%' . $value . '%');
@@ -74,17 +76,18 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->cdnUrl($value);
     }
-
+        
     public function fileName($value)
     {
         return $this->builder->where('file_name', 'ilike', '%' . $value . '%');
     }
+
         //  This is an alias function of fileName
     public function file_name($value)
     {
         return $this->fileName($value);
     }
-
+        
     public function mimeType($value)
     {
         return $this->builder->where('mime_type', 'ilike', '%' . $value . '%');
@@ -95,12 +98,13 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->mimeType($value);
     }
-
+        
     public function disk($value)
     {
         return $this->builder->where('disk', 'ilike', '%' . $value . '%');
     }
 
+    
     public function size($value)
     {
         $operator = substr($value, 0, 1);
@@ -114,6 +118,7 @@ class MediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('size', $operator, $value);
     }
 
+    
     public function orderColumn($value)
     {
         $operator = substr($value, 0, 1);
@@ -132,7 +137,7 @@ class MediaQueryFilter extends AbstractQueryFilter
     {
         return $this->orderColumn($value);
     }
-
+    
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -141,6 +146,18 @@ class MediaQueryFilter extends AbstractQueryFilter
     public function createdAtEnd($date)
     {
         return $this->builder->where('created_at', '<=', $date);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_start($value)
+    {
+        return $this->createdAtStart($value);
+    }
+
+    //  This is an alias function of createdAt
+    public function created_at_end($value)
+    {
+        return $this->createdAtEnd($value);
     }
 
     public function updatedAtStart($date)
@@ -153,6 +170,18 @@ class MediaQueryFilter extends AbstractQueryFilter
         return $this->builder->where('updated_at', '<=', $date);
     }
 
+    //  This is an alias function of updatedAt
+    public function updated_at_start($value)
+    {
+        return $this->updatedAtStart($value);
+    }
+
+    //  This is an alias function of updatedAt
+    public function updated_at_end($value)
+    {
+        return $this->updatedAtEnd($value);
+    }
+
     public function deletedAtStart($date)
     {
         return $this->builder->where('deleted_at', '>=', $date);
@@ -161,6 +190,18 @@ class MediaQueryFilter extends AbstractQueryFilter
     public function deletedAtEnd($date)
     {
         return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
     }
 
     public function iamAccountId($value)
@@ -172,6 +213,7 @@ class MediaQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -181,11 +223,13 @@ class MediaQueryFilter extends AbstractQueryFilter
         }
     }
 
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public function objectId($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
     }
+
 
 }

@@ -8,6 +8,9 @@ use NextDeveloper\Commons\Database\Observers\CountriesObserver;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\UuidId;
+use NextDeveloper\Commons\Database\Traits\HasStates;
+use Illuminate\Notifications\Notifiable;
+use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
  * Countries model.
@@ -29,14 +32,9 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
  */
 class Countries extends Model
 {
-    use Filterable, CleanCache, Taggable;
-    use UuidId;
-
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
     public $timestamps = false;
-
-
-
 
     protected $table = 'common_countries';
 
@@ -149,9 +147,29 @@ class Countries extends Model
         }
     }
 
-    public function paymentGateways() : \Illuminate\Database\Eloquent\Relations\HasMany
+    public function currencies() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\NextDeveloper\Accounting\Database\Models\PaymentGateways::class);
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Currencies::class);
+    }
+
+    public function addresses() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Addresses::class);
+    }
+
+    public function exchangeRates() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\ExchangeRates::class);
+    }
+
+    public function cities() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\Cities::class);
+    }
+
+    public function phoneNumbers() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Commons\Database\Models\PhoneNumbers::class);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
@@ -160,5 +178,6 @@ class Countries extends Model
     {
         return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\Domains::class);
     }
+
 
 }
