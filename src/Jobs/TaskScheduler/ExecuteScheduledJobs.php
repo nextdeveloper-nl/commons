@@ -38,7 +38,10 @@ class ExecuteScheduledJobs implements ShouldQueue
 
         $now = Carbon::now($defaultTimezone)->format('H:i:00P');
 
+        //  Note that ScheduledTasks are a view not a table!!!!
         $tasks = ScheduledTasks::withoutGlobalScopes()
+            ->where('time_of_day', $now)
+            ->orWhereNull('time_of_day')
             ->get();
 
         foreach ($tasks as $task) {
