@@ -17,7 +17,7 @@ class TaskSchedulersCreateRequest extends AbstractFormRequest
             'description' => 'nullable|string',
             'day_of_month' => 'nullable|integer',
             'day_of_week' => 'nullable|integer',
-            'time_of_day' => 'required',
+            'time_of_day' => 'nullable',
             'timezone' => 'nullable|string',
             'schedule_type' => 'string',
             'next_run' => 'nullable|date',

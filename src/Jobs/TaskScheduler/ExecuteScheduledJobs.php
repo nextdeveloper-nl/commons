@@ -40,6 +40,7 @@ class ExecuteScheduledJobs implements ShouldQueue
 
         $tasks = ScheduledTasks::withoutGlobalScopes()
             ->where('time_of_day', $now)
+            ->orWhereNull('time_of_day')
             ->get();
 
         foreach ($tasks as $task) {
