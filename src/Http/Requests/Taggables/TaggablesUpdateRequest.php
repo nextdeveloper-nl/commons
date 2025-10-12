@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Taggables;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class TaggablesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class TaggablesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['common_tags_id' => "string", 'object_id' => "string", 'object_type' => "string"])]
     public function rules()
     {
         return [

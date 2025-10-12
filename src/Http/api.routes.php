@@ -548,6 +548,27 @@ Route::prefix('commons')->group(
             }
         );
 
+        Route::prefix('action-checkpoints')->group(
+            function () {
+                Route::get('/', 'ActionCheckpoints\ActionCheckpointsController@index');
+                Route::get('/actions', 'ActionCheckpoints\ActionCheckpointsController@getActions');
+
+                Route::get('{common_action_checkpoints}/tags ', 'ActionCheckpoints\ActionCheckpointsController@tags');
+                Route::post('{common_action_checkpoints}/tags ', 'ActionCheckpoints\ActionCheckpointsController@saveTags');
+                Route::get('{common_action_checkpoints}/addresses ', 'ActionCheckpoints\ActionCheckpointsController@addresses');
+                Route::post('{common_action_checkpoints}/addresses ', 'ActionCheckpoints\ActionCheckpointsController@saveAddresses');
+
+                Route::get('/{common_action_checkpoints}/{subObjects}', 'ActionCheckpoints\ActionCheckpointsController@relatedObjects');
+                Route::get('/{common_action_checkpoints}', 'ActionCheckpoints\ActionCheckpointsController@show');
+
+                Route::post('/', 'ActionCheckpoints\ActionCheckpointsController@store');
+                Route::post('/{common_action_checkpoints}/do/{action}', 'ActionCheckpoints\ActionCheckpointsController@doAction');
+
+                Route::patch('/{common_action_checkpoints}', 'ActionCheckpoints\ActionCheckpointsController@update');
+                Route::delete('/{common_action_checkpoints}', 'ActionCheckpoints\ActionCheckpointsController@destroy');
+            }
+        );
+
         Route::prefix('actions-perspective')->group(
             function () {
                 Route::get('/', 'ActionsPerspective\ActionsPerspectiveController@index');
@@ -620,6 +641,35 @@ Route::prefix('commons')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::post('/media/upload', 'Media\FileUploadController@upload');
 
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
@@ -634,6 +684,7 @@ Route::prefix('commons')->group(
         );
     }
 );
+
 
 
 

@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Services;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\CDN\Publitio;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Media;
@@ -90,6 +91,7 @@ class MediaService extends AbstractMediaService
      * @param string $file
      * @return array
      */
+    #[ArrayShape(['cdn_url' => "string", 'disk' => "string", 'size' => "int", 'mime_type' => "false|string", 'custom_properties' => "array"])]
     protected static function saveToLocalStorage(string $file): array
     {
         $localDisk      = config('commons.local.disk');

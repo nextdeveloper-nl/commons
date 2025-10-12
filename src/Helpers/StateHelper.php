@@ -74,4 +74,56 @@ class StateHelper
             ->where('object_id', $obj->id)
             ->delete();
     }
+
+
+    public static function getRunningAction($obj, $action)
+    {
+        $runningActions = self::getState($obj, 'running_actions');
+        if($runningActions) {
+            $value = json_decode($runningActions->value, true);
+            return $value[$action->action] ?? null;
+        }
+    }
+
+    public static function setRunningActions($obj, $action, $checkpoint = null)
+    {
+        $runningActions = self::getState($obj, 'running_actions');
+
+        $value = $runningActions->value ? json_decode($runningActions->value, true) : [];
+
+        if($runningActions) {
+            $value[$action->action] = [
+                'checkpoint' => $checkpoint,
+                'id'    =>  $action->id,
+            ];
+
+            $runningActions->update([
+                'value' => json_encode($value)
+            ]);
+
+            return $runningActions->fresh();
+        } else {
+            self::setState($obj, 'running_actions', json_encode([
+                $action->action => [
+                    'checkpoint' => $checkpoint,
+                    'id'    =>  $action->id,
+                ]
+            ]), 'info', 'Running actions updated');
+        }
+    }
+
+    public static function removeRunningAction($obj, $action)
+    {
+        $runningActions = self::getState($obj, 'running_actions');
+
+        $runningAction = json_decode($runningActions->value, true);
+
+        if($runningAction) {
+            unset($runningAction[$action->action]);
+
+            $runningActions->update([
+                'value' => json_encode($runningAction)
+            ]);
+        }
+    }
 }

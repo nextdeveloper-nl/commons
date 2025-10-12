@@ -58,5 +58,4 @@ class ExecuteScheduledJobs implements ShouldQueue
             }
         }
     }
-
 }

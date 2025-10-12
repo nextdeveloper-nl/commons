@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\CountryStates;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class CountryStatesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class CountryStatesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['name' => "string", 'code' => "string", 'latitude' => "string", 'longitude' => "string", 'type' => "string", 'common_country_id' => "string", 'is_active' => "string", 'timezones' => "string"])]
     public function rules()
     {
         return [

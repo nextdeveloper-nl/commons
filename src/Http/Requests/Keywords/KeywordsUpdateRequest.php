@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Keywords;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class KeywordsUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class KeywordsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['name' => "string"])]
     public function rules()
     {
         return [

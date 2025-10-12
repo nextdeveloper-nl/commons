@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\DisposableEmails;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class DisposableEmailsUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class DisposableEmailsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['common_domain_id' => "string"])]
     public function rules()
     {
         return [

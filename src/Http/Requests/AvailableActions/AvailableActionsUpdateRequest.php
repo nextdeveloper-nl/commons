@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\AvailableActions;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class AvailableActionsUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class AvailableActionsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['action' => "string", 'description' => "string", 'class' => "string", 'input' => "string", 'parameters' => "string", 'outputs' => "string", 'name' => "string"])]
     public function rules()
     {
         return [

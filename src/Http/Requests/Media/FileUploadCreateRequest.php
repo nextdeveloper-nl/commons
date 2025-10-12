@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Media;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class FileUploadCreateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class FileUploadCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'collection_name' => "string", 'name' => "string", 'tags' => "string", 'file' => "string"])]
     public function rules()
     {
         return [

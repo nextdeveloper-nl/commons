@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Domainables;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class DomainablesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class DomainablesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_id' => "string", 'object_type' => "string"])]
     public function rules()
     {
         return [

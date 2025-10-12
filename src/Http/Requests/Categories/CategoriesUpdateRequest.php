@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Categories;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class CategoriesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class CategoriesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['slug' => "string", 'name' => "string", 'description' => "string", 'url' => "string", 'is_active' => "string", 'common_domain_id' => "string", 'common_category_id' => "string", 'position' => "string"])]
     public function rules()
     {
         return [

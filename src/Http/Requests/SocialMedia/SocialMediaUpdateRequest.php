@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\SocialMedia;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class SocialMediaUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class SocialMediaUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'profile_url' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [

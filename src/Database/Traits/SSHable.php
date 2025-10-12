@@ -12,6 +12,7 @@
 namespace NextDeveloper\Commons\Database\Traits;
 
 use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\IAAS\Exceptions\CannotConnectWithSshException;
 use phpseclib3\Net\SSH2;
@@ -71,6 +72,7 @@ trait SSHable
         return $response;
     }
 
+    #[ArrayShape(['output' => "string", 'error' => "string"])]
     public function performSSHCommand($command)
     {
         $connection = $this->createSSHConnection();

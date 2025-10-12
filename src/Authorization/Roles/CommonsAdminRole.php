@@ -50,6 +50,12 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_actions:read',
             'common_actions:create',
             'common_actions:update',
+
+            'common_action_checkpoints:read',
+            'common_action_checkpoints:create',
+            'common_action_checkpoints:update',
+            'common_action_checkpoints:delete',
+
             'common_addresses:read',
             'common_addresses:create',
             'common_addresses:update',

@@ -51,6 +51,12 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
+        
+    public function timezone($value)
+    {
+        return $this->builder->where('timezone', 'ilike', '%' . $value . '%');
+    }
+
     
     public function dayOfMonth($value)
     {
@@ -172,6 +178,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }
