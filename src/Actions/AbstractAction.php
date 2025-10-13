@@ -247,6 +247,11 @@ class AbstractAction implements ShouldQueue
 
     public function shouldRunCheckpoint($checkpoint) : bool
     {
+        if(!defined('static::CHECKPOINTS')) {
+            //  Here if the checkpoints are not defined, we are running the action without any checkpoint control.
+            return true;
+        }
+
         $currentCheckpoint = $this->getCheckpoint();
 
         if($currentCheckpoint < $checkpoint) {
