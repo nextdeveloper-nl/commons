@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use Cron\CronExpression;
 use NextDeveloper\Commons\Database\Filters\TaskSchedulersQueryFilter;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractTaskSchedulersService;
 
@@ -48,10 +49,38 @@ class TaskSchedulersService extends AbstractTaskSchedulersService
             $data['common_available_action_id'] = $availableAction->id;
         }
 
-        if(array_key_exists('params', $data)) {
-            $params = json_decode($data['params'], true);
+        if(array_key_exists('day_of_week', $data)) {
+            if($data['day_of_week'] < 0 || $data['day_of_week'] > 6) {
+                unset($data['day_of_week']);
+            }
+        }
 
-            foreach ($params as $param) {
+        if(array_key_exists('day_of_month', $data)) {
+            if($data['day_of_month'] < 1 || $data['day_of_month'] > 31) {
+                unset($data['day_of_month']);
+            }
+        }
+
+        if($data['schedule_type'] == 'cron') {
+            if(!array_key_exists('cron_expression', $data)) {
+                throw new \Exception("When schedule_type is cron, you must provide cron_expression.");
+            }
+
+            unset($data['day_of_month']);
+            unset($data['day_of_week']);
+            unset($data['time_of_day']);
+
+            $cron = new CronExpression($data['cron_expression']);
+            $data['next_run_at'] = $cron->getNextRunDate();
+        }
+
+        if(array_key_exists('params', $data)) {
+            //  This is a fix for Postman. When we are sending arrays, they are being converted to objects.
+            if(!is_array($data['params'])) {
+                $data['params'] = json_decode($data['params'], true);
+            }
+
+            foreach ($data['params'] as $param) {
                 if(array_key_exists('action_name', $param)) {
                     $availableAction = \NextDeveloper\Commons\Database\Models\AvailableActions::where('name', $param['action_name'])
                         ->where('input', $data['object_type'])

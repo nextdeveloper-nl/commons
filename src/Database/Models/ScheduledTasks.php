@@ -24,7 +24,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $day_of_week
  * @property $time_of_day
  * @property string $schedule_type
- * @property \Carbon\Carbon $next_run
+ * @property \Carbon\Carbon $next_run_at
  * @property string $object_type
  * @property integer $object_id
  * @property integer $common_available_action_id
@@ -53,7 +53,7 @@ class ScheduledTasks extends Model
             'day_of_week',
             'time_of_day',
             'schedule_type',
-            'next_run',
+            'next_run_at',
             'object_type',
             'object_id',
             'common_available_action_id',
@@ -86,7 +86,7 @@ class ScheduledTasks extends Model
     'day_of_month' => 'integer',
     'day_of_week' => 'integer',
     'schedule_type' => 'string',
-    'next_run' => 'datetime',
+    'next_run_at' => 'datetime',
     'object_type' => 'string',
     'object_id' => 'integer',
     'common_available_action_id' => 'integer',
@@ -101,7 +101,7 @@ class ScheduledTasks extends Model
      @var array
      */
     protected $dates = [
-    'next_run',
+    'next_run_at',
     'created_at',
     'updated_at',
     ];

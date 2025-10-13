@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,19 +17,19 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function scheduleType($value)
     {
         return $this->builder->where('schedule_type', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->scheduleType($value);
     }
-        
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
@@ -51,13 +51,13 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-        
+
     public function timezone($value)
     {
         return $this->builder->where('timezone', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function dayOfMonth($value)
     {
         $operator = substr($value, 0, 1);
@@ -76,7 +76,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfMonth($value);
     }
-    
+
     public function dayOfWeek($value)
     {
         $operator = substr($value, 0, 1);
@@ -95,15 +95,15 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfWeek($value);
     }
-    
+
     public function nextRunStart($date)
     {
-        return $this->builder->where('next_run', '>=', $date);
+        return $this->builder->where('next_run_at', '>=', $date);
     }
 
     public function nextRunEnd($date)
     {
-        return $this->builder->where('next_run', '<=', $date);
+        return $this->builder->where('next_run_at', '<=', $date);
     }
 
     //  This is an alias function of nextRun
@@ -176,7 +176,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->commonAvailableAction($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
