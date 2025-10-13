@@ -6,14 +6,14 @@ use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
-use NextDeveloper\Commons\Database\Observers\ScheduledTasksObserver;
+use NextDeveloper\Commons\Database\Observers\ScheduledTasksPerspectiveObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
 
 /**
- * ScheduledTasks model.
+ * ScheduledTasksPerspective model.
  *
  * @package  NextDeveloper\Commons\Database\Models
  * @property integer $id
@@ -32,7 +32,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-class ScheduledTasks extends Model
+class ScheduledTasksPerspective extends Model
 {
     use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
 
@@ -126,7 +126,7 @@ class ScheduledTasks extends Model
         parent::boot();
 
         //  We create and add Observer even if we wont use it.
-        parent::observe(ScheduledTasksObserver::class);
+        parent::observe(ScheduledTasksPerspectiveObserver::class);
 
         self::registerScopes();
     }

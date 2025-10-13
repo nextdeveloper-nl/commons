@@ -1,19 +1,19 @@
 <?php
 
-namespace NextDeveloper\Commons\Http\Controllers\ScheduledTasks;
+namespace NextDeveloper\Commons\Http\Controllers\ScheduledTasksPerspective;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Commons\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\Commons\Http\Requests\ScheduledTasks\ScheduledTasksUpdateRequest;
-use NextDeveloper\Commons\Database\Filters\ScheduledTasksQueryFilter;
-use NextDeveloper\Commons\Database\Models\ScheduledTasks;
-use NextDeveloper\Commons\Services\ScheduledTasksService;
-use NextDeveloper\Commons\Http\Requests\ScheduledTasks\ScheduledTasksCreateRequest;
+use NextDeveloper\Commons\Http\Requests\ScheduledTasksPerspective\ScheduledTasksPerspectiveUpdateRequest;
+use NextDeveloper\Commons\Database\Filters\ScheduledTasksPerspectiveQueryFilter;
+use NextDeveloper\Commons\Database\Models\ScheduledTasksPerspective;
+use NextDeveloper\Commons\Services\ScheduledTasksPerspectiveService;
+use NextDeveloper\Commons\Http\Requests\ScheduledTasksPerspective\ScheduledTasksPerspectiveCreateRequest;
 use NextDeveloper\Commons\Http\Traits\Tags as TagsTrait;use NextDeveloper\Commons\Http\Traits\Addresses as AddressesTrait;
-class ScheduledTasksController extends AbstractController
+class ScheduledTasksPerspectiveController extends AbstractController
 {
-    private $model = ScheduledTasks::class;
+    private $model = ScheduledTasksPerspective::class;
 
     use TagsTrait;
     use AddressesTrait;
@@ -23,13 +23,13 @@ class ScheduledTasksController extends AbstractController
      * optional http params:
      * - paginate: If you set paginate parameter, the result will be returned paginated.
      *
-     * @param  ScheduledTasksQueryFilter $filter  An object that builds search query
+     * @param  ScheduledTasksPerspectiveQueryFilter $filter  An object that builds search query
      * @param  Request                   $request Laravel request object, this holds all data about request. Automatically populated.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(ScheduledTasksQueryFilter $filter, Request $request)
+    public function index(ScheduledTasksPerspectiveQueryFilter $filter, Request $request)
     {
-        $data = ScheduledTasksService::get($filter, $request->all());
+        $data = ScheduledTasksPerspectiveService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -41,7 +41,7 @@ class ScheduledTasksController extends AbstractController
      */
     public function getActions()
     {
-        $data = ScheduledTasksService::getActions();
+        $data = ScheduledTasksPerspectiveService::getActions();
 
         return ResponsableFactory::makeResponse($this, $data);
     }
@@ -55,7 +55,7 @@ class ScheduledTasksController extends AbstractController
      */
     public function doAction($objectId, $action)
     {
-        $actionId = ScheduledTasksService::doAction($objectId, $action, request()->all());
+        $actionId = ScheduledTasksPerspectiveService::doAction($objectId, $action, request()->all());
 
         return $this->withArray(
             [
@@ -75,7 +75,7 @@ class ScheduledTasksController extends AbstractController
     {
         //  Here we are not using Laravel Route Model Binding. Please check routeBinding.md file
         //  in NextDeveloper Platform Project
-        $model = ScheduledTasksService::getByRef($ref);
+        $model = ScheduledTasksPerspectiveService::getByRef($ref);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
@@ -92,19 +92,19 @@ class ScheduledTasksController extends AbstractController
      */
     public function relatedObjects($ref, $subObject)
     {
-        $objects = ScheduledTasksService::relatedObjects($ref, $subObject);
+        $objects = ScheduledTasksPerspectiveService::relatedObjects($ref, $subObject);
 
         return ResponsableFactory::makeResponse($this, $objects);
     }
 
     /**
-     * This method created ScheduledTasks object on database.
+     * This method created ScheduledTasksPerspective object on database.
      *
-     * @param  ScheduledTasksCreateRequest $request
+     * @param  ScheduledTasksPerspectiveCreateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function store(ScheduledTasksCreateRequest $request)
+    public function store(ScheduledTasksPerspectiveCreateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -112,20 +112,20 @@ class ScheduledTasksController extends AbstractController
             ];
         }
 
-        $model = ScheduledTasksService::create($request->validated());
+        $model = ScheduledTasksPerspectiveService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates ScheduledTasks object on database.
+     * This method updates ScheduledTasksPerspective object on database.
      *
      * @param  $scheduledTasksId
-     * @param  ScheduledTasksUpdateRequest $request
+     * @param  ScheduledTasksPerspectiveUpdateRequest $request
      * @return mixed|null
      * @throws \NextDeveloper\Commons\Exceptions\CannotCreateModelException
      */
-    public function update($scheduledTasksId, ScheduledTasksUpdateRequest $request)
+    public function update($scheduledTasksId, ScheduledTasksPerspectiveUpdateRequest $request)
     {
         if($request->has('validateOnly') && $request->get('validateOnly') == true) {
             return [
@@ -133,13 +133,13 @@ class ScheduledTasksController extends AbstractController
             ];
         }
 
-        $model = ScheduledTasksService::update($scheduledTasksId, $request->validated());
+        $model = ScheduledTasksPerspectiveService::update($scheduledTasksId, $request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);
     }
 
     /**
-     * This method updates ScheduledTasks object on database.
+     * This method updates ScheduledTasksPerspective object on database.
      *
      * @param  $scheduledTasksId
      * @return mixed|null
@@ -147,7 +147,7 @@ class ScheduledTasksController extends AbstractController
      */
     public function destroy($scheduledTasksId)
     {
-        $model = ScheduledTasksService::delete($scheduledTasksId);
+        $model = ScheduledTasksPerspectiveService::delete($scheduledTasksId);
 
         return $this->noContent();
     }

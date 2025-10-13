@@ -4,16 +4,16 @@ namespace NextDeveloper\Commons\Http\Transformers;
 
 use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
-use NextDeveloper\Commons\Database\Models\ScheduledTasks;
+use NextDeveloper\Commons\Database\Models\ScheduledTasksPerspective;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
-use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractScheduledTasksTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractScheduledTasksPerspectiveTransformer;
 
 /**
- * Class ScheduledTasksTransformer. This class is being used to manipulate the data we are serving to the customer
+ * Class ScheduledTasksPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
  *
  * @package NextDeveloper\Commons\Http\Transformers
  */
-class ScheduledTasksTransformer extends AbstractScheduledTasksTransformer
+class ScheduledTasksPerspectiveTransformer extends AbstractScheduledTasksTransformer
 {
 
     /**

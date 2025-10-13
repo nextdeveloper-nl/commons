@@ -13,7 +13,7 @@ use NextDeveloper\Commons\Actions\AbstractAction;
 use NextDeveloper\Commons\Database\GlobalScopes\LimitScope;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
 use NextDeveloper\Commons\Database\Models\Domains;
-use NextDeveloper\Commons\Database\Models\ScheduledTasks;
+use NextDeveloper\Commons\Database\Models\ScheduledTasksPerspective;
 use NextDeveloper\Commons\Database\Models\TaskSchedulers;
 use NextDeveloper\IAM\Database\Models\Users;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
@@ -101,7 +101,7 @@ class ExecuteScheduledJobs implements ShouldQueue
         //  We will run only tasks that have time_of_day set to current time or null
         //  If time_of_day is null, it means that the task should run every time
         //  when the scheduler is executed.
-        $tasks = ScheduledTasks::withoutGlobalScopes()
+        $tasks = ScheduledTasksPerspective::withoutGlobalScopes()
             ->where('time_of_day', $now)
             ->orWhereNull('time_of_day')
             ->get();

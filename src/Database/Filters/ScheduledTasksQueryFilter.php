@@ -10,7 +10,7 @@ use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
  * This class automatically puts where clause on database so that use can filter
  * data returned from the query.
  */
-class ScheduledTasksQueryFilter extends AbstractQueryFilter
+class ScheduledTasksPerspectiveQueryFilter extends AbstractQueryFilter
 {
 
     /**
