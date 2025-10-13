@@ -42,9 +42,29 @@ class TaskSchedulersService extends AbstractTaskSchedulersService
 
     public static function create($data)
     {
-        $availableAction = \NextDeveloper\Commons\Database\Models\AvailableActions::where('uuid', $data['common_available_action_id'])->first();
+        if(array_key_exists('common_available_action_id', $data)) {
+            $availableAction = \NextDeveloper\Commons\Database\Models\AvailableActions::where('uuid', $data['common_available_action_id'])->first();
 
-        $data['common_available_action_id'] = $availableAction->id;
+            $data['common_available_action_id'] = $availableAction->id;
+        }
+
+        if(array_key_exists('params', $data)) {
+            $params = json_decode($data['params'], true);
+
+            foreach ($params as $param) {
+                if(array_key_exists('action_name', $param)) {
+                    $availableAction = \NextDeveloper\Commons\Database\Models\AvailableActions::where('name', $param['action_name'])
+                        ->where('input', $data['object_type'])
+                        ->first();
+
+                    if($availableAction)
+                        $data['common_available_action_id'] = $availableAction->id;
+                    else
+                        throw new \Exception("The action with name {$param['action_name']} does not exist" .
+                            " for the object type {$data['object_type']}.");
+                }
+            }
+        }
 
         if(array_key_exists('object_type', $data)) {
             if(!array_key_exists('object_id', $data)) {
@@ -63,6 +83,10 @@ class TaskSchedulersService extends AbstractTaskSchedulersService
             } else {
                 throw new \Exception("The object with UUID {$data['object_id']} does not exist.");
             }
+        }
+
+        if(!array_key_exists('common_available_action_id', $data)) {
+            throw new \Exception("You must provide common_available_action_id or params with action_name.");
         }
 
         return parent::create($data);
