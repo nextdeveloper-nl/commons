@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\ExchangeRates;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class ExchangeRatesCreateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class ExchangeRatesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['common_country_id' => "string", 'reference_currency_code' => "string", 'rate' => "string", 'source' => "string", 'local_currency_code' => "string"])]
     public function rules()
     {
         return [

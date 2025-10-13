@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Registries;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class RegistriesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class RegistriesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['key' => "string", 'value' => "string"])]
     public function rules()
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Domains;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class DomainsUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class DomainsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['name' => "string", 'is_local_domain' => "string", 'tags' => "string", 'description' => "string", 'is_tld' => "string"])]
     public function rules()
     {
         return [

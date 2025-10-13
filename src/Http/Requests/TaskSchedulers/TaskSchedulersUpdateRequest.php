@@ -24,6 +24,7 @@ class TaskSchedulersUpdateRequest extends AbstractFormRequest
         'object_id' => 'nullable',
         'common_available_action_id' => 'nullable|exists:common_available_actions,uuid|uuid',
         'params' => 'nullable',
+        'timezone' => 'nullable|string',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

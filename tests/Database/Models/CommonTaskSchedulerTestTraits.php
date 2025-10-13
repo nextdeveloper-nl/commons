@@ -62,6 +62,7 @@ trait CommonTaskSchedulerTestTraits
                 'description'  =>  'a',
                 'schedule_type'  =>  'a',
                 'object_type'  =>  'a',
+                'timezone'  =>  'a',
                 'day_of_month'  =>  '1',
                 'day_of_week'  =>  '1',
                     'next_run'  =>  now(),
@@ -410,6 +411,25 @@ trait CommonTaskSchedulerTestTraits
             $request = new Request(
                 [
                 'object_type'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_timezone_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'timezone'  =>  'a'
                 ]
             );
 

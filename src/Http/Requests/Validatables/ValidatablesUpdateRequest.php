@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Validatables;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class ValidatablesUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class ValidatablesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'validation_code' => "string", 'is_used' => "string"])]
     public function rules()
     {
         return [

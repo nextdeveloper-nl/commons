@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\Tags;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class TagsUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class TagsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['name' => "string", 'description' => "string", 'slug' => "string"])]
     public function rules()
     {
         return [

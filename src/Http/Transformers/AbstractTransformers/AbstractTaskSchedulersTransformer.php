@@ -54,25 +54,25 @@ class AbstractTaskSchedulersTransformer extends AbstractTransformer
      */
     public function transform(TaskSchedulers $model)
     {
-        $commonAvailableActionId = \NextDeveloper\Commons\Database\Models\AvailableActions::where('id', $model->common_available_action_id)->first();
-
+                                                $commonAvailableActionId = \NextDeveloper\Commons\Database\Models\AvailableActions::where('id', $model->common_available_action_id)->first();
+                        
         return $this->buildPayload(
             [
-                'id' => $model->uuid,
-                'name' => $model->name,
-                'description' => $model->description,
-                'day_of_month' => $model->day_of_month,
-                'day_of_week' => $model->day_of_week,
-                'time_of_day' => $model->time_of_day,
-                'timezone' => $model->timezone,
-                'schedule_type' => $model->schedule_type,
-                'next_run' => $model->next_run,
-                'object_type' => $model->object_type,
-                'object_id' => $model->object_id,
-                'common_available_action_id' => $commonAvailableActionId ? $commonAvailableActionId->uuid : null,
-                'params' => $model->params,
-                'created_at' => $model->created_at,
-                'updated_at' => $model->updated_at,
+            'id'  =>  $model->uuid,
+            'name'  =>  $model->name,
+            'description'  =>  $model->description,
+            'day_of_month'  =>  $model->day_of_month,
+            'day_of_week'  =>  $model->day_of_week,
+            'time_of_day'  =>  $model->time_of_day,
+            'schedule_type'  =>  $model->schedule_type,
+            'next_run'  =>  $model->next_run,
+            'object_type'  =>  $model->object_type,
+            'object_id'  =>  $model->object_id,
+            'common_available_action_id'  =>  $commonAvailableActionId ? $commonAvailableActionId->uuid : null,
+            'params'  =>  $model->params,
+            'created_at'  =>  $model->created_at,
+            'updated_at'  =>  $model->updated_at,
+            'timezone'  =>  $model->timezone,
             ]
         );
     }
@@ -161,6 +161,7 @@ class AbstractTaskSchedulersTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 }

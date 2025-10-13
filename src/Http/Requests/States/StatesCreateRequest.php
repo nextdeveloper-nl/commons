@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\States;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class StatesCreateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class StatesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_states' => "string", 'name' => "string", 'value' => "string", 'reason' => "string", 'object_id' => "string", 'object_type' => "string"])]
     public function rules()
     {
         return [

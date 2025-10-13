@@ -16,6 +16,7 @@ use NextDeveloper\Commons\Exceptions\CannotValidateActionRequestException;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\Commons\Exceptions\NotFoundException;
 use NextDeveloper\Commons\Helpers\ActionsHelper;
+use NextDeveloper\Commons\Helpers\StateHelper;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 class AbstractAction implements ShouldQueue
@@ -49,12 +50,18 @@ class AbstractAction implements ShouldQueue
      */
     private $accountId;
 
+    private $checkpoints;
+
     public function __construct($params = null, $previous = null)
     {
+        if(defined('static::CHECKPOINTS')) {
+            $this->checkpoints = static::CHECKPOINTS;
+        }
+
         $this->createAction($previous);
 
         //  Sometimes parameters can be passed as an array, thats why we are setting the first element as the parameters
-        if ($params && property_exists($this, 'PARAMS')) {
+        if ($params && defined('static::PARAMS')) {
             if (array_key_exists(0, $params))
                 $params = $params[0];
 
@@ -131,12 +138,19 @@ class AbstractAction implements ShouldQueue
             UserHelper::setCurrentAccountById($previous->getAccountId());
         }
 
+        $checkpoints = [];
+
+        if(defined('static::CHECKPOINTS')) {
+            $checkpoints = static::CHECKPOINTS;
+        }
+
         $this->action = Actions::create([
             'action' => get_class($this),
             'progress' => 0,
             'runtime' => 0,
             'object_id' => $id,
             'object_type' => $class,
+            'checkpoints' => $checkpoints,
             'iam_account_id' => $this->getAccountId(),
             'iam_user_id' => $this->getUserId()
         ]);
@@ -218,8 +232,48 @@ class AbstractAction implements ShouldQueue
         UserHelper::setCurrentAccountById($this->action->iam_account_id);
     }
 
+    public function getCheckpoint() : int
+    {
+        $runningState = StateHelper::getRunningAction($this->model, $this->action);
+
+        if($runningState) {
+            if(array_key_exists('checkpoint', $runningState)) {
+                return $runningState['checkpoint'];
+            }
+        }
+
+        return 0;
+    }
+
+    public function shouldRunCheckpoint($checkpoint) : bool
+    {
+        if(!defined('static::CHECKPOINTS')) {
+            //  Here if the checkpoints are not defined, we are running the action without any checkpoint control.
+            return true;
+        }
+
+        $currentCheckpoint = $this->getCheckpoint();
+
+        if($currentCheckpoint < $checkpoint) {
+            Log::debug('[AbstractAction] Running checkpoint: ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
+            return true;
+        }
+
+        Log::debug('[AbstractAction] Bypassing: ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
+        return false;
+    }
+
     public function setProgress($percent, $completedAction)
     {
+        if(!$this->shouldRunCheckpoint($percent)) {
+            //  We are returning because this checkpoint is already passed.
+            return;
+        }
+
+        if(in_array($percent, array_keys($this->checkpoints))) {
+            StateHelper::setRunningActions($this->model, $this->action, $percent);
+        }
+
         if(ActionsHelper::logInFile())
             Log::info('[ActionLog]' . $completedAction . ' with percent: ' . $percent);
 
@@ -270,6 +324,8 @@ class AbstractAction implements ShouldQueue
 
     public function setFinishedWithError($log = 'Action failed')
     {
+        StateHelper::setRunningActions($this->model, $this->action, -1);
+
         //  We put this here to fix the action owner problem. But we need to create much more smart solution for this
         //  in the next version of this module.
         $this->setUserAsThisActionOwner();
@@ -335,6 +391,8 @@ class AbstractAction implements ShouldQueue
             'progress' => 100,
             'runtime' => $diff
         ]);
+
+        StateHelper::removeRunningAction($this->model, $this->action);
     }
 
     public function failed($exception)

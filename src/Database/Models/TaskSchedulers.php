@@ -31,6 +31,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property $params
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $timezone
  */
 class TaskSchedulers extends Model
 {
@@ -42,86 +43,86 @@ class TaskSchedulers extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'name',
-        'description',
-        'day_of_month',
-        'day_of_week',
-        'time_of_day',
-        'timezone',
-        'schedule_type',
-        'next_run',
-        'object_type',
-        'object_id',
-        'common_available_action_id',
-        'params',
+            'name',
+            'description',
+            'day_of_month',
+            'day_of_week',
+            'time_of_day',
+            'schedule_type',
+            'next_run',
+            'object_type',
+            'object_id',
+            'common_available_action_id',
+            'params',
+            'timezone',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'description' => 'string',
-        'day_of_month' => 'integer',
-        'day_of_week' => 'integer',
-        'schedule_type' => 'string',
-        'time_of_day' => 'timestamp',
-        'timezone'  =>  'string',
-        'object_type' => 'string',
-        'object_id' => 'integer',
-        'common_available_action_id' => 'integer',
-        'params' => 'array',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    'id' => 'integer',
+    'name' => 'string',
+    'description' => 'string',
+    'day_of_month' => 'integer',
+    'day_of_week' => 'integer',
+    'schedule_type' => 'string',
+    'next_run' => 'datetime',
+    'object_type' => 'string',
+    'object_id' => 'integer',
+    'common_available_action_id' => 'integer',
+    'params' => 'array',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'timezone' => 'string',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'next_run',
-        'created_at',
-        'updated_at',
+    'next_run',
+    'created_at',
+    'updated_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -138,11 +139,9 @@ class TaskSchedulers extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_task_schedulers');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -150,7 +149,7 @@ class TaskSchedulers extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -189,6 +188,7 @@ class TaskSchedulers extends Model
         // If the last run is before the next run and the next run is in the past, then the task is due
         return $this->last_run->lt($this->next_run) && $this->next_run->isPast();
     }
+
 
 
 }

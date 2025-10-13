@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\PhoneNumbers;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class PhoneNumbersUpdateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class PhoneNumbersUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'name' => "string", 'code' => "string", 'number' => "string", 'is_active' => "string", 'common_country_id' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [

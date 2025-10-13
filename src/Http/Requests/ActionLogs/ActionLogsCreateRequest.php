@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Http\Requests\ActionLogs;
 
+use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\Http\Requests\AbstractFormRequest;
 
 class ActionLogsCreateRequest extends AbstractFormRequest
@@ -10,6 +11,7 @@ class ActionLogsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
+    #[ArrayShape(['common_action_id' => "string", 'log' => "string", 'runtime' => "string"])]
     public function rules()
     {
         return [
