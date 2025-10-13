@@ -10,22 +10,22 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Helpers\DatabaseHelper;
 use NextDeveloper\Commons\Database\Models\AvailableActions;
-use NextDeveloper\Commons\Database\Models\ScheduledTasks;
-use NextDeveloper\Commons\Database\Filters\ScheduledTasksQueryFilter;
+use NextDeveloper\Commons\Database\Models\ScheduledTasksPerspective;
+use NextDeveloper\Commons\Database\Filters\ScheduledTasksPerspectiveQueryFilter;
 use NextDeveloper\Commons\Exceptions\ModelNotFoundException;
 use NextDeveloper\Events\Services\Events;
 use NextDeveloper\Commons\Exceptions\NotAllowedException;
 
 /**
- * This class is responsible from managing the data for ScheduledTasks
+ * This class is responsible from managing the data for ScheduledTasksPerspective
  *
- * Class ScheduledTasksService.
+ * Class ScheduledTasksPerspectiveService.
  *
  * @package NextDeveloper\Commons\Database\Models
  */
-class AbstractScheduledTasksService
+class AbstractScheduledTasksPerspectiveService
 {
-    public static function get(ScheduledTasksQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(ScheduledTasksPerspectiveQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 
@@ -38,7 +38,7 @@ class AbstractScheduledTasksService
         * Please let me know if you have any other idea about this; baris.bulut@nextdeveloper.com
         */
         if($filter == null) {
-            $filter = new ScheduledTasksQueryFilter($request);
+            $filter = new ScheduledTasksPerspectiveQueryFilter($request);
         }
 
         $perPage = config('commons.pagination.per_page');
@@ -59,7 +59,7 @@ class AbstractScheduledTasksService
             $filter->orderBy($params['orderBy']);
         }
 
-        $model = ScheduledTasks::filter($filter);
+        $model = ScheduledTasksPerspective::filter($filter);
 
         if($enablePaginate) {
             //  We are using this because we have been experiencing huge security problem when we use the paginate method.
@@ -81,7 +81,7 @@ class AbstractScheduledTasksService
 
     public static function getAll()
     {
-        return ScheduledTasks::all();
+        return ScheduledTasksPerspective::all();
     }
 
     /**
@@ -90,14 +90,14 @@ class AbstractScheduledTasksService
      * @param  $ref
      * @return mixed
      */
-    public static function getByRef($ref) : ?ScheduledTasks
+    public static function getByRef($ref) : ?ScheduledTasksPerspective
     {
-        return ScheduledTasks::findByRef($ref);
+        return ScheduledTasksPerspective::findByRef($ref);
     }
 
     public static function getActions()
     {
-        $model = ScheduledTasks::class;
+        $model = ScheduledTasksPerspective::class;
 
         $model = Str::remove('Database\\Models\\', $model);
 
@@ -112,10 +112,10 @@ class AbstractScheduledTasksService
      */
     public static function doAction($objectId, $action, ...$params)
     {
-        $object = ScheduledTasks::where('uuid', $objectId)->first();
+        $object = ScheduledTasksPerspective::where('uuid', $objectId)->first();
 
         $action = AvailableActions::where('name', $action)
-            ->where('input', 'NextDeveloper\Commons\ScheduledTasks')
+            ->where('input', 'NextDeveloper\Commons\ScheduledTasksPerspective')
             ->first();
 
         $class = $action->class;
@@ -141,11 +141,11 @@ class AbstractScheduledTasksService
      * This method returns the model by lookint at its id
      *
      * @param  $id
-     * @return ScheduledTasks|null
+     * @return ScheduledTasksPerspective|null
      */
-    public static function getById($id) : ?ScheduledTasks
+    public static function getById($id) : ?ScheduledTasksPerspective
     {
-        return ScheduledTasks::where('id', $id)->first();
+        return ScheduledTasksPerspective::where('id', $id)->first();
     }
 
     /**
@@ -159,7 +159,7 @@ class AbstractScheduledTasksService
     public static function relatedObjects($uuid, $object)
     {
         try {
-            $obj = ScheduledTasks::where('uuid', $uuid)->first();
+            $obj = ScheduledTasksPerspective::where('uuid', $uuid)->first();
 
             if(!$obj) {
                 throw new ModelNotFoundException('Cannot find the related model');
@@ -190,9 +190,9 @@ class AbstractScheduledTasksService
                 $data['common_available_action_id']
             );
         }
-                        
+
         try {
-            $model = ScheduledTasks::create($data);
+            $model = ScheduledTasksPerspective::create($data);
         } catch(\Exception $e) {
             throw $e;
         }
@@ -204,9 +204,9 @@ class AbstractScheduledTasksService
      * This function expects the ID inside the object.
      *
      * @param  array $data
-     * @return ScheduledTasks
+     * @return ScheduledTasksPerspective
      */
-    public static function updateRaw(array $data) : ?ScheduledTasks
+    public static function updateRaw(array $data) : ?ScheduledTasksPerspective
     {
         if(array_key_exists('id', $data)) {
             return self::update($data['id'], $data);
@@ -227,7 +227,7 @@ class AbstractScheduledTasksService
      */
     public static function update($id, array $data)
     {
-        $model = ScheduledTasks::where('uuid', $id)->first();
+        $model = ScheduledTasksPerspective::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(
@@ -242,7 +242,7 @@ class AbstractScheduledTasksService
                 $data['common_available_action_id']
             );
         }
-    
+
         try {
             $isUpdated = $model->update($data);
             $model = $model->fresh();
@@ -265,7 +265,7 @@ class AbstractScheduledTasksService
      */
     public static function delete($id)
     {
-        $model = ScheduledTasks::where('uuid', $id)->first();
+        $model = ScheduledTasksPerspective::where('uuid', $id)->first();
 
         if(!$model) {
             throw new NotAllowedException(

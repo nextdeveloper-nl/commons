@@ -9,11 +9,11 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 use NextDeveloper\Events\Services\Events;
 
 /**
- * Class ScheduledTasksObserver
+ * Class ScheduledTasksPerspectiveObserver
  *
  * @package NextDeveloper\Commons\Database\Observers
  */
-class ScheduledTasksObserver
+class ScheduledTasksPerspectiveObserver
 {
     /**
      * Triggered when a new record is retrieved.
@@ -37,7 +37,7 @@ class ScheduledTasksObserver
             new NotAllowedException('You are not allowed to create this record')
         );
 
-        Events::fire('creating:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('creating:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -47,7 +47,7 @@ class ScheduledTasksObserver
      */
     public function created(Model $model)
     {
-        Events::fire('created:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('created:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -62,7 +62,7 @@ class ScheduledTasksObserver
             new NotAllowedException('You are not allowed to save this record')
         );
 
-        Events::fire('saving:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('saving:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -72,7 +72,7 @@ class ScheduledTasksObserver
      */
     public function saved(Model $model)
     {
-        Events::fire('saved:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('saved:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
 
@@ -86,7 +86,7 @@ class ScheduledTasksObserver
             new NotAllowedException('You are not allowed to update this record')
         );
 
-        Events::fire('updating:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('updating:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -96,7 +96,7 @@ class ScheduledTasksObserver
      */
     public function updated(Model $model)
     {
-        Events::fire('updated:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('updated:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
 
@@ -110,7 +110,7 @@ class ScheduledTasksObserver
             new NotAllowedException('You are not allowed to delete this record')
         );
 
-        Events::fire('deleting:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('deleting:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -120,7 +120,7 @@ class ScheduledTasksObserver
      */
     public function deleted(Model $model)
     {
-        Events::fire('deleted:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('deleted:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -135,7 +135,7 @@ class ScheduledTasksObserver
             new NotAllowedException('You are not allowed to restore this record')
         );
 
-        Events::fire('restoring:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('restoring:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
 
     /**
@@ -145,7 +145,7 @@ class ScheduledTasksObserver
      */
     public function restored(Model $model)
     {
-        Events::fire('restored:NextDeveloper\Commons\ScheduledTasks', $model);
+        Events::fire('restored:NextDeveloper\Commons\ScheduledTasksPerspective', $model);
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

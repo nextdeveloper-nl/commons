@@ -592,22 +592,22 @@ Route::prefix('commons')->group(
 
         Route::prefix('scheduled-tasks')->group(
             function () {
-                Route::get('/', 'ScheduledTasks\ScheduledTasksController@index');
-                Route::get('/actions', 'ScheduledTasks\ScheduledTasksController@getActions');
+                Route::get('/', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@index');
+                Route::get('/actions', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@getActions');
 
-                Route::get('{common_scheduled_tasks}/tags ', 'ScheduledTasks\ScheduledTasksController@tags');
-                Route::post('{common_scheduled_tasks}/tags ', 'ScheduledTasks\ScheduledTasksController@saveTags');
-                Route::get('{common_scheduled_tasks}/addresses ', 'ScheduledTasks\ScheduledTasksController@addresses');
-                Route::post('{common_scheduled_tasks}/addresses ', 'ScheduledTasks\ScheduledTasksController@saveAddresses');
+                Route::get('{common_scheduled_tasks}/tags ', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@tags');
+                Route::post('{common_scheduled_tasks}/tags ', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@saveTags');
+                Route::get('{common_scheduled_tasks}/addresses ', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@addresses');
+                Route::post('{common_scheduled_tasks}/addresses ', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@saveAddresses');
 
-                Route::get('/{common_scheduled_tasks}/{subObjects}', 'ScheduledTasks\ScheduledTasksController@relatedObjects');
-                Route::get('/{common_scheduled_tasks}', 'ScheduledTasks\ScheduledTasksController@show');
+                Route::get('/{common_scheduled_tasks}/{subObjects}', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@relatedObjects');
+                Route::get('/{common_scheduled_tasks}', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@show');
 
-                Route::post('/', 'ScheduledTasks\ScheduledTasksController@store');
-                Route::post('/{common_scheduled_tasks}/do/{action}', 'ScheduledTasks\ScheduledTasksController@doAction');
+                Route::post('/', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@store');
+                Route::post('/{common_scheduled_tasks}/do/{action}', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@doAction');
 
-                Route::patch('/{common_scheduled_tasks}', 'ScheduledTasks\ScheduledTasksController@update');
-                Route::delete('/{common_scheduled_tasks}', 'ScheduledTasks\ScheduledTasksController@destroy');
+                Route::patch('/{common_scheduled_tasks}', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@update');
+                Route::delete('/{common_scheduled_tasks}', 'ScheduledTasksPerspective\ScheduledTasksPerspectiveController@destroy');
             }
         );
 
