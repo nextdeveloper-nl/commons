@@ -159,17 +159,17 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                     logger()->info('Fetches Exchange Rates ended.');
                 });
 
-            $schedule->command('common:task-scheduler-action')
-                ->cron(config('commons.task_scheduler.schedule.cron'))
-                ->when(function () {
-                    return config('commons.task_scheduler.schedule.enabled');
-                })
-                ->before(function () {
-                    logger()->info('Task Scheduler starting...');
-                })
-                ->after(function () {
-                    logger()->info('Task Scheduler ended.');
-                });
+//            $schedule->command('common:task-scheduler-action')
+//                ->cron(config('commons.task_scheduler.schedule.cron'))
+//                ->when(function () {
+//                    return config('commons.task_scheduler.schedule.enabled');
+//                })
+//                ->before(function () {
+//                    logger()->info('Task Scheduler starting...');
+//                })
+//                ->after(function () {
+//                    logger()->info('Task Scheduler ended.');
+//                });
         });
     }
 }

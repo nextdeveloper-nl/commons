@@ -155,7 +155,7 @@ class TaskSchedulerActionCommand extends Command
                         $nextRun->addDay();
                 }
 
-                $task->next_run = $nextRun;
+                $task->next_run_at = $nextRun;
             }
         }
 

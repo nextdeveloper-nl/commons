@@ -29,6 +29,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $object_id
  * @property integer $common_available_action_id
  * @property $params
+ * @property string $cron_expression
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property string $timezone
@@ -43,86 +44,88 @@ class TaskSchedulers extends Model
 
 
     /**
-     @var array
+     * @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-            'name',
-            'description',
-            'day_of_month',
-            'day_of_week',
-            'time_of_day',
-            'schedule_type',
-            'next_run',
-            'object_type',
-            'object_id',
-            'common_available_action_id',
-            'params',
-            'timezone',
+        'name',
+        'description',
+        'day_of_month',
+        'day_of_week',
+        'time_of_day',
+        'schedule_type',
+        'next_run_at',
+        'object_type',
+        'object_id',
+        'common_available_action_id',
+        'params',
+        'timezone',
+        'cron_expression'
     ];
 
     /**
-      Here we have the fulltext fields. We can use these for fulltext search if enabled.
+     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     We are casting fields to objects so that we can work on them better
+     * We are casting fields to objects so that we can work on them better
      *
-     @var array
+     * @var array
      */
     protected $casts = [
-    'id' => 'integer',
-    'name' => 'string',
-    'description' => 'string',
-    'day_of_month' => 'integer',
-    'day_of_week' => 'integer',
-    'schedule_type' => 'string',
-    'next_run' => 'datetime',
-    'object_type' => 'string',
-    'object_id' => 'integer',
-    'common_available_action_id' => 'integer',
-    'params' => 'array',
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'timezone' => 'string',
+        'id' => 'integer',
+        'name' => 'string',
+        'description' => 'string',
+        'day_of_month' => 'integer',
+        'day_of_week' => 'integer',
+        'schedule_type' => 'string',
+        'next_run_at' => 'datetime',
+        'object_type' => 'string',
+        'object_id' => 'integer',
+        'common_available_action_id' => 'integer',
+        'params' => 'array',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'timezone' => 'string',
+        'cron_expression' => 'string',
     ];
 
     /**
-     We are casting data fields.
+     * We are casting data fields.
      *
-     @var array
+     * @var array
      */
     protected $dates = [
-    'next_run',
-    'created_at',
-    'updated_at',
+        'next_run_at',
+        'created_at',
+        'updated_at',
     ];
 
     /**
-     @var array
+     * @var array
      */
     protected $with = [
 
     ];
 
     /**
-     @var int
+     * @var int
      */
     protected $perPage = 20;
 
     /**
-     @return void
+     * @return void
      */
     public static function boot()
     {
@@ -139,9 +142,11 @@ class TaskSchedulers extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_task_schedulers');
 
-        if(!$modelScopes) { $modelScopes = [];
+        if (!$modelScopes) {
+            $modelScopes = [];
         }
-        if (!$globalScopes) { $globalScopes = [];
+        if (!$globalScopes) {
+            $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -149,7 +154,7 @@ class TaskSchedulers extends Model
             $modelScopes
         );
 
-        if($scopes) {
+        if ($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -176,19 +181,18 @@ class TaskSchedulers extends Model
     public function isDue(): bool
     {
         // If the next run is not set, then the task is not due
-        if (!$this->next_run) {
+        if (!$this->next_run_at) {
             return false;
         }
 
         // If the last run is not set, then the task is due
-        if (!$this->last_run) {
-            return $this->next_run->isPast();
+        if (!$this->last_run_at) {
+            return $this->next_run_at->isPast();
         }
 
         // If the last run is before the next run and the next run is in the past, then the task is due
-        return $this->last_run->lt($this->next_run) && $this->next_run->isPast();
+        return $this->last_run_at->lt($this->next_run_at) && $this->next_run_at->isPast();
     }
-
 
 
 }

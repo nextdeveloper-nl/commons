@@ -9,7 +9,8 @@
         "php": ">=8.2.0",
         "league/fractal": "*",
         "monolog/monolog": "*",
-        "nextdeveloper/publitio": "*"
+        "nextdeveloper/publitio": "*",
+        "dragonmantank/cron-expression": "*"
     },
     "require-dev": {
         "illuminate/support": "5.5.*",

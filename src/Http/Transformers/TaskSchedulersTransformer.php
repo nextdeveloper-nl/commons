@@ -28,7 +28,7 @@ class TaskSchedulersTransformer extends AbstractTaskSchedulersTransformer
         );
 
         if($transformed) {
-            //return $transformed;
+            return $transformed;
         }
 
         $transformed = parent::transform($model);
