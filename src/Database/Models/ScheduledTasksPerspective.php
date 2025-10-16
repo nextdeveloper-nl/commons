@@ -38,8 +38,7 @@ class ScheduledTasksPerspective extends Model
 
     public $timestamps = true;
 
-    protected $table = 'common_scheduled_tasks';
-
+    protected $table = 'common_scheduled_tasks_perspective';
 
     /**
      @var array
