@@ -79,7 +79,7 @@ class StateHelper
     {
         $runningActions = self::getState($obj, 'running_actions');
 
-        $value = $runningActions->value ? json_decode($runningActions->value, true) : [];
+        $value = $runningActions ? json_decode($runningActions->value, true) : [];
 
         if($runningActions) {
             $value[$action->action] = [
