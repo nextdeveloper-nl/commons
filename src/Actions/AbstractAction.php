@@ -270,8 +270,10 @@ class AbstractAction implements ShouldQueue
             return;
         }
 
-        if(in_array($percent, array_keys($this->checkpoints))) {
-            StateHelper::setRunningActions($this->model, $this->action, $percent);
+        if(defined('static::CHECKPOINTS')) {
+            if(in_array($percent, array_keys($this->checkpoints))) {
+                StateHelper::setRunningActions($this->model, $this->action, $percent);
+            }
         }
 
         if(ActionsHelper::logInFile())
