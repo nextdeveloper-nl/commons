@@ -169,6 +169,11 @@ class Domains extends Model
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\DisposableEmails::class);
     }
 
+    public function networks() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAAS\Database\Models\Networks::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     public function domainsDns() : \Illuminate\Database\Eloquent\Relations\HasMany

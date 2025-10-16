@@ -75,16 +75,6 @@ class StateHelper
             ->delete();
     }
 
-
-    public static function getRunningAction($obj, $action)
-    {
-        $runningActions = self::getState($obj, 'running_actions');
-        if($runningActions) {
-            $value = json_decode($runningActions->value, true);
-            return $value[$action->action] ?? null;
-        }
-    }
-
     public static function setRunningActions($obj, $action, $checkpoint = null)
     {
         $runningActions = self::getState($obj, 'running_actions');
