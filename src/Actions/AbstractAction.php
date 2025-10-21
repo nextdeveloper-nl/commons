@@ -265,6 +265,8 @@ class AbstractAction implements ShouldQueue
 
     public function setProgress($percent, $completedAction)
     {
+        UserHelper::setUserById($this->getUserId());
+
         if(!$this->shouldRunCheckpoint($percent)) {
             //  We are returning because this checkpoint is already passed.
             return;
@@ -299,8 +301,6 @@ class AbstractAction implements ShouldQueue
         if (!$this->action) {
             $this->createAction();
         }
-
-        UserHelper::setUserById($this->getUserId());
 
         if (config('leo.debug.action_logs')) {
             Log::info('[ActionLog]' . $completedAction . ' / Diff: ' . $diff . 'ms');
