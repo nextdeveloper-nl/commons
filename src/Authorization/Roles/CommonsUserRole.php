@@ -157,8 +157,8 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_states:delete',
 
             'common_tags:read',
-            '!common_tags:create',
-            '!common_tags:update',
+            'common_tags:create',
+            'common_tags:update',
             'common_validatable:read',
             'common_validatable:create',
             'common_validatable:update',
