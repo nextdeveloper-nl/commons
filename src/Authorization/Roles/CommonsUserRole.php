@@ -150,9 +150,12 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             'common_social_media:create',
             'common_social_media:update',
             'common_social_media:delete',
+            
             'common_states:read',
-            '!common_states:create',
-            '!common_states:update',
+            'common_states:create',
+            'common_states:update',
+            'common_states:delete',
+
             'common_tags:read',
             '!common_tags:create',
             '!common_tags:update',
