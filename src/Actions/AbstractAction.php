@@ -450,6 +450,9 @@ class AbstractAction implements ShouldQueue
 
     public function getStateData($key, $default = null)
     {
+        if(!$this->stateData)
+            return $default;
+
         if(array_key_exists($key, $this->stateData)) {
             return $this->stateData[$key];
         }
