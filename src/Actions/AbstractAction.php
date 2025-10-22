@@ -252,7 +252,7 @@ class AbstractAction implements ShouldQueue
 
     public function getRunningAction() : ?Actions
     {
-        $runningAction = StateHelper::getRunningAction($this->model, $this->action);
+        $runningAction = StateHelper::getRunningAction($this->stateObject, $this->action);
 
         if($runningAction) {
             return Actions::where('id', $runningAction['id'])->first();
@@ -263,7 +263,7 @@ class AbstractAction implements ShouldQueue
 
     public function getCheckpoint() : int
     {
-        $runningState = StateHelper::getRunningAction($this->model, $this->action);
+        $runningState = StateHelper::getRunningAction($this->stateObject, $this->action);
 
         if($runningState) {
             if(array_key_exists('checkpoint', $runningState)) {
