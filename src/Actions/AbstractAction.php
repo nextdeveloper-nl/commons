@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Actions;
 
 use Carbon\Carbon;
+use Google\Service\GKEHub\State;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -92,6 +93,19 @@ class AbstractAction implements ShouldQueue
         $this->previous = $previous;
 
         return $this;
+    }
+
+    public function resumeFromAction(Actions|int $action = null)
+    {
+        if(!$action) {
+            $action = $this->getRunningAction();
+        }
+
+        if(is_int($action)) {
+            $action = Actions::where('id', $action)->first();
+        }
+
+        $this->stateData = $action->stateData;
     }
 
     public function runAsAdministrator()
@@ -236,6 +250,11 @@ class AbstractAction implements ShouldQueue
         UserHelper::setCurrentAccountById($this->action->iam_account_id);
     }
 
+    public function getRunningAction() : Actions
+    {
+        return StateHelper::getRunningAction($this->model, $this->action);
+    }
+
     public function getCheckpoint() : int
     {
         $runningState = StateHelper::getRunningAction($this->model, $this->action);
@@ -259,21 +278,29 @@ class AbstractAction implements ShouldQueue
         $currentCheckpoint = $this->getCheckpoint();
 
         if($currentCheckpoint < $checkpoint) {
-            Log::debug('[AbstractAction] Running checkpoint: ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
             return true;
         }
 
-        Log::debug('[AbstractAction] Bypassing: ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         return false;
+    }
+
+    public function reloadStateData()
+    {
+
     }
 
     public function setProgress($percent, $completedAction)
     {
         UserHelper::setUserById($this->getUserId());
 
+        $currentCheckpoint = $this->getCheckpoint();
+
         if(!$this->shouldRunCheckpoint($percent)) {
             //  We are returning because this checkpoint is already passed.
+            Log::debug('[AbstractAction] Bypassing progress update. ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
             return;
+        } else {
+            Log::debug('[AbstractAction] Running checkpoint: ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         }
 
         StateHelper::setRunningActions($this->model, $this->action, $percent);
