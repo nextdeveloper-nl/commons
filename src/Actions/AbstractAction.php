@@ -105,7 +105,9 @@ class AbstractAction implements ShouldQueue
             $action = Actions::where('id', $action)->first();
         }
 
-        $this->stateData = $action->stateData;
+        if($action) {
+            $this->stateData = $action->state_data;
+        }
     }
 
     public function runAsAdministrator()
