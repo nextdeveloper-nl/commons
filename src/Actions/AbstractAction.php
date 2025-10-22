@@ -252,6 +252,9 @@ class AbstractAction implements ShouldQueue
 
     public function getRunningAction() : ?Actions
     {
+        if(!$this->stateObject)
+            $this->stateObject = $this->model;
+
         $runningAction = StateHelper::getRunningAction($this->stateObject, $this->action);
 
         if($runningAction) {
@@ -263,6 +266,9 @@ class AbstractAction implements ShouldQueue
 
     public function getCheckpoint() : int
     {
+        if(!$this->stateObject)
+            $this->stateObject = $this->model;
+
         $runningState = StateHelper::getRunningAction($this->stateObject, $this->action);
 
         if($runningState) {
@@ -287,6 +293,7 @@ class AbstractAction implements ShouldQueue
             return true;
         }
 
+        Log::debug('[AbstractAction] Bypassing progress update. ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         return false;
     }
 
