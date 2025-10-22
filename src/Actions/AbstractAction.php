@@ -287,6 +287,7 @@ class AbstractAction implements ShouldQueue
             return true;
         }
 
+        Log::debug('[AbstractAction] Bypassing progress update. ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         return false;
     }
 
