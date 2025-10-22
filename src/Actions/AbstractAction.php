@@ -250,9 +250,15 @@ class AbstractAction implements ShouldQueue
         UserHelper::setCurrentAccountById($this->action->iam_account_id);
     }
 
-    public function getRunningAction() : Actions
+    public function getRunningAction() : ?Actions
     {
-        return StateHelper::getRunningAction($this->model, $this->action);
+        $runningAction = StateHelper::getRunningAction($this->model, $this->action);
+
+        if($runningAction) {
+            return Actions::where('id', $runningAction['id'])->first();
+        }
+
+        return null;
     }
 
     public function getCheckpoint() : int
