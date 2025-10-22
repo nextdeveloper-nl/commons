@@ -52,6 +52,10 @@ class AbstractAction implements ShouldQueue
 
     private $checkpoints;
 
+    public $stateData = [];
+
+    public $stateObject = null;
+
     public function __construct($params = null, $previous = null)
     {
         if(defined('static::CHECKPOINTS')) {
@@ -391,6 +395,27 @@ class AbstractAction implements ShouldQueue
         ]);
 
         StateHelper::removeRunningAction($this->model, $this->action);
+    }
+
+    public function setStateData($key, $value)
+    {
+        $this->stateData[$key] = $value;
+
+        $this->action->update([
+            'state_data' => $this->stateData
+        ]);
+    }
+
+    public function getStateData($key, $default = null)
+    {
+        if(array_key_exists($key, $this->stateData)) {
+            return $this->stateData[$key];
+        }
+
+        if($default)
+            $this->setStateData($key, $default);
+
+        return $default;
     }
 
     public function failed($exception)
