@@ -57,6 +57,8 @@ class AbstractAction implements ShouldQueue
 
     public $stateObject = null;
 
+    public $actionName = '';
+
     public function __construct($params = null, $previous = null)
     {
         if(defined('static::CHECKPOINTS')) {
@@ -83,6 +85,10 @@ class AbstractAction implements ShouldQueue
                 throw new NotAllowedException('You dont have the right privilege and/or role to run this action.');
             }
         }
+
+        $this->actionName = get_class($this);
+        $this->actionName = explode('\\', $this->actionName);
+        $this->actionName = array_pop($this->actionName);
 
         if (!ActionsHelper::saveInDb()) return;
 
@@ -295,7 +301,7 @@ class AbstractAction implements ShouldQueue
             return true;
         }
 
-        Log::debug('[AbstractAction] Bypassing progress update. ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
+        Log::debug('[AbstractAction][' . $this->actionName . '] Bypassing progress update. ' . $checkpoint . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         return false;
     }
 
@@ -312,16 +318,16 @@ class AbstractAction implements ShouldQueue
 
         if(!$this->shouldRunCheckpoint($percent)) {
             //  We are returning because this checkpoint is already passed.
-            Log::debug('[AbstractAction] Bypassing progress update. ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
+            Log::debug('[AbstractAction][' . $this->actionName . '] Bypassing progress update. ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
             return;
         } else {
-            Log::debug('[AbstractAction] Running checkpoint: ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
+            Log::debug('[AbstractAction][' . $this->actionName . '] Running checkpoint: ' . $percent . ' / Current checkpoint: ' . $currentCheckpoint . ' / Action: ' . get_class($this));
         }
 
         StateHelper::setRunningActions($this->model, $this->action, $percent);
 
         if(ActionsHelper::logInFile())
-            Log::info('[ActionLog]' . $completedAction . ' with percent: ' . $percent);
+            Log::info('[ActionLog][' . $this->actionName . ']' . $completedAction . ' with percent: ' . $percent);
 
         if (!ActionsHelper::saveInDb()) return;
 
@@ -349,7 +355,7 @@ class AbstractAction implements ShouldQueue
         }
 
         if (config('leo.debug.action_logs')) {
-            Log::info('[ActionLog]' . $completedAction . ' / Diff: ' . $diff . 'ms');
+            Log::info('[ActionLog][' . $this->actionName . ']' . $completedAction . ' / Diff: ' . $diff . 'ms');
         }
 
         $this->action->update([
@@ -376,7 +382,7 @@ class AbstractAction implements ShouldQueue
         UserHelper::setUserById($this->getUserId());
 
         if(ActionsHelper::logInFile())
-            Log::error('[ActionLog][FAIL] ' . $log);
+            Log::error('[ActionLog][FAIL][' . $this->actionName . '] ' . $log);
 
         if (!ActionsHelper::saveInDb()) return;
 
@@ -384,7 +390,7 @@ class AbstractAction implements ShouldQueue
         $diff = $now->diffInMilliseconds($this->startTime);
 
         if (config('leo.debug.action_logs')) {
-            Log::info('[ActionLog][ERROR]' . $log . ' / Diff: ' . $diff . 'ms');
+            Log::info('[ActionLog][ERROR][' . $this->actionName . ']' . $log . ' / Diff: ' . $diff . 'ms');
         }
 
         try {
@@ -420,7 +426,7 @@ class AbstractAction implements ShouldQueue
         $diff = $now->diffInMilliseconds($this->startTime);
 
         if (config('leo.debug.action_logs')) {
-            Log::info('[ActionLog]' . $log . ' / Diff: ' . $diff . 'ms');
+            Log::info('[ActionLog][' . $this->actionName . ']' . $log . ' / Diff: ' . $diff . 'ms');
         }
 
         ActionLogs::create([
@@ -465,7 +471,7 @@ class AbstractAction implements ShouldQueue
 
     public function failed($exception)
     {
-        Log::error("Action is failed with message: " . print_r($exception, true));
+        Log::error("[ActionLog][ERROR][' . $this->actionName . '] Action is failed with message: " . print_r($exception, true));
 
         $this->setFinishedWithError("In this job, we entered in an errored state.");
     }
