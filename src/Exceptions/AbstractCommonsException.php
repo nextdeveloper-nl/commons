@@ -83,10 +83,15 @@ abstract class AbstractCommonsException extends Exception
 
         Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message);
 
+        $translate = true;
+
+        if(!$me->common_language_id)
+            $translate = false;
+
         return $this->setStatusCode(422)->withArray([
             'status'    =>  422, // 'Unprocessable Entity'
             'message'   =>  $returnMessage,
-            'helper'    =>  I18n::t($this->message, $me->common_language_id),
+            'helper'    =>  $translate ? I18n::t($this->message, $me->common_language_id) : $this->message,
             'code'      =>  $this->code,
         ]);
     }
