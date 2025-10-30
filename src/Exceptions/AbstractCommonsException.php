@@ -85,7 +85,7 @@ abstract class AbstractCommonsException extends Exception
 
         $translate = true;
 
-        if(!$me->common_language_id)
+        if(!$me)
             $translate = false;
 
         return $this->setStatusCode(422)->withArray([
