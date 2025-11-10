@@ -115,6 +115,10 @@ class StateHelper
     {
         $runningActions = self::getState($obj, 'running_actions');
 
+        if(!$runningActions) {
+            return;
+        }
+
         $runningAction = json_decode($runningActions->value, true);
 
         if($runningAction) {
