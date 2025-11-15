@@ -144,6 +144,11 @@ class Cities extends Model
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
     }
     
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\CRM\Database\Models\Accounts::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 
