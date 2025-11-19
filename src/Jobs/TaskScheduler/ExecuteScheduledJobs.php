@@ -102,7 +102,7 @@ class ExecuteScheduledJobs implements ShouldQueue
         //  If time_of_day is null, it means that the task should run every time
         //  when the scheduler is executed.
         $tasks = ScheduledTasksPerspective::withoutGlobalScopes()
-            ->where('time_of_day', $now)
+            ->whereRaw("time_of_day::time = (CURRENT_TIMESTAMP AT TIME ZONE ?)::time", [$now])
             ->orWhereNull('time_of_day')
             ->get();
 
