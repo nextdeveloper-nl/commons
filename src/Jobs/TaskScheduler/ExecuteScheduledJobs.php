@@ -93,14 +93,12 @@ class ExecuteScheduledJobs implements ShouldQueue
 
     private function runScheduledTasks()
     {
-        $defaultTimezone = config('app.timezone');
-
         //  Note that ScheduledTasks are a view not a table!!!! cron type of scheduling is not supported here.
         //  We will run only tasks that have time_of_day set to current time or null
         //  If time_of_day is null, it means that the task should run every time
         //  when the scheduler is executed.
         $tasks = ScheduledTasksPerspective::withoutGlobalScopes()
-            ->whereRaw("time_of_day::time = date_trunc('minute', (CURRENT_TIMESTAMP AT TIME ZONE ?))::time", [$defaultTimezone])
+            ->whereRaw("time_of_day::time = date_trunc('minute', (CURRENT_TIMESTAMP AT TIME ZONE timezone))::time")
             ->orWhereNull('time_of_day')
             ->get();
 
