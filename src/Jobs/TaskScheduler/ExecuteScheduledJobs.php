@@ -38,7 +38,7 @@ class ExecuteScheduledJobs implements ShouldQueue
         UserHelper::setAdminAsCurrentUser();
 
         $this->runScheduledTasks();
-        $this->calculateNextRunDates();
+        //$this->calculateNextRunDates();
         //$this->runNextRunDates();
     }
 
