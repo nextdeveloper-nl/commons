@@ -39,7 +39,7 @@ class ExecuteScheduledJobs implements ShouldQueue
 
         $this->runScheduledTasks();
         $this->calculateNextRunDates();
-        $this->runNextRunDates();
+        //$this->runNextRunDates();
     }
 
     private function runNextRunDates() {
@@ -95,14 +95,12 @@ class ExecuteScheduledJobs implements ShouldQueue
     {
         $defaultTimezone = config('app.timezone');
 
-        $now = Carbon::now($defaultTimezone)->format('H:i:00P');
-
         //  Note that ScheduledTasks are a view not a table!!!! cron type of scheduling is not supported here.
         //  We will run only tasks that have time_of_day set to current time or null
         //  If time_of_day is null, it means that the task should run every time
         //  when the scheduler is executed.
         $tasks = ScheduledTasksPerspective::withoutGlobalScopes()
-            ->whereRaw("time_of_day::time = (CURRENT_TIMESTAMP AT TIME ZONE ?)::time", [$now])
+            ->whereRaw("time_of_day::time = date_trunc('minute', (CURRENT_TIMESTAMP AT TIME ZONE ?))::time", [$defaultTimezone])
             ->orWhereNull('time_of_day')
             ->get();
 
