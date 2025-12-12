@@ -75,7 +75,7 @@ class CommentsService extends AbstractCommentsService
             'body'  =>  $comment,
             'object_type'   =>  $class[0] . '\\' . $class[1] . '\\' . $class[4],
             'object_id' =>  $object->uuid,
-            'iam_user_id'   =>  UserHelper::getSystemUser(config('commons.configuration.system_user_email'))->id
+            'iam_user_id'   =>  UserHelper::getSystemUser()->id
         ]);
     }
 }
