@@ -54,7 +54,10 @@ class CommentsService extends AbstractCommentsService
         $object = $app->where('uuid', $data['object_id'])->first();
 
         if(!$object) {
-            throw new \Exception("The object you are trying to comment does not exist or you dont have access to it.");
+            // This is causing an unnecessary exception for actions. Therefore we dont want to create an exception
+
+            //throw new \Exception("The object you are trying to comment does not exist or you dont have access to it.");
+            return null;
         }
 
         $data['object_id'] = $object->id;
@@ -72,7 +75,7 @@ class CommentsService extends AbstractCommentsService
             'body'  =>  $comment,
             'object_type'   =>  $class[0] . '\\' . $class[1] . '\\' . $class[4],
             'object_id' =>  $object->uuid,
-            'iam_user_id'   =>  UserHelper::getWithEmail(config('commons.configuration.system_user_email'))->id
+            'iam_user_id'   =>  UserHelper::getSystemUser(config('commons.configuration.system_user_email'))->id
         ]);
     }
 }
