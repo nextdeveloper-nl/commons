@@ -48,8 +48,13 @@ class ResponsableFactory {
 
         $exploded = explode('\\', $returnObject);
 
-        if(!$transformer)
-            $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
+        if(!$transformer) {
+            if ($exploded[0] == 'NextDeveloper') {
+                $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
+            } else {
+                $transformer = 'App\\Http\\Transformers\\' . $exploded[3] . 'Transformer';
+            }
+        }
 
         switch ($returnType) {
             case 'Collection':
