@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Helpers;
 
+use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\States;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
@@ -21,6 +22,11 @@ class StateHelper
 
     public static function setState($obj, $stateName, $value, $objectState = null, $reason = null)
     {
+        if(!$obj) {
+            Log::error('[SetState] Cannot set the state for null object. State name is: ' . $stateName);
+            return;
+        }
+
         $state = self::getState($obj, $stateName);
 
         switch ($objectState) {
