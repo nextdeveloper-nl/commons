@@ -26,7 +26,7 @@ class AddressesService extends AbstractAddressesService
             ->get();
     }
 
-    public static function getAddresses($iamAccountId)
+    public static function getAddresses($params)
     {
         $account = UserHelper::currentAccount();
 
@@ -36,7 +36,7 @@ class AddressesService extends AbstractAddressesService
             UserHelper::has('sales-manager')
         ) {
             $account = Accounts::withoutGlobalScope(AuthorizationScope::class)
-                ->where('uuid', $iamAccountId)
+                ->where('uuid', $params['iamAccountId'])
                 ->first();
         }
 
