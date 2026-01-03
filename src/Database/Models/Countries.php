@@ -172,6 +172,11 @@ class Countries extends Model
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\PhoneNumbers::class);
     }
 
+    public function paymentGateways() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Accounting\Database\Models\PaymentGateways::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
     public function domains() : \Illuminate\Database\Eloquent\Relations\HasMany
