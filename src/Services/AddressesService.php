@@ -47,9 +47,15 @@ class AddressesService extends AbstractAddressesService
 
     public static function create($data)
     {
-        $data['object_id']  =   UserHelper::currentAccount()->id;
+        $account = Accounts::withoutGlobalScope(AuthorizationScope::class)
+            ->where('uuid', $data['iam_account_id'])
+            ->first();
+
+        $data['object_id']  =   $account->id;
         $data['object_type'] =   Accounts::class;
 
-        return parent::create($data);
+        UserHelper::runAsAdmin(function () use ($data) {
+            return parent::create($data);
+        });
     }
 }
