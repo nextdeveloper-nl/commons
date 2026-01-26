@@ -3,6 +3,7 @@
 namespace NextDeveloper\Commons\Services;
 
 use NextDeveloper\Commons\Services\AbstractServices\AbstractExternalServicesService;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * This class is responsible from managing the data for ExternalServices
@@ -28,4 +29,21 @@ class ExternalServicesService extends AbstractExternalServicesService
             ->all();
     }
 
+    public static function createGoogleLogin($googleUser)
+    {
+        $user = UserHelper::getWithEmail($googleUser->email);
+
+        return ExternalServicesService::create([
+            'object_id' => $user->id,
+            'object_type' => get_class($user),
+            'name'  =>  'Google Login',
+            'code'  =>  'google_login',
+            'configuration' =>  $googleUser,
+            'token' =>  $googleUser->token,
+            'refresh_token' =>  $googleUser->refreshToken,
+            'service_owner' =>  $user->email,
+            'iam_user_id'   =>  $user->id,
+            'iam_account_id' =>  UserHelper::masterAccount($user),
+        ]);
+    }
 }
