@@ -45,17 +45,18 @@ class ResponsableFactory {
                 ' object or you may need to change your search filters.');
         }
 
+        if(!$transformer) {
+            $exploded = explode('\\', $returnObject);
 
-        $exploded = explode('\\', $returnObject);
-
-        switch ($exploded[0]) {
-            case 'NextDeveloper':
-            case 'PlusClouds':
-            case 'LLMOcean':
-                $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
-                break;
-            default:
-                $transformer = 'App\\Http\\Transformers\\' . $exploded[3] . 'Transformer';
+            switch ($exploded[0]) {
+                case 'NextDeveloper':
+                case 'PlusClouds':
+                case 'LLMOcean':
+                    $transformer = $exploded[0] . '\\' . $exploded[1] . '\\Http\\Transformers\\' . $exploded[4] . 'Transformer';
+                    break;
+                default:
+                    $transformer = 'App\\Http\\Transformers\\' . $exploded[3] . 'Transformer';
+            }
         }
 
         switch ($returnType) {
