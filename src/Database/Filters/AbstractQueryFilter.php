@@ -39,6 +39,11 @@ abstract class AbstractQueryFilter {
     protected $except = [];
 
     /**
+     * @var array
+     */
+    protected $overrides = [];
+
+    /**
      * QueryFilter constructor.
      *
      * @param Request $request
