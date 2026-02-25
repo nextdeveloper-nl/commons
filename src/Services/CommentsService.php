@@ -24,6 +24,10 @@ class CommentsService extends AbstractCommentsService
         $object = request()->get('objectType');
 
         $object = explode('\\', $object);
+        if(count($object) < 1) {
+            throw new \Exception('Cannot get comments unless you provide an object type');
+        }
+
         $object = $object[0] . '\\' . $object[1] . '\\Database\\Models\\' . $object[2];
 
         $comments = Comments::withoutGlobalScope(AuthorizationScope::class)
