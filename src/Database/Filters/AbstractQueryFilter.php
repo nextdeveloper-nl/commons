@@ -74,15 +74,14 @@ abstract class AbstractQueryFilter {
         $this->builder = $builder;
 
         foreach ($this->filters() as $name => $value) {
-
-            //$name = ColumnNameSanitizer::sanitize(camel_case($name));
+            // Transform the value before passing it to the filter method
+            $value = $this->transformFilterValue($name, $value);
 
             if (method_exists($this, $name) && $this->checkFilterRules($name)) {
                 $r = new \ReflectionMethod($this, $name);
                 $s = count($r->getParameters());
 
-                // "?param" ve "?param=" kontrolü
-                if (0 == $s || ($s > 0 && ! is_null($value))) {
+                if (0 == $s || ($s > 0 && !is_null($value))) {
                     call_user_func_array([$this, $name], array_filter([$value], function ($v) {
                         return isset($v);
                     }));
@@ -93,11 +92,18 @@ abstract class AbstractQueryFilter {
         return $this->builder;
     }
 
+    public function updateValue(string $key, mixed $value): void {
+        $this->overrides[$key] = $value;
+    }
+
     /**
      * @return array
      */
     public function filters() {
-        return $this->request->except($this->except);
+        return array_merge(
+            $this->request->except($this->except),
+            $this->overrides
+        );
     }
 
     /**
