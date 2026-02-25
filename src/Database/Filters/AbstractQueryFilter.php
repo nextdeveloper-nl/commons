@@ -97,6 +97,10 @@ abstract class AbstractQueryFilter {
         return $this->builder;
     }
 
+    protected function transformFilterValue(string $name, mixed $value): mixed {
+        return $value; // Default: no transformation
+    }
+
     public function updateValue(string $key, mixed $value): void {
         $this->overrides[$key] = $value;
     }
