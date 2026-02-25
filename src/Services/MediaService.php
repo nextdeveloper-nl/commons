@@ -50,8 +50,8 @@ class MediaService extends AbstractMediaService
         $data = self::processMediaUploadData($data);
 
         if(array_key_exists('object_type', $data)) {
-            if(strpos( $data['object_type'], '-' )) {
-                $exploded = explode('-', $data['object_type']);
+            if(strpos( $data['object_type'], '\\' )) {
+                $exploded = explode('\\', $data['object_type']);
 
                 if(count($exploded) > 2) {
                     $data['object_type'] = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
