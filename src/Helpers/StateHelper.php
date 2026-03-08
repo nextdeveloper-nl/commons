@@ -87,7 +87,10 @@ class StateHelper
 
         $runningActions = $runningActions ? json_decode($runningActions->value, true) : [];
 
-        return $runningActions[$action->action] ?? null;
+        if($action)
+            return $runningActions[$action->action] ?? null;
+        else
+            return null;
     }
 
     public static function setRunningActions($obj, $action, $checkpoint = null)
