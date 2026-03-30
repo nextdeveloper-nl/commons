@@ -60,7 +60,7 @@ class TextArray implements CastsAttributes
                     //  This is very interesting. I dont know why it happens but if we use try catch here,
                     //  $value variable is not updated. So I put this return here as workaround. But this should be
                     //  fixed
-                    return '{' . implode(',', $value) . '}';
+                    return '{' . implode(',', array_map([$this, 'escapeElement'], array_map('strval', $value))) . '}';
                 } catch (\Exception $e) {
                     throw new DataTypeException('The given value is not a json or an array. ' .
                         'Please provide an array to this file type: ' . $key);
@@ -71,6 +71,24 @@ class TextArray implements CastsAttributes
                 'Please provide an array to this file type: ' . $key);
         }
 
-        return '{' . implode(',', $value) . '}';
+        return '{' . implode(',', array_map([$this, 'escapeElement'], array_map('strval', $value))) . '}';
+    }
+
+    /**
+     * Escape a single array element for use in a PostgreSQL array literal.
+     *
+     * Elements containing double quotes, commas, whitespace, backslashes, or
+     * braces must be double-quoted. Double quotes and backslashes inside the
+     * element are escaped with a backslash.
+     */
+    private function escapeElement(string $value): string
+    {
+        if ($value === '' || $value === 'NULL' || preg_match('/[",\s{}\\\\]/', $value)) {
+            $escaped = str_replace('\\', '\\\\', $value);
+            $escaped = str_replace('"', '\\"', $escaped);
+            return '"' . $escaped . '"';
+        }
+
+        return $value;
     }
 }
