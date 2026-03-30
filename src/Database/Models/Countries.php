@@ -177,6 +177,21 @@ class Countries extends Model
         return $this->hasMany(\NextDeveloper\Accounting\Database\Models\PaymentGateways::class);
     }
 
+    public function accounts() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Accounts::class);
+    }
+
+    public function users() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAM\Database\Models\Users::class);
+    }
+
+    public function accountTypes() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\IAM\Database\Models\AccountTypes::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
 
     public function domains() : \Illuminate\Database\Eloquent\Relations\HasMany
