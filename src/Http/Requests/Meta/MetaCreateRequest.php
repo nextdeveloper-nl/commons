@@ -11,7 +11,6 @@ class MetaCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'key' => "string", 'value' => "string"])]
     public function rules()
     {
         return [
@@ -22,5 +21,6 @@ class MetaCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 }

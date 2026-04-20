@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * Votes model.
@@ -29,7 +30,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  */
 class Votes extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -136,12 +137,9 @@ class Votes extends Model
         }
     }
 
-    public function users() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

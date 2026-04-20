@@ -11,7 +11,6 @@ class VotesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['value' => "string", 'object_id' => "string", 'object_type' => "string"])]
     public function rules()
     {
         return [
@@ -21,4 +20,5 @@ class VotesCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

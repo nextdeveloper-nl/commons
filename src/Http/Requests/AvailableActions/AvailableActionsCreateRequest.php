@@ -11,7 +11,6 @@ class AvailableActionsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['action' => "string", 'description' => "string", 'class' => "string", 'input' => "string", 'parameters' => "string", 'outputs' => "string", 'name' => "string"])]
     public function rules()
     {
         return [
@@ -25,4 +24,5 @@ class AvailableActionsCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

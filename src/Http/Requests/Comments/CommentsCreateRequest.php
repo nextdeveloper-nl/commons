@@ -11,7 +11,6 @@ class CommentsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['body' => "string", 'object_id' => "string", 'object_type' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [
@@ -22,4 +21,5 @@ class CommentsCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

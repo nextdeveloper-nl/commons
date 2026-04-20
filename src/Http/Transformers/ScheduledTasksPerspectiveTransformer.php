@@ -1,0 +1,43 @@
+<?php
+
+namespace NextDeveloper\Commons\Http\Transformers;
+
+use Illuminate\Support\Facades\Cache;
+use NextDeveloper\Commons\Common\Cache\CacheHelper;
+use NextDeveloper\Commons\Database\Models\ScheduledTasksPerspective;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractScheduledTasksPerspectiveTransformer;
+
+/**
+ * Class ScheduledTasksPerspectiveTransformer. This class is being used to manipulate the data we are serving to the customer
+ *
+ * @package NextDeveloper\Commons\Http\Transformers
+ */
+class ScheduledTasksPerspectiveTransformer extends AbstractScheduledTasksPerspectiveTransformer
+{
+
+    /**
+     * @param ScheduledTasksPerspective $model
+     *
+     * @return array
+     */
+    public function transform(ScheduledTasksPerspective $model)
+    {
+        $transformed = Cache::get(
+            CacheHelper::getKey('ScheduledTasksPerspective', $model->uuid, 'Transformed')
+        );
+
+        if($transformed) {
+            return $transformed;
+        }
+
+        $transformed = parent::transform($model);
+
+        Cache::set(
+            CacheHelper::getKey('ScheduledTasksPerspective', $model->uuid, 'Transformed'),
+            $transformed
+        );
+
+        return $transformed;
+    }
+}

@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * Categories model.
@@ -26,14 +27,14 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property boolean $is_active
  * @property integer $common_domain_id
  * @property integer $common_category_id
- * @property integer $position
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property integer $position
  */
 class Categories extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -85,10 +86,10 @@ class Categories extends Model
     'is_active' => 'boolean',
     'common_domain_id' => 'integer',
     'common_category_id' => 'integer',
-    'position' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
+    'position' => 'integer',
     ];
 
     /**
@@ -149,17 +150,9 @@ class Categories extends Model
         }
     }
 
-    public function categories() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Categories::class);
-    }
-    
-    public function domains() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Domains::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 
