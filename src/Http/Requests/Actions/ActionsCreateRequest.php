@@ -11,7 +11,6 @@ class ActionsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['action' => "string", 'progress' => "string", 'runtime' => "string", 'object_id' => "string", 'object_type' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [
@@ -21,7 +20,10 @@ class ActionsCreateRequest extends AbstractFormRequest
         'object_id' => 'required',
         'object_type' => 'required|string',
         'tags' => '',
+        'checkpoints' => 'nullable',
+        'state_data' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

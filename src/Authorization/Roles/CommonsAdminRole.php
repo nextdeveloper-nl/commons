@@ -127,6 +127,16 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
             'common_task_schedulers:create',
             'common_task_schedulers:update',
             'common_task_schedulers:delete',
+
+            // pushers and pusher_logs
+            'common_pushers:read',
+            'common_pushers:create',
+            'common_pushers:update',
+            'common_pushers:delete',
+            'common_pusher_logs:read',
+            'common_pusher_logs:create',
+            'common_pusher_logs:update',
+            'common_pusher_logs:delete',
         ];
     }
 

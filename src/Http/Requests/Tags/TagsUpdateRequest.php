@@ -11,7 +11,6 @@ class TagsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['name' => "string", 'description' => "string", 'slug' => "string"])]
     public function rules()
     {
         return [
@@ -21,4 +20,5 @@ class TagsUpdateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

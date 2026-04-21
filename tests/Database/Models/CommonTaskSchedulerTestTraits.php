@@ -62,11 +62,12 @@ trait CommonTaskSchedulerTestTraits
                 'description'  =>  'a',
                 'schedule_type'  =>  'a',
                 'object_type'  =>  'a',
+                'cron_expression'  =>  'a',
                 'timezone'  =>  'a',
                 'day_of_month'  =>  '1',
                 'day_of_week'  =>  '1',
-                    'next_run'  =>  now(),
-                        ],
+                    'next_run_at'  =>  now(),
+                            ],
                 ['http_errors' => false]
             ]
         );
@@ -424,6 +425,25 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
+    public function test_commontaskscheduler_event_cron_expression_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'cron_expression'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
     public function test_commontaskscheduler_event_timezone_filter()
     {
         try {
@@ -481,12 +501,12 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_next_run_filter_start()
+    public function test_commontaskscheduler_event_next_run_at_filter_start()
     {
         try {
             $request = new Request(
                 [
-                'next_runStart'  =>  now()
+                'next_run_atStart'  =>  now()
                 ]
             );
 
@@ -538,12 +558,31 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_next_run_filter_end()
+    public function test_commontaskscheduler_event_deleted_at_filter_start()
     {
         try {
             $request = new Request(
                 [
-                'next_runEnd'  =>  now()
+                'deleted_atStart'  =>  now()
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_next_run_at_filter_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'next_run_atEnd'  =>  now()
                 ]
             );
 
@@ -595,13 +634,32 @@ trait CommonTaskSchedulerTestTraits
         $this->assertTrue(true);
     }
 
-    public function test_commontaskscheduler_event_next_run_filter_start_and_end()
+    public function test_commontaskscheduler_event_deleted_at_filter_end()
     {
         try {
             $request = new Request(
                 [
-                'next_runStart'  =>  now(),
-                'next_runEnd'  =>  now()
+                'deleted_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_next_run_at_filter_start_and_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'next_run_atStart'  =>  now(),
+                'next_run_atEnd'  =>  now()
                 ]
             );
 
@@ -642,6 +700,26 @@ trait CommonTaskSchedulerTestTraits
                 [
                 'updated_atStart'  =>  now(),
                 'updated_atEnd'  =>  now()
+                ]
+            );
+
+            $filter = new CommonTaskSchedulerQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonTaskScheduler::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commontaskscheduler_event_deleted_at_filter_start_and_end()
+    {
+        try {
+            $request = new Request(
+                [
+                'deleted_atStart'  =>  now(),
+                'deleted_atEnd'  =>  now()
                 ]
             );
 

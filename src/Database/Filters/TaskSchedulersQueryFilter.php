@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-
+    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -17,19 +17,19 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-
+    
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-
+        
     public function scheduleType($value)
     {
         return $this->builder->where('schedule_type', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->scheduleType($value);
     }
-
+        
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
@@ -51,13 +51,24 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
+        
+    public function cronExpression($value)
+    {
+        return $this->builder->where('cron_expression', 'ilike', '%' . $value . '%');
+    }
 
+        //  This is an alias function of cronExpression
+    public function cron_expression($value)
+    {
+        return $this->cronExpression($value);
+    }
+        
     public function timezone($value)
     {
         return $this->builder->where('timezone', 'ilike', '%' . $value . '%');
     }
 
-
+    
     public function dayOfMonth($value)
     {
         $operator = substr($value, 0, 1);
@@ -76,7 +87,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfMonth($value);
     }
-
+    
     public function dayOfWeek($value)
     {
         $operator = substr($value, 0, 1);
@@ -95,27 +106,27 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfWeek($value);
     }
-
-    public function nextRunStart($date)
+    
+    public function nextRunAtStart($date)
     {
         return $this->builder->where('next_run_at', '>=', $date);
     }
 
-    public function nextRunEnd($date)
+    public function nextRunAtEnd($date)
     {
         return $this->builder->where('next_run_at', '<=', $date);
     }
 
-    //  This is an alias function of nextRun
-    public function next_run_start($value)
+    //  This is an alias function of nextRunAt
+    public function next_run_at_start($value)
     {
-        return $this->nextRunStart($value);
+        return $this->nextRunAtStart($value);
     }
 
-    //  This is an alias function of nextRun
-    public function next_run_end($value)
+    //  This is an alias function of nextRunAt
+    public function next_run_at_end($value)
     {
-        return $this->nextRunEnd($value);
+        return $this->nextRunAtEnd($value);
     }
 
     public function createdAtStart($date)
@@ -162,6 +173,28 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
         return $this->updatedAtEnd($value);
     }
 
+    public function deletedAtStart($date)
+    {
+        return $this->builder->where('deleted_at', '>=', $date);
+    }
+
+    public function deletedAtEnd($date)
+    {
+        return $this->builder->where('deleted_at', '<=', $date);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_start($value)
+    {
+        return $this->deletedAtStart($value);
+    }
+
+    //  This is an alias function of deletedAt
+    public function deleted_at_end($value)
+    {
+        return $this->deletedAtEnd($value);
+    }
+
     public function commonAvailableActionId($value)
     {
             $commonAvailableAction = \NextDeveloper\Commons\Database\Models\AvailableActions::where('uuid', $value)->first();
@@ -176,8 +209,10 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->commonAvailableAction($value);
     }
-
+    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

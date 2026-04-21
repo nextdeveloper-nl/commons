@@ -11,7 +11,6 @@ class ActionLogsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['common_action_id' => "string", 'log' => "string", 'runtime' => "string"])]
     public function rules()
     {
         return [
@@ -21,4 +20,5 @@ class ActionLogsCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }
