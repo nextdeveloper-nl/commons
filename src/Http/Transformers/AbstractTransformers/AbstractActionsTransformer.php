@@ -70,6 +70,8 @@ class AbstractActionsTransformer extends AbstractTransformer
             'tags'  =>  $model->tags,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
+            'checkpoints'  =>  $model->checkpoints,
+            'state_data'  =>  $model->state_data,
             ]
         );
     }
@@ -158,6 +160,8 @@ class AbstractActionsTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 

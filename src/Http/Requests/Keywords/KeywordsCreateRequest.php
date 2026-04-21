@@ -11,7 +11,6 @@ class KeywordsCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['name' => "string"])]
     public function rules()
     {
         return [
@@ -19,4 +18,5 @@ class KeywordsCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

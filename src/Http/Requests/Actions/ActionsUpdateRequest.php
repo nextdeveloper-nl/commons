@@ -11,7 +11,6 @@ class ActionsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['action' => "string", 'progress' => "string", 'runtime' => "string", 'object_id' => "string", 'object_type' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [
@@ -21,7 +20,10 @@ class ActionsUpdateRequest extends AbstractFormRequest
         'object_id' => 'nullable',
         'object_type' => 'nullable|string',
         'tags' => '',
+        'checkpoints' => 'nullable',
+        'state_data' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

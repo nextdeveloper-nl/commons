@@ -11,7 +11,6 @@ class CountryStatesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['name' => "string", 'code' => "string", 'latitude' => "string", 'longitude' => "string", 'type' => "string", 'common_country_id' => "string", 'is_active' => "string", 'timezones' => "string"])]
     public function rules()
     {
         return [
@@ -26,4 +25,5 @@ class CountryStatesCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

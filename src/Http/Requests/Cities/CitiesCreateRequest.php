@@ -11,7 +11,6 @@ class CitiesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['code' => "string", 'locale' => "string", 'name' => "string", 'phone_code' => "string", 'geo_name_identitiy' => "string", 'common_country_id' => "string", 'is_active' => "string", 'timezones' => "string"])]
     public function rules()
     {
         return [
@@ -26,4 +25,5 @@ class CitiesCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

@@ -11,7 +11,6 @@ class PhoneNumbersCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['object_id' => "string", 'object_type' => "string", 'name' => "string", 'code' => "string", 'number' => "string", 'is_active' => "string", 'common_country_id' => "string", 'tags' => "string"])]
     public function rules()
     {
         return [
@@ -26,4 +25,5 @@ class PhoneNumbersCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

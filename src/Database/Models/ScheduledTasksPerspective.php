@@ -11,6 +11,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Common\Cache\Traits\CleanCache;
 use NextDeveloper\Commons\Database\Traits\Taggable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * ScheduledTasksPerspective model.
@@ -27,18 +28,21 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $next_run_at
  * @property string $object_type
  * @property integer $object_id
+ * @property string $cron_expression
  * @property integer $common_available_action_id
  * @property $params
+ * @property string $timezone
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
 class ScheduledTasksPerspective extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
 
     public $timestamps = true;
 
     protected $table = 'common_scheduled_tasks_perspective';
+
 
     /**
      @var array
@@ -55,8 +59,10 @@ class ScheduledTasksPerspective extends Model
             'next_run_at',
             'object_type',
             'object_id',
+            'cron_expression',
             'common_available_action_id',
             'params',
+            'timezone',
     ];
 
     /**
@@ -88,8 +94,10 @@ class ScheduledTasksPerspective extends Model
     'next_run_at' => 'datetime',
     'object_type' => 'string',
     'object_id' => 'integer',
+    'cron_expression' => 'string',
     'common_available_action_id' => 'integer',
     'params' => 'array',
+    'timezone' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     ];
@@ -133,7 +141,7 @@ class ScheduledTasksPerspective extends Model
     public static function registerScopes()
     {
         $globalScopes = config('commons.scopes.global');
-        $modelScopes = config('commons.scopes.common_scheduled_tasks');
+        $modelScopes = config('commons.scopes.common_scheduled_tasks_perspective');
 
         if(!$modelScopes) { $modelScopes = [];
         }
@@ -153,5 +161,7 @@ class ScheduledTasksPerspective extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 }
