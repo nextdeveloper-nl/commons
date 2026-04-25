@@ -3821,5 +3821,245 @@ return [
         return NextDeveloper\Commons\Database\Models\CommonScheduledTask::findByRef($value);
 },
 
+'commoncurrency' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCurrency::findByRef($value);
+},
+
+'commondomain' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonDomain::findByRef($value);
+},
+
+'commoncategory' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCategory::findByRef($value);
+},
+
+'commonactionlog' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonActionLog::findByRef($value);
+},
+
+'commonaction' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAction::findByRef($value);
+},
+
+'commonaddress' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAddress::findByRef($value);
+},
+
+'commonavailableaction' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAvailableAction::findByRef($value);
+},
+
+'commoncity' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCity::findByRef($value);
+},
+
+'commoncomment' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonComment::findByRef($value);
+},
+
+'commoncountry' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCountry::findByRef($value);
+},
+
+'commoncountrystate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCountryState::findByRef($value);
+},
+
+'commonexternalservice' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonExternalService::findByRef($value);
+},
+
+'commondisposableemail' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonDisposableEmail::findByRef($value);
+},
+
+'commonexchangerate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonExchangeRate::findByRef($value);
+},
+
+'commonkeyword' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonKeyword::findByRef($value);
+},
+
+'commonlanguage' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonLanguage::findByRef($value);
+},
+
+'commonmedia' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonMedia::findByRef($value);
+},
+
+'commonmetum' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonMetum::findByRef($value);
+},
+
+'commonphonenumber' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPhoneNumber::findByRef($value);
+},
+
+'commonregistry' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonRegistry::findByRef($value);
+},
+
+'commontaskscheduler' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonTaskScheduler::findByRef($value);
+},
+
+'commonsocialmedia' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonSocialMedia::findByRef($value);
+},
+
+'commonstate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonState::findByRef($value);
+},
+
+'commontag' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonTag::findByRef($value);
+},
+
+'commonvalidatable' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonValidatable::findByRef($value);
+},
+
+'commonvote' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonVote::findByRef($value);
+},
+
+'commonpusher' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPusher::findByRef($value);
+},
+
+'commonpusherlog' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPusherLog::findByRef($value);
+},
+
+'commonactionsperspective' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonActionsPerspective::findByRef($value);
+},
+
+'commonscheduledtasksperspective' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonScheduledTasksPerspective::findByRef($value);
+},
+
+'commoncurrency' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCurrency::findByRef($value);
+},
+
+'commondomain' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonDomain::findByRef($value);
+},
+
+'commoncategory' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCategory::findByRef($value);
+},
+
+'commonactionlog' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonActionLog::findByRef($value);
+},
+
+'commonaction' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAction::findByRef($value);
+},
+
+'commonaddress' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAddress::findByRef($value);
+},
+
+'commonavailableaction' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonAvailableAction::findByRef($value);
+},
+
+'commoncity' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCity::findByRef($value);
+},
+
+'commoncomment' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonComment::findByRef($value);
+},
+
+'commoncountry' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCountry::findByRef($value);
+},
+
+'commoncountrystate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonCountryState::findByRef($value);
+},
+
+'commonexternalservice' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonExternalService::findByRef($value);
+},
+
+'commondisposableemail' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonDisposableEmail::findByRef($value);
+},
+
+'commonexchangerate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonExchangeRate::findByRef($value);
+},
+
+'commonkeyword' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonKeyword::findByRef($value);
+},
+
+'commonlanguage' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonLanguage::findByRef($value);
+},
+
+'commonmedia' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonMedia::findByRef($value);
+},
+
+'commonmetum' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonMetum::findByRef($value);
+},
+
+'commonphonenumber' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPhoneNumber::findByRef($value);
+},
+
+'commonregistry' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonRegistry::findByRef($value);
+},
+
+'commontaskscheduler' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonTaskScheduler::findByRef($value);
+},
+
+'commonsocialmedia' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonSocialMedia::findByRef($value);
+},
+
+'commonstate' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonState::findByRef($value);
+},
+
+'commontag' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonTag::findByRef($value);
+},
+
+'commonvalidatable' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonValidatable::findByRef($value);
+},
+
+'commonvote' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonVote::findByRef($value);
+},
+
+'commonpusher' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPusher::findByRef($value);
+},
+
+'commonpusherlog' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonPusherLog::findByRef($value);
+},
+
+'commonactionsperspective' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonActionsPerspective::findByRef($value);
+},
+
+'commonscheduledtasksperspective' => function ($value) {
+        return NextDeveloper\Commons\Database\Models\CommonScheduledTasksPerspective::findByRef($value);
+},
+
 // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 ];

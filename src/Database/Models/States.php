@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * States model.
@@ -19,7 +20,6 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @package  NextDeveloper\Commons\Database\Models
  * @property integer $id
  * @property string $uuid
- * @property $object_states
  * @property string $name
  * @property string $value
  * @property string $reason
@@ -28,10 +28,11 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
+ * @property $object_states
  */
 class States extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
     use SoftDeletes;
 
     public $timestamps = true;
@@ -40,75 +41,75 @@ class States extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'object_states',
-        'name',
-        'value',
-        'reason',
-        'object_id',
-        'object_type',
+            'name',
+            'value',
+            'reason',
+            'object_id',
+            'object_type',
+            'object_states',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'value' => 'string',
-        'reason' => 'string',
-        'object_id' => 'integer',
-        'object_type' => 'string',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
+    'id' => 'integer',
+    'name' => 'string',
+    'value' => 'string',
+    'reason' => 'string',
+    'object_id' => 'integer',
+    'object_type' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -125,11 +126,9 @@ class States extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_states');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -137,7 +136,7 @@ class States extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
@@ -145,6 +144,8 @@ class States extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 }

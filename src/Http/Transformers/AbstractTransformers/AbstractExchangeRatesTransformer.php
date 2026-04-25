@@ -60,10 +60,10 @@ class AbstractExchangeRatesTransformer extends AbstractTransformer
             [
             'id'  =>  $model->uuid,
             'common_country_id'  =>  $commonCountryId ? $commonCountryId->uuid : null,
-            'reference_currency_code'  =>  $model->reference_currency_code,
             'rate'  =>  $model->rate,
             'created_at'  =>  $model->created_at,
             'updated_at'  =>  $model->updated_at,
+            'reference_currency_code'  =>  $model->reference_currency_code,
             'source'  =>  $model->source,
             'local_currency_code'  =>  $model->local_currency_code,
             ]
@@ -154,6 +154,8 @@ class AbstractExchangeRatesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

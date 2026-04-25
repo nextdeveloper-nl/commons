@@ -11,7 +11,6 @@ class ExternalServicesCreateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['code' => "string", 'name' => "string", 'description' => "string", 'configuration' => "string", 'token' => "string", 'refresh_token' => "string", 'is_alive' => "string", 'service_owner' => "string"])]
     public function rules()
     {
         return [
@@ -26,4 +25,5 @@ class ExternalServicesCreateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 }

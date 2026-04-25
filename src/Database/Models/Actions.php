@@ -11,6 +11,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * Actions model.
@@ -23,16 +24,17 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $runtime
  * @property integer $object_id
  * @property string $object_type
- * @property array $checkpoints
  * @property integer $iam_user_id
  * @property integer $iam_account_id
  * @property array $tags
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property $checkpoints
+ * @property $state_data
  */
 class Actions extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
 
     public $timestamps = true;
 
@@ -40,80 +42,80 @@ class Actions extends Model
 
 
     /**
-     * @var array
+     @var array
      */
     protected $guarded = [];
 
     protected $fillable = [
-        'action',
-        'progress',
-        'runtime',
-        'object_id',
-        'object_type',
-        'checkpoints',
-        'state_data',
-        'iam_user_id',
-        'iam_account_id',
-        'tags',
+            'action',
+            'progress',
+            'runtime',
+            'object_id',
+            'object_type',
+            'iam_user_id',
+            'iam_account_id',
+            'tags',
+            'checkpoints',
+            'state_data',
     ];
 
     /**
-     * Here we have the fulltext fields. We can use these for fulltext search if enabled.
+      Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
 
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $appends = [
 
     ];
 
     /**
-     * We are casting fields to objects so that we can work on them better
+     We are casting fields to objects so that we can work on them better
      *
-     * @var array
+     @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'action' => 'string',
-        'progress' => 'integer',
-        'runtime' => 'integer',
-        'object_id' => 'integer',
-        'object_type' => 'string',
-        'checkpoints' => 'array',
-        'state_data' => 'array',
-        'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+    'id' => 'integer',
+    'action' => 'string',
+    'progress' => 'integer',
+    'runtime' => 'integer',
+    'object_id' => 'integer',
+    'object_type' => 'string',
+    'tags' => \NextDeveloper\Commons\Database\Casts\TextArray::class,
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'checkpoints' => 'array',
+    'state_data' => 'array',
     ];
 
     /**
-     * We are casting data fields.
+     We are casting data fields.
      *
-     * @var array
+     @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
+    'created_at',
+    'updated_at',
     ];
 
     /**
-     * @var array
+     @var array
      */
     protected $with = [
 
     ];
 
     /**
-     * @var int
+     @var int
      */
     protected $perPage = 20;
 
     /**
-     * @return void
+     @return void
      */
     public static function boot()
     {
@@ -130,11 +132,9 @@ class Actions extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_actions');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -142,29 +142,16 @@ class Actions extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Accounts::class);
-    }
-
-    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\IAM\Database\Models\Users::class);
-    }
-
-    public function actionLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Commons\Database\Models\ActionLogs::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
 
 
 }

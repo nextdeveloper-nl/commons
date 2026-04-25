@@ -11,7 +11,6 @@ class CategoriesUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['slug' => "string", 'name' => "string", 'description' => "string", 'url' => "string", 'is_active' => "string", 'common_domain_id' => "string", 'common_category_id' => "string", 'position' => "string"])]
     public function rules()
     {
         return [
@@ -26,4 +25,5 @@ class CategoriesUpdateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }

@@ -11,6 +11,7 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 use NextDeveloper\Commons\Database\Traits\HasStates;
 use Illuminate\Notifications\Notifiable;
 use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
+use NextDeveloper\Commons\Database\Traits\HasObject;
 
 /**
  * ExchangeRates model.
@@ -19,16 +20,16 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property integer $id
  * @property string $uuid
  * @property integer $common_country_id
- * @property string $reference_currency_code
  * @property $rate
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ * @property string $reference_currency_code
  * @property string $source
  * @property string $local_currency_code
  */
 class ExchangeRates extends Model
 {
-    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator;
+    use Filterable, UuidId, CleanCache, Taggable, HasStates, RunAsAdministrator, HasObject;
 
     public $timestamps = true;
 
@@ -42,8 +43,8 @@ class ExchangeRates extends Model
 
     protected $fillable = [
             'common_country_id',
-            'reference_currency_code',
             'rate',
+            'reference_currency_code',
             'source',
             'local_currency_code',
     ];
@@ -70,9 +71,9 @@ class ExchangeRates extends Model
     protected $casts = [
     'id' => 'integer',
     'common_country_id' => 'integer',
-    'reference_currency_code' => 'string',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
+    'reference_currency_code' => 'string',
     'source' => 'string',
     'local_currency_code' => 'string',
     ];
@@ -134,12 +135,9 @@ class ExchangeRates extends Model
         }
     }
 
-    public function countries() : \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Countries::class);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
+
 
 
 

@@ -11,7 +11,6 @@ class DisposableEmailsUpdateRequest extends AbstractFormRequest
     /**
      * @return array
      */
-    #[ArrayShape(['common_domain_id' => "string"])]
     public function rules()
     {
         return [
@@ -19,4 +18,5 @@ class DisposableEmailsUpdateRequest extends AbstractFormRequest
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 }
