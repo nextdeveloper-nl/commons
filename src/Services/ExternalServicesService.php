@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use NextDeveloper\Commons\Database\Models\ExternalServices;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractExternalServicesService;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
@@ -33,11 +34,17 @@ class ExternalServicesService extends AbstractExternalServicesService
     {
         $user = UserHelper::getWithEmail($googleUser->email);
 
+        ExternalServices::withoutGlobalScopes()
+            ->where('iam_user_id', $user->id)
+            ->where('code', 'google_login')
+            ->delete();
+
         return ExternalServicesService::create([
             'object_id' => $user->id,
             'object_type' => get_class($user),
             'name'  =>  'Google Login',
             'code'  =>  'google_login',
+            'is_alive'  =>  true,
             'configuration' =>  $googleUser,
             'token' =>  $googleUser->token,
             'refresh_token' =>  $googleUser->refreshToken,
