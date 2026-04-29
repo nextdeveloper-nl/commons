@@ -153,6 +153,11 @@ class Pushers extends Model
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\PusherLogs::class);
     }
 
+    public function workspaces() : \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\NextDeveloper\Intelligence\Database\Models\Workspaces::class);
+    }
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 }
