@@ -548,27 +548,6 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('pushers')->group(
-            function () {
-                Route::get('/', 'Pushers\PushersController@index');
-                Route::get('/actions', 'Pushers\PushersController@getActions');
-
-                Route::get('{common_pushers}/tags ', 'Pushers\PushersController@tags');
-                Route::post('{common_pushers}/tags ', 'Pushers\PushersController@saveTags');
-                Route::get('{common_pushers}/addresses ', 'Pushers\PushersController@addresses');
-                Route::post('{common_pushers}/addresses ', 'Pushers\PushersController@saveAddresses');
-
-                Route::get('/{common_pushers}/{subObjects}', 'Pushers\PushersController@relatedObjects');
-                Route::get('/{common_pushers}', 'Pushers\PushersController@show');
-
-                Route::post('/', 'Pushers\PushersController@store');
-                Route::post('/{common_pushers}/do/{action}', 'Pushers\PushersController@doAction');
-
-                Route::patch('/{common_pushers}', 'Pushers\PushersController@update');
-                Route::delete('/{common_pushers}', 'Pushers\PushersController@destroy');
-            }
-        );
-
         Route::prefix('pusher-logs')->group(
             function () {
                 Route::get('/', 'PusherLogs\PusherLogsController@index');
@@ -587,6 +566,27 @@ Route::prefix('commons')->group(
 
                 Route::patch('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@update');
                 Route::delete('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@destroy');
+            }
+        );
+
+        Route::prefix('pushers')->group(
+            function () {
+                Route::get('/', 'Pushers\PushersController@index');
+                Route::get('/actions', 'Pushers\PushersController@getActions');
+
+                Route::get('{common_pushers}/tags ', 'Pushers\PushersController@tags');
+                Route::post('{common_pushers}/tags ', 'Pushers\PushersController@saveTags');
+                Route::get('{common_pushers}/addresses ', 'Pushers\PushersController@addresses');
+                Route::post('{common_pushers}/addresses ', 'Pushers\PushersController@saveAddresses');
+
+                Route::get('/{common_pushers}/{subObjects}', 'Pushers\PushersController@relatedObjects');
+                Route::get('/{common_pushers}', 'Pushers\PushersController@show');
+
+                Route::post('/', 'Pushers\PushersController@store');
+                Route::post('/{common_pushers}/do/{action}', 'Pushers\PushersController@doAction');
+
+                Route::patch('/{common_pushers}', 'Pushers\PushersController@update');
+                Route::delete('/{common_pushers}', 'Pushers\PushersController@destroy');
             }
         );
 
@@ -751,6 +751,110 @@ Route::prefix('commons')->group(
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Route::post('/media/upload', 'Media\FileUploadController@upload');
 
         Route::get('/tags/object', 'Taggables\ObjectTagsController@index');
@@ -765,6 +869,10 @@ Route::prefix('commons')->group(
         );
     }
 );
+
+
+
+
 
 
 

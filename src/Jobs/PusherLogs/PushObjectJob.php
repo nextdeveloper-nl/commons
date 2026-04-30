@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use NextDeveloper\Commons\Database\Models\PusherLogs;
 use NextDeveloper\Commons\Services\PusherLogsService;
+use NextDeveloper\Commons\Database\Models\Pushers;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 class PushObjectJob implements ShouldQueue
 {
@@ -31,6 +33,21 @@ class PushObjectJob implements ShouldQueue
 
     public function handle(): void
     {
-        PusherLogsService::push($this->model);
+        // get the log pusher
+        $pusher = Pushers::withoutGlobalScope(AuthorizationScope::class)
+            ->where('id', $this->model->common_pusher_id)
+            ->first();
+
+        if (!$pusher) {
+            return;
+        }
+
+        switch ($pusher->provider) {
+            case 'leadgen':
+                PusherLogsService::leadgenPush($this->model);
+                break;
+            default:
+                PusherLogsService::push($this->model);
+        }
     }
 }
