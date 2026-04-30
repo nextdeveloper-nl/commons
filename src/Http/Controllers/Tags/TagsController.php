@@ -10,14 +10,12 @@ use NextDeveloper\Commons\Http\Requests\Tags\TagsCreateRequest;
 use NextDeveloper\Commons\Http\Requests\Tags\TagsUpdateRequest;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\Commons\Http\Traits\Addresses;
-use NextDeveloper\Commons\Http\Traits\Tags;
 use NextDeveloper\Commons\Services\TagsService;
 
 class TagsController extends AbstractController
 {
     private $model = Tags::class;
 
-    use Tags;
     use Addresses;
     /**
      * This method returns the list of tags.
