@@ -63,6 +63,8 @@ trait CommonPusherTestTraits
                 'token'  =>  'a',
                 'url'  =>  'a',
                 'method'  =>  'a',
+                'provider'  =>  'a',
+                'auth_header'  =>  'a',
                             ],
                 ['http_errors' => false]
             ]
@@ -427,6 +429,44 @@ trait CommonPusherTestTraits
             $request = new Request(
                 [
                 'method'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonPusherQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonPusher::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonpusher_event_provider_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'provider'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonPusherQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonPusher::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commonpusher_event_auth_header_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'auth_header'  =>  'a'
                 ]
             );
 
