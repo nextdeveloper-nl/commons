@@ -47,6 +47,23 @@ class PushersQueryFilter extends AbstractQueryFilter
         return $this->builder->where('method', 'ilike', '%' . $value . '%');
     }
 
+        
+    public function provider($value)
+    {
+        return $this->builder->where('provider', 'ilike', '%' . $value . '%');
+    }
+
+        
+    public function authHeader($value)
+    {
+        return $this->builder->where('auth_header', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of authHeader
+    public function auth_header($value)
+    {
+        return $this->authHeader($value);
+    }
     
     public function createdAtStart($date)
     {
@@ -135,5 +152,8 @@ class PushersQueryFilter extends AbstractQueryFilter
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+
+
 
 }
