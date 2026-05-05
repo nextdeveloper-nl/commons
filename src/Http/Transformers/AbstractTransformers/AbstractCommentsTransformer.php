@@ -54,8 +54,8 @@ class AbstractCommentsTransformer extends AbstractTransformer
     public function transform(Comments $model)
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
-                                                            $parentId = \NextDeveloper\\Database\Models\Parents::where('id', $model->parent_id)->first();
-                        
+                                                $parentId = \NextDeveloper\Commons\Database\Models\Comments::where('id', $model->parent_id)->first();
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
