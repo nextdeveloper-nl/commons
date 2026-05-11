@@ -35,26 +35,21 @@ class PushersService extends AbstractPushersService
     // Uses class_exists so commons stays decoupled from ipaas.
     private static function resolveBaseUrl(array $data): array
     {
+        $url      = $data['url'] ?? null;
         $metadata = $data['provider_metadata'] ?? null;
 
-        if (!is_array($metadata)) {
+        if (!$url || !str_contains($url, '{{base_url}}')) {
             return $data;
         }
 
-        $encoded = json_encode($metadata);
-
-        if (!str_contains($encoded, '{{base_url}}')) {
-            return $data;
-        }
-
-        $workflowId = $metadata['workflow_id'] ?? null;
+        $workflowId = is_array($metadata) ? ($metadata['workflow_id'] ?? null) : null;
 
         if (!$workflowId) {
             return $data;
         }
 
-        $workflowClass  = '\NextDeveloper\IPAAS\Database\Models\Workflows';
-        $providerClass  = '\NextDeveloper\IPAAS\Database\Models\Providers';
+        $workflowClass = '\NextDeveloper\IPAAS\Database\Models\Workflows';
+        $providerClass = '\NextDeveloper\IPAAS\Database\Models\Providers';
 
         if (!class_exists($workflowClass) || !class_exists($providerClass)) {
             return $data;
@@ -72,10 +67,7 @@ class PushersService extends AbstractPushersService
             return $data;
         }
 
-        $baseUrl  = rtrim($provider->base_url, '/');
-        $resolved = json_decode(str_replace('{{base_url}}', $baseUrl, $encoded), true);
-
-        $data['provider_metadata'] = $resolved;
+        $data['url'] = str_replace('{{base_url}}', rtrim($provider->base_url, '/'), $url);
 
         return $data;
     }
