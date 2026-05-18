@@ -2,6 +2,8 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Database\Models\Pushers;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractPushersService;
 
 /**
@@ -15,6 +17,29 @@ class PushersService extends AbstractPushersService
 {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    /**
+     * Creates a PusherLog for the given pusher and payload, which causes PushObjectJob
+     * to dispatch and deliver the payload through the pusher's configured driver.
+     */
+    public static function trigger(int $commonPusherId, array $payload): void
+    {
+        $pusher = Pushers::withoutGlobalScopes()
+            ->where('id', $commonPusherId)
+            ->first();
+
+        if (!$pusher || !$pusher->url) {
+            Log::warning('[PushersService::trigger] Pusher not found or has no URL', [
+                'common_pusher_id' => $commonPusherId,
+            ]);
+            return;
+        }
+
+        PusherLogsService::create([
+            'common_pusher_id' => $pusher->uuid,
+            'body'             => $payload,
+        ]);
+    }
 
     public static function create(array $data)
     {
