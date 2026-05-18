@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Services;
 
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\Pushers;
+use NextDeveloper\Commons\Pushers\PusherFactory;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractPushersService;
 
 /**
@@ -19,8 +20,11 @@ class PushersService extends AbstractPushersService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     /**
-     * Creates a PusherLog for the given pusher and payload, which causes PushObjectJob
-     * to dispatch and deliver the payload through the pusher's configured driver.
+     * Delivers a payload through the given pusher immediately.
+     *
+     * Creates a PusherLog for the audit trail, then executes the driver
+     * synchronously. PushObjectJob will skip the log when it dequeues
+     * because the status will already be 'completed' or 'failed'.
      */
     public static function trigger(int $commonPusherId, array $payload): void
     {
@@ -35,10 +39,12 @@ class PushersService extends AbstractPushersService
             return;
         }
 
-        PusherLogsService::create([
+        $log = PusherLogsService::create([
             'common_pusher_id' => $pusher->uuid,
             'body'             => $payload,
         ]);
+
+        PusherFactory::make($pusher->provider)->execute($log, $pusher);
     }
 
     public static function create(array $data)
