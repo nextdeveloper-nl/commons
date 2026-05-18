@@ -9,11 +9,11 @@ use NextDeveloper\Commons\Pushers\AbstractPusher;
 use NextDeveloper\Commons\Pushers\PusherResult;
 
 /**
- * Generic webhook pusher.
+ * n8n pusher driver.
  *
- * Sends the PusherLog body as a JSON payload to the URL configured on the
- * Pusher record. Designed for automation triggers where the calling code
- * builds the full payload before creating the PusherLog.
+ * Sends the PusherLog body as a JSON payload to an n8n webhook URL.
+ * Uses acceptJson() and supports custom auth headers for n8n's
+ * Header Auth credential type.
  *
  * Auth resolution order (when require_auth is true):
  *   1. Custom header:  auth_header => token
@@ -22,11 +22,11 @@ use NextDeveloper\Commons\Pushers\PusherResult;
  * provider_metadata keys (all optional):
  *   timeout  int  Request timeout in seconds (default 30)
  */
-class WebhookPusher extends AbstractPusher
+class N8NPusher extends AbstractPusher
 {
     public static function provider(): string
     {
-        return 'webhook';
+        return 'n8n';
     }
 
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
