@@ -16,20 +16,8 @@ class InternalPusher extends AbstractPusher
 
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
     {
-        /**
-         * TODO: Implement internal pusher logic here. This is just a placeholder for the actual implementation.
-         * You can use the $log and $pusher objects to access the necessary data for sending the push notification.
-         * After implementing the logic, you can return a PusherResult object with the appropriate status and message.
-         * Example:
-         * $result = new PusherResult();
-         * $result->status = 'success';
-         * $result->message = 'Push notification sent successfully.';
-         * return $result;
-         */
-        $result = new PusherResult();
-        $result->status = 'success';
-        $result->message = 'Push notification sent successfully.';
-        return $result;
+        // Placeholder — internal delivery is not yet implemented.
+        return PusherResult::ok(200, 'Internal pusher not yet implemented.');
     }
 
 

@@ -5,6 +5,8 @@ namespace NextDeveloper\Commons\Pushers;
 use NextDeveloper\Commons\Pushers\Drivers\DefaultHttpPusher;
 use NextDeveloper\Commons\Pushers\Drivers\InternalPusher;
 use NextDeveloper\Commons\Pushers\Drivers\LeadGenPusher;
+use NextDeveloper\Commons\Pushers\Drivers\WebhookPusher;
+use NextDeveloper\Commons\Pushers\PusherInterface;
 
 class PusherFactory
 {
@@ -12,8 +14,9 @@ class PusherFactory
 
     /** @var array<string, class-string<PusherInterface>> */
     protected static array $drivers = [
-        'default' => DefaultHttpPusher::class,
-        'leadgen' => LeadGenPusher::class,
+        'default'  => DefaultHttpPusher::class,
+        'webhook'  => WebhookPusher::class,
+        'leadgen'  => LeadGenPusher::class,
         'internal' => InternalPusher::class,
     ];
 
