@@ -16,25 +16,19 @@ class PushObjectJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public const EVENTS = [
-        'created:NextDeveloper\Commons\PusherLogs',
-    ];
-
     public const QUEUE_NAME = 'commons';
 
     public int $tries = 3;
 
     public int $timeout = 60;
 
-    public function __construct(public PusherLogs $model)
+    public function __construct(public PusherLogs $model, public array $payload = [])
     {
         $this->queue = self::QUEUE_NAME;
     }
 
     public function handle(): void
     {
-        // Re-fetch from DB — the log may have been executed synchronously by
-        // PushersService::trigger() before the queue worker picked this job up.
         $log = PusherLogs::withoutGlobalScope(AuthorizationScope::class)
             ->where('id', $this->model->id)
             ->first();
