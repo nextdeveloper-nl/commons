@@ -39,9 +39,13 @@ class PushersService extends AbstractPushersService
             return;
         }
 
+        // Create with status='processing' so PushObjectJob always skips this log
+        // when it dequeues — the synchronous execute() call below is the only
+        // delivery path.
         $log = PusherLogsService::create([
             'common_pusher_id' => $pusher->uuid,
             'body'             => $payload,
+            'status'           => 'processing',
         ]);
 
         PusherFactory::make($pusher->provider)->execute($log, $pusher);
