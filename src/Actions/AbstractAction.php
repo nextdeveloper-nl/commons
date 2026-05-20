@@ -345,7 +345,7 @@ class AbstractAction implements ShouldQueue
             $this->latestTime = now();
         } else {
             $now = Carbon::now();
-            $diff = $now->diffInMilliseconds($this->startTime);
+            $diff = (int) $now->diffInMilliseconds($this->startTime);
 
             $this->latestTime = now();
         }
@@ -387,7 +387,7 @@ class AbstractAction implements ShouldQueue
         if (!ActionsHelper::saveInDb()) return;
 
         $now = Carbon::now();
-        $diff = $now->diffInMilliseconds($this->startTime);
+        $diff = (int) $now->diffInMilliseconds($this->startTime);
 
         if (config('leo.debug.action_logs')) {
             Log::info('[ActionLog][ERROR][' . $this->actionName . ']' . $log . ' / Diff: ' . $diff . 'ms');
@@ -423,7 +423,7 @@ class AbstractAction implements ShouldQueue
         if (!ActionsHelper::saveInDb()) return;
 
         $now = Carbon::now();
-        $diff = $now->diffInMilliseconds($this->startTime);
+        $diff = (int) $now->diffInMilliseconds($this->startTime);
 
         if (config('leo.debug.action_logs')) {
             Log::info('[ActionLog][' . $this->actionName . ']' . $log . ' / Diff: ' . $diff . 'ms');
