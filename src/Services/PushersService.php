@@ -42,7 +42,7 @@ class PushersService extends AbstractPushersService
             'status'           => 'pending',
         ]);
 
-        PushObjectJob::dispatch($log);
+        PushObjectJob::dispatch($log)->onQueue('pushers');
     }
 
     public static function create(array $data)
