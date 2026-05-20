@@ -20,7 +20,8 @@ use NextDeveloper\Commons\Pushers\PusherResult;
  *   2. Bearer token:   Authorization: Bearer <token>
  *
  * provider_metadata keys (all optional):
- *   timeout  int  Request timeout in seconds (default 30)
+ *   timeout   int   Request timeout in seconds (default 30)
+ *   is_test   bool  Replace /webhook/ with /webhook-test/ in the URL
  */
 class N8NPusher extends AbstractPusher
 {
@@ -33,7 +34,12 @@ class N8NPusher extends AbstractPusher
     {
         $method  = strtolower($pusher->method ?? 'post');
         $timeout = (int) data_get($pusher->provider_metadata, 'timeout', 30);
+        $isTest  = (bool) data_get($pusher->provider_metadata, 'is_test', false);
         $body    = $this->decodeBody($log);
+
+        $url = $isTest
+            ? str_replace('/webhook/', '/webhook-test/', $pusher->url)
+            : $pusher->url;
 
         $request = Http::acceptJson()->timeout($timeout);
 
@@ -45,7 +51,7 @@ class N8NPusher extends AbstractPusher
             }
         }
 
-        $response = $request->$method($pusher->url, $body);
+        $response = $request->$method($url, $body);
 
         return new PusherResult(
             $response->successful(),
