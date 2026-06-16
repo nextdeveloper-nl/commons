@@ -51,17 +51,17 @@ class Pushers extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'name',
-        'description',
-        'require_auth',
-        'token',
-        'url',
-        'method',
-        'iam_user_id',
-        'iam_account_id',
-        'provider',
-        'provider_metadata',
-        'auth_header',
+            'name',
+            'description',
+            'require_auth',
+            'token',
+            'url',
+            'method',
+            'iam_user_id',
+            'iam_account_id',
+            'provider',
+            'provider_metadata',
+            'auth_header',
     ];
 
     /**
@@ -84,19 +84,19 @@ class Pushers extends Model
      @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'name' => 'string',
-        'description' => 'string',
-        'require_auth' => 'boolean',
-        'token' => 'string',
-        'url' => 'string',
-        'method' => 'string',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-        'provider' => 'string',
-        'provider_metadata' => 'array',
-        'auth_header' => 'string',
+    'id' => 'integer',
+    'name' => 'string',
+    'description' => 'string',
+    'require_auth' => 'boolean',
+    'token' => 'string',
+    'url' => 'string',
+    'method' => 'string',
+    'created_at' => 'datetime',
+    'updated_at' => 'datetime',
+    'deleted_at' => 'datetime',
+    'provider' => 'string',
+    'provider_metadata' => 'array',
+    'auth_header' => 'string',
     ];
 
     /**
@@ -105,9 +105,9 @@ class Pushers extends Model
      @var array
      */
     protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
+    'created_at',
+    'updated_at',
+    'deleted_at',
     ];
 
     /**
@@ -140,11 +140,9 @@ class Pushers extends Model
         $globalScopes = config('commons.scopes.global');
         $modelScopes = config('commons.scopes.common_pushers');
 
-        if (!$modelScopes) {
-            $modelScopes = [];
+        if(!$modelScopes) { $modelScopes = [];
         }
-        if (!$globalScopes) {
-            $globalScopes = [];
+        if (!$globalScopes) { $globalScopes = [];
         }
 
         $scopes = array_merge(
@@ -152,24 +150,20 @@ class Pushers extends Model
             $modelScopes
         );
 
-        if ($scopes) {
+        if($scopes) {
             foreach ($scopes as $scope) {
                 static::addGlobalScope(app($scope));
             }
         }
     }
 
-    public function pusherLogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pusherLogs() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\NextDeveloper\Commons\Database\Models\PusherLogs::class);
     }
 
-    public function automations() : \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\NextDeveloper\Flow\Database\Models\Automations::class);
-    }
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

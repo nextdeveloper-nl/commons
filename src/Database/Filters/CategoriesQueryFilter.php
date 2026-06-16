@@ -41,6 +41,17 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('url', 'ilike', '%' . $value . '%');
     }
 
+        
+    public function objectType($value)
+    {
+        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+    }
+
+        //  This is an alias function of objectType
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
     
     public function position($value)
     {
@@ -164,6 +175,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     }
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

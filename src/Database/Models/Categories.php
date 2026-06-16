@@ -31,6 +31,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
  * @property integer $position
+ * @property string $object_type
+ * @property integer $object_id
  */
 class Categories extends Model
 {
@@ -56,6 +58,8 @@ class Categories extends Model
             'common_domain_id',
             'common_category_id',
             'position',
+            'object_type',
+            'object_id',
     ];
 
     /**
@@ -90,6 +94,8 @@ class Categories extends Model
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
     'position' => 'integer',
+    'object_type' => 'string',
+    'object_id' => 'integer',
     ];
 
     /**
@@ -151,6 +157,7 @@ class Categories extends Model
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
