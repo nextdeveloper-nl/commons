@@ -22,6 +22,8 @@ class CategoriesCreateRequest extends AbstractFormRequest
         'common_domain_id' => 'required|exists:common_domains,uuid|uuid',
         'common_category_id' => 'nullable|exists:common_categories,uuid|uuid',
         'position' => 'integer',
+        'object_type' => 'nullable|string',
+        'object_id' => 'nullable',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

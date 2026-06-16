@@ -4,7 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-        
+    
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -131,18 +131,8 @@ class CommentsQueryFilter extends AbstractQueryFilter
     }
 
     
-    public function parentId($value)
-    {
-            return $this->builder->where('parent_id', '=', $value);
-    }
-
-        //  This is an alias function of parent
-    public function parent_id($value)
-    {
-        return $this->parent($value);
-    }
-    
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
 
 
 

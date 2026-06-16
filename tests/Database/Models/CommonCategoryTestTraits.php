@@ -62,6 +62,7 @@ trait CommonCategoryTestTraits
                 'name'  =>  'a',
                 'description'  =>  'a',
                 'url'  =>  'a',
+                'object_type'  =>  'a',
                 'position'  =>  '1',
                             ],
                 ['http_errors' => false]
@@ -408,6 +409,25 @@ trait CommonCategoryTestTraits
             $request = new Request(
                 [
                 'url'  =>  'a'
+                ]
+            );
+
+            $filter = new CommonCategoryQueryFilter($request);
+
+            $model = \NextDeveloper\Commons\Database\Models\CommonCategory::filter($filter)->first();
+        } catch (\Exception $e) {
+            $this->assertFalse(false, $e->getMessage());
+        }
+
+        $this->assertTrue(true);
+    }
+
+    public function test_commoncategory_event_object_type_filter()
+    {
+        try {
+            $request = new Request(
+                [
+                'object_type'  =>  'a'
                 ]
             );
 
