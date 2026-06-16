@@ -71,6 +71,8 @@ class AbstractCategoriesTransformer extends AbstractTransformer
             'updated_at'  =>  $model->updated_at,
             'deleted_at'  =>  $model->deleted_at,
             'position'  =>  $model->position,
+            'object_type'  =>  $model->object_type,
+            'object_id'  =>  $model->object_id,
             ]
         );
     }
@@ -159,6 +161,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
         return $this->collection($addresses, new AddressesTransformer());
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+
 
 
 
