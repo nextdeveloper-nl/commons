@@ -44,7 +44,9 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+        //  object_type is a fully-qualified class name (with backslashes); match it
+        //  exactly. ILIKE would treat the backslashes as escape characters and never match.
+        return $this->builder->where('object_type', '=', $value);
     }
 
         //  This is an alias function of objectType
