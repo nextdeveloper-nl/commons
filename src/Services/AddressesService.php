@@ -93,7 +93,7 @@ class AddressesService extends AbstractAddressesService
         $data['object_id'] = $account->id;
         $data['object_type'] = Accounts::class;
 
-        UserHelper::runAsAdmin(function () use ($data) {
+        return UserHelper::runAsAdmin(function () use ($data) {
             return parent::create($data);
         });
     }
