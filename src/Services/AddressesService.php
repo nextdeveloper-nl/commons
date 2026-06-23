@@ -26,6 +26,14 @@ class AddressesService extends AbstractAddressesService
             ->get();
     }
 
+    public static function accountHasInvoiceAddress(int $iamAccountId): bool
+    {
+        return Addresses::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $iamAccountId)
+            ->where('is_invoice_address', true)
+            ->exists();
+    }
+
     public static function getAddresses($params)
     {
         $account = UserHelper::currentAccount();
