@@ -312,6 +312,11 @@ class AbstractAction implements ShouldQueue
 
     public function setProgress($percent, $completedAction)
     {
+        if($percent == 100) {
+            $this->setFinished($completedAction);
+            return;
+        }
+
         UserHelper::setUserById($this->getUserId());
 
         $currentCheckpoint = $this->getCheckpoint();
