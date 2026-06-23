@@ -12,8 +12,6 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  * This class is responsible from managing the data for Addresses
  *
  * Class AddressesService.
- *
- * @package NextDeveloper\Commons\Database\Models
  */
 class AddressesService extends AbstractAddressesService
 {
@@ -63,16 +61,22 @@ class AddressesService extends AbstractAddressesService
 
     public static function getAddresses($params)
     {
-        $account = UserHelper::currentAccount();
+        $requestedUuid = is_array($params) ? ($params['iamAccountId'] ?? null) : null;
 
-        if(
-            UserHelper::has('sales-person') ||
-            UserHelper::has('accounting-admin') ||
-            UserHelper::has('sales-manager')
-        ) {
-            $account = Accounts::withoutGlobalScope(AuthorizationScope::class)
-                ->where('uuid', $params['iamAccountId'])
-                ->first();
+        if ($requestedUuid) {
+            // A uuid was passed → only sales/admin roles may view another account's
+            // addresses; anyone else is scoped back to their own account.
+            $canViewOther = UserHelper::has('sales-person')
+                || UserHelper::has('accounting-admin')
+                || UserHelper::has('sales-manager');
+
+            $account = $canViewOther
+                ? Accounts::withoutGlobalScope(AuthorizationScope::class)->where('uuid', $requestedUuid)->first()
+                : null;
+
+            $account = $account ?: UserHelper::currentAccount();
+        } else {
+            $account = UserHelper::currentAccount();
         }
 
         return Addresses::withoutGlobalScope(AuthorizationScope::class)
@@ -86,8 +90,8 @@ class AddressesService extends AbstractAddressesService
             ->where('uuid', $data['iam_account_id'])
             ->first();
 
-        $data['object_id']  =   $account->id;
-        $data['object_type'] =   Accounts::class;
+        $data['object_id'] = $account->id;
+        $data['object_type'] = Accounts::class;
 
         UserHelper::runAsAdmin(function () use ($data) {
             return parent::create($data);
