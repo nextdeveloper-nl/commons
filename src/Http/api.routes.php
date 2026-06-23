@@ -44,27 +44,6 @@ Route::prefix('commons')->group(
             }
         );
 
-        Route::prefix('categories')->group(
-            function () {
-                Route::get('/', 'Categories\CategoriesController@index');
-                Route::get('/actions', 'Categories\CategoriesController@getActions');
-
-                Route::get('{common_categories}/tags ', 'Categories\CategoriesController@tags');
-                Route::post('{common_categories}/tags ', 'Categories\CategoriesController@saveTags');
-                Route::get('{common_categories}/addresses ', 'Categories\CategoriesController@addresses');
-                Route::post('{common_categories}/addresses ', 'Categories\CategoriesController@saveAddresses');
-
-                Route::get('/{common_categories}/{subObjects}', 'Categories\CategoriesController@relatedObjects');
-                Route::get('/{common_categories}', 'Categories\CategoriesController@show');
-
-                Route::post('/', 'Categories\CategoriesController@store');
-                Route::post('/{common_categories}/do/{action}', 'Categories\CategoriesController@doAction');
-
-                Route::patch('/{common_categories}', 'Categories\CategoriesController@update');
-                Route::delete('/{common_categories}', 'Categories\CategoriesController@destroy');
-            }
-        );
-
         Route::prefix('action-logs')->group(
             function () {
                 Route::get('/', 'ActionLogs\ActionLogsController@index');
@@ -587,6 +566,27 @@ Route::prefix('commons')->group(
 
                 Route::patch('/{common_pushers}', 'Pushers\PushersController@update');
                 Route::delete('/{common_pushers}', 'Pushers\PushersController@destroy');
+            }
+        );
+
+        Route::prefix('categories')->group(
+            function () {
+                Route::get('/', 'Categories\CategoriesController@index');
+                Route::get('/actions', 'Categories\CategoriesController@getActions');
+
+                Route::get('{common_categories}/tags ', 'Categories\CategoriesController@tags');
+                Route::post('{common_categories}/tags ', 'Categories\CategoriesController@saveTags');
+                Route::get('{common_categories}/addresses ', 'Categories\CategoriesController@addresses');
+                Route::post('{common_categories}/addresses ', 'Categories\CategoriesController@saveAddresses');
+
+                Route::get('/{common_categories}/{subObjects}', 'Categories\CategoriesController@relatedObjects');
+                Route::get('/{common_categories}', 'Categories\CategoriesController@show');
+
+                Route::post('/', 'Categories\CategoriesController@store');
+                Route::post('/{common_categories}/do/{action}', 'Categories\CategoriesController@doAction');
+
+                Route::patch('/{common_categories}', 'Categories\CategoriesController@update');
+                Route::delete('/{common_categories}', 'Categories\CategoriesController@destroy');
             }
         );
 
