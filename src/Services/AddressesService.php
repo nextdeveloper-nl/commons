@@ -34,6 +34,33 @@ class AddressesService extends AbstractAddressesService
             ->exists();
     }
 
+    /**
+     * Marks the given address (by uuid, scoped to the current account) as the sole
+     * invoice address, clearing the flag from any other address on the account.
+     */
+    public static function setInvoiceAddress(string $uuid): void
+    {
+        $accountId = UserHelper::currentAccount()->id;
+
+        $target = Addresses::withoutGlobalScope(AuthorizationScope::class)
+            ->where('iam_account_id', $accountId)
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+
+        UserHelper::runAsAdmin(function () use ($accountId, $target) {
+            Addresses::withoutGlobalScope(AuthorizationScope::class)
+                ->where('iam_account_id', $accountId)
+                ->where('is_invoice_address', true)
+                ->where('id', '!=', $target->id)
+                ->get()
+                ->each(function ($address) {
+                    $address->update(['is_invoice_address' => false]);
+                });
+
+            $target->update(['is_invoice_address' => true]);
+        });
+    }
+
     public static function getAddresses($params)
     {
         $account = UserHelper::currentAccount();
