@@ -476,7 +476,11 @@ class AbstractAction implements ShouldQueue
 
     public function failed($exception)
     {
-        Log::error("[ActionLog][ERROR][' . $this->actionName . '] Action is failed with message: " . print_r($exception, true));
+        //  We avoid print_r($exception) here: PHP includes full function arguments in
+        //  exception traces by default, so dumping the whole object can re-serialize large
+        //  data (e.g. file listings, loaded models) once per stack frame and exhaust memory.
+        Log::error('[ActionLog][ERROR][' . $this->actionName . '] Action is failed with message: ' . $exception->getMessage());
+        Log::error($exception->getTraceAsString());
 
         $this->setFinishedWithError("In this job, we entered in an errored state.");
     }
