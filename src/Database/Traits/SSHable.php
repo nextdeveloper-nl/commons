@@ -23,8 +23,50 @@ use phpseclib3\Net\SSH2;
 
 trait SSHable
 {
+    /**
+     * When true (LEO_DEBUG / SSH_DRY_RUN env, see config/leo.php: debug.ssh.dry_run),
+     * every command that would be sent over SSH is logged instead of actually being
+     * connected/executed - lets calling code (e.g. a driver/call-site migration) be
+     * exercised safely against real model data without touching a real host.
+     */
+    private function isSshDryRun(): bool
+    {
+        return (bool) config('leo.debug.ssh.dry_run');
+    }
+
+    private function sshDryRunHostLabel(): string
+    {
+        $identity = $this->name ?? $this->uuid ?? 'unknown';
+
+        //  ip_addr is stored in CIDR form ("10.1.32.53/20") - strip the mask the same
+        //  way createSSHConnection()/checkSSHPort() do, so the label reads as a real
+        //  host:port instead of "10.1.32.53/20:22".
+        $ipAddr = explode('/', $this->ip_addr ?? 'unknown-ip')[0];
+
+        return get_class($this) . '(' . $identity . ') @ ' . $ipAddr . ':' . ($this->ssh_port ?? '22');
+    }
+
+    #[ArrayShape(['output' => "string", 'error' => "string"])]
+    private function sshDryRunResult(string $command): array
+    {
+        Log::info('[SSH DRY RUN] ' . $this->sshDryRunHostLabel() . ' would run: ' . $command);
+
+        return [
+            'output'    =>  '',
+            'error'     =>  '',
+            'dry_run'   =>  true,
+        ];
+    }
+
     public function performMultipleSSHCommands($commands)
     {
+        if ($this->isSshDryRun()) {
+            return array_map(
+                fn ($c) => $this->sshDryRunResult(is_array($c) ? implode(PHP_EOL, $c) : $c),
+                $commands
+            );
+        }
+
         $ipAddr = $this->ip_addr;
         $ipAddr = explode('/', $ipAddr);
         $ipAddr = $ipAddr[0];
@@ -75,6 +117,13 @@ trait SSHable
     #[ArrayShape(['output' => "string", 'error' => "string"])]
     public function performSSHCommand($command)
     {
+        if(is_array($command))
+            $command = implode(PHP_EOL, $command);
+
+        if ($this->isSshDryRun()) {
+            return $this->sshDryRunResult($command);
+        }
+
         $connection = $this->createSSHConnection();
 
         if(!$connection)
@@ -82,9 +131,6 @@ trait SSHable
                 'IP (' . $this->ip_v4 . ') and the credentials, please.');
 
         $response = [];
-
-        if(is_array($command))
-            $command = implode(PHP_EOL, $command);
 
         $this->ssh2Run($connection, $command, $out, $error);
 
@@ -179,6 +225,12 @@ trait SSHable
 
     public function checkSSHPort($timeout = 30)
     {
+        if ($this->isSshDryRun()) {
+            Log::info('[SSH DRY RUN] ' . $this->sshDryRunHostLabel() . ' - skipping real port check, reporting reachable.');
+
+            return ['status' => true];
+        }
+
         $errCode = 0;
         $errMessage = '';
 
