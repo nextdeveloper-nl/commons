@@ -379,7 +379,9 @@ class AbstractAction implements ShouldQueue
 
     public function setFinishedWithError($log = 'Action failed')
     {
-        StateHelper::setRunningActions($this->model, $this->action, -1);
+        //  Clear the running-action entry on failure too - otherwise the model looks like it
+        //  still has this action running forever, since only the success path used to do this.
+        StateHelper::removeRunningAction($this->model, $this->action);
 
         //  We put this here to fix the action owner problem. But we need to create much more smart solution for this
         //  in the next version of this module.
