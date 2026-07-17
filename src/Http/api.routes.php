@@ -869,6 +869,12 @@ Route::prefix('commons')->group(
                 Route::get('/', 'ExternalServices\ExternalServicesController@getAvailableServices');
             }
         );
+
+        Route::prefix('failed-jobs')->group(
+            function () {
+                Route::get('/', 'FailedJobs\FailedJobsController@index');
+            }
+        );
     }
 );
 
