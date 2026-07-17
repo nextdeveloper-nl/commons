@@ -8,6 +8,14 @@ return [
         ]
     ],
 
+    'failed_jobs' => [
+        // Shared secret allowing token-based access to GET /commons/failed-jobs
+        // for callers (e.g. AI agents) that have no IAM user/OAuth token.
+        // Leave unset to disable the token path entirely (system-admin users
+        // can still use the endpoint via their normal session).
+        'api_token' => env('FAILED_JOBS_API_TOKEN'),
+    ],
+
     'configuration' => [
         'actions' => [
             'save_in_db' => env('ACTIONS_SAVE_IN_DB', true),
