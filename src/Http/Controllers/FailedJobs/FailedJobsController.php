@@ -47,7 +47,11 @@ class FailedJobsController extends AbstractController
      */
     private function isAuthorized(Request $request): bool
     {
-        if (UserHelper::hasRole(SystemAdminRole::NAME)) {
+        // UserHelper::hasRole() assumes an authenticated user; calling it for a
+        // fully anonymous request (no bearer token at all, e.g. an unauthenticated
+        // AI-agent call) throws inside UserHelper::getRoles(), so only try the
+        // role check once we know a user actually resolved.
+        if (UserHelper::me() && UserHelper::hasRole(SystemAdminRole::NAME)) {
             return true;
         }
 
