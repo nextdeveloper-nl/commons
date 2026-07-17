@@ -61,8 +61,11 @@ class CacheHelper
 
             //  This part is working correct, if there is a bug, look at elsewhere.
 
+            //  COUNT is raised from the phpredis default (10) to cut down the number of round trips
+            //  needed to walk the whole keyspace - on a large cache DB the default was slow enough
+            //  to blow past the queue worker timeout during cache invalidation.
             // Scanning through the keys that match the pattern
-            foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*') as $k) {
+            foreach ( $r->scan($it, '*' . self::getKey($obj, $id) . '*', 1000) as $k) {
                 $r->del($k);
             }
         }
