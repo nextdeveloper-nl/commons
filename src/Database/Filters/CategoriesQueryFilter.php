@@ -17,31 +17,31 @@ class CategoriesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function slug($value)
     {
         return $this->builder->where('slug', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function url($value)
     {
         return $this->builder->where('url', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function objectType($value)
     {
         //  object_type is a fully-qualified class name (with backslashes); match it
@@ -54,7 +54,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-    
+
     public function position($value)
     {
         $operator = substr($value, 0, 1);
@@ -68,7 +68,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('position', $operator, $value);
     }
 
-    
+
     public function isActive($value)
     {
         return $this->builder->where('is_active', $value);
@@ -79,7 +79,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     {
         return $this->isActive($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -160,7 +160,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonDomain($value);
     }
-    
+
     public function commonCategoryId($value)
     {
             $commonCategory = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
@@ -175,7 +175,7 @@ class CategoriesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCategory($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

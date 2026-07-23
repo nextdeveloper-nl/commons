@@ -24,7 +24,7 @@ class ActionsDeletingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Actions $model = null)
+    public function __construct(?Actions $model = null)
     {
         $this->_model = $model;
     }

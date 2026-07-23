@@ -23,7 +23,7 @@ class RegistriesCreatingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Registries $model = null) {
+    public function __construct(?Registries $model = null) {
         $this->_model = $model;
     }
 

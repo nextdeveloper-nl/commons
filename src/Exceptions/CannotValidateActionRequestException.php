@@ -29,7 +29,7 @@ class CannotValidateActionRequestException extends AbstractCommonsException
         * @param $code
         * @param \Exception|null $previous
         */
-        public function __construct(array $errors, $code = 0, \Exception $previous = null)
+        public function __construct(array $errors, $code = 0, ?\Exception $previous = null)
         {
             $message = '';
 

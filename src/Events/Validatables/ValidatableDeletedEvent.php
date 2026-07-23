@@ -23,7 +23,7 @@ class ValidatableDeletedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Validatables $model = null) {
+    public function __construct(?Validatables $model = null) {
         $this->_model = $model;
     }
 

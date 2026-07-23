@@ -23,7 +23,7 @@ class ExchangeRatesSavedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(ExchangeRates $model = null) {
+    public function __construct(?ExchangeRates $model = null) {
         $this->_model = $model;
     }
 

@@ -23,7 +23,7 @@ class SocialMediaSavingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(SocialMedia $model = null) {
+    public function __construct(?SocialMedia $model = null) {
         $this->_model = $model;
     }
 

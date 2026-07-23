@@ -53,7 +53,7 @@ class AbstractAvailableActionsTransformer extends AbstractTransformer
      */
     public function transform(AvailableActions $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

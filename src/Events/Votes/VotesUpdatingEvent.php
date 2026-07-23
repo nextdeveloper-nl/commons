@@ -23,7 +23,7 @@ class VotesUpdatingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Votes $model = null) {
+    public function __construct(?Votes $model = null) {
         $this->_model = $model;
     }
 

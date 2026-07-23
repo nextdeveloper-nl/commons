@@ -23,7 +23,7 @@ class CommentsDeletedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Comments $model = null) {
+    public function __construct(?Comments $model = null) {
         $this->_model = $model;
     }
 

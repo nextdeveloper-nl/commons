@@ -24,7 +24,7 @@ class CurrenciesDeletedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Currencies $model = null)
+    public function __construct(?Currencies $model = null)
     {
         $this->_model = $model;
     }

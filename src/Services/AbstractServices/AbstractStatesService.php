@@ -21,7 +21,7 @@ use NextDeveloper\Commons\Exceptions\NotAllowedException;
  */
 class AbstractStatesService
 {
-    public static function get(StatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?StatesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 

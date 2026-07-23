@@ -53,7 +53,7 @@ class AbstractSocialMediaTransformer extends AbstractTransformer
      */
     public function transform(SocialMedia $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

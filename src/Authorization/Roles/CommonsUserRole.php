@@ -60,7 +60,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         $builder->where($where);
     }
 
-    public function checkPrivileges(Users $users = null, Model $model)
+    public function checkPrivileges(?Users $users = null, Model $model)
     {
         $operation = $model->getTable();
 

@@ -57,7 +57,7 @@ class AbstractPusherLogsTransformer extends AbstractTransformer
                                                 $commonPusherId = \NextDeveloper\Commons\Database\Models\Pushers::where('id', $model->common_pusher_id)->first();
                                                             $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

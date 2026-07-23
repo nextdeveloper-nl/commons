@@ -54,7 +54,7 @@ class AbstractLanguagesTransformer extends AbstractTransformer
      */
     public function transform(Languages $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

@@ -20,7 +20,7 @@ class AbstractViewTagsTransformer extends AbstractTransformer
      */
     public function transform(ViewTags $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

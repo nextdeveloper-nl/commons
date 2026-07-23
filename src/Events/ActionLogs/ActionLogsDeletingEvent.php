@@ -24,7 +24,7 @@ class ActionLogsDeletingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(ActionLogs $model = null)
+    public function __construct(?ActionLogs $model = null)
     {
         $this->_model = $model;
     }
