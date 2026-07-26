@@ -23,7 +23,7 @@ class LanguagesSavingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Languages $model = null) {
+    public function __construct(?Languages $model = null) {
         $this->_model = $model;
     }
 

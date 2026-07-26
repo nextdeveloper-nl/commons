@@ -24,7 +24,7 @@ class PhoneNumbersCreatedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(PhoneNumbers $model = null)
+    public function __construct(?PhoneNumbers $model = null)
     {
         $this->_model = $model;
     }

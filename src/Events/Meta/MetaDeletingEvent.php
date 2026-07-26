@@ -23,7 +23,7 @@ class MetaDeletingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Meta $model = null) {
+    public function __construct(?Meta $model = null) {
         $this->_model = $model;
     }
 

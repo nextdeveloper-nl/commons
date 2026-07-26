@@ -54,7 +54,7 @@ class AbstractCountriesTransformer extends AbstractTransformer
      */
     public function transform(Countries $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

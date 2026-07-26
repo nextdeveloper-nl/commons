@@ -23,7 +23,9 @@ class DatabaseHelper
 
         $hasColumn = Schema::hasColumn($table, $column);
 
-        Cache::put('table_' . $table . '_has_column_' . $column, $hasColumn);
+        //  Caching forever (no TTL) let stale results survive schema changes indefinitely on drivers
+        //  like Redis that persist across deploys. Using a TTL lets it self-heal.
+        Cache::put('table_' . $table . '_has_column_' . $column, $hasColumn, now()->addHour());
 
         return $hasColumn;
     }

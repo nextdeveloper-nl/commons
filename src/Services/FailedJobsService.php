@@ -209,10 +209,29 @@ class FailedJobsService
         }
 
         if (is_object($value)) {
-            $repr = ['__class__' => get_class($value)];
-            foreach (['id', 'uuid'] as $idField) {
-                if (isset($value->{$idField})) { $repr[$idField] = $value->{$idField}; }
+            // Never access properties via -> here: unserialize(..., ['allowed_classes' => false])
+            // turns every nested object (e.g. Illuminate\Contracts\Database\ModelIdentifier, used
+            // whenever a job property holds an Eloquent model) into a __PHP_Incomplete_Class stand-in,
+            // and PHP raises "tried to access a property on an incomplete object" on any -> access,
+            // which this app escalates to a fatal ErrorException. An (array) cast reads the same data
+            // without touching the object's magic accessors.
+            $className = get_class($value);
+            $props = (array) $value;
+            $repr = ['__class__' => $className];
+
+            foreach ($props as $key => $v) {
+                $cleanKey = preg_replace('/^\x00.*?\x00/', '', (string) $key);
+
+                if ($cleanKey === '__PHP_Incomplete_Class_Name') {
+                    $repr['__class__'] = $v;
+                    continue;
+                }
+
+                if (in_array($cleanKey, ['id', 'uuid'], true) && (is_scalar($v) || is_null($v))) {
+                    $repr[$cleanKey] = $v;
+                }
             }
+
             return $repr;
         }
 

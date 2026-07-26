@@ -101,7 +101,7 @@ class AbstractAction implements ShouldQueue
         return $this;
     }
 
-    public function resumeFromAction(Actions|int $action = null)
+    public function resumeFromAction(Actions|int|null $action = null)
     {
         if(!$action) {
             $action = $this->getRunningAction();

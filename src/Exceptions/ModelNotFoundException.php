@@ -23,7 +23,7 @@ class ModelNotFoundException extends AbstractCommonsException
      */
     protected $defaultMessage = 'Could not find the records you are looking for.';
 
-    public function __construct($message, $code = 0, \Exception $previous = null)
+    public function __construct($message, $code = 0, ?\Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

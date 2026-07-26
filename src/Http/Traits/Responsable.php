@@ -132,7 +132,7 @@ trait Responsable
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function withCollection($data, $transformer, $resourceKey = null, Cursor $cursor = null, array $meta = [], array $headers = []) {
+    public function withCollection($data, $transformer, $resourceKey = null, ?Cursor $cursor = null, array $meta = [], array $headers = []) {
         $resource = new Collection( $data, $transformer, $resourceKey );
         $resource->setMeta( $meta );
 

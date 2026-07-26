@@ -23,7 +23,7 @@ class DomainablesSavingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Domainables $model = null) {
+    public function __construct(?Domainables $model = null) {
         $this->_model = $model;
     }
 

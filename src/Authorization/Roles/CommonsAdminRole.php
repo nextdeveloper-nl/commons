@@ -31,7 +31,7 @@ class CommonsAdminRole extends AbstractRole implements IAuthorizationRole
         //  Returns everything about commons
     }
 
-    public function checkPrivileges(Users $users = null)
+    public function checkPrivileges(?Users $users = null)
     {
         //return UserHelper::hasRole(self::NAME, $users);
     }

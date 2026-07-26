@@ -23,7 +23,7 @@ class StatesRetrievedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(States $model = null) {
+    public function __construct(?States $model = null) {
         $this->_model = $model;
     }
 

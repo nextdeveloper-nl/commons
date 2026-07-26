@@ -23,7 +23,7 @@ use NextDeveloper\Events\Services\Events;
  */
 class AbstractTaskSchedulersService
 {
-    public static function get(TaskSchedulersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?TaskSchedulersQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 

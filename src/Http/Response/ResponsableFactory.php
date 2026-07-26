@@ -11,7 +11,7 @@ class ResponsableFactory {
         $data,
         $transformer = null,
         $resourceKey = null,
-        Cursor $cursor = null,
+        ?Cursor $cursor = null,
         array $meta = [],
         array $headers = []
     ) {

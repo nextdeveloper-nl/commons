@@ -23,7 +23,7 @@ use NextDeveloper\IAM\Helpers\UserHelper;
  */
 class AbstractMediaService
 {
-    public static function get(MediaQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?MediaQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 

@@ -17,7 +17,7 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
@@ -28,7 +28,7 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-        
+
     public function validationCode($value)
     {
         return $this->builder->where('validation_code', 'ilike', '%' . $value . '%');
@@ -39,7 +39,7 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
     {
         return $this->validationCode($value);
     }
-    
+
     public function isUsed($value)
     {
         return $this->builder->where('is_used', $value);
@@ -50,7 +50,7 @@ class ValidatablesQueryFilter extends AbstractQueryFilter
     {
         return $this->isUsed($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
