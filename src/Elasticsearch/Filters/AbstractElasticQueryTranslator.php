@@ -23,9 +23,9 @@ abstract class AbstractElasticQueryTranslator
 
     protected array $overrides = [];
 
-    private array $mustClauses = [];
+    protected array $mustClauses = [];
 
-    private array $sortClauses = [];
+    protected array $sortClauses = [];
 
     public function __construct(Request $request)
     {
