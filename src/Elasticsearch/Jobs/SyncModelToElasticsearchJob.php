@@ -11,7 +11,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use NextDeveloper\Commons\Elasticsearch\Contracts\ElasticSyncable;
 
 /**
  * Generic ES upsert/delete job dispatched by Events::fire() (registered per model via
@@ -32,7 +31,11 @@ class SyncModelToElasticsearchJob implements ShouldQueue
 
     public function handle(Client $client): void
     {
-        if (! $this->model instanceof ElasticSyncable) {
+        //  Duck-typed rather than `instanceof ElasticSyncable`: models that opt in add
+        //  these two methods below their generator boundary (their class declaration
+        //  line, where `implements` would need to go, is generator-owned) - see
+        //  VirtualMachines::toElasticDocument()/getElasticIndexName() for the pattern.
+        if (!method_exists($this->model, 'toElasticDocument') || !method_exists($this->model, 'getElasticIndexName')) {
             Log::warning('[SyncModelToElasticsearchJob] Model does not implement ElasticSyncable, skipping', [
                 'model' => get_class($this->model),
                 'event' => $this->params['event'] ?? null,
