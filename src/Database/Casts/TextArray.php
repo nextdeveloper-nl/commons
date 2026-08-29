@@ -25,6 +25,10 @@ class TextArray implements CastsAttributes
 
         $value = str_replace(['{', '}'], '', $value);
 
+        if ($value === '') {
+            return [];
+        }
+
         $values = explode(',', $value);
 
         foreach ($values as &$value) {
