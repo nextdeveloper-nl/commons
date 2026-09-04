@@ -100,10 +100,23 @@ class Meta extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
-        parent::observe(MetaObserver::class);
-
         self::registerScopes();
+    }
+
+    /**
+     * Registers the observer once the model has finished booting.
+     *
+     * Registering it inside boot() instantiates the model while it is still booting,
+     * which Laravel 12+ rejects with a LogicException.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        parent::booted();
+
+        //  We create and add Observer even if we wont use it.
+        static::observe(MetaObserver::class);
     }
 
     public static function registerScopes()
