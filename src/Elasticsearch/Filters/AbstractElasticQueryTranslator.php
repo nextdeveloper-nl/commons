@@ -122,11 +122,28 @@ abstract class AbstractElasticQueryTranslator
     }
 
     /**
-     * ≈ ilike '%value%' - substring/full-text match on a text field.
+     * ≈ ilike '%value%' - true substring match, case-insensitive, on a text field's
+     * keyword sub-field (the field must be mapped as text+keyword; this always
+     * targets "{$field}.keyword"). Deliberately NOT match_phrase: that only matches
+     * whole analyzed tokens, so e.g. searching "a" would never match "machine" - it
+     * doesn't do infix/substring matching at all, which is what ilike '%x%' means.
+     * Verified against a real index: match_phrase found 0 of 164 actual substring
+     * matches for a single-character query.
      */
-    protected function matchPhrase(string $field, $value): void
+    protected function substringMatch(string $field, $value): void
     {
-        $this->addClause(['match_phrase' => [$field => $value]]);
+        //  Escape ES wildcard meta-characters so a literal * or ? in the search value
+        //  is treated as a literal character, not a wildcard.
+        $escaped = str_replace(['\\', '*', '?'], ['\\\\', '\\*', '\\?'], (string) $value);
+
+        $this->addClause([
+            'wildcard' => [
+                $field . '.keyword' => [
+                    'value' => '*' . $escaped . '*',
+                    'case_insensitive' => true,
+                ],
+            ],
+        ]);
     }
 
     /**
