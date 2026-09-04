@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use NextDeveloper\Commons\Elasticsearch\ElasticsearchClientFactory;
 use NextDeveloper\Commons\Macros\Acronym;
 
 /**
@@ -26,6 +27,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
     public function boot() {
         $this->publishes([
             __DIR__.'/../config/commons.php' => config_path('commons.php'),
+            __DIR__.'/../config/elasticsearch.php' => config_path('elasticsearch.php'),
         ], 'config');
 
         $this->loadViewsFrom($this->dir.'/../resources/views', 'Commons');
@@ -62,7 +64,12 @@ class CommonsServiceProvider extends AbstractServiceProvider {
         $this->registerCommands();
 
         $this->mergeConfigFrom(__DIR__.'/../config/commons.php', 'commons');
+        $this->mergeConfigFrom(__DIR__.'/../config/elasticsearch.php', 'elasticsearch');
         $this->customMergeConfigFrom(__DIR__.'/../config/relation.php', 'relation');
+
+        $this->app->singleton(\Elastic\Elasticsearch\Client::class, function () {
+            return ElasticsearchClientFactory::make();
+        });
     }
 
     /**
