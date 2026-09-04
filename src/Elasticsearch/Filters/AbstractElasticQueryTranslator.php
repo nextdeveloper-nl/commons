@@ -83,12 +83,33 @@ abstract class AbstractElasticQueryTranslator
             }
         }
 
+        //  Neither this translator's own sort clauses nor VirtualMachinesQueryFilter's
+        //  DB-side order() ever add a tiebreaker, so a query with no explicit sort (or
+        //  one that sorts on a non-unique column) has undefined tie order on both sides -
+        //  Postgres happens to settle on a stable-in-practice scan order, ES does not.
+        //  Appending a unique field as a final tiebreaker reproduces that practical
+        //  stability instead of leaving page contents to differ between the two paths.
+        if ($this->defaultSortField() !== null) {
+            $this->sortClauses[] = [$this->defaultSortField() => 'asc'];
+        }
+
         return [
             'query' => empty($this->mustClauses)
                 ? ['match_all' => new \stdClass()]
                 : ['bool' => ['must' => $this->mustClauses]],
             'sort' => $this->sortClauses,
         ];
+    }
+
+    /**
+     * Field to append as a final sort tiebreaker so pagination/page contents are
+     * deterministic even with no explicit sort or a sort on a non-unique column.
+     * Override in a concrete translator with a unique field (e.g. the model's
+     * internal-id companion field); null (default) adds no tiebreaker.
+     */
+    protected function defaultSortField(): ?string
+    {
+        return null;
     }
 
     protected function transformFilterValue(string $name, mixed $value): mixed
