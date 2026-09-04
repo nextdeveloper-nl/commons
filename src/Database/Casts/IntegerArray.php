@@ -18,6 +18,12 @@ class IntegerArray implements CastsAttributes
 
         $value = str_replace(['{', '}'], '', $value);
 
+        //  An empty PostgreSQL array literal is {}, which explodes into [''] and would
+        //  otherwise be read back as [0].
+        if ($value === '') {
+            return [];
+        }
+
         return array_map('intval', explode(',', $value));
     }
 
