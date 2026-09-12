@@ -23,6 +23,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $object_type
  * @property string $key
  * @property $value
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
  */
 class Meta extends Model
 {
@@ -43,6 +45,8 @@ class Meta extends Model
             'object_type',
             'key',
             'value',
+            'iam_account_id',
+            'iam_user_id',
     ];
 
     /**
@@ -70,6 +74,8 @@ class Meta extends Model
     'object_type' => 'string',
     'key' => 'string',
     'value' => 'array',
+    'iam_account_id' => 'integer',
+    'iam_user_id' => 'integer',
     ];
 
     /**

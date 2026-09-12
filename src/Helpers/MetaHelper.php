@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Helpers;
 
 use NextDeveloper\Commons\Database\Models\Meta;
 use NextDeveloper\Events\Services\Events;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class MetaHelper
@@ -82,12 +83,18 @@ class MetaHelper
 
         if ($meta) {
             self::update($object, $key, $value);
+
+            $model = $meta;
         } else {
             $model = Meta::create([
                 'object_type' => get_class($object),
                 'object_id' => $object->id,
                 'key' => $key,
-                'value' => $value
+                'value' => $value,
+                //  Null outside an authenticated context (e.g. queued jobs, console commands) - AuthorizationScope
+                //  only restricts access once these are non-null, so system-owned meta stays unscoped as before.
+                'iam_account_id' => UserHelper::currentAccount()?->id,
+                'iam_user_id' => UserHelper::me()?->id,
             ]);
         }
 
