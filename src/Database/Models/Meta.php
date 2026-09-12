@@ -23,6 +23,8 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property string $object_type
  * @property string $key
  * @property $value
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
  */
 class Meta extends Model
 {
@@ -43,6 +45,8 @@ class Meta extends Model
             'object_type',
             'key',
             'value',
+            'iam_account_id',
+            'iam_user_id',
     ];
 
     /**
@@ -70,6 +74,8 @@ class Meta extends Model
     'object_type' => 'string',
     'key' => 'string',
     'value' => 'array',
+    'iam_account_id' => 'integer',
+    'iam_user_id' => 'integer',
     ];
 
     /**
@@ -100,10 +106,23 @@ class Meta extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
-        parent::observe(MetaObserver::class);
-
         self::registerScopes();
+    }
+
+    /**
+     * Registers the observer once the model has finished booting.
+     *
+     * Registering it inside boot() instantiates the model while it is still booting,
+     * which Laravel 12+ rejects with a LogicException.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        parent::booted();
+
+        //  We create and add Observer even if we wont use it.
+        static::observe(MetaObserver::class);
     }
 
     public static function registerScopes()
