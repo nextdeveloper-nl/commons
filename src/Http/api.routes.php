@@ -542,6 +542,7 @@ Route::prefix('commons')->group(
 
                 Route::post('/', 'PusherLogs\PusherLogsController@store');
                 Route::post('/{common_pusher_logs}/do/{action}', 'PusherLogs\PusherLogsController@doAction');
+                Route::post('/{common_pusher_logs}/retry', 'PusherLogs\PusherLogsController@retry');
 
                 Route::patch('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@update');
                 Route::delete('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@destroy');

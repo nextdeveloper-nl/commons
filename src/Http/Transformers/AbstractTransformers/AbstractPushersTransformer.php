@@ -74,6 +74,7 @@ class AbstractPushersTransformer extends AbstractTransformer
             'provider'  =>  $model->provider,
             'provider_metadata'  =>  $model->provider_metadata,
             'auth_header'  =>  $model->auth_header,
+            'is_retryable'  =>  $model->is_retryable,
             ]
         );
     }

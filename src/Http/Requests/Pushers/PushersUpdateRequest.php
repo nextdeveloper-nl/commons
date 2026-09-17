@@ -22,6 +22,7 @@ class PushersUpdateRequest extends AbstractFormRequest
         'provider' => 'string',
         'provider_metadata' => 'nullable',
         'auth_header' => 'string',
+        'is_retryable' => 'boolean',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
