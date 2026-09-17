@@ -158,12 +158,15 @@ class PusherLogsController extends AbstractController
      * Manually re-queues a pusher log for delivery, regardless of the
      * owning Pusher's retry flag (that flag only gates automatic retry).
      *
+     * Pass ?fg=true to run the push inline instead of dispatching to the
+     * queue, so a driver exception surfaces in this response.
+     *
      * @param  $ref
      * @return mixed|null
      */
     public function retry($ref)
     {
-        $model = PusherLogsService::retry($ref);
+        $model = PusherLogsService::retry($ref, request()->get('fg') == 'true');
 
         return ResponsableFactory::makeResponse($this, $model);
     }

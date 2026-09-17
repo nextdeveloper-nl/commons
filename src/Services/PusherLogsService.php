@@ -67,11 +67,14 @@ class PusherLogsService extends AbstractPusherLogsService
 
     /**
      * Re-queues a push log ("pending" stuck or "failed") for delivery.
+     * With $foreground, runs the push inline instead of dispatching to the
+     * queue, so a driver exception surfaces in the response instead of only
+     * in the worker's logs.
      *
      * @throws NotFoundException
      * @throws NotAllowedException
      */
-    public static function retry($ref): PusherLogs
+    public static function retry($ref, bool $foreground = false): PusherLogs
     {
         $log = Str::isUuid($ref)
             ? PusherLogs::withoutGlobalScopes()->where('uuid', $ref)->first()
@@ -89,6 +92,12 @@ class PusherLogsService extends AbstractPusherLogsService
             'status' => 'pending',
             'retry_count' => $log->retry_count + 1,
         ]);
+
+        if ($foreground) {
+            (new PushObjectJob($log))->handle();
+
+            return $log->fresh();
+        }
 
         PushObjectJob::dispatch($log)->onQueue('pushers');
 
