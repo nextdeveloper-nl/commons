@@ -89,6 +89,15 @@ return [
         ]
     ],
 
+    'pusher' => [
+        //  How long (minutes) a "pending" push log has to sit untouched before
+        //  it is considered stuck and eligible for automatic retry.
+        'stale_after_minutes' => env('COMMON_PUSHER_STALE_AFTER_MINUTES', 15),
+
+        //  Max automatic retry attempts per push log before we give up on it.
+        'max_retries' => env('COMMON_PUSHER_MAX_RETRIES', 5),
+    ],
+
 
 
     /*

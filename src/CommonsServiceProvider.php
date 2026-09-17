@@ -127,6 +127,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
             $this->commands([
                 Console\Commands\FetchExchangeRateCommand::class,
                 Console\Commands\TaskSchedulerActionCommand::class,
+                Console\Commands\RetryPendingPushersCommand::class,
             ]);
         }
     }
