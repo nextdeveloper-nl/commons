@@ -20,7 +20,7 @@ class AbstractDomainablesTransformer extends AbstractTransformer
      */
     public function transform(Domainables $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

@@ -23,7 +23,7 @@ class CategoriesDeletingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Categories $model = null) {
+    public function __construct(?Categories $model = null) {
         $this->_model = $model;
     }
 

@@ -23,6 +23,12 @@ class FileUploadController extends AbstractController
      */
     public function upload(FileUploadCreateRequest $request)
     {
+        if($request->has('validateOnly') && $request->get('validateOnly') == true) {
+            return [
+                'validation'    =>  'success'
+            ];
+        }
+
         $model = MediaService::create($request->validated());
 
         return ResponsableFactory::makeResponse($this, $model);

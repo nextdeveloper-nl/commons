@@ -13,7 +13,7 @@ class MediaUpdateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id' => 'nullable',
+            'object_id' => 'nullable|uuid',
         'object_type' => 'nullable|string',
         'collection_name' => 'nullable|string',
         'name' => 'nullable|string',

@@ -20,7 +20,7 @@ class SlugHelper
      * @param string|null $class The class name of the object.
      * @return string The generated slug.
      */
-    public static function generate(string $slug, string $class = null): string
+    public static function generate(string $slug, ?string $class = null): string
     {
         $slug = self::replaceSpecialCharacters($slug);
         $slug = mb_strtolower($slug, 'UTF-8');

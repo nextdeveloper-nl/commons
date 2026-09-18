@@ -23,7 +23,7 @@ class DisposableEmailsSavingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(DisposableEmails $model = null) {
+    public function __construct(?DisposableEmails $model = null) {
         $this->_model = $model;
     }
 

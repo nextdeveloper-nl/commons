@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
+use NextDeveloper\Commons\Database\Filters\FilterClauses;
         
 
 /**
@@ -20,17 +21,7 @@ class MediaQueryFilter extends AbstractQueryFilter
      */
     public function tags($values)
     {
-        $tags = explode(',', $values);
-
-        $search = '';
-
-        for($i = 0; $i < count($tags); $i++) {
-            $search .= "'" . trim($tags[$i]) . "',";
-        }
-
-        $search = substr($search, 0, -1);
-
-        return $this->builder->whereRaw('tags @> ARRAY[' . $search . ']');
+        return FilterClauses::tags($this->builder, $values);
     }
 
     /**
@@ -40,7 +31,26 @@ class MediaQueryFilter extends AbstractQueryFilter
     
     public function objectType($value)
     {
-        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
+        return FilterClauses::objectType($this->builder, $value);
+    }
+
+    /**
+     * Files of one or more records (comma separated uuids of the object_type sent along), so the
+     * files of a whole page of records come back in one request.
+     */
+    public function objectId($value)
+    {
+        return FilterClauses::objectId(
+            $this->builder,
+            $this->request->get('object_type', $this->request->get('objectType')),
+            $value
+        );
+    }
+
+    //  This is an alias function of objectId
+    public function object_id($value)
+    {
+        return $this->objectId($value);
     }
 
         //  This is an alias function of objectType
@@ -206,30 +216,29 @@ class MediaQueryFilter extends AbstractQueryFilter
 
     public function iamAccountId($value)
     {
-            $iamAccount = \NextDeveloper\IAM\Database\Models\Accounts::where('uuid', $value)->first();
+        return FilterClauses::linkedId($this->builder, 'iam_account_id', \NextDeveloper\IAM\Database\Models\Accounts::class, $value);
+    }
 
-        if($iamAccount) {
-            return $this->builder->where('iam_account_id', '=', $iamAccount->id);
-        }
+    //  This is an alias function of iamAccountId
+    public function iam_account_id($value)
+    {
+        return $this->iamAccountId($value);
     }
 
     
     public function iamUserId($value)
     {
-            $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
+        return FilterClauses::linkedId($this->builder, 'iam_user_id', \NextDeveloper\IAM\Database\Models\Users::class, $value);
+    }
 
-        if($iamUser) {
-            return $this->builder->where('iam_user_id', '=', $iamUser->id);
-        }
+    //  This is an alias function of iamUserId
+    public function iam_user_id($value)
+    {
+        return $this->iamUserId($value);
     }
 
     
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
-
-    public function objectId($value)
-    {
-        return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
-    }
 
 
 

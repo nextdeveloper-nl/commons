@@ -17,13 +17,13 @@ class LanguagesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function nativeName($value)
     {
         return $this->builder->where('native_name', 'ilike', '%' . $value . '%');
@@ -34,7 +34,7 @@ class LanguagesQueryFilter extends AbstractQueryFilter
     {
         return $this->nativeName($value);
     }
-    
+
     public function isDefault($value)
     {
         return $this->builder->where('is_default', $value);
@@ -45,7 +45,7 @@ class LanguagesQueryFilter extends AbstractQueryFilter
     {
         return $this->isDefault($value);
     }
-     
+
     public function isActive($value)
     {
         return $this->builder->where('is_active', $value);
@@ -56,7 +56,7 @@ class LanguagesQueryFilter extends AbstractQueryFilter
     {
         return $this->isActive($value);
     }
-     
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

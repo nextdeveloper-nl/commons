@@ -53,7 +53,7 @@ class AbstractStatesTransformer extends AbstractTransformer
      */
     public function transform(States $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

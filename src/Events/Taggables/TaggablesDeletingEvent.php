@@ -23,7 +23,7 @@ class TaggablesDeletingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Taggables $model = null) {
+    public function __construct(?Taggables $model = null) {
         $this->_model = $model;
     }
 

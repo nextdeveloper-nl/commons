@@ -23,7 +23,7 @@ class MediaCreatingEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Media $model = null) {
+    public function __construct(?Media $model = null) {
         $this->_model = $model;
     }
 

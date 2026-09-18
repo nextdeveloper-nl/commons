@@ -15,7 +15,7 @@ class FileUploadCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id'         => 'nullable',
+            'object_id'         => 'nullable|uuid|required_with:object_type',
             'object_type'       => 'nullable|string',
             'collection_name'   => 'nullable|string',
             'name'              => 'nullable|string',

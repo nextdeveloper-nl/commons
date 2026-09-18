@@ -17,31 +17,31 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function code($value)
     {
         return $this->builder->where('code', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function token($value)
     {
         return $this->builder->where('token', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function refreshToken($value)
     {
         return $this->builder->where('refresh_token', 'ilike', '%' . $value . '%');
@@ -52,7 +52,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     {
         return $this->refreshToken($value);
     }
-        
+
     public function serviceOwner($value)
     {
         return $this->builder->where('service_owner', 'ilike', '%' . $value . '%');
@@ -63,7 +63,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     {
         return $this->serviceOwner($value);
     }
-    
+
     public function isAlive($value)
     {
         return $this->builder->where('is_alive', $value);
@@ -74,7 +74,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
     {
         return $this->isAlive($value);
     }
-     
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -150,7 +150,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     public function iamUserId($value)
     {
             $iamUser = \NextDeveloper\IAM\Database\Models\Users::where('uuid', $value)->first();
@@ -160,7 +160,7 @@ class ExternalServicesQueryFilter extends AbstractQueryFilter
         }
     }
 
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

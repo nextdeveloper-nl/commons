@@ -17,7 +17,7 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function referenceCurrencyCode($value)
     {
         return $this->builder->where('reference_currency_code', 'ilike', '%' . $value . '%');
@@ -28,13 +28,13 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     {
         return $this->referenceCurrencyCode($value);
     }
-        
+
     public function source($value)
     {
         return $this->builder->where('source', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function localCurrencyCode($value)
     {
         return $this->builder->where('local_currency_code', 'ilike', '%' . $value . '%');
@@ -45,7 +45,7 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     {
         return $this->localCurrencyCode($value);
     }
-    
+
     public function createdAtStart($date)
     {
         return $this->builder->where('created_at', '>=', $date);
@@ -104,7 +104,7 @@ class ExchangeRatesQueryFilter extends AbstractQueryFilter
     {
         return $this->commonCountry($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

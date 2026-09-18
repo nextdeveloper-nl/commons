@@ -34,6 +34,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property string $provider
  * @property $provider_metadata
  * @property string $auth_header
+ * @property boolean $is_retryable
  */
 class Pushers extends Model
 {
@@ -62,6 +63,7 @@ class Pushers extends Model
             'provider',
             'provider_metadata',
             'auth_header',
+            'is_retryable',
     ];
 
     /**
@@ -97,6 +99,7 @@ class Pushers extends Model
     'provider' => 'string',
     'provider_metadata' => 'array',
     'auth_header' => 'string',
+    'is_retryable' => 'boolean',
     ];
 
     /**

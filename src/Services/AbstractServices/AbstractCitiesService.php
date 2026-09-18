@@ -22,7 +22,7 @@ use NextDeveloper\Commons\Helpers\DatabaseHelper;
  */
 class AbstractCitiesService
 {
-    public static function get(CitiesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
+    public static function get(?CitiesQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator
     {
         $enablePaginate = array_key_exists('paginate', $params);
 

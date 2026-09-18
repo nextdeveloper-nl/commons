@@ -54,7 +54,7 @@ class AbstractValidatablesTransformer extends AbstractTransformer
      */
     public function transform(Validatables $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

@@ -130,7 +130,7 @@ abstract class AbstractTransformer extends TransformerAbstract
      *
      * @throws \Exception
      */
-    public function __construct(ParamBag $paramBag = null) {
+    public function __construct(?ParamBag $paramBag = null) {
         $this->paramBag = $paramBag ?? new ParamBag( [] );
 
         $this->validateIncludeParams();

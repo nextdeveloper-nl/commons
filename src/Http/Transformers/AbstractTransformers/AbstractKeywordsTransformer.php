@@ -54,7 +54,7 @@ class AbstractKeywordsTransformer extends AbstractTransformer
      */
     public function transform(Keywords $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

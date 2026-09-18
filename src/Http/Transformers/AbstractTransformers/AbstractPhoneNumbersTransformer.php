@@ -54,7 +54,7 @@ class AbstractPhoneNumbersTransformer extends AbstractTransformer
     public function transform(PhoneNumbers $model)
     {
                                                 $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

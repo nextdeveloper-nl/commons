@@ -55,7 +55,7 @@ class AbstractTagsTransformer extends AbstractTransformer
     public function transform(Tags $model)
     {
                                                 $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

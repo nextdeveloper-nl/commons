@@ -24,7 +24,7 @@ class CountryStatesRestoringEvent
      */
     protected $timestamp = null;
 
-    public function __construct(CountryStates $model = null)
+    public function __construct(?CountryStates $model = null)
     {
         $this->_model = $model;
     }

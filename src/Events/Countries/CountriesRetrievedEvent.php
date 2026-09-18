@@ -23,7 +23,7 @@ class CountriesRetrievedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Countries $model = null) {
+    public function __construct(?Countries $model = null) {
         $this->_model = $model;
     }
 

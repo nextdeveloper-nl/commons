@@ -20,7 +20,7 @@ class AbstractProfileTagsTransformer extends AbstractTransformer
      */
     public function transform(ProfileTags $model)
     {
-                
+
         return $this->buildPayload(
             [
             'id'  =>  $model->id,
@@ -32,7 +32,7 @@ class AbstractProfileTagsTransformer extends AbstractTransformer
             ]
         );
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n
 
 

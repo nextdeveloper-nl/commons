@@ -29,6 +29,7 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property $response_body
  * @property integer $iam_user_id
  * @property integer $iam_account_id
+ * @property integer $retry_count
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -58,6 +59,7 @@ class PusherLogs extends Model
             'response_body',
             'iam_user_id',
             'iam_account_id',
+            'retry_count',
     ];
 
     /**
@@ -88,6 +90,7 @@ class PusherLogs extends Model
     'body' => 'array',
     'response_code' => 'integer',
     'response_body' => 'array',
+    'retry_count' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
     'deleted_at' => 'datetime',
@@ -168,7 +171,7 @@ class PusherLogs extends Model
     {
         return $this->belongsTo(\NextDeveloper\Commons\Database\Models\Pushers::class);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

@@ -542,6 +542,7 @@ Route::prefix('commons')->group(
 
                 Route::post('/', 'PusherLogs\PusherLogsController@store');
                 Route::post('/{common_pusher_logs}/do/{action}', 'PusherLogs\PusherLogsController@doAction');
+                Route::post('/{common_pusher_logs}/retry', 'PusherLogs\PusherLogsController@retry');
 
                 Route::patch('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@update');
                 Route::delete('/{common_pusher_logs}', 'PusherLogs\PusherLogsController@destroy');
@@ -869,17 +870,16 @@ Route::prefix('commons')->group(
                 Route::get('/', 'ExternalServices\ExternalServicesController@getAvailableServices');
             }
         );
+
+        Route::prefix('failed-jobs')->group(
+            function () {
+                Route::get('/', 'FailedJobs\FailedJobsController@index');
+            }
+        );
     }
 );
 
-
-
-
-
-
-
-
-
-
-
-
+//  The file of a media row, through the signed and expiring link MediaTransformer hands out
+//  (commons.media.signed_url_minutes). Under /public because an <img> request carries no token.
+Route::get('public/commons/media/{uuid}/file', 'Media\MediaFileController@show')
+    ->name('commons.media.file');
