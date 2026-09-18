@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
+use NextDeveloper\Commons\Database\Filters\FilterClauses;
         
 
 /**
@@ -44,9 +45,25 @@ class CategoriesQueryFilter extends AbstractQueryFilter
 
     public function objectType($value)
     {
-        //  object_type is a fully-qualified class name (with backslashes); match it
-        //  exactly. ILIKE would treat the backslashes as escape characters and never match.
-        return $this->builder->where('object_type', '=', $value);
+        return FilterClauses::objectType($this->builder, $value);
+    }
+
+    /**
+     * Rows of one or more records (comma separated uuids of the object_type sent along).
+     */
+    public function objectId($value)
+    {
+        return FilterClauses::objectId(
+            $this->builder,
+            $this->request->get('object_type', $this->request->get('objectType')),
+            $value
+        );
+    }
+
+    //  This is an alias function of objectId
+    public function object_id($value)
+    {
+        return $this->objectId($value);
     }
 
         //  This is an alias function of objectType
@@ -148,32 +165,24 @@ class CategoriesQueryFilter extends AbstractQueryFilter
 
     public function commonDomainId($value)
     {
-            $commonDomain = \NextDeveloper\Commons\Database\Models\Domains::where('uuid', $value)->first();
-
-        if($commonDomain) {
-            return $this->builder->where('common_domain_id', '=', $commonDomain->id);
-        }
+        return FilterClauses::linkedId($this->builder, 'common_domain_id', \NextDeveloper\Commons\Database\Models\Domains::class, $value);
     }
 
         //  This is an alias function of commonDomain
     public function common_domain_id($value)
     {
-        return $this->commonDomain($value);
+        return $this->commonDomainId($value);
     }
 
     public function commonCategoryId($value)
     {
-            $commonCategory = \NextDeveloper\Commons\Database\Models\Categories::where('uuid', $value)->first();
-
-        if($commonCategory) {
-            return $this->builder->where('common_category_id', '=', $commonCategory->id);
-        }
+        return FilterClauses::linkedId($this->builder, 'common_category_id', \NextDeveloper\Commons\Database\Models\Categories::class, $value);
     }
 
         //  This is an alias function of commonCategory
     public function common_category_id($value)
     {
-        return $this->commonCategory($value);
+        return $this->commonCategoryId($value);
     }
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

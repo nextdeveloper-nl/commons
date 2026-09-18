@@ -2,7 +2,9 @@
 
 namespace NextDeveloper\Commons\Http\Response;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use League\Fractal\Pagination\Cursor;
 
 class ResponsableFactory {
@@ -41,6 +43,16 @@ class ResponsableFactory {
         }
 
         if(!$returnObject) {
+            //  An empty list is a list, not a missing object. Applications whose clients were built
+            //  on the 404 keep it (commons.response.empty_collection_is_not_found, on by default).
+            if($data instanceof LengthAwarePaginator && !config('commons.response.empty_collection_is_not_found', true)) {
+                return $controller->withPaginator($data, fn ($item) => $item);
+            }
+
+            if($data instanceof Collection && !config('commons.response.empty_collection_is_not_found', true)) {
+                return $controller->withCollection($data, fn ($item) => $item);
+            }
+
             return $controller->errorNotFound('Cannot find the object you are looking for. We may not have that' .
                 ' object or you may need to change your search filters.');
         }

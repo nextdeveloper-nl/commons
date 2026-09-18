@@ -2,6 +2,7 @@
 
 namespace NextDeveloper\Commons\Services;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\File as HttpFile;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -9,9 +10,11 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 use NextDeveloper\Commons\CDN\Publitio;
+use NextDeveloper\Commons\Common\Enums\GenericErrorCodes;
 use NextDeveloper\Commons\Database\Filters\MediaQueryFilter;
 use NextDeveloper\Commons\Database\Models\Media;
 use NextDeveloper\Commons\Exceptions\CannotCreateModelException;
+use NextDeveloper\Commons\Helpers\ObjectHelper;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractMediaService;
 use Publitio\BadJSONResponse;
 
@@ -28,13 +31,7 @@ class MediaService extends AbstractMediaService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
     public static function get(?MediaQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        $items = parent::get($filter, $params);
-
-        $media = Media::orderBy('id', 'desc')->get();
-
-        $items->merge($media);
-
-        return $items;
+        return parent::get($filter, $params);
     }
 
     /**
@@ -49,23 +46,19 @@ class MediaService extends AbstractMediaService
      */
     public static function create(array $data): mixed
     {
-        $data = self::processMediaUploadData($data);
+        $data = self::resolveObject($data);
 
-        if(array_key_exists('object_type', $data)) {
-            if(strpos( $data['object_type'], '\\' )) {
-                $exploded = explode('\\', $data['object_type']);
+        //  A file that already has an address is registered, not uploaded: the row points at it.
+        if (!isset($data['file']) && !empty($data['cdn_url'])) {
+            unset($data['storage']);
 
-                if(count($exploded) > 2) {
-                    $data['object_type'] = $exploded[0] . '\\' . $exploded[1] . '\\Database\\Models\\' . $exploded[2];
-                }
+            $data['file_name'] = $data['file_name'] ?? basename((string) parse_url($data['cdn_url'], PHP_URL_PATH));
+            $data['custom_properties'] = array_merge((array) ($data['custom_properties'] ?? []), ['source' => 'url']);
 
-                if(count($exploded) == 2) {
-                    $data['object_type'] = 'NextDeveloper\\' . $exploded[0] . '\\Database\\Models\\' . $exploded[1];
-                }
-            }
-
-            $data['object_id'] = app($data['object_type'])->where('uuid', $data['object_id'])->first()->id;
+            return parent::create($data);
         }
+
+        $data = self::processMediaUploadData($data);
 
         // A caller may pin a single upload to a specific storage target, regardless of the CDN the
         // rest of the application uses. This is how files that may not leave our own infrastructure
@@ -94,6 +87,72 @@ class MediaService extends AbstractMediaService
         unset($data['file']);
 
         return parent::create($data);
+    }
+
+    /**
+     * A file uploaded before the record it belongs to exists is attached afterwards by updating
+     * object_type and object_id, which arrive in the API's form and are translated here.
+     */
+    public static function update($id, array $data)
+    {
+        return parent::update($id, self::resolveObject($data));
+    }
+
+    /**
+     * The record a file belongs to arrives as object_type - the model class, or its public
+     * Vendor\Package\Model form - and the record's uuid; the columns hold the model class and the
+     * internal id. The caller must be able to see the record. object_id null detaches the file.
+     *
+     * An integer object_id from an internal caller is stored as given.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected static function resolveObject(array $data): array
+    {
+        if (!array_key_exists('object_id', $data) && !array_key_exists('object_type', $data)) {
+            return $data;
+        }
+
+        if (array_key_exists('object_id', $data) && $data['object_id'] === null) {
+            $data['object_type'] = null;
+
+            return $data;
+        }
+
+        if (isset($data['object_id']) && is_int($data['object_id'])) {
+            return $data;
+        }
+
+        $class = ObjectHelper::getModelClass($data['object_type'] ?? null);
+
+        if (!$class) {
+            self::refuse('object_type', 'object_type must name a model, for example NextDeveloper\\Support\\Tickets.');
+        }
+
+        if (!isset($data['object_id']) || !is_string($data['object_id']) || !Str::isUuid($data['object_id'])) {
+            self::refuse('object_id', 'object_id must be the uuid of the record the file belongs to.');
+        }
+
+        $object = $class::where('uuid', $data['object_id'])->first();
+
+        if (!$object) {
+            self::refuse('object_id', 'object_id must be the id of an existing record you can see.');
+        }
+
+        $data['object_type'] = $class;
+        $data['object_id'] = $object->id;
+
+        return $data;
+    }
+
+    private static function refuse(string $field, string $message): never
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'Validation failed. Please fix the values you are providing and try again.',
+            'code' => GenericErrorCodes::VALIDATION_FAILED,
+            'errors' => [$field => [$message]],
+        ], 422));
     }
 
     /**
@@ -165,16 +224,26 @@ class MediaService extends AbstractMediaService
 
         $localFile = Storage::disk($localDisk)->putFile($localDirectory, $file);
 
+        $size       = File::size($file);
+        $mimeType   = File::mimeType($file);
+        $type       = File::type($file);
+        $extension  = File::extension($file);
+
+        //  The upload's temporary copy has been stored; left behind it would pile up on the local disk.
+        if (Str::startsWith($file, Storage::disk('local')->path('tmp'))) {
+            @unlink($file);
+        }
+
         return [
             'cdn_url' => URL::to(Storage::url($localFile)),
             'disk' => 'public',
-            'size' => File::size($file),
-            'mime_type' => File::mimeType($file),
+            'size' => $size,
+            'mime_type' => $mimeType,
             'custom_properties' => [
                 'id'            => $localFile,
                 'public_id'     => $localFile,
-                'type'          => File::type($file),
-                'extension'     => File::extension($file),
+                'type'          => $type,
+                'extension'     => $extension,
                 'privacy'       => 'public',
                 'download_url'  => URL::to(Storage::url($localFile)),
                 'created_at'    => now(),
@@ -204,18 +273,25 @@ class MediaService extends AbstractMediaService
             return $data;
         }
 
-        $file       = $data['file'];
-        $fileName   = $file->getClientOriginalName();
-        $directory  = storage_path('tmp');
+        // a file the application already wrote to its own disk
+        if (is_string($data['file'])) {
+            if (!is_file($data['file'])) {
+                throw new CannotCreateModelException('File field is required');
+            }
 
-        // Create temporary folder, if not exist
-        if (!File::isDirectory($directory))
-        {
-            File::makeDirectory($directory, 0775, false, false);
+            $data['file_name'] = $data['file_name'] ?? basename($data['file']);
+
+            return $data;
         }
 
-        $uploadToLocalStore = $file->store('tmp');
-        $data['file']       = storage_path('app/' . $uploadToLocalStore);
+        $file       = $data['file'];
+        $fileName   = $file->getClientOriginalName();
+
+        //  Stored on the local disk and read back through that disk's own root: since Laravel 11
+        //  the local disk lives in storage/app/private, and assuming storage/app made every upload
+        //  fail with "file does not exist".
+        $uploadToLocalStore = $file->store('tmp', ['disk' => 'local']);
+        $data['file']       = Storage::disk('local')->path($uploadToLocalStore);
         $data['file_name']  = $fileName;
 
         return $data;
