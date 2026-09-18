@@ -879,14 +879,7 @@ Route::prefix('commons')->group(
     }
 );
 
-
-
-
-
-
-
-
-
-
-
-
+//  The file of a media row, through the signed and expiring link MediaTransformer hands out
+//  (commons.media.signed_url_minutes). Under /public because an <img> request carries no token.
+Route::get('public/commons/media/{uuid}/file', 'Media\MediaFileController@show')
+    ->name('commons.media.file');

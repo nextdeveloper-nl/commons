@@ -19,7 +19,7 @@ class CategoriesCreateRequest extends AbstractFormRequest
         'description' => 'nullable|string',
         'url' => 'nullable|string',
         'is_active' => 'boolean',
-        'common_domain_id' => 'required|exists:common_domains,uuid|uuid',
+        'common_domain_id' => 'nullable|exists:common_domains,uuid|uuid',
         'common_category_id' => 'nullable|exists:common_categories,uuid|uuid',
         'position' => 'integer',
         'object_type' => 'nullable|string',

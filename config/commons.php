@@ -8,6 +8,24 @@ return [
         ]
     ],
 
+    'cache' => [
+        // Seconds a model's transformer output stays cached (CacheHelper::rememberTransformed).
+        'transformed_ttl' => env('COMMONS_TRANSFORMED_CACHE_TTL', 3600),
+    ],
+
+    'media' => [
+        // Minutes a signed link to a file on a filesystem disk stays valid. MediaTransformer puts
+        // one in cdn_url when a file has no public address. Unset, such files get no link (the
+        // identity documents of the platform app rely on that).
+        'signed_url_minutes' => env('COMMONS_MEDIA_SIGNED_URL_MINUTES'),
+    ],
+
+    'response' => [
+        // true: a list endpoint with no rows answers 404 ERROR-NOT-FOUND, as it always has.
+        // false: it answers 200 with an empty `data` (and pagination meta when paginated).
+        'empty_collection_is_not_found' => env('COMMONS_EMPTY_COLLECTION_IS_NOT_FOUND', true),
+    ],
+
     'failed_jobs' => [
         // Shared secret allowing token-based access to GET /commons/failed-jobs
         // for callers (e.g. AI agents) that have no IAM user/OAuth token.
