@@ -8,6 +8,38 @@ return [
         ]
     ],
 
+    'query' => [
+        // Hard ceiling LimitScope applies to `rowCount` (including rowCount=all),
+        // so a single request can't pull an unbounded result set into memory.
+        'max_row_count' => env('COMMONS_MAX_ROW_COUNT', 5000),
+    ],
+
+    'cache' => [
+        // Seconds a model's transformer output stays cached (CacheHelper::rememberTransformed).
+        'transformed_ttl' => env('COMMONS_TRANSFORMED_CACHE_TTL', 3600),
+    ],
+
+    'media' => [
+        // Minutes a signed link to a file on a filesystem disk stays valid. MediaTransformer puts
+        // one in cdn_url when a file has no public address. Unset, such files get no link (the
+        // identity documents of the platform app rely on that).
+        'signed_url_minutes' => env('COMMONS_MEDIA_SIGNED_URL_MINUTES'),
+    ],
+
+    'response' => [
+        // true: a list endpoint with no rows answers 404 ERROR-NOT-FOUND, as it always has.
+        // false: it answers 200 with an empty `data` (and pagination meta when paginated).
+        'empty_collection_is_not_found' => env('COMMONS_EMPTY_COLLECTION_IS_NOT_FOUND', true),
+    ],
+
+    'failed_jobs' => [
+        // Shared secret allowing token-based access to GET /commons/failed-jobs
+        // for callers (e.g. AI agents) that have no IAM user/OAuth token.
+        // Leave unset to disable the token path entirely (system-admin users
+        // can still use the endpoint via their normal session).
+        'api_token' => env('FAILED_JOBS_API_TOKEN'),
+    ],
+
     'configuration' => [
         'actions' => [
             'save_in_db' => env('ACTIONS_SAVE_IN_DB', true),
@@ -81,6 +113,15 @@ return [
         ]
     ],
 
+    'pusher' => [
+        //  How long (minutes) a "pending" push log has to sit untouched before
+        //  it is considered stuck and eligible for automatic retry.
+        'stale_after_minutes' => env('COMMON_PUSHER_STALE_AFTER_MINUTES', 15),
+
+        //  Max automatic retry attempts per push log before we give up on it.
+        'max_retries' => env('COMMON_PUSHER_MAX_RETRIES', 5),
+    ],
+
 
 
     /*
@@ -135,4 +176,3 @@ return [
         ],
     ],
 ];
-
