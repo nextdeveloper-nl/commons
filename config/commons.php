@@ -8,6 +8,12 @@ return [
         ]
     ],
 
+    'query' => [
+        // Hard ceiling LimitScope applies to `rowCount` (including rowCount=all),
+        // so a single request can't pull an unbounded result set into memory.
+        'max_row_count' => env('COMMONS_MAX_ROW_COUNT', 5000),
+    ],
+
     'cache' => [
         // Seconds a model's transformer output stays cached (CacheHelper::rememberTransformed).
         'transformed_ttl' => env('COMMONS_TRANSFORMED_CACHE_TTL', 3600),
@@ -170,4 +176,3 @@ return [
         ],
     ],
 ];
-

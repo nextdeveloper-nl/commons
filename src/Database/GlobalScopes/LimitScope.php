@@ -34,24 +34,25 @@ class LimitScope implements Scope
             return;
         }
 
+        $maxRowCount = config('commons.query.max_row_count', 5000);
         $rowCount = $model->getPerPage() ?: self::DEFAULT_ROW_COUNT;
 
         /**
-         * `rowCount` on the request overrides the cap, and `all` lifts it entirely.
-         * It is read from the request rather than passed in, so it only reaches this
-         * scope over HTTP; console and queue code that wants every row asks for it
-         * with `withoutGlobalScope(LimitScope::class)`.
+         * `rowCount` on the request overrides the cap, and `all` asks for every row -
+         * both are still bounded by $maxRowCount, so a request over HTTP can never pull
+         * an unbounded result set into memory. This guards against exactly the failure
+         * a plain "all lifts it entirely" would allow: a many-table-join view with
+         * json/text payload columns per row, requested with rowCount=all over a wide
+         * date range, OOM'd php-fpm because nothing ever capped the result set size.
+         * Console/queue code that genuinely wants every row still bypasses this scope
+         * entirely with withoutGlobalScope(LimitScope::class).
          */
         if (request()->has('rowCount')) {
             $requested = request()->get('rowCount');
 
-            if ($requested === 'all') {
-                return;
-            }
-
-            $rowCount = (int) $requested ?: $rowCount;
+            $rowCount = $requested === 'all' ? $maxRowCount : ((int) $requested ?: $rowCount);
         }
 
-        $builder->limit($rowCount);
+        $builder->limit(min($rowCount, $maxRowCount));
     }
 }
