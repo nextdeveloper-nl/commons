@@ -55,7 +55,7 @@ class AbstractDisposableEmailsTransformer extends AbstractTransformer
     public function transform(DisposableEmails $model)
     {
                                                 $commonDomainId = \NextDeveloper\Commons\Database\Models\Domains::where('id', $model->common_domain_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

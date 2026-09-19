@@ -54,7 +54,7 @@ class AbstractRegistriesTransformer extends AbstractTransformer
      */
     public function transform(Registries $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

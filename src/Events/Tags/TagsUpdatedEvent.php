@@ -23,7 +23,7 @@ class TagsUpdatedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Tags $model = null) {
+    public function __construct(?Tags $model = null) {
         $this->_model = $model;
     }
 

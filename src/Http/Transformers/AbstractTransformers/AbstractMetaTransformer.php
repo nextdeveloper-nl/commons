@@ -53,7 +53,7 @@ class AbstractMetaTransformer extends AbstractTransformer
      */
     public function transform(Meta $model)
     {
-            
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

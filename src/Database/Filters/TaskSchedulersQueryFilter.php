@@ -17,19 +17,19 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
      * @var Builder
      */
     protected $builder;
-    
+
     public function name($value)
     {
         return $this->builder->where('name', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function description($value)
     {
         return $this->builder->where('description', 'ilike', '%' . $value . '%');
     }
 
-        
+
     public function scheduleType($value)
     {
         return $this->builder->where('schedule_type', 'ilike', '%' . $value . '%');
@@ -40,7 +40,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->scheduleType($value);
     }
-        
+
     public function objectType($value)
     {
         return $this->builder->where('object_type', 'ilike', '%' . $value . '%');
@@ -51,7 +51,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->objectType($value);
     }
-        
+
     public function cronExpression($value)
     {
         return $this->builder->where('cron_expression', 'ilike', '%' . $value . '%');
@@ -62,13 +62,13 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->cronExpression($value);
     }
-        
+
     public function timezone($value)
     {
         return $this->builder->where('timezone', 'ilike', '%' . $value . '%');
     }
 
-    
+
     public function dayOfMonth($value)
     {
         $operator = substr($value, 0, 1);
@@ -87,7 +87,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfMonth($value);
     }
-    
+
     public function dayOfWeek($value)
     {
         $operator = substr($value, 0, 1);
@@ -106,7 +106,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->dayOfWeek($value);
     }
-    
+
     public function nextRunAtStart($date)
     {
         return $this->builder->where('next_run_at', '>=', $date);
@@ -209,7 +209,7 @@ class TaskSchedulersQueryFilter extends AbstractQueryFilter
     {
         return $this->commonAvailableAction($value);
     }
-    
+
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
 

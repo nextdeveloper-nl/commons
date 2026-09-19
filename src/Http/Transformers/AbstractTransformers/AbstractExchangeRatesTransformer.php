@@ -55,7 +55,7 @@ class AbstractExchangeRatesTransformer extends AbstractTransformer
     public function transform(ExchangeRates $model)
     {
                                                 $commonCountryId = \NextDeveloper\Commons\Database\Models\Countries::where('id', $model->common_country_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

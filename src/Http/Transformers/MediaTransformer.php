@@ -2,9 +2,10 @@
 
 namespace NextDeveloper\Commons\Http\Transformers;
 
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Media;
+use NextDeveloper\Commons\Helpers\ObjectHelper;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractMediaTransformer;
 
 /**
@@ -20,23 +21,40 @@ class MediaTransformer extends AbstractMediaTransformer {
      * @return array
      */
     public function transform(Media $model) {
-        $transformed = Cache::get(
-            CacheHelper::getKey('Media', $model->uuid, 'Transformed')
+        return CacheHelper::rememberTransformed(
+            'Media',
+            $model->uuid,
+            function () use ($model) {
+                $transformed = parent::transform($model);
+
+                //  The record the file belongs to, by its uuid rather than the internal id.
+                $transformed['object_id'] = ObjectHelper::getObjectUuid($model->object_type, $model->object_id);
+
+                $transformed['cdn_url'] = $model->cdn_url ?: $this->signedUrl($model);
+
+                return $transformed;
+            }
         );
+    }
 
-        if($transformed)
-            return $transformed;
+    /**
+     * A link a browser can load for a file kept on a filesystem disk, which has no public address.
+     * It outlives the cached payload it is part of (commons.cache.transformed_ttl).
+     */
+    private function signedUrl(Media $model): ?string
+    {
+        $minutes = (int) config('commons.media.signed_url_minutes');
+        $path = $model->custom_properties['path'] ?? null;
 
-        $transformed = parent::transform($model);
+        if ($minutes <= 0 || !$path || !$model->disk) {
+            return null;
+        }
 
-        Cache::set(
-            CacheHelper::getKey('Media', $model->uuid, 'Transformed'),
-            $transformed
-        );
-
-        unset($transformed['object_id']);
-        unset($transformed['object_type']);
-
-        return $transformed;
+        return URL::to(URL::temporarySignedRoute(
+            'commons.media.file',
+            now()->addMinutes($minutes),
+            ['uuid' => $model->uuid],
+            false
+        ));
     }
 }

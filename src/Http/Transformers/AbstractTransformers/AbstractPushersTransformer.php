@@ -56,7 +56,7 @@ class AbstractPushersTransformer extends AbstractTransformer
     {
                                                 $iamUserId = \NextDeveloper\IAM\Database\Models\Users::where('id', $model->iam_user_id)->first();
                                                             $iamAccountId = \NextDeveloper\IAM\Database\Models\Accounts::where('id', $model->iam_account_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,
@@ -74,6 +74,7 @@ class AbstractPushersTransformer extends AbstractTransformer
             'provider'  =>  $model->provider,
             'provider_metadata'  =>  $model->provider_metadata,
             'auth_header'  =>  $model->auth_header,
+            'is_retryable'  =>  $model->is_retryable,
             ]
         );
     }

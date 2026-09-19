@@ -23,7 +23,7 @@ class DomainsRestoredEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Domains $model = null) {
+    public function __construct(?Domains $model = null) {
         $this->_model = $model;
     }
 

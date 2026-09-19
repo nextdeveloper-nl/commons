@@ -13,11 +13,11 @@ class MediaCreateRequest extends AbstractFormRequest
     public function rules()
     {
         return [
-            'object_id' => 'nullable',
+            'object_id' => 'nullable|uuid|required_with:object_type',
         'object_type' => 'nullable|string',
         'collection_name' => 'nullable|string',
         'name' => 'nullable|string',
-        'cdn_url' => 'nullable|string',
+        'cdn_url' => 'required|url',
         'file_name' => 'nullable|string',
         'mime_type' => 'nullable|string',
         'disk' => 'nullable|string',

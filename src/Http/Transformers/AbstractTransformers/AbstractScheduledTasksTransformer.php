@@ -55,7 +55,7 @@ class AbstractScheduledTasksTransformer extends AbstractTransformer
     public function transform(ScheduledTasks $model)
     {
                                                 $commonAvailableActionId = \NextDeveloper\Commons\Database\Models\AvailableActions::where('id', $model->common_available_action_id)->first();
-                        
+
         return $this->buildPayload(
             [
             'id'  =>  $model->uuid,

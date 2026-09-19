@@ -154,4 +154,17 @@ class PusherLogsController extends AbstractController
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    /**
+     * Manually re-queues a pusher log for delivery, regardless of the
+     * owning Pusher's retry flag (that flag only gates automatic retry).
+     *
+     * @param  $ref
+     * @return mixed|null
+     */
+    public function retry($ref)
+    {
+        $model = PusherLogsService::retry($ref);
+
+        return ResponsableFactory::makeResponse($this, $model);
+    }
 }

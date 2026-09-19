@@ -24,7 +24,7 @@ class CitiesSavedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Cities $model = null)
+    public function __construct(?Cities $model = null)
     {
         $this->_model = $model;
     }

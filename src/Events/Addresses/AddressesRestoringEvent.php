@@ -23,7 +23,7 @@ class AddressesRestoringEvent
      */
     protected $timestamp = null;
 
-    public function __construct(Addresses $model = null) {
+    public function __construct(?Addresses $model = null) {
         $this->_model = $model;
     }
 
