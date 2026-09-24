@@ -83,6 +83,9 @@ abstract class AbstractCommonsException extends Exception
 
         $account = $me ? UserHelper::currentAccount($me) : null;
 
+        // last denied model/action from UserHelper::can(), if this exception came from a failed authorization check
+        $deniedOn = UserHelper::getLastDenial();
+
         // log who/what/where so denied requests are traceable, not just the generic message
         Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message, [
             'user_id'       =>  $me?->id,
@@ -91,6 +94,7 @@ abstract class AbstractCommonsException extends Exception
             'method'        =>  $request?->method(),
             'url'           =>  $request?->fullUrl(),
             'ip'            =>  $request?->ip(),
+            'denied_on'     =>  $deniedOn,
         ]);
 
         $translate = true;
