@@ -81,7 +81,17 @@ abstract class AbstractCommonsException extends Exception
         if($me)
             $returnMessage = I18n::t($returnMessage, $me->common_language_id);
 
-        Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message);
+        $account = $me ? UserHelper::currentAccount($me) : null;
+
+        // log who/what/where so denied requests are traceable, not just the generic message
+        Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message, [
+            'user_id'       =>  $me?->id,
+            'user_email'    =>  $me?->email,
+            'iam_account_id'=>  $account?->id,
+            'method'        =>  $request?->method(),
+            'url'           =>  $request?->fullUrl(),
+            'ip'            =>  $request?->ip(),
+        ]);
 
         $translate = true;
 
