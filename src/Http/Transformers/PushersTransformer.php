@@ -33,6 +33,9 @@ class PushersTransformer extends AbstractPushersTransformer
 
         $transformed = parent::transform($model);
 
+        // Convenience flag for the UI; status is the single source of truth.
+        $transformed['is_active'] = $model->status !== 'disabled';
+
         Cache::set(
             CacheHelper::getKey('Pushers', $model->uuid, 'Transformed'),
             $transformed

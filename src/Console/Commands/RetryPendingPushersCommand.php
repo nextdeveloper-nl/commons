@@ -27,6 +27,8 @@ class RetryPendingPushersCommand extends Command
 
         $retryablePusherIds = Pushers::withoutGlobalScopes()
             ->where('is_retryable', true)
+            // Disabled pushers are not retried until the owner re-enables them.
+            ->where('status', '!=', 'disabled')
             ->pluck('id');
 
         if ($retryablePusherIds->isEmpty()) {

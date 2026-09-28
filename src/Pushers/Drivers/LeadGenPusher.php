@@ -78,4 +78,13 @@ class LeadGenPusher extends AbstractPusher
 
         return $parts[0] !== '' ? $parts[0] : null;
     }
+
+    /**
+     * External HTTP endpoint: repeated 404/410/401/403 responses auto-disable the
+     * pusher (see PushersService::handleFailedPush).
+     */
+    protected function supportsAutoDisable(): bool
+    {
+        return true;
+    }
 }

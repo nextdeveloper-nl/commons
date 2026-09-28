@@ -35,6 +35,9 @@ use NextDeveloper\Commons\Database\Traits\RunAsAdministrator;
  * @property $provider_metadata
  * @property string $auth_header
  * @property boolean $is_retryable
+ * @property string $status
+ * @property \Carbon\Carbon $disabled_at
+ * @property string $disabled_reason
  */
 class Pushers extends Model
 {
@@ -64,6 +67,9 @@ class Pushers extends Model
             'provider_metadata',
             'auth_header',
             'is_retryable',
+            'status',
+            'disabled_at',
+            'disabled_reason',
     ];
 
     /**
@@ -100,6 +106,9 @@ class Pushers extends Model
     'provider_metadata' => 'array',
     'auth_header' => 'string',
     'is_retryable' => 'boolean',
+    'status' => 'string',
+    'disabled_at' => 'datetime',
+    'disabled_reason' => 'string',
     ];
 
     /**
@@ -111,6 +120,7 @@ class Pushers extends Model
     'created_at',
     'updated_at',
     'deleted_at',
+    'disabled_at',
     ];
 
     /**
