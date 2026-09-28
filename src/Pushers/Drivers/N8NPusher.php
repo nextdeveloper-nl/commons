@@ -59,4 +59,13 @@ class N8NPusher extends AbstractPusher
             $response->body(),
         );
     }
+
+    /**
+     * External HTTP endpoint: repeated 404/410/401/403 responses auto-disable the
+     * pusher (see PushersService::handleFailedPush).
+     */
+    protected function supportsAutoDisable(): bool
+    {
+        return true;
+    }
 }

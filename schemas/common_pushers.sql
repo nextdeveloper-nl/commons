@@ -17,6 +17,10 @@ CREATE TABLE common_pushers (
     deleted_at         timestamp with time zone,
     provider           text DEFAULT 'generic'::text, -- The provider type for the pusher configuration, such as generic, slack, teams, etc. This can be used to apply provider-specific logic when executing pushes.
     provider_metadata  json, -- JSON field for storing additional metadata specific to the provider type. For example, for a Slack provider, this could include the channel ID or username to post to. For a generic provider, this could include any custom configuration needed for the push.
+    is_retryable       boolean, -- Whether failed or stuck logs are re-queued by nextdeveloper:retry-pending-pushers.
+    status             text NOT NULL DEFAULT 'active'::text, -- active | disabled. Disabled pushers get no new logs and are not retried.
+    disabled_at        timestamp with time zone, -- When the pusher was disabled (manually or automatically).
+    disabled_reason    text, -- Why it was disabled, e.g. auto-disabled after consecutive 404 responses.
     auth_header        text DEFAULT 'Authorization'::text, -- The header key used for authentication when require_auth is true. Defaults to "Authorization", but can be customized for different providers that may expect a different header key for the token.
     CONSTRAINT common_pushers_pkey PRIMARY KEY (id)
 );

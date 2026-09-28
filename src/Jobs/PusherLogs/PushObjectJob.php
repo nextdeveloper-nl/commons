@@ -10,7 +10,10 @@ use Illuminate\Queue\SerializesModels;
 use NextDeveloper\Commons\Database\Models\PusherLogs;
 use NextDeveloper\Commons\Database\Models\Pushers;
 use NextDeveloper\Commons\Pushers\PusherFactory;
+use NextDeveloper\Commons\Services\PusherLogsService;
+use NextDeveloper\Commons\Services\PushersService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 class PushObjectJob implements ShouldQueue
 {
@@ -42,6 +45,19 @@ class PushObjectJob implements ShouldQueue
             ->first();
 
         if (!$pusher) {
+            return;
+        }
+
+        // Logs queued before the pusher was disabled are closed instead of sent,
+        // so they do not sit in 'pending' forever.
+        if ($pusher->status === PushersService::STATUS_DISABLED) {
+            UserHelper::runAsAdmin(function () use ($log) {
+                PusherLogsService::update($log->uuid, [
+                    'status'        => 'failed',
+                    'response_body' => 'Skipped: pusher is disabled.',
+                ]);
+            });
+
             return;
         }
 
