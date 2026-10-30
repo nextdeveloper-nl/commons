@@ -16,6 +16,7 @@ class GoogleWorkspaceHelper
 {
     public const CODE = 'google_workspace';
 
+    public const SCOPE_GMAIL_SEND = 'https://www.googleapis.com/auth/gmail.send';
     public const SCOPE_CALENDAR_READONLY = 'https://www.googleapis.com/auth/calendar.readonly';
     public const SCOPE_CONTACTS_READONLY = 'https://www.googleapis.com/auth/contacts.readonly';
 
@@ -24,7 +25,8 @@ class GoogleWorkspaceHelper
      */
     public static function hasScope(ExternalServices $service, string $scope): bool
     {
-        return in_array($scope, $service->configuration['allowed_scopes'] ?? [], true);
+        // normalized so connections holding the old full-access scopes still count
+        return in_array($scope, self::normalizeScopes($service->configuration['allowed_scopes'] ?? []), true);
     }
 
     /**
@@ -47,7 +49,8 @@ class GoogleWorkspaceHelper
 
     /**
      * Returns the encrypted token as stored (what the Agenda Google client expects), refreshing and persisting
-     * it first when the access token is expired or about to expire. Returns null when it cannot be refreshed.
+     * it first when the access token is expired or about to expire. Returns null when it cannot be refreshed;
+     * a permanent failure (revoked/expired refresh token) also flags the connection as needing a reconnect.
      */
     public static function freshEncryptedToken(ExternalServices $service): ?string
     {
@@ -57,17 +60,45 @@ class GoogleWorkspaceHelper
             return $service->token;
         }
 
+        return self::refresh($service)['token'];
+    }
+
+    /**
+     * Calls Google's token endpoint and keeps the connection's state truthful:
+     * - on success: stores the new token and the scopes Google says were really granted, and records health
+     *   (ok, or needs_reconnect with missing_scopes when a required scope is not granted);
+     * - on invalid_grant (the user revoked access, the refresh token expired): health needs_reconnect / token_revoked;
+     * - on any other failure (network, 5xx): nothing is flagged, it is treated as transient.
+     *
+     * @return array{token: ?string, permanent_failure: bool}
+     */
+    public static function refresh(ExternalServices $service): array
+    {
+        $result = ['token' => null, 'permanent_failure' => false];
+
         if (empty($service->refresh_token)) {
-            return null;
+            self::recordHealth($service, 'needs_reconnect', 'no_refresh_token');
+            $result['permanent_failure'] = true;
+
+            return $result;
         }
 
-        $response = Http::asForm()->post('https://oauth2.googleapis.com/token', [
-            'client_id'     => config('services.google.client_id'),
-            'client_secret' => config('services.google.client_secret'),
-            // only 'token' is encrypted by the model; tolerate both forms for the refresh token
-            'refresh_token' => self::decryptOrRaw($service->refresh_token),
-            'grant_type'    => 'refresh_token',
-        ]);
+        try {
+            $response = Http::asForm()->post('https://oauth2.googleapis.com/token', [
+                'client_id'     => config('services.google.client_id'),
+                'client_secret' => config('services.google.client_secret'),
+                // only 'token' is encrypted by the model; tolerate both forms for the refresh token
+                'refresh_token' => self::decryptOrRaw($service->refresh_token),
+                'grant_type'    => 'refresh_token',
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning('[Commons::GoogleWorkspaceHelper] Token refresh unreachable', [
+                'external_service_uuid' => $service->uuid,
+                'error'                 => $e->getMessage(),
+            ]);
+
+            return $result;
+        }
 
         if (!$response->successful() || empty($response->json('access_token'))) {
             Log::warning('[Commons::GoogleWorkspaceHelper] Token refresh failed', [
@@ -75,17 +106,90 @@ class GoogleWorkspaceHelper
                 'response'              => $response->json(),
             ]);
 
-            return null;
+            // invalid_grant = revoked or expired refresh token: only a new consent can fix it
+            if ($response->json('error') === 'invalid_grant') {
+                self::recordHealth($service, 'needs_reconnect', 'token_revoked');
+                $result['permanent_failure'] = true;
+            }
+
+            return $result;
         }
+
+        $fresh         = $service->fresh();
+        $configuration = $fresh->configuration ?? [];
+        $granted       = self::normalizeScopes(explode(' ', (string) $response->json('scope', '')));
+
+        $configuration['expires_at'] = now()->addSeconds($response->json('expires_in', 3600))->toISOString();
+
+        // Google reports what was really granted (the user may have unticked scopes); keep it when present
+        if (!empty($granted)) {
+            $configuration['allowed_scopes'] = $granted;
+        }
+
+        $configuration['health'] = self::healthFor($configuration['allowed_scopes'] ?? []);
 
         ExternalServicesService::update($service->uuid, [
             'token'         => $response->json('access_token'),
-            'configuration' => array_merge($service->configuration ?? [], [
-                'expires_at' => now()->addSeconds($response->json('expires_in', 3600))->toISOString(),
-            ]),
+            'configuration' => $configuration,
         ]);
 
-        return $service->fresh()->token;
+        $result['token'] = $fresh->fresh()->token;
+
+        return $result;
+    }
+
+    /**
+     * Health block for a list of granted scopes: ok, or needs_reconnect/scope_missing with the missing scopes.
+     */
+    public static function healthFor(array $grantedScopes): array
+    {
+        $missing = array_values(array_diff(
+            [self::SCOPE_GMAIL_SEND, self::SCOPE_CALENDAR_READONLY, self::SCOPE_CONTACTS_READONLY],
+            $grantedScopes
+        ));
+
+        return [
+            'status'         => empty($missing) ? 'ok' : 'needs_reconnect',
+            'reason'         => empty($missing) ? null : 'scope_missing',
+            'missing_scopes' => $missing,
+            'checked_at'     => now()->toISOString(),
+        ];
+    }
+
+    /**
+     * A full-access scope covers its read-only sibling (connections made before the scopes were narrowed hold the
+     * full 'calendar' / 'contacts' scopes), so the read-only scope is added to the granted list.
+     */
+    public static function normalizeScopes(array $scopes): array
+    {
+        $scopes = array_values(array_filter(array_map('trim', $scopes)));
+
+        if (in_array('https://www.googleapis.com/auth/calendar', $scopes, true)) {
+            $scopes[] = self::SCOPE_CALENDAR_READONLY;
+        }
+
+        if (in_array('https://www.googleapis.com/auth/contacts', $scopes, true)) {
+            $scopes[] = self::SCOPE_CONTACTS_READONLY;
+        }
+
+        return array_values(array_unique($scopes));
+    }
+
+    /**
+     * Records the connection health the panel shows: ['status' => ok|needs_reconnect, 'reason' => ..., 'checked_at'].
+     */
+    public static function recordHealth(ExternalServices $service, string $status, ?string $reason = null, array $missingScopes = []): void
+    {
+        $service = $service->fresh();
+
+        ExternalServicesService::update($service->uuid, [
+            'configuration' => array_merge($service->configuration ?? [], ['health' => [
+                'status'         => $status,
+                'reason'         => $reason,
+                'missing_scopes' => $missingScopes,
+                'checked_at'     => now()->toISOString(),
+            ]]),
+        ]);
     }
 
     /**
