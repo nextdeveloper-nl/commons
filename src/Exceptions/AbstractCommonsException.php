@@ -83,8 +83,16 @@ abstract class AbstractCommonsException extends Exception
 
         $account = $me ? UserHelper::currentAccount($me) : null;
 
-        // last denied model/action from UserHelper::can(), if this exception came from a failed authorization check
-        $deniedOn = UserHelper::getLastDenial();
+        // last denied model/action from UserHelper::can(), if this exception came from a failed authorization check.
+        // It is static state, so it is read once (pull clears it) and only trusted when it belongs to the current
+        // user; otherwise a denial left over from an earlier request in a long-running worker would be logged here.
+        $deniedOn = method_exists(UserHelper::class, 'pullLastDenial')
+            ? UserHelper::pullLastDenial()
+            : UserHelper::getLastDenial();
+
+        if ($deniedOn && ($deniedOn['user_id'] ?? null) !== $me?->id) {
+            $deniedOn = null;
+        }
 
         // log who/what/where so denied requests are traceable, not just the generic message
         Log::error('[EXCEPTION] ' . $returnMessage . ' - ' . $this->message, [
