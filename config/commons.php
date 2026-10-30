@@ -142,7 +142,6 @@ return [
             'description' => 'Gmail is a free email service developed by Google.',
             'status'      => env('GOOGLE_GMAIL_SERVICE_STATUS', false),
             'scopes'      => [
-                'https://www.googleapis.com/auth/gmail.readonly',
                 'https://www.googleapis.com/auth/gmail.send',
             ],
         ],
@@ -154,7 +153,7 @@ return [
             'description' => 'Google Calendar is a time-management and scheduling calendar service developed by Google.',
             'status'      => env('GOOGLE_CALENDAR_SERVICE_STATUS', false),
             'scopes'      => [
-                'https://www.googleapis.com/auth/calendar',
+                'https://www.googleapis.com/auth/calendar.readonly',
             ],
         ],
 
@@ -165,7 +164,7 @@ return [
             'description' => 'Google Contacts is a contact management tool developed by Google.',
             'status'      => env('GOOGLE_CONTACTS_SERVICE_STATUS', false),
             'scopes'      => [
-                'https://www.googleapis.com/auth/contacts',
+                'https://www.googleapis.com/auth/contacts.readonly',
             ],
         ],
     ],
