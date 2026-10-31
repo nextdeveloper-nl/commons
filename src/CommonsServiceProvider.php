@@ -128,6 +128,7 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                 Console\Commands\FetchExchangeRateCommand::class,
                 Console\Commands\TaskSchedulerActionCommand::class,
                 Console\Commands\RetryPendingPushersCommand::class,
+                Console\Commands\EncryptRefreshTokensCommand::class,
             ]);
         }
     }
