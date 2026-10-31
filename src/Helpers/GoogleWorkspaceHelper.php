@@ -117,6 +117,13 @@ class GoogleWorkspaceHelper
                 $result['permanent_failure'] = true;
             }
 
+            // unauthorized_client / invalid_client = the stored refresh token was issued to another OAuth client than
+            // the one configured now; it can never be refreshed again, so the user has to reconnect as well
+            if (in_array($response->json('error'), ['unauthorized_client', 'invalid_client'], true)) {
+                self::recordHealth($service, 'needs_reconnect', 'token_unauthorized');
+                $result['permanent_failure'] = true;
+            }
+
             return $result;
         }
 
@@ -195,6 +202,27 @@ class GoogleWorkspaceHelper
                 'checked_at'     => now()->toISOString(),
             ]]),
         ]);
+    }
+
+    /**
+     * Flags a connection whose token Google rejects (HTTP 401 from an API call) so the panel asks the user to
+     * reconnect. Used by consumers (Agenda sync etc.) that hit the 401 outside the refresh flow.
+     */
+    public static function flagUnauthorized(ExternalServices $service): void
+    {
+        self::recordHealth($service, 'needs_reconnect', 'token_unauthorized');
+    }
+
+    /**
+     * Clears a needs_reconnect flag after a call with the connection's token succeeded.
+     */
+    public static function clearUnauthorized(ExternalServices $service): void
+    {
+        $health = $service->fresh()->configuration['health'] ?? null;
+
+        if (($health['status'] ?? null) === 'needs_reconnect' && ($health['reason'] ?? null) === 'token_unauthorized') {
+            self::recordHealth($service, 'ok');
+        }
     }
 
     /**
