@@ -70,15 +70,16 @@ class GoogleWorkspaceHelper
      * - on invalid_grant (the user revoked access, the refresh token expired): health needs_reconnect / token_revoked;
      * - on any other failure (network, 5xx): nothing is flagged, it is treated as transient.
      *
-     * @return array{token: ?string, permanent_failure: bool}
+     * @return array{token: ?string, permanent_failure: bool, error: ?string} error is a short reason for diagnostics
      */
     public static function refresh(ExternalServices $service): array
     {
-        $result = ['token' => null, 'permanent_failure' => false];
+        $result = ['token' => null, 'permanent_failure' => false, 'error' => null];
 
         if (empty($service->refresh_token)) {
             self::recordHealth($service, 'needs_reconnect', 'no_refresh_token');
             $result['permanent_failure'] = true;
+            $result['error']             = 'no refresh token stored';
 
             return $result;
         }
@@ -97,6 +98,8 @@ class GoogleWorkspaceHelper
                 'error'                 => $e->getMessage(),
             ]);
 
+            $result['error'] = 'unreachable: ' . $e->getMessage();
+
             return $result;
         }
 
@@ -105,6 +108,8 @@ class GoogleWorkspaceHelper
                 'external_service_uuid' => $service->uuid,
                 'response'              => $response->json(),
             ]);
+
+            $result['error'] = $response->status() . ' ' . ($response->json('error') ?? '') . ' ' . ($response->json('error_description') ?? '');
 
             // invalid_grant = revoked or expired refresh token: only a new consent can fix it
             if ($response->json('error') === 'invalid_grant') {
