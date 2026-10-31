@@ -177,6 +177,41 @@ class ExternalServices extends Model
         );
     }
 
+    /**
+     * The refresh token is encrypted at rest. Reading is tolerant: rows saved before the encryption was added still
+     * hold the plain value, which is returned as it is (the backfill command encrypts them), so callers always get
+     * the usable token. Writing never double-encrypts a value that is already encrypted.
+     */
+    public function refreshToken(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if ($value === null || $value === '') {
+                    return $value;
+                }
+
+                try {
+                    return decrypt($value);
+                } catch (\Throwable) {
+                    return $value;
+                }
+            },
+            set: function ($value) {
+                if ($value === null || $value === '') {
+                    return $value;
+                }
+
+                try {
+                    decrypt($value);
+
+                    return $value;
+                } catch (\Throwable) {
+                    return encrypt($value);
+                }
+            },
+        );
+    }
+
 
 
 
