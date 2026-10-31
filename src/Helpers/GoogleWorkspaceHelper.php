@@ -4,6 +4,7 @@ namespace NextDeveloper\Commons\Helpers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use NextDeveloper\Commons\Database\Models\ExternalServices;
 use NextDeveloper\Commons\Services\ExternalServicesService;
 
@@ -77,7 +78,7 @@ class GoogleWorkspaceHelper
         $result = ['token' => null, 'permanent_failure' => false, 'error' => null];
 
         if (empty($service->refresh_token)) {
-            self::recordHealth($service, 'needs_reconnect', 'no_refresh_token');
+            self::markBroken($service, 'no_refresh_token');
             $result['permanent_failure'] = true;
             $result['error']             = 'no refresh token stored';
 
@@ -113,14 +114,14 @@ class GoogleWorkspaceHelper
 
             // invalid_grant = revoked or expired refresh token: only a new consent can fix it
             if ($response->json('error') === 'invalid_grant') {
-                self::recordHealth($service, 'needs_reconnect', 'token_revoked');
+                self::markBroken($service, 'token_revoked');
                 $result['permanent_failure'] = true;
             }
 
             // unauthorized_client / invalid_client = the stored refresh token was issued to another OAuth client than
             // the one configured now; it can never be refreshed again, so the user has to reconnect as well
             if (in_array($response->json('error'), ['unauthorized_client', 'invalid_client'], true)) {
-                self::recordHealth($service, 'needs_reconnect', 'token_unauthorized');
+                self::markBroken($service, 'token_unauthorized');
                 $result['permanent_failure'] = true;
             }
 
@@ -138,12 +139,18 @@ class GoogleWorkspaceHelper
             $configuration['allowed_scopes'] = $granted;
         }
 
+        $wasFlagged              = (($configuration['health']['status'] ?? null) === 'needs_reconnect');
         $configuration['health'] = self::healthFor($configuration['allowed_scopes'] ?? []);
 
         ExternalServicesService::update($service->uuid, [
             'token'         => $response->json('access_token'),
             'configuration' => $configuration,
         ]);
+
+        // A required scope is missing: tell the owner once, when the connection turns from ok to needs_reconnect
+        if ($configuration['health']['status'] === 'needs_reconnect' && !$wasFlagged) {
+            self::notifyBroken($service);
+        }
 
         $result['token'] = $fresh->fresh()->token;
 
@@ -205,12 +212,62 @@ class GoogleWorkspaceHelper
     }
 
     /**
-     * Flags a connection whose token Google rejects (HTTP 401 from an API call) so the panel asks the user to
-     * reconnect. Used by consumers (Agenda sync etc.) that hit the 401 outside the refresh flow.
+     * Flags a connection whose token Google rejects (HTTP 401/403 from an API call) so the panel asks the user to
+     * reconnect. Used by consumers (Agenda sync, contacts import) that hit the failure outside the refresh flow.
+     *
+     * @param string|null $what what could not be synced ('calendar', 'contacts'), named in the email
      */
-    public static function flagUnauthorized(ExternalServices $service): void
+    public static function flagUnauthorized(ExternalServices $service, ?string $what = null): void
     {
-        self::recordHealth($service, 'needs_reconnect', 'token_unauthorized');
+        self::markBroken($service, 'token_unauthorized', $what);
+    }
+
+    /**
+     * Sets health needs_reconnect and, only when the connection was not already flagged, emails the owner that the
+     * integration is broken. The flag is cleared on reconnect, so a connection that breaks again notifies again.
+     */
+    public static function markBroken(ExternalServices $service, string $reason, ?string $what = null): void
+    {
+        $alreadyFlagged = (($service->fresh()->configuration['health']['status'] ?? null) === 'needs_reconnect');
+
+        self::recordHealth($service, 'needs_reconnect', $reason);
+
+        if (!$alreadyFlagged) {
+            self::notifyBroken($service, $what);
+        }
+    }
+
+    /**
+     * Emails the connection owner that the Google integration is broken and nothing is synced anymore.
+     * Failures are only logged: a mail problem must never break the sync that detected the broken token.
+     */
+    public static function notifyBroken(ExternalServices $service, ?string $what = null): void
+    {
+        $email = $service->service_owner;
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return;
+        }
+
+        $affected = $what ? "your Google {$what}" : 'your Google calendar and contacts';
+
+        $body = '<div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;max-width:600px">'
+            . '<p>Hello,</p>'
+            . '<p>Your Google Workspace integration (' . e($email) . ') is broken. Google no longer accepts the access '
+            . 'we have, so we cannot sync ' . e($affected) . ' anymore.</p>'
+            . '<p>Please open Integrations in your PlusClouds account and reconnect Google to restore the sync.</p>'
+            . '<p>Best regards,<br>PlusClouds</p></div>';
+
+        try {
+            Mail::html($body, function ($message) use ($email) {
+                $message->to($email)->subject('Action needed: your Google integration is broken');
+            });
+        } catch (\Throwable $e) {
+            Log::warning('[Commons::GoogleWorkspaceHelper] Broken-integration email failed', [
+                'external_service_uuid' => $service->uuid,
+                'error'                 => $e->getMessage(),
+            ]);
+        }
     }
 
     /**
