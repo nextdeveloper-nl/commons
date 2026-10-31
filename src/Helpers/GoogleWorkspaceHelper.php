@@ -260,7 +260,10 @@ class GoogleWorkspaceHelper
 
         try {
             Mail::html($body, function ($message) use ($email) {
-                $message->to($email)->subject('Action needed: your Google integration is broken');
+                // The sender name is set here: the mail.from.name default of the host app shows up as "Example"
+                $message->from(config('mail.from.address'), 'PlusClouds Notification Service')
+                    ->to($email)
+                    ->subject('Action needed: your Google integration is broken');
             });
         } catch (\Throwable $e) {
             Log::warning('[Commons::GoogleWorkspaceHelper] Broken-integration email failed', [
