@@ -4,7 +4,6 @@ namespace NextDeveloper\Commons\Console\Commands;
 
 use Illuminate\Console\Command;
 use NextDeveloper\Commons\Database\Models\ExternalServices;
-use NextDeveloper\Commons\Services\ExternalServicesService;
 
 /**
  * Encrypts the refresh tokens that were stored in plain text before the model encrypted them.
@@ -38,8 +37,11 @@ class EncryptRefreshTokensCommand extends Command
                     }
 
                     if (!$this->option('dry-run')) {
-                        // The model mutator encrypts the value on update
-                        ExternalServicesService::update($service->uuid, ['refresh_token' => $raw]);
+                        // Written on the row that is already loaded: ExternalServicesService::update() looks the row up
+                        // through the authorization scope, which finds nothing in CLI (no user context).
+                        // The model mutator encrypts the value on save.
+                        $service->refresh_token = $raw;
+                        $service->saveQuietly();
                     }
 
                     $encrypted++;
