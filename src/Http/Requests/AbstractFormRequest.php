@@ -38,6 +38,54 @@ abstract class AbstractFormRequest extends FormRequest {
     }
 
     /**
+     * Generated rules look like 'nullable|exists:table,uuid|uuid'. Rules run in order, so `exists` hit the
+     * database with a malformed uuid (invalid input syntax for type uuid) and answered 500 instead of 422.
+     * Here the `uuid` rule is moved in front of every `exists:` rule so the format is checked first.
+     *
+     * @return array
+     */
+    protected function validationRules() {
+        $rules = parent::validationRules();
+
+        foreach ($rules as $field => $rule) {
+            if (is_string($rule)) {
+                $parts = explode('|', $rule);
+                $isString = true;
+            } elseif (is_array($rule)) {
+                $parts = $rule;
+                $isString = false;
+            } else {
+                continue;
+            }
+
+            $uuidIndex = array_search('uuid', $parts, true);
+            if ($uuidIndex === false) {
+                continue;
+            }
+
+            $existsIndex = null;
+            foreach ($parts as $i => $part) {
+                if (is_string($part) && str_starts_with($part, 'exists:')) {
+                    $existsIndex = $i;
+                    break;
+                }
+            }
+
+            if ($existsIndex === null || $uuidIndex < $existsIndex) {
+                continue;
+            }
+
+            unset($parts[$uuidIndex]);
+            array_splice($parts, $existsIndex, 0, ['uuid']);
+            $parts = array_values($parts);
+
+            $rules[$field] = $isString ? implode('|', $parts) : $parts;
+        }
+
+        return $rules;
+    }
+
+    /**
      * @return void
      */
     public function prepareForValidation() {
