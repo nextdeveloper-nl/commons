@@ -12,6 +12,7 @@ namespace NextDeveloper\Commons\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Traits\Macroable;
 use NextDeveloper\Commons\Helpers\ColumnNameSanitizer;
 
@@ -131,7 +132,15 @@ abstract class AbstractQueryFilter {
                 $direction = 'ASC';
             }
 
-            $this->builder->orderBy(ColumnNameSanitizer::sanitize($column), $direction);
+            $column = ColumnNameSanitizer::sanitize($column);
+
+            // Some tables (e.g. common_currencies) have no created_at; ordering by a missing column
+            // raised a 500, so such order clauses are now ignored.
+            if (!Schema::hasColumn($this->builder->getModel()->getTable(), $column)) {
+                continue;
+            }
+
+            $this->builder->orderBy($column, $direction);
         }
 
         return $this->builder;
