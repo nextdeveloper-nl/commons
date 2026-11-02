@@ -21,9 +21,10 @@ return [
     ],
 
     'response' => [
-        // true: a list endpoint with no rows answers 404 ERROR-NOT-FOUND, as it always has.
+        // true: a list endpoint with no rows answers 404 ERROR-NOT-FOUND (the old behavior).
         // false: it answers 200 with an empty `data` (and pagination meta when paginated).
-        'empty_collection_is_not_found' => env('COMMONS_EMPTY_COLLECTION_IS_NOT_FOUND', true),
+        // Default is now false: an empty list is a valid result, not a missing object.
+        'empty_collection_is_not_found' => env('COMMONS_EMPTY_COLLECTION_IS_NOT_FOUND', false),
     ],
 
     'failed_jobs' => [
