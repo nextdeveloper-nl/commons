@@ -44,6 +44,21 @@ Route::prefix('commons')->group(
             }
         );
 
+        // Project-wide command history (who did what): read-only list, and which operations the account follows
+        Route::prefix('command-logs')->group(
+            function () {
+                Route::get('/', 'CommandLogs\CommandLogsController@index');
+                Route::get('/{common_command_logs}', 'CommandLogs\CommandLogsController@show');
+            }
+        );
+
+        Route::prefix('command-log-settings')->group(
+            function () {
+                Route::get('/', 'CommandLogSettings\CommandLogSettingsController@show');
+                Route::patch('/', 'CommandLogSettings\CommandLogSettingsController@update');
+            }
+        );
+
         Route::prefix('action-logs')->group(
             function () {
                 Route::get('/', 'ActionLogs\ActionLogsController@index');

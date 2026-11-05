@@ -8,6 +8,41 @@ return [
         ]
     ],
 
+    /*
+    | Project-wide command history (who did what through the API, in any module). See CommandLogsService and the
+    | CommandHistory middleware. Table: common_command_logs (schemas/common_command_logs.sql).
+    */
+    'command_logs' => [
+        // Master switch. Off = the middleware does nothing and record() returns without writing.
+        'enabled' => env('COMMONS_COMMAND_LOGS_ENABLED', true),
+
+        // Queue the write job goes to. Null = the default queue (a named queue needs a worker listening to it).
+        'queue' => env('COMMONS_COMMAND_LOGS_QUEUE'),
+
+        // Cache store holding each account's settings so the middleware never reads the database per request.
+        'cache_store' => env('COMMONS_COMMAND_LOGS_CACHE_STORE', 'redis'),
+        'settings_ttl' => env('COMMONS_COMMAND_LOGS_SETTINGS_TTL', 86400),
+
+        // What an account follows until it chooses otherwise. delete (and every system event) is always logged.
+        'defaults' => ['create' => true, 'update' => true, 'delete' => true, 'read' => false],
+
+        // Paths (Laravel is() patterns) that are never logged: the history endpoints themselves and health checks.
+        'exclude' => ['commons/command-logs*', 'commons/command-log-settings*', 'health*', 'up'],
+
+        // Live feed on NATS (needs the Events module with events.nats.enabled). Every stored command is published once to the
+        // account's subject, which customers' browsers may subscribe to (granted by NatsAuthCalloutService), and once to the
+        // platform subject for live monitoring (server side only, browsers are never granted it).
+        // {account_uuid} is replaced with the account's uuid. Set a subject to null to switch that feed off.
+        'nats' => [
+            'enabled' => env('COMMONS_COMMAND_LOGS_NATS_ENABLED', true),
+            'client_subject' => 'client.{account_uuid}.commands',
+            'platform_subject' => 'platform.commands',
+        ],
+
+        // Rows older than this many days are removed by commons:prune-command-logs, per operation. null = kept forever.
+        'retention_days' => ['read' => 90, 'create' => 365, 'update' => 365, 'delete' => null, 'system' => null],
+    ],
+
     'cache' => [
         // Seconds a model's transformer output stays cached (CacheHelper::rememberTransformed).
         'transformed_ttl' => env('COMMONS_TRANSFORMED_CACHE_TTL', 3600),

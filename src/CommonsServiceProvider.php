@@ -129,6 +129,8 @@ class CommonsServiceProvider extends AbstractServiceProvider {
                 Console\Commands\TaskSchedulerActionCommand::class,
                 Console\Commands\RetryPendingPushersCommand::class,
                 Console\Commands\EncryptRefreshTokensCommand::class,
+                Console\Commands\PruneCommandLogsCommand::class,
+                Console\Commands\WatchCommandLogsCommand::class,
             ]);
         }
     }
@@ -156,6 +158,9 @@ class CommonsServiceProvider extends AbstractServiceProvider {
     {
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
+            // Command history retention (commons.command_logs.retention_days): reads are short lived, deletes are kept
+            $schedule->command('commons:prune-command-logs')->dailyAt('03:30');
+
             $schedule->command('common:fetch-exchange-rate')
                 ->cron(config('commons.exchange_rate.schedule.cron'))
                 ->when(function () {
