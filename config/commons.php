@@ -30,12 +30,13 @@ return [
         'exclude' => ['commons/command-logs*', 'commons/command-log-settings*', 'health*', 'up'],
 
         // Live feed on NATS (needs the Events module with events.nats.enabled). Every stored command is published once to the
-        // account's subject, which customers' browsers may subscribe to (granted by NatsAuthCalloutService), and once to the
-        // platform subject for live monitoring (server side only, browsers are never granted it).
-        // {account_uuid} is replaced with the account's uuid. Set a subject to null to switch that feed off.
+        // acting user's own subject (a member only ever receives their own commands, like GET /commons/command-logs, and
+        // only a reduced payload: no ip address, context or error) and once, in full, to the platform subject for live
+        // monitoring (server side only, browsers are never granted it).
+        // {account_uuid} and {user_uuid} are replaced with the uuids. Set a subject to null to switch that feed off.
         'nats' => [
             'enabled' => env('COMMONS_COMMAND_LOGS_NATS_ENABLED', true),
-            'client_subject' => 'client.{account_uuid}.commands',
+            'client_subject' => 'client.{account_uuid}.{user_uuid}.commands',
             'platform_subject' => 'platform.commands',
         ],
 

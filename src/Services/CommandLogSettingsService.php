@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Meta;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\IAM\Database\Models\Accounts;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use Throwable;
@@ -86,7 +87,15 @@ class CommandLogSettingsService
     {
         $account = UserHelper::currentAccount();
 
+        // The settings are account wide: they decide what the history of every member contains. Turning logging off is the
+        // way to hide actions, so only the account owner (or a platform admin) may change them, not any member. The route
+        // permission alone is not enough, every member's role carries it so that the owner (also a basic member) can use it.
+        if (! UserHelper::isAccountOwner() && ! UserHelper::hasRole('commons-admin')) {
+            throw new NotAllowedException('Only the account owner can change which operations are logged.');
+        }
+
         $current = self::fromDatabase($account->id, self::defaults());
+        $before = $current;
 
         foreach (self::SWITCHABLE as $operation) {
             if (array_key_exists($operation, $data)) {
@@ -121,7 +130,22 @@ class CommandLogSettingsService
             Log::warning('[CommandLogs] could not clear the settings cache: '.$e->getMessage());
         }
 
-        return self::forAccount($account->id, $account->uuid);
+        $after = self::forAccount($account->id, $account->uuid);
+
+        // A change of what is logged is itself always recorded (operation system cannot be switched off), and the middleware
+        // skips the settings route, so it is recorded here with the before and after.
+        CommandLogsService::record([
+            'module' => 'commons',
+            'resource' => 'commons/command-log-settings',
+            'operation' => 'system',
+            'action' => 'commons.command-log-settings.update',
+            'object_type' => Meta::class,
+            'object_id' => $account->uuid,
+            'source' => 'api',
+            'context' => ['before' => $before, 'after' => $after],
+        ]);
+
+        return $after;
     }
 
     /** What an account follows until it chooses otherwise; delete is forced on. */
@@ -151,6 +175,9 @@ class CommandLogSettingsService
         return Meta::withoutGlobalScopes()
             ->where('object_type', Accounts::class)
             ->where('object_id', $accountId)
+            // Only the row the account itself owns (MetaService stamps iam_account_id): a row somebody else created for this
+            // object through the generic meta endpoints must never change another account's settings.
+            ->where('iam_account_id', $accountId)
             ->where('key', self::META_KEY)
             ->first();
     }

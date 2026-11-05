@@ -5,6 +5,7 @@ namespace NextDeveloper\Commons\Middlewares;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use NextDeveloper\Commons\Helpers\ClientIpHelper;
 use NextDeveloper\Commons\Services\CommandLogsService;
 use NextDeveloper\IAM\Helpers\UserHelper;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,7 +81,8 @@ class CommandHistory
                 'http_method' => $request->method(),
                 'path' => '/'.$path,
                 'request_id' => $request->headers->get('X-Request-Id') ?: $request->headers->get('X-Correlation-Id'),
-                'ip_address' => $request->ip(),
+                // The customer's address, not the proxy's (see ClientIpHelper): $request->ip() gave the server's own IP
+                'ip_address' => ClientIpHelper::resolve($request),
                 'user_agent' => Str::limit((string) $request->userAgent(), 500, ''),
                 // Field names only: values can hold personal data or secrets
                 'request' => array_keys($request->except(['_token'])) ?: null,

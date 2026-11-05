@@ -11,7 +11,7 @@ use NextDeveloper\Events\Services\NatsService;
  *   php artisan commons:watch-command-logs                       everything, all accounts (platform.commands)
  *   php artisan commons:watch-command-logs --module=monitoring   only one module
  *   php artisan commons:watch-command-logs --operation=delete    only deletes
- *   php artisan commons:watch-command-logs --account=<uuid>      one account (client.{uuid}.commands)
+ *   php artisan commons:watch-command-logs --account=<uuid>      one account (client.{uuid}.*.commands, reduced payload)
  *
  * Runs until stopped (Ctrl+C). Connects server side like the other NATS commands, so it needs NATS_ENABLED and the
  * server credentials of the Events module.
@@ -36,7 +36,8 @@ class WatchCommandLogsCommand extends Command
         }
 
         $subject = $this->option('account')
-            ? str_replace('{account_uuid}', $this->option('account'), config('commons.command_logs.nats.client_subject') ?: 'client.{account_uuid}.commands')
+            // All users of the account: a NATS wildcard in place of the user (needs server side credentials)
+            ? str_replace(['{account_uuid}', '{user_uuid}'], [$this->option('account'), '*'], config('commons.command_logs.nats.client_subject') ?: 'client.{account_uuid}.{user_uuid}.commands')
             : (config('commons.command_logs.nats.platform_subject') ?: 'platform.commands');
 
         $this->info("Watching {$subject} (Ctrl+C to stop)");
