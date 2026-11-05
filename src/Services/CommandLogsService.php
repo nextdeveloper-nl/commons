@@ -134,8 +134,17 @@ class CommandLogsService
 
             $nats = app(\NextDeveloper\Events\Services\NatsService::class);
 
-            if (! empty($config['client_subject']) && $account) {
-                $nats->publish(str_replace('{account_uuid}', $account->uuid, $config['client_subject']), $envelope);
+            // The acting user's own subject only, and only a reduced payload: ip address, user agent, request field names,
+            // context (may hold before/after summaries) and error stay off the browser feed. System actions have no user and
+            // go to the platform subject only.
+            if (! empty($config['client_subject']) && $account && ! empty($object['iam_user_id'])) {
+                $reduced = $envelope;
+                $reduced['payload']['object'] = array_diff_key($object, array_flip(['ip_address', 'user_agent', 'request', 'context', 'error', 'request_id']));
+
+                $nats->publish(
+                    str_replace(['{account_uuid}', '{user_uuid}'], [$account->uuid, $object['iam_user_id']], $config['client_subject']),
+                    $reduced
+                );
             }
 
             if (! empty($config['platform_subject'])) {
