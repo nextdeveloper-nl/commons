@@ -23,17 +23,75 @@ class TextArray implements CastsAttributes
             return null;
         }
 
-        $value = str_replace(['{', '}'], '', $value);
+        if (is_array($value)) {
+            return $value;
+        }
 
-        if ($value === '') {
+        return self::parse($value);
+    }
+
+    /**
+     * Parse a one-dimensional PostgreSQL array literal ({a,"b, c","d \"e\""}).
+     *
+     * Quoted elements may contain commas, braces and backslash-escaped quotes,
+     * so the literal can't simply be split on commas: an element such as
+     * "Cloud Services (Modernization, Architecture, Migration)" must come back
+     * as one value, not three fragments.
+     *
+     * @return array<int, ?string>
+     */
+    public static function parse(string $literal): array
+    {
+        $literal = trim($literal);
+
+        if (str_starts_with($literal, '{') && str_ends_with($literal, '}')) {
+            $literal = substr($literal, 1, -1);
+        }
+
+        if (trim($literal) === '') {
             return [];
         }
 
-        $values = explode(',', $value);
+        $values = [];
+        $length = strlen($literal);
+        $i = 0;
 
-        foreach ($values as &$value) {
-            if(substr($value, 0, 1) == '"') $value = substr($value, 1);
-            if(substr($value, -1) == '"') $value = substr($value, 0, -1);
+        while ($i <= $length) {
+            while ($i < $length && ctype_space($literal[$i])) {
+                $i++;
+            }
+
+            if ($i < $length && $literal[$i] === '"') {
+                $element = '';
+                $i++;
+
+                while ($i < $length && $literal[$i] !== '"') {
+                    if ($literal[$i] === '\\' && $i + 1 < $length) {
+                        $i++;
+                    }
+                    $element .= $literal[$i];
+                    $i++;
+                }
+
+                // Skip the closing quote and anything up to the separator.
+                $i++;
+                while ($i < $length && $literal[$i] !== ',') {
+                    $i++;
+                }
+
+                $values[] = $element;
+            } else {
+                $end = strpos($literal, ',', $i);
+                $end = $end === false ? $length : $end;
+                $element = trim(substr($literal, $i, $end - $i));
+
+                // An unquoted NULL is SQL NULL; a quoted "NULL" is the string.
+                $values[] = strcasecmp($element, 'NULL') === 0 ? null : $element;
+                $i = $end;
+            }
+
+            // $i is now on a separator (or past the end).
+            $i++;
         }
 
         return $values;
