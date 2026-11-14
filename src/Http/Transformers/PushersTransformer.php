@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use NextDeveloper\Commons\Common\Cache\CacheHelper;
 use NextDeveloper\Commons\Database\Models\Pushers;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformer;
+use NextDeveloper\Commons\Pushers\PusherFactory;
 use NextDeveloper\Commons\Http\Transformers\AbstractTransformers\AbstractPushersTransformer;
 
 /**
@@ -35,6 +36,9 @@ class PushersTransformer extends AbstractPushersTransformer
 
         // Convenience flag for the UI; status is the single source of truth.
         $transformed['is_active'] = $model->status !== 'disabled';
+
+        // Model classes this pusher's driver works with; empty list = generic (any object).
+        $transformed['supported_objects'] = PusherFactory::supportedObjects($model->provider);
 
         Cache::set(
             CacheHelper::getKey('Pushers', $model->uuid, 'Transformed'),

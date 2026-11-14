@@ -21,6 +21,31 @@ class PushersService extends AbstractPushersService
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     /**
+     * Lists every registered pusher provider with its self-description, so the UI
+     * can show available pushers and filter them by object. Optional object type
+     * narrows the list to providers that support it (generic providers included).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function getProviders(?string $objectType = null): array
+    {
+        $keys = $objectType
+            ? \NextDeveloper\Commons\Pushers\PusherFactory::providersForObject($objectType)
+            : array_keys(\NextDeveloper\Commons\Pushers\PusherFactory::drivers());
+
+        $providers = [];
+
+        foreach (\NextDeveloper\Commons\Pushers\PusherFactory::drivers() as $key => $class) {
+            if (in_array($key, $keys, true)) {
+                // Registry key is the source of truth for the provider name.
+                $providers[] = array_merge($class::definition(), ['provider' => $key]);
+            }
+        }
+
+        return $providers;
+    }
+
+    /**
      * Queues a pusher delivery. Creates a PusherLog then explicitly dispatches
      * PushObjectJob — the job is NOT triggered by the log creation event.
      */

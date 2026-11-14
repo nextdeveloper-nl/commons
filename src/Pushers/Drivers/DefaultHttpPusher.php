@@ -15,6 +15,21 @@ class DefaultHttpPusher extends AbstractPusher
         return 'default';
     }
 
+    /**
+     * Self-description used by GET /commons/pushers/providers.
+     */
+    public static function definition(): array
+    {
+        return array_merge(parent::definition(), [
+            'label'           => 'Generic Webhook',
+            'description'     => 'Sends the payload to any HTTP endpoint.',
+            'is_internal'     => false,
+            'requires_url'    => true,
+            'requires_token'  => false,
+            'supports_auth'   => true,
+        ]);
+    }
+
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
     {
         $request = Http::timeout(30);
