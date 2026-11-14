@@ -30,6 +30,25 @@ class N8NPusher extends AbstractPusher
         return 'n8n';
     }
 
+    /**
+     * Self-description used by GET /commons/pushers/providers.
+     */
+    public static function definition(): array
+    {
+        return array_merge(parent::definition(), [
+            'label'           => 'n8n',
+            'description'     => 'Sends the payload to an n8n webhook.',
+            'is_internal'     => false,
+            'requires_url'    => true,
+            'requires_token'  => false,
+            'supports_auth'   => true,
+            'metadata_fields' => [
+                ['key' => 'timeout', 'type' => 'integer', 'required' => false, 'label' => 'Timeout (seconds)', 'default' => 30],
+                ['key' => 'is_test', 'type' => 'boolean', 'required' => false, 'label' => 'Use test webhook URL', 'default' => false],
+            ],
+        ]);
+    }
+
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
     {
         $method  = strtolower($pusher->method ?? 'post');

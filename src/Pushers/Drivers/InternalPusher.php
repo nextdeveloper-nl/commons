@@ -14,6 +14,21 @@ class InternalPusher extends AbstractPusher
         return 'internal';
     }
 
+    /**
+     * Self-description used by GET /commons/pushers/providers.
+     */
+    public static function definition(): array
+    {
+        return array_merge(parent::definition(), [
+            'label'           => 'Internal',
+            'description'     => 'Placeholder for internal delivery; not yet implemented.',
+            'is_internal'     => true,
+            'requires_url'    => false,
+            'requires_token'  => false,
+            'supports_auth'   => false,
+        ]);
+    }
+
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
     {
         // Placeholder — internal delivery is not yet implemented.

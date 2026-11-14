@@ -16,6 +16,35 @@ class LeadGenPusher extends AbstractPusher
         return 'leadgen';
     }
 
+    /**
+     * Objects this pusher works with (used for UI filtering).
+     */
+    public static function supportedObjects(): array
+    {
+        return [
+            \NextDeveloper\Intelligence\Database\Models\WorkspaceLeads::class,
+        ];
+    }
+
+    /**
+     * Self-description used by GET /commons/pushers/providers.
+     */
+    public static function definition(): array
+    {
+        return array_merge(parent::definition(), [
+            'label'           => 'Leadgen',
+            'description'     => 'Creates a customer and a card on a Leadgen board from a lead.',
+            'is_internal'     => false,
+            'requires_url'    => true,
+            'requires_token'  => true,
+            'supports_auth'   => true,
+            'metadata_fields' => [
+                ['key' => 'boardId', 'type' => 'string', 'required' => true, 'label' => 'Board id'],
+                ['key' => 'columnId', 'type' => 'string', 'required' => true, 'label' => 'Column id'],
+            ],
+        ]);
+    }
+
     public function send(PusherLogs $log, Pushers $pusher): PusherResult
     {
         $body = $this->decodeBody($log);

@@ -35,6 +35,18 @@ class PushersController extends AbstractController
     }
 
     /**
+     * Lists available pusher providers (drivers) with their definitions.
+     * Optional ?object_type= narrows to providers supporting that model.
+     */
+    public function providers(Request $request)
+    {
+        // Logic lives in the service; controller only delegates.
+        return $this->withArray(
+            PushersService::getProviders($request->query('object_type'))
+        );
+    }
+
+    /**
      * This function returns the list of actions that can be performed on this object.
      *
      * @return void

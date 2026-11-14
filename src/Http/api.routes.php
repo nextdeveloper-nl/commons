@@ -568,6 +568,8 @@ Route::prefix('commons')->group(
             function () {
                 Route::get('/', 'Pushers\PushersController@index');
                 Route::get('/actions', 'Pushers\PushersController@getActions');
+                // Registered pusher drivers + definitions (must stay above '/{common_pushers}')
+                Route::get('/providers', 'Pushers\PushersController@providers');
 
                 Route::get('{common_pushers}/tags ', 'Pushers\PushersController@tags');
                 Route::post('{common_pushers}/tags ', 'Pushers\PushersController@saveTags');

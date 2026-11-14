@@ -54,6 +54,23 @@ class PushersQueryFilter extends AbstractQueryFilter
     }
 
 
+    /**
+     * Filter pushers usable with an object, e.g. ?objectType=NextDeveloper\Flow\Database\Models\Items
+     * Returns pushers whose driver supports that model, plus generic drivers.
+     */
+    public function objectType($value)
+    {
+        $providers = \NextDeveloper\Commons\Pushers\PusherFactory::providersForObject($value);
+
+        return $this->builder->whereIn('provider', $providers);
+    }
+
+    public function object_type($value)
+    {
+        return $this->objectType($value);
+    }
+
+
     public function authHeader($value)
     {
         return $this->builder->where('auth_header', 'ilike', '%' . $value . '%');

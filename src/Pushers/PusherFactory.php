@@ -37,6 +37,37 @@ class PusherFactory
     }
 
     /**
+     * Object (model class) list a provider supports; empty means any object.
+     *
+     * @return array<int, class-string>
+     */
+    public static function supportedObjects(?string $provider): array
+    {
+        $class = self::$drivers[$provider ?: self::DEFAULT_PROVIDER] ?? self::$drivers[self::DEFAULT_PROVIDER];
+
+        return $class::supportedObjects();
+    }
+
+    /**
+     * Provider keys that can handle the given model class (specific match or generic).
+     *
+     * @return array<int, string>
+     */
+    public static function providersForObject(string $objectType): array
+    {
+        $objectType = ltrim($objectType, '\\');
+
+        return array_keys(array_filter(
+            self::$drivers,
+            function ($class) use ($objectType) {
+                $supported = $class::supportedObjects();
+
+                return empty($supported) || in_array($objectType, $supported, true);
+            }
+        ));
+    }
+
+    /**
      * @return array<string, class-string<PusherInterface>>
      */
     public static function drivers(): array
