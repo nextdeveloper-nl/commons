@@ -62,6 +62,18 @@ class PushersQueryFilter extends AbstractQueryFilter
     {
         $providers = \NextDeveloper\Commons\Pushers\PusherFactory::providersForObject($value);
 
+        // PusherFactory::make() resolves a null or unregistered provider (e.g. legacy 'generic')
+        // to the default driver, so when the default driver matches, those rows match too.
+        if (in_array(\NextDeveloper\Commons\Pushers\PusherFactory::DEFAULT_PROVIDER, $providers, true)) {
+            $registered = array_keys(\NextDeveloper\Commons\Pushers\PusherFactory::drivers());
+
+            return $this->builder->where(function ($query) use ($providers, $registered) {
+                $query->whereIn('provider', $providers)
+                    ->orWhereNull('provider')
+                    ->orWhereNotIn('provider', $registered);
+            });
+        }
+
         return $this->builder->whereIn('provider', $providers);
     }
 
