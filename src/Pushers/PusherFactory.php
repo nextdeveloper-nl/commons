@@ -37,6 +37,22 @@ class PusherFactory
     }
 
     /**
+     * Lets the provider's driver validate provider_metadata (throws ValidationException to reject).
+     */
+    public static function validateMetadata(?string $provider, ?array $metadata): void
+    {
+        if ($metadata === null) {
+            return;
+        }
+
+        $class = self::$drivers[$provider ?: self::DEFAULT_PROVIDER] ?? self::$drivers[self::DEFAULT_PROVIDER];
+
+        if (method_exists($class, 'validateProviderMetadata')) {
+            $class::validateProviderMetadata($metadata);
+        }
+    }
+
+    /**
      * Object (model class) list a provider supports; empty means any object.
      *
      * @return array<int, class-string>
