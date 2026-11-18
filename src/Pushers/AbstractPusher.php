@@ -22,6 +22,14 @@ abstract class AbstractPusher implements PusherInterface
     }
 
     /**
+     * Hook for drivers to validate their provider_metadata when a pusher is created or updated.
+     * Throw Illuminate\Validation\ValidationException to reject. Default: accept anything.
+     */
+    public static function validateProviderMetadata(array $metadata): void
+    {
+    }
+
+    /**
      * Base self-description. Drivers override this and merge their specifics over
      * parent::definition(). Metadata field shape:
      *   key, type (string|text|integer|boolean|uuid|enum|json), required, label,
