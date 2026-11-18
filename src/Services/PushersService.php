@@ -99,9 +99,11 @@ class PushersService extends AbstractPushersService
         $data = self::resolveBaseUrl($data);
         $data = self::applyStatusChange($data);
 
-        if (array_key_exists('provider_metadata', $data)) {
+        // Validate whenever the metadata or the provider changes; the stored side fills in what is not sent
+        if (array_key_exists('provider_metadata', $data) || array_key_exists('provider', $data)) {
             $existing = Pushers::withoutGlobalScopes()->where('uuid', $id)->first();
-            PusherFactory::validateMetadata($data['provider'] ?? $existing?->provider, $data['provider_metadata']);
+            $metadata = array_key_exists('provider_metadata', $data) ? $data['provider_metadata'] : $existing?->provider_metadata;
+            PusherFactory::validateMetadata($data['provider'] ?? $existing?->provider, is_array($metadata) ? $metadata : null);
         }
 
         return parent::update($id, $data);
