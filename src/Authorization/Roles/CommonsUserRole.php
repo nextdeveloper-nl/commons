@@ -24,8 +24,10 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
     /**
      * Applies basic member role sql for Eloquent
      *
-     * @param Builder $builder
-     * @param Model $model
+     * Pushers are shared by the whole account (automations owned by the account
+     * reference them), so they are scoped by account only. Changing or deleting
+     * a pusher stays owner-only; that is enforced in PushersService.
+     *
      * @return void
      */
     public function apply(Builder $builder, Model $model)
@@ -35,23 +37,29 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 
         // TODO: Implement apply() method.
         $isAccountIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_account_id');
-        $isUserIdExists =  DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+        $isUserIdExists = DatabaseHelper::isColumnExists($model->getTable(), 'iam_user_id');
+
+        if ($model->getTable() === 'common_pushers') {
+            $builder->where('iam_account_id', UserHelper::currentAccount()->id);
+
+            return;
+        }
 
         $where = [];
 
-        if($isAccountIdExists) {
+        if ($isAccountIdExists) {
             $where[] = ['iam_account_id', UserHelper::currentAccount()->id];
             $builder->where('iam_account_id', UserHelper::currentAccount()->id);
         }
 
-        if($isUserIdExists) {
+        if ($isUserIdExists) {
             $where[] = ['iam_user_id', UserHelper::me()->id];
             $builder->where('iam_user_id', UserHelper::me()->id);
         }
 
         //  We need to change this in the future because in the future if we try to implement NON-HTTP request, this will not work.
-        if(request()->getMethod() == 'GET') {
-            if($isPublicExists) {
+        if (request()->getMethod() == 'GET') {
+            if ($isPublicExists) {
                 $builder->where('is_public', true)
                     ->orWhere($where);
             }
@@ -71,12 +79,12 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
                 $operation .= ':create';
             case 'PUT':
             case 'PATCH':
-            $operation .= ':update';
+                $operation .= ':update';
             case 'DELETE':
                 $operation .= ':delete';
         }
 
-        if(in_array($operation, $this->allowedOperations())) {
+        if (in_array($operation, $this->allowedOperations())) {
             return true;
         }
 
@@ -88,8 +96,7 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
         return 'commons';
     }
 
-
-    public function allowedOperations() :array
+    public function allowedOperations(): array
     {
         return [
             'common_available_actions:read',
@@ -206,11 +213,11 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
 
     public function canBeApplied($column)
     {
-        if(self::DB_PREFIX === '*') {
+        if (self::DB_PREFIX === '*') {
             return true;
         }
 
-        if(Str::startsWith($column, self::DB_PREFIX)) {
+        if (Str::startsWith($column, self::DB_PREFIX)) {
             return true;
         }
 

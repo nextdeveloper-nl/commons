@@ -3,21 +3,22 @@
 namespace NextDeveloper\Commons\Services;
 
 use Illuminate\Support\Facades\Log;
+use NextDeveloper\Commons\Authorization\Roles\CommonsAdminRole;
 use NextDeveloper\Commons\Database\Models\PusherLogs;
 use NextDeveloper\Commons\Database\Models\Pushers;
+use NextDeveloper\Commons\Exceptions\NotAllowedException;
 use NextDeveloper\Commons\Jobs\PusherLogs\PushObjectJob;
+use NextDeveloper\Commons\Pushers\PusherFactory;
 use NextDeveloper\Commons\Services\AbstractServices\AbstractPushersService;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * This class is responsible from managing the data for Pushers
  *
  * Class PushersService.
- *
- * @package NextDeveloper\Commons\Database\Models
  */
 class PushersService extends AbstractPushersService
 {
-
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     /**
@@ -30,12 +31,12 @@ class PushersService extends AbstractPushersService
     public static function getProviders(?string $objectType = null): array
     {
         $keys = $objectType
-            ? \NextDeveloper\Commons\Pushers\PusherFactory::providersForObject($objectType)
-            : array_keys(\NextDeveloper\Commons\Pushers\PusherFactory::drivers());
+            ? PusherFactory::providersForObject($objectType)
+            : array_keys(PusherFactory::drivers());
 
         $providers = [];
 
-        foreach (\NextDeveloper\Commons\Pushers\PusherFactory::drivers() as $key => $class) {
+        foreach (PusherFactory::drivers() as $key => $class) {
             if (in_array($key, $keys, true)) {
                 // Registry key is the source of truth for the provider name.
                 $providers[] = array_merge($class::definition(), ['provider' => $key]);
@@ -55,10 +56,11 @@ class PushersService extends AbstractPushersService
             ->where('id', $commonPusherId)
             ->first();
 
-        if (!$pusher || !$pusher->url) {
+        if (! $pusher || ! $pusher->url) {
             Log::warning('[PushersService::trigger] Pusher not found or has no URL', [
                 'common_pusher_id' => $commonPusherId,
             ]);
+
             return;
         }
 
@@ -68,13 +70,14 @@ class PushersService extends AbstractPushersService
             Log::info('[PushersService::trigger] Pusher is disabled — skipping', [
                 'common_pusher_id' => $commonPusherId,
             ]);
+
             return;
         }
 
         $log = PusherLogsService::create([
             'common_pusher_id' => $pusher->id,
-            'body'             => $payload,
-            'status'           => 'pending',
+            'body' => $payload,
+            'status' => 'pending',
         ]);
 
         PushObjectJob::dispatch($log)->onQueue('pushers');
@@ -89,13 +92,61 @@ class PushersService extends AbstractPushersService
 
     public static function update($id, array $data)
     {
+        self::assertCurrentUserOwns($id);
+
         $data = self::resolveBaseUrl($data);
         $data = self::applyStatusChange($data);
 
         return parent::update($id, $data);
     }
 
-    public const STATUS_ACTIVE   = 'active';
+    public static function delete($id)
+    {
+        self::assertCurrentUserOwns($id);
+
+        return parent::delete($id);
+    }
+
+    /**
+     * Whether the pusher belongs to the logged in user. Pushers are readable by
+     * the whole account, but only their owner (or a commons admin) may change
+     * them or see their credentials.
+     */
+    public static function isOwnedByCurrentUser(Pushers $pusher): bool
+    {
+        $me = UserHelper::me();
+
+        if (! $me) {
+            return false;
+        }
+
+        return (int) $pusher->iam_user_id === (int) $me->id
+            || UserHelper::hasRole(CommonsAdminRole::NAME, $me);
+    }
+
+    /**
+     * Blocks a logged in user from changing a teammate's pusher. System calls
+     * without a user (queue workers) are not restricted here.
+     *
+     * @throws NotAllowedException
+     */
+    private static function assertCurrentUserOwns(string $uuid): void
+    {
+        if (! UserHelper::me()) {
+            return;
+        }
+
+        $pusher = Pushers::where('uuid', $uuid)->first();
+
+        if ($pusher && ! self::isOwnedByCurrentUser($pusher)) {
+            throw new NotAllowedException(
+                'Only the owner of this pusher can change or delete it.'
+            );
+        }
+    }
+
+    public const STATUS_ACTIVE = 'active';
+
     public const STATUS_DISABLED = 'disabled';
 
     /**
@@ -123,7 +174,7 @@ class PushersService extends AbstractPushersService
             return;
         }
 
-        if (!in_array($responseCode, self::AUTO_DISABLE_STATUS_CODES, true)) {
+        if (! in_array($responseCode, self::AUTO_DISABLE_STATUS_CODES, true)) {
             return;
         }
 
@@ -144,13 +195,13 @@ class PushersService extends AbstractPushersService
         }
 
         foreach ($recentCodes as $code) {
-            if (!in_array($code, self::AUTO_DISABLE_STATUS_CODES, true)) {
+            if (! in_array($code, self::AUTO_DISABLE_STATUS_CODES, true)) {
                 return;
             }
         }
 
-        $reason = 'Automatically disabled after ' . self::AUTO_DISABLE_AFTER_FAILURES
-            . ' consecutive failed pushes (last response: HTTP ' . $responseCode . ').';
+        $reason = 'Automatically disabled after '.self::AUTO_DISABLE_AFTER_FAILURES
+            .' consecutive failed pushes (last response: HTTP '.$responseCode.').';
 
         self::disable($pusher, $reason, $responseBody);
     }
@@ -160,14 +211,14 @@ class PushersService extends AbstractPushersService
      */
     public static function disable(Pushers $pusher, string $reason, ?string $lastResponse = null): Pushers
     {
-        $pusher = self::update($pusher->uuid, [
-            'status'          => self::STATUS_DISABLED,
+        $pusher = parent::update($pusher->uuid, self::applyStatusChange([
+            'status' => self::STATUS_DISABLED,
             'disabled_reason' => $reason,
-        ]);
+        ]));
 
         Log::warning('[PushersService::disable] Pusher disabled', [
             'common_pusher_id' => $pusher->id,
-            'reason'           => $reason,
+            'reason' => $reason,
         ]);
 
         self::notifyOwnerOfDisable($pusher, $reason, $lastResponse);
@@ -190,16 +241,16 @@ class PushersService extends AbstractPushersService
      */
     private static function applyStatusChange(array $data): array
     {
-        if (!array_key_exists('status', $data)) {
+        if (! array_key_exists('status', $data)) {
             return $data;
         }
 
         if ($data['status'] === self::STATUS_DISABLED) {
-            $data['disabled_at']     = $data['disabled_at'] ?? now();
+            $data['disabled_at'] = $data['disabled_at'] ?? now();
             $data['disabled_reason'] = $data['disabled_reason'] ?? 'Disabled manually.';
         } else {
-            $data['status']          = self::STATUS_ACTIVE;
-            $data['disabled_at']     = null;
+            $data['status'] = self::STATUS_ACTIVE;
+            $data['disabled_at'] = null;
             $data['disabled_reason'] = null;
         }
 
@@ -214,37 +265,38 @@ class PushersService extends AbstractPushersService
     private static function notifyOwnerOfDisable(Pushers $pusher, string $reason, ?string $lastResponse): void
     {
         try {
-            $usersClass    = '\NextDeveloper\IAM\Database\Models\Users';
+            $usersClass = '\NextDeveloper\IAM\Database\Models\Users';
             $accountsClass = '\NextDeveloper\IAM\Database\Models\Accounts';
 
             $ownerId = $pusher->iam_user_id;
 
-            if (!$ownerId && $pusher->iam_account_id) {
+            if (! $ownerId && $pusher->iam_account_id) {
                 $ownerId = $accountsClass::withoutGlobalScopes()->where('id', $pusher->iam_account_id)->value('iam_user_id');
             }
 
             $owner = $ownerId ? $usersClass::withoutGlobalScopes()->where('id', $ownerId)->first() : null;
 
-            if (!$owner || !$owner->email || !method_exists($owner, 'sendEmail')) {
+            if (! $owner || ! $owner->email || ! method_exists($owner, 'sendEmail')) {
                 Log::warning('[PushersService::notifyOwnerOfDisable] No owner to notify', [
                     'common_pusher_id' => $pusher->id,
                 ]);
+
                 return;
             }
 
             $e = fn ($value) => htmlspecialchars((string) $value, ENT_QUOTES);
 
-            $body = '<p>Your integration <strong>' . $e($pusher->name) . '</strong> has been disabled.</p>'
-                . '<p><strong>Reason:</strong> ' . $e($reason) . '</p>'
-                . '<p><strong>Endpoint:</strong> ' . $e(strtoupper($pusher->method ?? 'POST')) . ' ' . $e($pusher->url) . '</p>'
-                . ($lastResponse ? '<p><strong>Last response:</strong><br><code>' . $e(mb_substr($lastResponse, 0, 1000)) . '</code></p>' : '')
-                . '<p>No further data will be sent to this endpoint until you fix it and re-enable the integration.</p>';
+            $body = '<p>Your integration <strong>'.$e($pusher->name).'</strong> has been disabled.</p>'
+                .'<p><strong>Reason:</strong> '.$e($reason).'</p>'
+                .'<p><strong>Endpoint:</strong> '.$e(strtoupper($pusher->method ?? 'POST')).' '.$e($pusher->url).'</p>'
+                .($lastResponse ? '<p><strong>Last response:</strong><br><code>'.$e(mb_substr($lastResponse, 0, 1000)).'</code></p>' : '')
+                .'<p>No further data will be sent to this endpoint until you fix it and re-enable the integration.</p>';
 
-            $owner->sendEmail('Integration "' . $pusher->name . '" has been disabled', $body);
+            $owner->sendEmail('Integration "'.$pusher->name.'" has been disabled', $body);
         } catch (\Throwable $ex) {
             Log::error('[PushersService::notifyOwnerOfDisable] Failed to notify owner', [
                 'common_pusher_id' => $pusher->id,
-                'error'            => $ex->getMessage(),
+                'error' => $ex->getMessage(),
             ]);
         }
     }
@@ -254,35 +306,35 @@ class PushersService extends AbstractPushersService
     // Uses class_exists so commons stays decoupled from ipaas.
     private static function resolveBaseUrl(array $data): array
     {
-        $url      = $data['url'] ?? null;
+        $url = $data['url'] ?? null;
         $metadata = $data['provider_metadata'] ?? null;
 
-        if (!$url || !str_contains($url, '{{base_url}}')) {
+        if (! $url || ! str_contains($url, '{{base_url}}')) {
             return $data;
         }
 
         $workflowId = is_array($metadata) ? ($metadata['workflow_id'] ?? null) : null;
 
-        if (!$workflowId) {
+        if (! $workflowId) {
             return $data;
         }
 
         $workflowClass = '\NextDeveloper\IPAAS\Database\Models\Workflows';
         $providerClass = '\NextDeveloper\IPAAS\Database\Models\Providers';
 
-        if (!class_exists($workflowClass) || !class_exists($providerClass)) {
+        if (! class_exists($workflowClass) || ! class_exists($providerClass)) {
             return $data;
         }
 
         $workflow = $workflowClass::where('uuid', $workflowId)->first();
 
-        if (!$workflow) {
+        if (! $workflow) {
             return $data;
         }
 
         $provider = $providerClass::where('id', $workflow->ipaas_provider_id)->first();
 
-        if (!$provider || !$provider->base_url) {
+        if (! $provider || ! $provider->base_url) {
             return $data;
         }
 
