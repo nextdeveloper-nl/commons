@@ -66,9 +66,10 @@ class AddressesService extends AbstractAddressesService
         if ($requestedUuid) {
             // A uuid was passed → only sales/admin roles may view another account's
             // addresses; anyone else is scoped back to their own account.
-            $canViewOther = UserHelper::has('sales-person')
-                || UserHelper::has('accounting-admin')
-                || UserHelper::has('sales-manager');
+            //  SECURITY: 'sales-person' (default role of every user) and 'sales-manager' (every account owner)
+            //  were allowed here, letting any user read any account's addresses. Staff roles only now.
+            $canViewOther = UserHelper::has('accounting-admin')
+                || UserHelper::has('system-admin');
 
             $account = $canViewOther
                 ? Accounts::withoutGlobalScope(AuthorizationScope::class)->where('uuid', $requestedUuid)->first()
