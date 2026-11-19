@@ -85,7 +85,8 @@ abstract class AbstractQueryFilter {
             // AuthorizationScope conditions (AND binds tighter than OR) and allows reading any table.
             // Until every tags() filter binds its values, a tags value that is not a plain string, or that
             // contains a quote or backslash, is ignored here for all filters.
-            if ($name === 'tags' && (!is_string($value) || preg_match('/[\'\\\\]/', $value))) {
+            // PHP method names are case-insensitive: ?TAGS= reaches tags() too, so compare case-insensitively.
+            if (strtolower((string) $name) === 'tags' && (!is_string($value) || preg_match('/[\'\\\\]/', $value))) {
                 continue;
             }
 
@@ -101,7 +102,7 @@ abstract class AbstractQueryFilter {
                 if (
                     !$r->isPublic() ||
                     str_starts_with($name, '__') ||
-                    ($r->getDeclaringClass()->getName() === self::class && !in_array($name, ['order', 'sort'], true))
+                    ($r->getDeclaringClass()->getName() === self::class && !in_array(strtolower($name), ['order', 'sort'], true))
                 ) {
                     continue;
                 }
