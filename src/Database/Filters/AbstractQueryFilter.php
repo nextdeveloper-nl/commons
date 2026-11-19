@@ -94,6 +94,18 @@ abstract class AbstractQueryFilter {
 
             if (method_exists($this, $name) && $this->checkFilterRules($name)) {
                 $r = new \ReflectionMethod($this, $name);
+
+                // SECURITY: the request key is a method name. Only public filter methods may be reached:
+                // never private/protected helpers, magic methods or the base class internals
+                // (apply, filters, updateValue, transformFilterValue, ...). order/sort stay available.
+                if (
+                    !$r->isPublic() ||
+                    str_starts_with($name, '__') ||
+                    ($r->getDeclaringClass()->getName() === self::class && !in_array($name, ['order', 'sort'], true))
+                ) {
+                    continue;
+                }
+
                 $s = count($r->getParameters());
 
                 if (0 == $s || ($s > 0 && !is_null($value))) {
