@@ -80,11 +80,32 @@ abstract class AbstractQueryFilter {
         $this->builder = $builder;
 
         foreach ($this->filters() as $name => $value) {
+            // SECURITY: the generated tags() filters concatenate the value into whereRaw('tags @> ARRAY[...]').
+            // A quote lets the caller break out of the string (tags=x'] OR 1=1 --), which also escapes the
+            // AuthorizationScope conditions (AND binds tighter than OR) and allows reading any table.
+            // Until every tags() filter binds its values, a tags value that is not a plain string, or that
+            // contains a quote or backslash, is ignored here for all filters.
+            if ($name === 'tags' && (!is_string($value) || preg_match('/[\'\\\\]/', $value))) {
+                continue;
+            }
+
             // Transform the value before passing it to the filter method
             $value = $this->transformFilterValue($name, $value);
 
             if (method_exists($this, $name) && $this->checkFilterRules($name)) {
                 $r = new \ReflectionMethod($this, $name);
+
+                // SECURITY: the request key is a method name. Only public filter methods may be reached:
+                // never private/protected helpers, magic methods or the base class internals
+                // (apply, filters, updateValue, transformFilterValue, ...). order/sort stay available.
+                if (
+                    !$r->isPublic() ||
+                    str_starts_with($name, '__') ||
+                    ($r->getDeclaringClass()->getName() === self::class && !in_array($name, ['order', 'sort'], true))
+                ) {
+                    continue;
+                }
+
                 $s = count($r->getParameters());
 
                 if (0 == $s || ($s > 0 && !is_null($value))) {
