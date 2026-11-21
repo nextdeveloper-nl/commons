@@ -29,6 +29,11 @@ class CommentsTransformer extends AbstractCommentsTransformer {
 
         $transformed = parent::transform($model);
 
+        //  The abstract transformer only exposes the author's uuid (iam_user_id), so the panel showed a raw uuid as the
+        //  author. Add the name too: iam_user_name is the fullname, falling back to the name.
+        $author = \NextDeveloper\IAM\Database\Models\Users::withoutGlobalScopes()->where('id', $model->iam_user_id)->first();
+        $transformed['iam_user_name'] = $author ? ($author->fullname ?: $author->name) : null;
+
         $objectType = $transformed['object_type'];
         $objectType = explode('\\', $objectType);
 
