@@ -65,6 +65,7 @@ class AbstractCategoriesTransformer extends AbstractTransformer
             'description'  =>  $model->description,
             'url'  =>  $model->url,
             'is_active'  =>  $model->is_active,
+            'is_public'  =>  $model->is_public,
             'common_domain_id'  =>  $commonDomainId ? $commonDomainId->uuid : null,
             'common_category_id'  =>  $commonCategoryId ? $commonCategoryId->uuid : null,
             'created_at'  =>  $model->created_at,
