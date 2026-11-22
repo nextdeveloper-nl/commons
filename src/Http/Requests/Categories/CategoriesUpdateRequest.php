@@ -24,6 +24,8 @@ class CategoriesUpdateRequest extends AbstractFormRequest
         'position' => 'integer',
         'object_type' => 'nullable|string',
         'object_id' => 'nullable',
+        // Visibility flag. Owner columns (iam_account_id / iam_user_id) are never accepted from the client.
+        'is_public' => 'boolean',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n

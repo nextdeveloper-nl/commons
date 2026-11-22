@@ -91,6 +91,20 @@ class CategoriesQueryFilter extends AbstractQueryFilter
         return $this->builder->where('is_active', $value);
     }
 
+    /**
+     * Filters categories by visibility (public / private).
+     */
+    public function isPublic($value)
+    {
+        return $this->builder->where('is_public', $value);
+    }
+
+        //  This is an alias function of isPublic
+    public function is_public($value)
+    {
+        return $this->isPublic($value);
+    }
+
         //  This is an alias function of isActive
     public function is_active($value)
     {

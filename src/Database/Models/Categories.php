@@ -33,6 +33,9 @@ use NextDeveloper\Commons\Database\Traits\HasObject;
  * @property integer $position
  * @property string $object_type
  * @property integer $object_id
+ * @property integer $iam_account_id
+ * @property integer $iam_user_id
+ * @property boolean $is_public
  */
 class Categories extends Model
 {
@@ -60,6 +63,9 @@ class Categories extends Model
             'position',
             'object_type',
             'object_id',
+            'iam_account_id',
+            'iam_user_id',
+            'is_public',
     ];
 
     /**
@@ -96,6 +102,9 @@ class Categories extends Model
     'position' => 'integer',
     'object_type' => 'string',
     'object_id' => 'integer',
+    'iam_account_id' => 'integer',
+    'iam_user_id' => 'integer',
+    'is_public' => 'boolean',
     ];
 
     /**
