@@ -45,14 +45,17 @@ class CommonsUserRole extends AbstractRole implements IAuthorizationRole
             return;
         }
 
-        //  Tenant categories: everybody reads public ones plus their own account's; writes are limited to
+        //  Tenant categories: everybody reads public ones, system ones plus their own account's; writes are limited to
         //  the account's own rows (system categories have NULL account, so they are never writable here).
         if ($model->getTable() === 'common_categories') {
             $accountId = UserHelper::currentAccount()->id;
 
             if (request()->getMethod() == 'GET') {
+                // Visible: public ones, system categories (no owner account, regardless of is_public) and own ones.
                 $builder->where(function ($q) use ($accountId) {
-                    $q->where('is_public', true)->orWhere('iam_account_id', $accountId);
+                    $q->where('is_public', true)
+                        ->orWhereNull('iam_account_id')
+                        ->orWhere('iam_account_id', $accountId);
                 });
             } else {
                 $builder->where('iam_account_id', $accountId);
