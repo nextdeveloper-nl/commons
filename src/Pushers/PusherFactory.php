@@ -29,6 +29,24 @@ class PusherFactory
     }
 
     /**
+     * Whether this application has a driver for the provider. An empty provider is the default HTTP driver.
+     * Drivers are registered per application, so a provider known to one app can be unknown to another
+     * app that shares the same pushers.
+     */
+    public static function isRegistered(?string $provider): bool
+    {
+        return ! $provider || isset(self::$drivers[$provider]);
+    }
+
+    /**
+     * Whether the pusher url is the "internal:" placeholder that internal drivers use instead of a real endpoint.
+     */
+    public static function isInternalUrl(?string $url): bool
+    {
+        return str_starts_with(strtolower(trim((string) $url)), 'internal:');
+    }
+
+    /**
      * @param class-string<PusherInterface> $class
      */
     public static function register(string $provider, string $class): void
