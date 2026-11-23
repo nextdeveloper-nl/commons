@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use NextDeveloper\Commons\Database\Models\PusherLogs;
 use NextDeveloper\Commons\Database\Models\Pushers;
 use NextDeveloper\Commons\Services\PusherLogsService;
+use NextDeveloper\IAM\Helpers\UserHelper;
 
 /**
  * Class RetryPendingPushersCommand
@@ -47,7 +48,11 @@ class RetryPendingPushersCommand extends Command
 
         foreach ($logs as $log) {
             try {
-                PusherLogsService::retry($log->uuid);
+                // The scheduler runs without a logged-in user, so the PusherLogs observer's
+                // can('save') check rejected every retry ("You are not allowed to save this
+                // record") and nothing was ever re-queued. This is an internal system action,
+                // so the role check is bypassed for the duration of the retry.
+                UserHelper::withRolesCheckBypassed(fn () => PusherLogsService::retry($log->uuid));
             } catch (\Throwable $e) {
                 Log::error('[RetryPendingPushersCommand] Failed to retry pusher log', [
                     'pusher_log_id' => $log->id,
