@@ -151,6 +151,9 @@ return [
 
         //  Max automatic retry attempts per push log before we give up on it.
         'max_retries' => env('COMMON_PUSHER_MAX_RETRIES', 5),
+
+        //  Max deferred push logs one run of nextdeveloper:run-deferred-pushers executes.
+        'deferred_batch_size' => env('COMMON_PUSHER_DEFERRED_BATCH_SIZE', 100),
     ],
 
 
